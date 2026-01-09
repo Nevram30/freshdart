@@ -1,0 +1,316 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// PRODUCT & INVENTORY MODELS
+// ============================================
+
+enum StockType {
+  WEIGHT // For fresh produce (kg/g)
+  UNIT // For processed/packaged items
+}
+
+enum ProductStatus {
+  ACTIVE
+  OUT_OF_STOCK
+  DISCONTINUED
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  slug        String     @unique
+  description String?
+  image       String?
+  parentId    String?
+  parent      Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryHierarchy")
+  products    Product[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([slug])
+  @@index([parentId])
+}
+
+model Product {
+  id               String  @id @default(cuid())
+  name             String
+  slug             String  @unique
+  description      String?
+  shortDescription String?
+
+  // Pricing
+  price          Decimal  @db.Decimal(10, 2)
+  compareAtPrice Decimal? @db.Decimal(10, 2) // Original price for showing discounts
+  costPerItem    Decimal? @db.Decimal(10, 2) // For profit calculations
+
+  // Stock Management
+  stockType     StockType @default(UNIT)
+  stockQuantity Decimal   @db.Decimal(10, 3) // Supports both kg (e.g., 25.500) and units (e.g., 100.000)
+  stockUnit     String    @default("unit") // "kg", "g", "unit", "pack", "dozen"
+  minOrderQty   Decimal   @default(1) @db.Decimal(10, 3)
+  maxOrderQty   Decimal?  @db.Decimal(10, 3)
+
+  // Weight for shipping calculations (always in kg)
+  weightKg Decimal @default(0) @db.Decimal(10, 3)
+
+  // Freshness & Expiry
+  bestBefore    DateTime? // Best before date for current batch
+  shelfLifeDays Int? // Default shelf life in days
+
+  // Images
+  images ProductImage[]
+
+  // Relations
+  categoryId String
+  category   Category    @relation(fields: [categoryId], references: [id])
+  orderItems OrderItem[]
+  cartItems  CartItem[]
+
+  // Metadata
+  status   ProductStatus @default(ACTIVE)
+  featured Boolean       @default(false)
+  tags     String[]      @default([])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([categoryId])
+  @@index([status])
+  @@index([featured])
+  @@index([bestBefore])
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  isPrimary Boolean  @default(false)
+  sortOrder Int      @default(0)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+}
+
+// ============================================
+// ORDER & CHECKOUT MODELS
+// ============================================
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model Order {
+  id          String @id @default(cuid())
+  orderNumber String @unique @default(cuid())
+
+  // Customer
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Items
+  items OrderItem[]
+
+  // Pricing
+  subtotal     Decimal @db.Decimal(10, 2)
+  shippingCost Decimal @db.Decimal(10, 2)
+  tax          Decimal @default(0) @db.Decimal(10, 2)
+  discount     Decimal @default(0) @db.Decimal(10, 2)
+  total        Decimal @db.Decimal(10, 2)
+
+  // Weight for shipping
+  totalWeightKg Decimal @db.Decimal(10, 3)
+
+  // Delivery
+  deliveryDate     DateTime // Scheduled delivery date
+  deliveryTimeSlot String? // e.g., "9:00 AM - 12:00 PM"
+  deliveryNotes    String?
+
+  // Shipping Address
+  shippingAddress Json // { street, city, state, postalCode, country, phone }
+
+  // Payment
+  paymentStatus   PaymentStatus @default(PENDING)
+  paymentMethod   String?
+  paymentIntentId String? // Paymongo payment intent ID
+  paymentSourceId String? // Paymongo source ID
+
+  // Status
+  status OrderStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([orderNumber])
+  @@index([status])
+  @@index([deliveryDate])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  // Snapshot of product at time of order
+  productName  String
+  productImage String?
+
+  // Quantity & Pricing
+  quantity   Decimal @db.Decimal(10, 3) // Supports weight-based orders
+  unitType   String // "kg", "g", "unit", etc.
+  unitPrice  Decimal @db.Decimal(10, 2)
+  totalPrice Decimal @db.Decimal(10, 2)
+  weightKg   Decimal @db.Decimal(10, 3) // Total weight for this line item
+
+  createdAt DateTime @default(now())
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+// ============================================
+// CART MODEL (Server-side persistence)
+// ============================================
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String?
+  sessionId String? // For guest users
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@unique([userId])
+  @@index([sessionId])
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  cartId    String
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Decimal  @db.Decimal(10, 3)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([cartId, productId])
+  @@index([cartId])
+  @@index([productId])
+}
+
+// ============================================
+// SHIPPING CONFIGURATION
+// ============================================
+
+model ShippingZone {
+  id        String         @id @default(cuid())
+  name      String
+  rates     ShippingRate[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model ShippingRate {
+  id            String       @id @default(cuid())
+  zoneId        String
+  zone          ShippingZone @relation(fields: [zoneId], references: [id], onDelete: Cascade)
+  name          String // e.g., "Standard", "Express"
+  minWeightKg   Decimal      @db.Decimal(10, 3)
+  maxWeightKg   Decimal?     @db.Decimal(10, 3)
+  basePrice     Decimal      @db.Decimal(10, 2)
+  pricePerKg    Decimal      @db.Decimal(10, 2) // Additional cost per kg
+  estimatedDays Int // Delivery time in days
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([zoneId])
+}
+
+// ============================================
+// AUTH MODELS (NextAuth)
+// ============================================
+
+model Account {
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? // @db.Text
+  access_token             String? // @db.Text
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String? // @db.Text
+  session_state            String?
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refresh_token_expires_in Int?
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  phone         String?
+
+  // Default shipping address
+  defaultAddress Json?
+
+  accounts Account[]
+  sessions Session[]
+  orders   Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
