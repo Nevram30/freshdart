@@ -191,6 +191,7 @@ export default async function Home() {
                 {[
                   {
                     name: "Atlantic Salmon",
+                    slug: "atlantic-salmon",
                     description: "Direct from Norway cold waters, delivered within 24 hours.",
                     price: "$24.00",
                     unit: "/kg",
@@ -199,6 +200,7 @@ export default async function Home() {
                   },
                   {
                     name: "Tiger Prawns XL",
+                    slug: "tiger-prawns-xl",
                     description: "Premium grade prawns for restaurants and MSMEs.",
                     price: "$32.50",
                     unit: "/box",
@@ -207,6 +209,7 @@ export default async function Home() {
                   },
                   {
                     name: "Wild Seabass",
+                    slug: "wild-seabass",
                     description: "Sustainably line-caught. Perfect for gourmet grilling.",
                     price: "$18.90",
                     unit: "/pc",
@@ -215,6 +218,7 @@ export default async function Home() {
                   },
                   {
                     name: "Lobster Tails",
+                    slug: "lobster-tails",
                     description: "Frozen at sea to lock in premium quality and sweetness.",
                     price: "$45.00",
                     unit: "/pack",
@@ -222,25 +226,26 @@ export default async function Home() {
                     badgeColor: "bg-blue-500",
                   },
                 ].map((product, index) => (
-                  <div
+                  <Link
                     key={index}
-                    className="group overflow-hidden rounded-xl bg-white shadow-sm border border-gray-100 transition-all hover:shadow-lg"
+                    href={`/products/${product.slug}`}
+                    className="group overflow-hidden rounded-xl bg-white shadow-sm border border-gray-100 transition-all hover:shadow-lg cursor-pointer"
                   >
                     <div className="relative aspect-square bg-gray-100">
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <Fish className="h-16 w-16 text-gray-300" />
+                        <Fish className="h-16 w-16 text-gray-300 transition-transform group-hover:scale-110" />
                       </div>
                       <span
                         className={`absolute left-3 top-3 rounded px-2 py-1 text-xs font-semibold text-white ${product.badgeColor}`}
                       >
                         {product.badge}
                       </span>
-                      <button className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-gray-400 transition-colors hover:bg-white hover:text-red-500">
+                      <div className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-gray-400 transition-colors hover:bg-white hover:text-red-500">
                         <Heart className="h-4 w-4" />
-                      </button>
+                      </div>
                     </div>
                     <div className="p-4">
-                      <h3 className="font-semibold text-gray-900">
+                      <h3 className="font-semibold text-gray-900 group-hover:text-teal-600 transition-colors">
                         {product.name}
                       </h3>
                       <p className="mt-1 text-sm text-gray-500 line-clamp-2">
@@ -255,12 +260,12 @@ export default async function Home() {
                             {product.unit}
                           </span>
                         </div>
-                        <button className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0B3D4C] text-white transition-colors hover:bg-[#0D4A5A]">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0B3D4C] text-white transition-colors group-hover:bg-[#0D4A5A]">
                           <ShoppingCart className="h-5 w-5" />
-                        </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}

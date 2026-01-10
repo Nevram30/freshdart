@@ -19,7 +19,7 @@ export function Header() {
             className="flex items-center gap-2 text-xl font-bold text-white"
           >
             <Anchor className="h-6 w-6" />
-            <span className="hidden sm:inline">SEAMARKET</span>
+            <span className="hidden sm:inline">freshdart</span>
           </Link>
 
           {/* Navigation */}
@@ -41,12 +41,6 @@ export function Header() {
               className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
             >
               Consumer Store
-            </Link>
-            <Link
-              href="/logistics"
-              className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
-            >
-              Logistics
             </Link>
           </nav>
 
