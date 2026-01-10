@@ -102,8 +102,13 @@ export default function ProducersPage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Background Image with Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0B3D4C]/95 via-[#0D4A5A]/90 to-[#0B3D4C]/95">
-          <div className="absolute inset-0 bg-[url('/images/fish-hero.jpg')] bg-cover bg-center mix-blend-overlay opacity-60" />
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070')`,
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0B3D4C]/90 via-[#0D4A5A]/85 to-[#0B3D4C]/90" />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">

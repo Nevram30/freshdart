@@ -53,13 +53,14 @@ export function Header() {
               <Moon className="h-5 w-5" />
             </button>
 
-            <button
+            <Link
+              href="/login"
               className="flex items-center gap-2 rounded-full text-gray-300 transition-colors hover:text-white"
               aria-label="Account"
             >
               <User className="h-5 w-5" />
               <span className="hidden text-sm font-medium sm:inline">Account</span>
-            </button>
+            </Link>
 
             <button
               onClick={openCart}

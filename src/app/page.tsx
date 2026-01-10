@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -120,10 +121,13 @@ export default async function Home() {
 
               {/* Right Image */}
               <div className="relative">
-                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[#0D4A5A]">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Fish className="h-48 w-48 text-white/20" />
-                  </div>
+                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
+                  <Image
+                    src="https://images.unsplash.com/photo-1510130387422-82bed34b37e9?q=80&w=1200"
+                    alt="Fresh fish on ice"
+                    fill
+                    className="object-cover"
+                  />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#0B3D4C]/90 to-transparent p-6">
                     <p className="text-center text-sm text-gray-300">
                       &quot;Supporting local fishing communities since 2024.&quot;

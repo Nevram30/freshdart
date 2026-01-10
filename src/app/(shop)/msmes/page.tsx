@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -9,7 +10,6 @@ import {
   Snowflake,
   ShieldCheck,
   Phone,
-  Fish,
   Share2,
   Linkedin,
 } from "lucide-react";
@@ -43,7 +43,7 @@ export default function MSMEsPage() {
     {
       title: "Bulk Fillets",
       subtitle: "Case sizes: 10kg - 50kg",
-      image: "/images/bulk-fillets.jpg",
+      image: "https://images.unsplash.com/photo-1544943910-4c1dc44aab44?q=80&w=1200",
       features: ["Skin-on & Skinless options", "Precision vacuum sealed"],
       href: "/products?category=fillets",
       buttonText: "Browse Fillets",
@@ -51,7 +51,7 @@ export default function MSMEsPage() {
     {
       title: "Shellfish Crates",
       subtitle: "Daily harvest, crates available",
-      image: "/images/shellfish-crates.jpg",
+      image: "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?q=80&w=1200",
       features: ["Live & fresh options", "Direct boat delivery"],
       href: "/products?category=shellfish",
       buttonText: "Browse Shellfish",
@@ -59,7 +59,7 @@ export default function MSMEsPage() {
     {
       title: "Frozen Batches",
       subtitle: "IQF Grade A Inventory",
-      image: "/images/frozen-batches.jpg",
+      image: "https://images.unsplash.com/photo-1498654200943-1088dd4438ae?q=80&w=1200",
       features: ["Flash-frozen at source", "Long-term storage ready"],
       href: "/products?category=frozen",
       buttonText: "Browse Frozen",
@@ -86,8 +86,13 @@ export default function MSMEsPage() {
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Background Image with Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0B3D4C]/95 via-[#0D4A5A]/90 to-[#0B3D4C]/95">
-          <div className="absolute inset-0 bg-[url('/images/fish-hero.jpg')] bg-cover bg-center mix-blend-overlay opacity-50" />
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=2070')`,
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0B3D4C]/90 via-[#0D4A5A]/85 to-[#0B3D4C]/90" />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-10">
@@ -211,10 +216,13 @@ export default function MSMEsPage() {
                 className="overflow-hidden rounded-2xl bg-white shadow-sm transition-all hover:shadow-lg"
               >
                 {/* Image */}
-                <div className="relative aspect-[4/3] bg-gradient-to-br from-[#0B3D4C] to-[#0D4A5A]">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Fish className="h-20 w-20 text-white/20" />
-                  </div>
+                <div className="relative aspect-[4/3]">
+                  <Image
+                    src={category.image}
+                    alt={category.title}
+                    fill
+                    className="object-cover"
+                  />
                   {/* Overlay with title */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
                     <h3 className="text-xl font-bold text-white">
