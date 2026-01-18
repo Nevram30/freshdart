@@ -55,7 +55,7 @@ export default async function Home() {
       icon: Building2,
       title: "Bulk MSME",
       description: "Wholesale pricing",
-      href: "/msmes",
+      href: "/merchants",
       color: "bg-blue-50 text-blue-600",
     },
     {
@@ -434,7 +434,7 @@ export default async function Home() {
                   </li>
                   <li>
                     <Link
-                      href="/msmes"
+                      href="/merchants"
                       className="text-sm text-gray-400 transition-colors hover:text-white"
                     >
                       MSME Bulk Deals

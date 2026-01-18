@@ -68,10 +68,10 @@ export default function MSMEsPage() {
 
   const footerLinks = {
     forPartners: [
-      { label: "Wholesale Program", href: "/msmes/wholesale" },
-      { label: "Recurring Deliveries", href: "/msmes/recurring" },
-      { label: "Digital Invoicing Help", href: "/msmes/invoicing" },
-      { label: "Quality Standards", href: "/msmes/quality" },
+      { label: "Wholesale Program", href: "/merchants/wholesale" },
+      { label: "Recurring Deliveries", href: "/merchants/recurring" },
+      { label: "Digital Invoicing Help", href: "/merchants/invoicing" },
+      { label: "Quality Standards", href: "/merchants/quality" },
     ],
     categories: [
       { label: "Bulk Fillets", href: "/products?category=fillets" },
@@ -120,7 +120,7 @@ export default function MSMEsPage() {
             {/* CTA Buttons */}
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <Link
-                href="/msmes/register"
+                href="/merchants/register"
                 className="inline-flex items-center gap-2 rounded-lg bg-teal-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-teal-600"
               >
                 Register as MSME
@@ -280,7 +280,7 @@ export default function MSMEsPage() {
               {/* Right CTA */}
               <div className="text-center lg:text-right">
                 <Link
-                  href="/msmes/contact"
+                  href="/merchants/contact"
                   className="inline-flex items-center gap-2 rounded-lg bg-teal-500 px-8 py-4 font-semibold text-white transition-colors hover:bg-teal-600"
                 >
                   <Phone className="h-5 w-5" />

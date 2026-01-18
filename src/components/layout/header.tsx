@@ -31,10 +31,10 @@ export function Header() {
               Producers
             </Link>
             <Link
-              href="/msmes"
+              href="/merchants"
               className="text-sm font-medium text-gray-300 transition-colors hover:text-white"
             >
-              MSMEs
+              Merchants
             </Link>
             <Link
               href="/products"

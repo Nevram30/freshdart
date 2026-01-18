@@ -90,7 +90,7 @@ export default function ProducersPage() {
       { label: "Quality Standards", href: "/producers/quality" },
     ],
     marketplace: [
-      { label: "MSME Portal", href: "/msmes" },
+      { label: "MSME Portal", href: "/merchants" },
       { label: "Retail Store", href: "/products" },
       { label: "Sustainability", href: "/sustainability" },
       { label: "Traceability", href: "/traceability" },

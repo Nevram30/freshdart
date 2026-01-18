@@ -94,7 +94,7 @@ export default function MSMERegisterPage() {
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <span>Need help?</span>
             <Link
-              href="/msmes/contact"
+              href="/merchants/contact"
               className="font-semibold text-[#0B3D4C] hover:underline"
             >
               Contact Support

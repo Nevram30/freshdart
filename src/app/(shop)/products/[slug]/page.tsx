@@ -546,7 +546,7 @@ export default function ProductDetailPage() {
                   </li>
                   <li>
                     <Link
-                      href="/msmes"
+                      href="/merchants"
                       className="text-sm text-gray-400 transition-colors hover:text-white"
                     >
                       MSME Bulk Deals
