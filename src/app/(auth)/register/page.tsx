@@ -4,58 +4,81 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { Anchor, Mail, Lock, Check, Leaf } from "lucide-react";
+import { Anchor, User, Building2, Ship, Check, Leaf } from "lucide-react";
 import { Button } from "~/components/ui/button";
+import { api } from "~/trpc/react";
 
-export default function LoginPage() {
+type AccountType = "CUSTOMER" | "MERCHANT" | "PRODUCER";
+
+const accountTypes = [
+  {
+    id: "CUSTOMER" as AccountType,
+    role: "CUSTOMER" as const,
+    icon: User,
+    title: "Customer",
+    description: "For personal seafood buying",
+  },
+  {
+    id: "MERCHANT" as AccountType,
+    role: "MERCHANT" as const,
+    icon: Building2,
+    title: "MSME Merchant",
+    description: "For restaurants and retail businesses",
+  },
+  {
+    id: "PRODUCER" as AccountType,
+    role: "PRODUCER" as const,
+    icon: Ship,
+    title: "Producer",
+    description: "For fisheries and aquaculture",
+  },
+];
+
+export default function RegisterPage() {
   const router = useRouter();
+  const [selectedType, setSelectedType] = useState<AccountType>("CUSTOMER");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
-
-    try {
+  const registerMutation = api.auth.register.useMutation({
+    onSuccess: async () => {
+      // Sign in the user after registration
       const result = await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
 
-      if (result?.error) {
-        setError("Invalid email or password");
-        setIsLoading(false);
-        return;
-      }
-
       if (result?.ok) {
-        // Fetch session to get user role and redirect
-        const response = await fetch("/api/auth/session");
-        const session = (await response.json()) as {
-          user?: { role?: string };
-        } | null;
-
-        if (session?.user?.role) {
-          const redirectPaths: Record<string, string> = {
-            CUSTOMER: "/customer/dashboard",
-            MERCHANT: "/merchant/dashboard",
-            PRODUCER: "/producer/dashboard",
-          };
-          const redirectPath = redirectPaths[session.user.role];
-          router.push(redirectPath ?? "/customer/dashboard");
-        } else {
-          router.push("/customer/dashboard");
-        }
+        // Redirect based on role
+        const redirectPath = {
+          CUSTOMER: "/customer/dashboard",
+          MERCHANT: "/merchant/dashboard",
+          PRODUCER: "/producer/dashboard",
+        }[selectedType];
+        router.push(redirectPath);
       }
-    } catch {
-      setError("An error occurred. Please try again.");
-      setIsLoading(false);
-    }
+    },
+    onError: (error) => {
+      setError(error.message);
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    const role = accountTypes.find((t) => t.id === selectedType)?.role;
+    if (!role) return;
+
+    registerMutation.mutate({
+      name,
+      email,
+      password,
+      role,
+    });
   };
 
   return (
@@ -117,7 +140,7 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right Side - Login Form */}
+      {/* Right Side - Registration Form */}
       <div className="flex w-full flex-col bg-gray-50 lg:w-1/2">
         <div className="flex flex-1 flex-col justify-center px-8 py-12 sm:px-12 lg:px-16">
           <div className="mx-auto w-full max-w-md">
@@ -129,23 +152,61 @@ export default function LoginPage() {
 
             {/* Tab Navigation */}
             <div className="mb-8 flex rounded-xl bg-gray-100 p-1">
-              <button className="flex-1 rounded-lg bg-white py-3 text-center text-sm font-medium text-[#0B3D4C] shadow-sm">
-                Sign In
-              </button>
               <Link
-                href="/register"
+                href="/login"
                 className="flex-1 rounded-lg py-3 text-center text-sm font-medium text-gray-500 transition-colors hover:text-gray-700"
               >
-                Create Account
+                Sign In
               </Link>
+              <button className="flex-1 rounded-lg bg-white py-3 text-center text-sm font-medium text-[#0B3D4C] shadow-sm">
+                Create Account
+              </button>
             </div>
 
             {/* Header */}
             <div className="mb-6 text-center">
-              <h2 className="text-2xl font-bold text-[#0B3D4C]">Welcome Back</h2>
+              <h2 className="text-2xl font-bold text-[#0B3D4C]">
+                Join SeaMarket
+              </h2>
               <p className="mt-1 text-gray-600">
-                Please enter your details to access your account.
+                Choose your account type to get started.
               </p>
+            </div>
+
+            {/* Account Type Selection */}
+            <div className="mb-6 grid grid-cols-3 gap-3">
+              {accountTypes.map((type) => {
+                const Icon = type.icon;
+                const isSelected = selectedType === type.id;
+                return (
+                  <button
+                    key={type.id}
+                    type="button"
+                    onClick={() => setSelectedType(type.id)}
+                    className={`rounded-xl border-2 p-4 text-center transition-all ${
+                      isSelected
+                        ? "border-teal-500 bg-teal-50"
+                        : "border-gray-200 bg-white hover:border-gray-300"
+                    }`}
+                  >
+                    <div
+                      className={`mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-lg ${
+                        isSelected ? "bg-teal-500 text-white" : "bg-gray-100 text-gray-500"
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <p
+                      className={`text-sm font-medium ${
+                        isSelected ? "text-teal-700" : "text-gray-700"
+                      }`}
+                    >
+                      {type.title}
+                    </p>
+                    <p className="mt-1 text-xs text-gray-500">{type.description}</p>
+                  </button>
+                );
+              })}
             </div>
 
             {/* Error Message */}
@@ -157,6 +218,25 @@ export default function LoginPage() {
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Name Field */}
+              <div>
+                <label
+                  htmlFor="name"
+                  className="mb-1.5 block text-sm font-medium text-gray-700"
+                >
+                  Full Name
+                </label>
+                <input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="John Doe"
+                  className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                  required
+                />
+              </div>
+
               {/* Email Field */}
               <div>
                 <label
@@ -165,20 +245,15 @@ export default function LoginPage() {
                 >
                   Email Address
                 </label>
-                <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                    <Mail className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="name@company.com"
-                    className="w-full rounded-lg border border-gray-200 bg-white py-3 pl-12 pr-4 text-gray-900 placeholder-gray-400 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-                    required
-                  />
-                </div>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@company.com"
+                  className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                  required
+                />
               </div>
 
               {/* Password Field */}
@@ -189,48 +264,25 @@ export default function LoginPage() {
                 >
                   Password
                 </label>
-                <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                    <Lock className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="w-full rounded-lg border border-gray-200 bg-white py-3 pl-12 pr-4 text-gray-900 placeholder-gray-400 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-                    required
-                  />
-                </div>
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 transition-colors focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                  required
+                  minLength={8}
+                />
               </div>
 
-              {/* Remember Me & Forgot Password */}
-              <div className="flex items-center justify-between">
-                <label className="flex cursor-pointer items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(e) => setRememberMe(e.target.checked)}
-                    className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
-                  />
-                  <span className="text-sm text-gray-600">Remember me</span>
-                </label>
-                <Link
-                  href="/forgot-password"
-                  className="text-sm font-medium text-teal-600 hover:text-teal-700"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-
-              {/* Sign In Button */}
+              {/* Register Button */}
               <Button
                 type="submit"
-                isLoading={isLoading}
+                isLoading={registerMutation.isPending}
                 className="w-full bg-[#0B3D4C] py-3 text-white hover:bg-[#0a3542] focus:ring-[#0B3D4C]"
               >
-                Sign In
+                Register as a Member
               </Button>
 
               {/* Divider */}
@@ -283,17 +335,6 @@ export default function LoginPage() {
                   LinkedIn
                 </button>
               </div>
-
-              {/* Sign Up Link */}
-              <p className="mt-6 text-center text-sm text-gray-600">
-                Don&apos;t have an account?{" "}
-                <Link
-                  href="/register"
-                  className="font-semibold text-[#0B3D4C] hover:underline"
-                >
-                  Sign up
-                </Link>
-              </p>
             </form>
           </div>
         </div>

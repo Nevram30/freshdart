@@ -261,6 +261,12 @@ model ShippingRate {
 // AUTH MODELS (NextAuth)
 // ============================================
 
+enum UserRole {
+    CUSTOMER
+    MERCHANT
+    PRODUCER
+}
+
 model Account {
     id                       String  @id @default(cuid())
     userId                   String
@@ -295,6 +301,8 @@ model User {
     emailVerified DateTime?
     image         String?
     phone         String?
+    password      String?   // Hashed password for credentials login
+    role          UserRole  @default(CUSTOMER)
 
     // Default shipping address
     defaultAddress Json?

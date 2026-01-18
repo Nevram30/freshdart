@@ -271,6 +271,8 @@ exports.Prisma.UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   image: 'image',
   phone: 'phone',
+  password: 'password',
+  role: 'role',
   defaultAddress: 'defaultAddress',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -337,6 +339,12 @@ exports.OrderStatus = exports.$Enums.OrderStatus = {
   DELIVERED: 'DELIVERED',
   CANCELLED: 'CANCELLED',
   REFUNDED: 'REFUNDED'
+};
+
+exports.UserRole = exports.$Enums.UserRole = {
+  CUSTOMER: 'CUSTOMER',
+  MERCHANT: 'MERCHANT',
+  PRODUCER: 'PRODUCER'
 };
 
 exports.Prisma.ModelName = {
