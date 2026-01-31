@@ -120,7 +120,7 @@ export default function MSMEsPage() {
             {/* CTA Buttons */}
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <Link
-                href="/merchants/register"
+                href="/register"
                 className="inline-flex items-center gap-2 rounded-lg bg-teal-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-teal-600"
               >
                 Register as MSME

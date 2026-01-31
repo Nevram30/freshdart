@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { DashboardSidebar } from "~/components/dashboard/sidebar";
+import { DashboardLayoutWrapper } from "~/components/dashboard/layout-wrapper";
 
 export default async function CustomerDashboardLayout({
   children,
@@ -28,15 +28,12 @@ export default async function CustomerDashboardLayout({
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <DashboardSidebar
-        role="CUSTOMER"
-        userName={session.user.name}
-        userEmail={session.user.email}
-      />
-      <main className="ml-64 flex-1 overflow-y-auto">
-        <div className="p-8">{children}</div>
-      </main>
-    </div>
+    <DashboardLayoutWrapper
+      role="CUSTOMER"
+      userName={session.user.name}
+      userEmail={session.user.email}
+    >
+      {children}
+    </DashboardLayoutWrapper>
   );
 }
