@@ -102,6 +102,8 @@ model Product {
   // Relations
   categoryId String
   category   Category         @relation(fields: [categoryId], references: [id])
+  merchantId String? // Producer/Merchant who owns this product
+  merchant   Merchant?        @relation(fields: [merchantId], references: [id])
   variants   ProductVariant[]
   orderItems OrderItem[]
   cartItems  CartItem[]
@@ -117,6 +119,7 @@ model Product {
   @@index([sku])
   @@index([slug])
   @@index([categoryId])
+  @@index([merchantId])
   @@index([status])
   @@index([productType])
   @@index([seafoodType])
@@ -368,6 +371,7 @@ model Merchant {
 
   // Relations
   documents MerchantDocument[]
+  products  Product[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

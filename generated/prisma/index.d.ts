@@ -2593,10 +2593,12 @@ export namespace Prisma {
 
   export type MerchantCountOutputType = {
     documents: number
+    products: number
   }
 
   export type MerchantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     documents?: boolean | MerchantCountOutputTypeCountDocumentsArgs
+    products?: boolean | MerchantCountOutputTypeCountProductsArgs
   }
 
   // Custom InputTypes
@@ -2615,6 +2617,13 @@ export namespace Prisma {
    */
   export type MerchantCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MerchantDocumentWhereInput
+  }
+
+  /**
+   * MerchantCountOutputType without action
+   */
+  export type MerchantCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductWhereInput
   }
 
 
@@ -3903,6 +3912,7 @@ export namespace Prisma {
     bestBefore: Date | null
     shelfLifeDays: number | null
     categoryId: string | null
+    merchantId: string | null
     status: $Enums.ProductStatus | null
     featured: boolean | null
     createdAt: Date | null
@@ -3933,6 +3943,7 @@ export namespace Prisma {
     bestBefore: Date | null
     shelfLifeDays: number | null
     categoryId: string | null
+    merchantId: string | null
     status: $Enums.ProductStatus | null
     featured: boolean | null
     createdAt: Date | null
@@ -3963,6 +3974,7 @@ export namespace Prisma {
     bestBefore: number
     shelfLifeDays: number
     categoryId: number
+    merchantId: number
     status: number
     featured: number
     tags: number
@@ -4018,6 +4030,7 @@ export namespace Prisma {
     bestBefore?: true
     shelfLifeDays?: true
     categoryId?: true
+    merchantId?: true
     status?: true
     featured?: true
     createdAt?: true
@@ -4048,6 +4061,7 @@ export namespace Prisma {
     bestBefore?: true
     shelfLifeDays?: true
     categoryId?: true
+    merchantId?: true
     status?: true
     featured?: true
     createdAt?: true
@@ -4078,6 +4092,7 @@ export namespace Prisma {
     bestBefore?: true
     shelfLifeDays?: true
     categoryId?: true
+    merchantId?: true
     status?: true
     featured?: true
     tags?: true
@@ -4196,6 +4211,7 @@ export namespace Prisma {
     bestBefore: Date | null
     shelfLifeDays: number | null
     categoryId: string
+    merchantId: string | null
     status: $Enums.ProductStatus
     featured: boolean
     tags: string[]
@@ -4246,6 +4262,7 @@ export namespace Prisma {
     bestBefore?: boolean
     shelfLifeDays?: boolean
     categoryId?: boolean
+    merchantId?: boolean
     status?: boolean
     featured?: boolean
     tags?: boolean
@@ -4253,6 +4270,7 @@ export namespace Prisma {
     updatedAt?: boolean
     images?: boolean | Product$imagesArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    merchant?: boolean | Product$merchantArgs<ExtArgs>
     variants?: boolean | Product$variantsArgs<ExtArgs>
     orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
     cartItems?: boolean | Product$cartItemsArgs<ExtArgs>
@@ -4283,12 +4301,14 @@ export namespace Prisma {
     bestBefore?: boolean
     shelfLifeDays?: boolean
     categoryId?: boolean
+    merchantId?: boolean
     status?: boolean
     featured?: boolean
     tags?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    merchant?: boolean | Product$merchantArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
   export type ProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4315,12 +4335,14 @@ export namespace Prisma {
     bestBefore?: boolean
     shelfLifeDays?: boolean
     categoryId?: boolean
+    merchantId?: boolean
     status?: boolean
     featured?: boolean
     tags?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    merchant?: boolean | Product$merchantArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
   export type ProductSelectScalar = {
@@ -4347,6 +4369,7 @@ export namespace Prisma {
     bestBefore?: boolean
     shelfLifeDays?: boolean
     categoryId?: boolean
+    merchantId?: boolean
     status?: boolean
     featured?: boolean
     tags?: boolean
@@ -4354,10 +4377,11 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sku" | "slug" | "description" | "shortDescription" | "productType" | "seafoodType" | "speciesName" | "localName" | "price" | "compareAtPrice" | "costPerItem" | "stockType" | "stockQuantity" | "stockUnit" | "minOrderQty" | "maxOrderQty" | "weightKg" | "requiresColdChain" | "bestBefore" | "shelfLifeDays" | "categoryId" | "status" | "featured" | "tags" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sku" | "slug" | "description" | "shortDescription" | "productType" | "seafoodType" | "speciesName" | "localName" | "price" | "compareAtPrice" | "costPerItem" | "stockType" | "stockQuantity" | "stockUnit" | "minOrderQty" | "maxOrderQty" | "weightKg" | "requiresColdChain" | "bestBefore" | "shelfLifeDays" | "categoryId" | "merchantId" | "status" | "featured" | "tags" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     images?: boolean | Product$imagesArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    merchant?: boolean | Product$merchantArgs<ExtArgs>
     variants?: boolean | Product$variantsArgs<ExtArgs>
     orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
     cartItems?: boolean | Product$cartItemsArgs<ExtArgs>
@@ -4365,9 +4389,11 @@ export namespace Prisma {
   }
   export type ProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    merchant?: boolean | Product$merchantArgs<ExtArgs>
   }
   export type ProductIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
+    merchant?: boolean | Product$merchantArgs<ExtArgs>
   }
 
   export type $ProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4375,6 +4401,7 @@ export namespace Prisma {
     objects: {
       images: Prisma.$ProductImagePayload<ExtArgs>[]
       category: Prisma.$CategoryPayload<ExtArgs>
+      merchant: Prisma.$MerchantPayload<ExtArgs> | null
       variants: Prisma.$ProductVariantPayload<ExtArgs>[]
       orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
       cartItems: Prisma.$CartItemPayload<ExtArgs>[]
@@ -4403,6 +4430,7 @@ export namespace Prisma {
       bestBefore: Date | null
       shelfLifeDays: number | null
       categoryId: string
+      merchantId: string | null
       status: $Enums.ProductStatus
       featured: boolean
       tags: string[]
@@ -4804,6 +4832,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     images<T extends Product$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Product$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    merchant<T extends Product$merchantArgs<ExtArgs> = {}>(args?: Subset<T, Product$merchantArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     variants<T extends Product$variantsArgs<ExtArgs> = {}>(args?: Subset<T, Product$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orderItems<T extends Product$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cartItems<T extends Product$cartItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$cartItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4859,6 +4888,7 @@ export namespace Prisma {
     readonly bestBefore: FieldRef<"Product", 'DateTime'>
     readonly shelfLifeDays: FieldRef<"Product", 'Int'>
     readonly categoryId: FieldRef<"Product", 'String'>
+    readonly merchantId: FieldRef<"Product", 'String'>
     readonly status: FieldRef<"Product", 'ProductStatus'>
     readonly featured: FieldRef<"Product", 'Boolean'>
     readonly tags: FieldRef<"Product", 'String[]'>
@@ -5281,6 +5311,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProductImageScalarFieldEnum | ProductImageScalarFieldEnum[]
+  }
+
+  /**
+   * Product.merchant
+   */
+  export type Product$merchantArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+    where?: MerchantWhereInput
   }
 
   /**
@@ -14865,6 +14914,7 @@ export namespace Prisma {
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     documents?: boolean | Merchant$documentsArgs<ExtArgs>
+    products?: boolean | Merchant$productsArgs<ExtArgs>
     _count?: boolean | MerchantCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["merchant"]>
 
@@ -14922,6 +14972,7 @@ export namespace Prisma {
   export type MerchantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     documents?: boolean | Merchant$documentsArgs<ExtArgs>
+    products?: boolean | Merchant$productsArgs<ExtArgs>
     _count?: boolean | MerchantCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MerchantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14936,6 +14987,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       documents: Prisma.$MerchantDocumentPayload<ExtArgs>[]
+      products: Prisma.$ProductPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15347,6 +15399,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     documents<T extends Merchant$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Merchant$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    products<T extends Merchant$productsArgs<ExtArgs> = {}>(args?: Subset<T, Merchant$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15806,6 +15859,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MerchantDocumentScalarFieldEnum | MerchantDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Merchant.products
+   */
+  export type Merchant$productsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    where?: ProductWhereInput
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    cursor?: ProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
   }
 
   /**
@@ -21426,6 +21503,7 @@ export namespace Prisma {
     bestBefore: 'bestBefore',
     shelfLifeDays: 'shelfLifeDays',
     categoryId: 'categoryId',
+    merchantId: 'merchantId',
     status: 'status',
     featured: 'featured',
     tags: 'tags',
@@ -22064,6 +22142,7 @@ export namespace Prisma {
     bestBefore?: DateTimeNullableFilter<"Product"> | Date | string | null
     shelfLifeDays?: IntNullableFilter<"Product"> | number | null
     categoryId?: StringFilter<"Product"> | string
+    merchantId?: StringNullableFilter<"Product"> | string | null
     status?: EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
     featured?: BoolFilter<"Product"> | boolean
     tags?: StringNullableListFilter<"Product">
@@ -22071,6 +22150,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Product"> | Date | string
     images?: ProductImageListRelationFilter
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    merchant?: XOR<MerchantNullableScalarRelationFilter, MerchantWhereInput> | null
     variants?: ProductVariantListRelationFilter
     orderItems?: OrderItemListRelationFilter
     cartItems?: CartItemListRelationFilter
@@ -22100,6 +22180,7 @@ export namespace Prisma {
     bestBefore?: SortOrderInput | SortOrder
     shelfLifeDays?: SortOrderInput | SortOrder
     categoryId?: SortOrder
+    merchantId?: SortOrderInput | SortOrder
     status?: SortOrder
     featured?: SortOrder
     tags?: SortOrder
@@ -22107,6 +22188,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     images?: ProductImageOrderByRelationAggregateInput
     category?: CategoryOrderByWithRelationInput
+    merchant?: MerchantOrderByWithRelationInput
     variants?: ProductVariantOrderByRelationAggregateInput
     orderItems?: OrderItemOrderByRelationAggregateInput
     cartItems?: CartItemOrderByRelationAggregateInput
@@ -22139,6 +22221,7 @@ export namespace Prisma {
     bestBefore?: DateTimeNullableFilter<"Product"> | Date | string | null
     shelfLifeDays?: IntNullableFilter<"Product"> | number | null
     categoryId?: StringFilter<"Product"> | string
+    merchantId?: StringNullableFilter<"Product"> | string | null
     status?: EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
     featured?: BoolFilter<"Product"> | boolean
     tags?: StringNullableListFilter<"Product">
@@ -22146,6 +22229,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Product"> | Date | string
     images?: ProductImageListRelationFilter
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+    merchant?: XOR<MerchantNullableScalarRelationFilter, MerchantWhereInput> | null
     variants?: ProductVariantListRelationFilter
     orderItems?: OrderItemListRelationFilter
     cartItems?: CartItemListRelationFilter
@@ -22175,6 +22259,7 @@ export namespace Prisma {
     bestBefore?: SortOrderInput | SortOrder
     shelfLifeDays?: SortOrderInput | SortOrder
     categoryId?: SortOrder
+    merchantId?: SortOrderInput | SortOrder
     status?: SortOrder
     featured?: SortOrder
     tags?: SortOrder
@@ -22214,6 +22299,7 @@ export namespace Prisma {
     bestBefore?: DateTimeNullableWithAggregatesFilter<"Product"> | Date | string | null
     shelfLifeDays?: IntNullableWithAggregatesFilter<"Product"> | number | null
     categoryId?: StringWithAggregatesFilter<"Product"> | string
+    merchantId?: StringNullableWithAggregatesFilter<"Product"> | string | null
     status?: EnumProductStatusWithAggregatesFilter<"Product"> | $Enums.ProductStatus
     featured?: BoolWithAggregatesFilter<"Product"> | boolean
     tags?: StringNullableListFilter<"Product">
@@ -22867,6 +22953,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Merchant"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     documents?: MerchantDocumentListRelationFilter
+    products?: ProductListRelationFilter
   }
 
   export type MerchantOrderByWithRelationInput = {
@@ -22885,6 +22972,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     documents?: MerchantDocumentOrderByRelationAggregateInput
+    products?: ProductOrderByRelationAggregateInput
   }
 
   export type MerchantWhereUniqueInput = Prisma.AtLeast<{
@@ -22906,6 +22994,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Merchant"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     documents?: MerchantDocumentListRelationFilter
+    products?: ProductListRelationFilter
   }, "id" | "userId">
 
   export type MerchantOrderByWithAggregationInput = {
@@ -23422,6 +23511,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     images?: ProductImageCreateNestedManyWithoutProductInput
     category: CategoryCreateNestedOneWithoutProductsInput
+    merchant?: MerchantCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     cartItems?: CartItemCreateNestedManyWithoutProductInput
@@ -23451,6 +23541,7 @@ export namespace Prisma {
     bestBefore?: Date | string | null
     shelfLifeDays?: number | null
     categoryId: string
+    merchantId?: string | null
     status?: $Enums.ProductStatus
     featured?: boolean
     tags?: ProductCreatetagsInput | string[]
@@ -23492,6 +23583,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ProductImageUpdateManyWithoutProductNestedInput
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    merchant?: MerchantUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUpdateManyWithoutProductNestedInput
@@ -23521,6 +23613,7 @@ export namespace Prisma {
     bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     featured?: BoolFieldUpdateOperationsInput | boolean
     tags?: ProductUpdatetagsInput | string[]
@@ -23556,6 +23649,7 @@ export namespace Prisma {
     bestBefore?: Date | string | null
     shelfLifeDays?: number | null
     categoryId: string
+    merchantId?: string | null
     status?: $Enums.ProductStatus
     featured?: boolean
     tags?: ProductCreatetagsInput | string[]
@@ -23617,6 +23711,7 @@ export namespace Prisma {
     bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     featured?: BoolFieldUpdateOperationsInput | boolean
     tags?: ProductUpdatetagsInput | string[]
@@ -24322,6 +24417,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutMerchantInput
     documents?: MerchantDocumentCreateNestedManyWithoutMerchantInput
+    products?: ProductCreateNestedManyWithoutMerchantInput
   }
 
   export type MerchantUncheckedCreateInput = {
@@ -24339,6 +24435,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: MerchantDocumentUncheckedCreateNestedManyWithoutMerchantInput
+    products?: ProductUncheckedCreateNestedManyWithoutMerchantInput
   }
 
   export type MerchantUpdateInput = {
@@ -24356,6 +24453,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutMerchantNestedInput
     documents?: MerchantDocumentUpdateManyWithoutMerchantNestedInput
+    products?: ProductUpdateManyWithoutMerchantNestedInput
   }
 
   export type MerchantUncheckedUpdateInput = {
@@ -24373,6 +24471,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: MerchantDocumentUncheckedUpdateManyWithoutMerchantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutMerchantNestedInput
   }
 
   export type MerchantCreateManyInput = {
@@ -25070,6 +25169,11 @@ export namespace Prisma {
     isNot?: CategoryWhereInput
   }
 
+  export type MerchantNullableScalarRelationFilter = {
+    is?: MerchantWhereInput | null
+    isNot?: MerchantWhereInput | null
+  }
+
   export type ProductVariantListRelationFilter = {
     every?: ProductVariantWhereInput
     some?: ProductVariantWhereInput
@@ -25128,6 +25232,7 @@ export namespace Prisma {
     bestBefore?: SortOrder
     shelfLifeDays?: SortOrder
     categoryId?: SortOrder
+    merchantId?: SortOrder
     status?: SortOrder
     featured?: SortOrder
     tags?: SortOrder
@@ -25170,6 +25275,7 @@ export namespace Prisma {
     bestBefore?: SortOrder
     shelfLifeDays?: SortOrder
     categoryId?: SortOrder
+    merchantId?: SortOrder
     status?: SortOrder
     featured?: SortOrder
     createdAt?: SortOrder
@@ -25200,6 +25306,7 @@ export namespace Prisma {
     bestBefore?: SortOrder
     shelfLifeDays?: SortOrder
     categoryId?: SortOrder
+    merchantId?: SortOrder
     status?: SortOrder
     featured?: SortOrder
     createdAt?: SortOrder
@@ -26170,11 +26277,6 @@ export namespace Prisma {
     none?: OrderWhereInput
   }
 
-  export type MerchantNullableScalarRelationFilter = {
-    is?: MerchantWhereInput | null
-    isNot?: MerchantWhereInput | null
-  }
-
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -26415,6 +26517,12 @@ export namespace Prisma {
     connect?: CategoryWhereUniqueInput
   }
 
+  export type MerchantCreateNestedOneWithoutProductsInput = {
+    create?: XOR<MerchantCreateWithoutProductsInput, MerchantUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: MerchantCreateOrConnectWithoutProductsInput
+    connect?: MerchantWhereUniqueInput
+  }
+
   export type ProductVariantCreateNestedManyWithoutProductInput = {
     create?: XOR<ProductVariantCreateWithoutProductInput, ProductVariantUncheckedCreateWithoutProductInput> | ProductVariantCreateWithoutProductInput[] | ProductVariantUncheckedCreateWithoutProductInput[]
     connectOrCreate?: ProductVariantCreateOrConnectWithoutProductInput | ProductVariantCreateOrConnectWithoutProductInput[]
@@ -26537,6 +26645,16 @@ export namespace Prisma {
     upsert?: CategoryUpsertWithoutProductsInput
     connect?: CategoryWhereUniqueInput
     update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutProductsInput, CategoryUpdateWithoutProductsInput>, CategoryUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type MerchantUpdateOneWithoutProductsNestedInput = {
+    create?: XOR<MerchantCreateWithoutProductsInput, MerchantUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: MerchantCreateOrConnectWithoutProductsInput
+    upsert?: MerchantUpsertWithoutProductsInput
+    disconnect?: MerchantWhereInput | boolean
+    delete?: MerchantWhereInput | boolean
+    connect?: MerchantWhereUniqueInput
+    update?: XOR<XOR<MerchantUpdateToOneWithWhereWithoutProductsInput, MerchantUpdateWithoutProductsInput>, MerchantUncheckedUpdateWithoutProductsInput>
   }
 
   export type ProductVariantUpdateManyWithoutProductNestedInput = {
@@ -26904,11 +27022,25 @@ export namespace Prisma {
     connect?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
   }
 
+  export type ProductCreateNestedManyWithoutMerchantInput = {
+    create?: XOR<ProductCreateWithoutMerchantInput, ProductUncheckedCreateWithoutMerchantInput> | ProductCreateWithoutMerchantInput[] | ProductUncheckedCreateWithoutMerchantInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutMerchantInput | ProductCreateOrConnectWithoutMerchantInput[]
+    createMany?: ProductCreateManyMerchantInputEnvelope
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
   export type MerchantDocumentUncheckedCreateNestedManyWithoutMerchantInput = {
     create?: XOR<MerchantDocumentCreateWithoutMerchantInput, MerchantDocumentUncheckedCreateWithoutMerchantInput> | MerchantDocumentCreateWithoutMerchantInput[] | MerchantDocumentUncheckedCreateWithoutMerchantInput[]
     connectOrCreate?: MerchantDocumentCreateOrConnectWithoutMerchantInput | MerchantDocumentCreateOrConnectWithoutMerchantInput[]
     createMany?: MerchantDocumentCreateManyMerchantInputEnvelope
     connect?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
+  }
+
+  export type ProductUncheckedCreateNestedManyWithoutMerchantInput = {
+    create?: XOR<ProductCreateWithoutMerchantInput, ProductUncheckedCreateWithoutMerchantInput> | ProductCreateWithoutMerchantInput[] | ProductUncheckedCreateWithoutMerchantInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutMerchantInput | ProductCreateOrConnectWithoutMerchantInput[]
+    createMany?: ProductCreateManyMerchantInputEnvelope
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
   }
 
   export type EnumBusinessTypeFieldUpdateOperationsInput = {
@@ -26945,6 +27077,20 @@ export namespace Prisma {
     deleteMany?: MerchantDocumentScalarWhereInput | MerchantDocumentScalarWhereInput[]
   }
 
+  export type ProductUpdateManyWithoutMerchantNestedInput = {
+    create?: XOR<ProductCreateWithoutMerchantInput, ProductUncheckedCreateWithoutMerchantInput> | ProductCreateWithoutMerchantInput[] | ProductUncheckedCreateWithoutMerchantInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutMerchantInput | ProductCreateOrConnectWithoutMerchantInput[]
+    upsert?: ProductUpsertWithWhereUniqueWithoutMerchantInput | ProductUpsertWithWhereUniqueWithoutMerchantInput[]
+    createMany?: ProductCreateManyMerchantInputEnvelope
+    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    update?: ProductUpdateWithWhereUniqueWithoutMerchantInput | ProductUpdateWithWhereUniqueWithoutMerchantInput[]
+    updateMany?: ProductUpdateManyWithWhereWithoutMerchantInput | ProductUpdateManyWithWhereWithoutMerchantInput[]
+    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
   export type MerchantDocumentUncheckedUpdateManyWithoutMerchantNestedInput = {
     create?: XOR<MerchantDocumentCreateWithoutMerchantInput, MerchantDocumentUncheckedCreateWithoutMerchantInput> | MerchantDocumentCreateWithoutMerchantInput[] | MerchantDocumentUncheckedCreateWithoutMerchantInput[]
     connectOrCreate?: MerchantDocumentCreateOrConnectWithoutMerchantInput | MerchantDocumentCreateOrConnectWithoutMerchantInput[]
@@ -26957,6 +27103,20 @@ export namespace Prisma {
     update?: MerchantDocumentUpdateWithWhereUniqueWithoutMerchantInput | MerchantDocumentUpdateWithWhereUniqueWithoutMerchantInput[]
     updateMany?: MerchantDocumentUpdateManyWithWhereWithoutMerchantInput | MerchantDocumentUpdateManyWithWhereWithoutMerchantInput[]
     deleteMany?: MerchantDocumentScalarWhereInput | MerchantDocumentScalarWhereInput[]
+  }
+
+  export type ProductUncheckedUpdateManyWithoutMerchantNestedInput = {
+    create?: XOR<ProductCreateWithoutMerchantInput, ProductUncheckedCreateWithoutMerchantInput> | ProductCreateWithoutMerchantInput[] | ProductUncheckedCreateWithoutMerchantInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutMerchantInput | ProductCreateOrConnectWithoutMerchantInput[]
+    upsert?: ProductUpsertWithWhereUniqueWithoutMerchantInput | ProductUpsertWithWhereUniqueWithoutMerchantInput[]
+    createMany?: ProductCreateManyMerchantInputEnvelope
+    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    update?: ProductUpdateWithWhereUniqueWithoutMerchantInput | ProductUpdateWithWhereUniqueWithoutMerchantInput[]
+    updateMany?: ProductUpdateManyWithWhereWithoutMerchantInput | ProductUpdateManyWithWhereWithoutMerchantInput[]
+    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
   }
 
   export type MerchantCreateNestedOneWithoutDocumentsInput = {
@@ -27768,6 +27928,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     images?: ProductImageCreateNestedManyWithoutProductInput
+    merchant?: MerchantCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     cartItems?: CartItemCreateNestedManyWithoutProductInput
@@ -27796,6 +27957,7 @@ export namespace Prisma {
     requiresColdChain?: boolean
     bestBefore?: Date | string | null
     shelfLifeDays?: number | null
+    merchantId?: string | null
     status?: $Enums.ProductStatus
     featured?: boolean
     tags?: ProductCreatetagsInput | string[]
@@ -27925,6 +28087,7 @@ export namespace Prisma {
     bestBefore?: DateTimeNullableFilter<"Product"> | Date | string | null
     shelfLifeDays?: IntNullableFilter<"Product"> | number | null
     categoryId?: StringFilter<"Product"> | string
+    merchantId?: StringNullableFilter<"Product"> | string | null
     status?: EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
     featured?: BoolFilter<"Product"> | boolean
     tags?: StringNullableListFilter<"Product">
@@ -27987,6 +28150,45 @@ export namespace Prisma {
   export type CategoryCreateOrConnectWithoutProductsInput = {
     where: CategoryWhereUniqueInput
     create: XOR<CategoryCreateWithoutProductsInput, CategoryUncheckedCreateWithoutProductsInput>
+  }
+
+  export type MerchantCreateWithoutProductsInput = {
+    id?: string
+    businessName: string
+    businessRegistrationNumber: string
+    businessType: $Enums.BusinessType
+    businessSize: $Enums.BusinessSize
+    description?: string | null
+    ratingAverage?: Decimal | DecimalJsLike | number | string
+    totalSales?: number
+    verificationStatus?: $Enums.VerificationStatus
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutMerchantInput
+    documents?: MerchantDocumentCreateNestedManyWithoutMerchantInput
+  }
+
+  export type MerchantUncheckedCreateWithoutProductsInput = {
+    id?: string
+    userId: string
+    businessName: string
+    businessRegistrationNumber: string
+    businessType: $Enums.BusinessType
+    businessSize: $Enums.BusinessSize
+    description?: string | null
+    ratingAverage?: Decimal | DecimalJsLike | number | string
+    totalSales?: number
+    verificationStatus?: $Enums.VerificationStatus
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: MerchantDocumentUncheckedCreateNestedManyWithoutMerchantInput
+  }
+
+  export type MerchantCreateOrConnectWithoutProductsInput = {
+    where: MerchantWhereUniqueInput
+    create: XOR<MerchantCreateWithoutProductsInput, MerchantUncheckedCreateWithoutProductsInput>
   }
 
   export type ProductVariantCreateWithoutProductInput = {
@@ -28149,6 +28351,51 @@ export namespace Prisma {
     children?: CategoryUncheckedUpdateManyWithoutParentNestedInput
   }
 
+  export type MerchantUpsertWithoutProductsInput = {
+    update: XOR<MerchantUpdateWithoutProductsInput, MerchantUncheckedUpdateWithoutProductsInput>
+    create: XOR<MerchantCreateWithoutProductsInput, MerchantUncheckedCreateWithoutProductsInput>
+    where?: MerchantWhereInput
+  }
+
+  export type MerchantUpdateToOneWithWhereWithoutProductsInput = {
+    where?: MerchantWhereInput
+    data: XOR<MerchantUpdateWithoutProductsInput, MerchantUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type MerchantUpdateWithoutProductsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessRegistrationNumber?: StringFieldUpdateOperationsInput | string
+    businessType?: EnumBusinessTypeFieldUpdateOperationsInput | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFieldUpdateOperationsInput | $Enums.BusinessSize
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    ratingAverage?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFieldUpdateOperationsInput | number
+    verificationStatus?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutMerchantNestedInput
+    documents?: MerchantDocumentUpdateManyWithoutMerchantNestedInput
+  }
+
+  export type MerchantUncheckedUpdateWithoutProductsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessRegistrationNumber?: StringFieldUpdateOperationsInput | string
+    businessType?: EnumBusinessTypeFieldUpdateOperationsInput | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFieldUpdateOperationsInput | $Enums.BusinessSize
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    ratingAverage?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFieldUpdateOperationsInput | number
+    verificationStatus?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: MerchantDocumentUncheckedUpdateManyWithoutMerchantNestedInput
+  }
+
   export type ProductVariantUpsertWithWhereUniqueWithoutProductInput = {
     where: ProductVariantWhereUniqueInput
     update: XOR<ProductVariantUpdateWithoutProductInput, ProductVariantUncheckedUpdateWithoutProductInput>
@@ -28271,6 +28518,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutProductsInput
+    merchant?: MerchantCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     cartItems?: CartItemCreateNestedManyWithoutProductInput
@@ -28300,6 +28548,7 @@ export namespace Prisma {
     bestBefore?: Date | string | null
     shelfLifeDays?: number | null
     categoryId: string
+    merchantId?: string | null
     status?: $Enums.ProductStatus
     featured?: boolean
     tags?: ProductCreatetagsInput | string[]
@@ -28355,6 +28604,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    merchant?: MerchantUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUpdateManyWithoutProductNestedInput
@@ -28384,6 +28634,7 @@ export namespace Prisma {
     bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     featured?: BoolFieldUpdateOperationsInput | boolean
     tags?: ProductUpdatetagsInput | string[]
@@ -28424,6 +28675,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     images?: ProductImageCreateNestedManyWithoutProductInput
     category: CategoryCreateNestedOneWithoutProductsInput
+    merchant?: MerchantCreateNestedOneWithoutProductsInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     cartItems?: CartItemCreateNestedManyWithoutProductInput
   }
@@ -28452,6 +28704,7 @@ export namespace Prisma {
     bestBefore?: Date | string | null
     shelfLifeDays?: number | null
     categoryId: string
+    merchantId?: string | null
     status?: $Enums.ProductStatus
     featured?: boolean
     tags?: ProductCreatetagsInput | string[]
@@ -28508,6 +28761,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ProductImageUpdateManyWithoutProductNestedInput
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    merchant?: MerchantUpdateOneWithoutProductsNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUpdateManyWithoutProductNestedInput
   }
@@ -28536,6 +28790,7 @@ export namespace Prisma {
     bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     featured?: BoolFieldUpdateOperationsInput | boolean
     tags?: ProductUpdatetagsInput | string[]
@@ -28763,6 +29018,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     images?: ProductImageCreateNestedManyWithoutProductInput
     category: CategoryCreateNestedOneWithoutProductsInput
+    merchant?: MerchantCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     cartItems?: CartItemCreateNestedManyWithoutProductInput
   }
@@ -28791,6 +29047,7 @@ export namespace Prisma {
     bestBefore?: Date | string | null
     shelfLifeDays?: number | null
     categoryId: string
+    merchantId?: string | null
     status?: $Enums.ProductStatus
     featured?: boolean
     tags?: ProductCreatetagsInput | string[]
@@ -28904,6 +29161,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ProductImageUpdateManyWithoutProductNestedInput
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    merchant?: MerchantUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUpdateManyWithoutProductNestedInput
   }
@@ -28932,6 +29190,7 @@ export namespace Prisma {
     bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     featured?: BoolFieldUpdateOperationsInput | boolean
     tags?: ProductUpdatetagsInput | string[]
@@ -29035,6 +29294,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     images?: ProductImageCreateNestedManyWithoutProductInput
     category: CategoryCreateNestedOneWithoutProductsInput
+    merchant?: MerchantCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
   }
@@ -29063,6 +29323,7 @@ export namespace Prisma {
     bestBefore?: Date | string | null
     shelfLifeDays?: number | null
     categoryId: string
+    merchantId?: string | null
     status?: $Enums.ProductStatus
     featured?: boolean
     tags?: ProductCreatetagsInput | string[]
@@ -29146,6 +29407,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ProductImageUpdateManyWithoutProductNestedInput
     category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    merchant?: MerchantUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
   }
@@ -29174,6 +29436,7 @@ export namespace Prisma {
     bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
     categoryId?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     featured?: BoolFieldUpdateOperationsInput | boolean
     tags?: ProductUpdatetagsInput | string[]
@@ -29365,6 +29628,86 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ProductCreateWithoutMerchantInput = {
+    id?: string
+    name: string
+    sku?: string | null
+    slug: string
+    description?: string | null
+    shortDescription?: string | null
+    productType?: $Enums.ProductType
+    seafoodType?: $Enums.SeafoodType
+    speciesName?: string | null
+    localName?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    compareAtPrice?: Decimal | DecimalJsLike | number | string | null
+    costPerItem?: Decimal | DecimalJsLike | number | string | null
+    stockType?: $Enums.StockType
+    stockQuantity: Decimal | DecimalJsLike | number | string
+    stockUnit?: string
+    minOrderQty?: Decimal | DecimalJsLike | number | string
+    maxOrderQty?: Decimal | DecimalJsLike | number | string | null
+    weightKg?: Decimal | DecimalJsLike | number | string
+    requiresColdChain?: boolean
+    bestBefore?: Date | string | null
+    shelfLifeDays?: number | null
+    status?: $Enums.ProductStatus
+    featured?: boolean
+    tags?: ProductCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: ProductImageCreateNestedManyWithoutProductInput
+    category: CategoryCreateNestedOneWithoutProductsInput
+    variants?: ProductVariantCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemCreateNestedManyWithoutProductInput
+    cartItems?: CartItemCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutMerchantInput = {
+    id?: string
+    name: string
+    sku?: string | null
+    slug: string
+    description?: string | null
+    shortDescription?: string | null
+    productType?: $Enums.ProductType
+    seafoodType?: $Enums.SeafoodType
+    speciesName?: string | null
+    localName?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    compareAtPrice?: Decimal | DecimalJsLike | number | string | null
+    costPerItem?: Decimal | DecimalJsLike | number | string | null
+    stockType?: $Enums.StockType
+    stockQuantity: Decimal | DecimalJsLike | number | string
+    stockUnit?: string
+    minOrderQty?: Decimal | DecimalJsLike | number | string
+    maxOrderQty?: Decimal | DecimalJsLike | number | string | null
+    weightKg?: Decimal | DecimalJsLike | number | string
+    requiresColdChain?: boolean
+    bestBefore?: Date | string | null
+    shelfLifeDays?: number | null
+    categoryId: string
+    status?: $Enums.ProductStatus
+    featured?: boolean
+    tags?: ProductCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
+    variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
+    cartItems?: CartItemUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutMerchantInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutMerchantInput, ProductUncheckedCreateWithoutMerchantInput>
+  }
+
+  export type ProductCreateManyMerchantInputEnvelope = {
+    data: ProductCreateManyMerchantInput | ProductCreateManyMerchantInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutMerchantInput = {
     update: XOR<UserUpdateWithoutMerchantInput, UserUncheckedUpdateWithoutMerchantInput>
     create: XOR<UserCreateWithoutMerchantInput, UserUncheckedCreateWithoutMerchantInput>
@@ -29441,6 +29784,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MerchantDocument"> | Date | string
   }
 
+  export type ProductUpsertWithWhereUniqueWithoutMerchantInput = {
+    where: ProductWhereUniqueInput
+    update: XOR<ProductUpdateWithoutMerchantInput, ProductUncheckedUpdateWithoutMerchantInput>
+    create: XOR<ProductCreateWithoutMerchantInput, ProductUncheckedCreateWithoutMerchantInput>
+  }
+
+  export type ProductUpdateWithWhereUniqueWithoutMerchantInput = {
+    where: ProductWhereUniqueInput
+    data: XOR<ProductUpdateWithoutMerchantInput, ProductUncheckedUpdateWithoutMerchantInput>
+  }
+
+  export type ProductUpdateManyWithWhereWithoutMerchantInput = {
+    where: ProductScalarWhereInput
+    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyWithoutMerchantInput>
+  }
+
   export type MerchantCreateWithoutDocumentsInput = {
     id?: string
     businessName: string
@@ -29455,6 +29814,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutMerchantInput
+    products?: ProductCreateNestedManyWithoutMerchantInput
   }
 
   export type MerchantUncheckedCreateWithoutDocumentsInput = {
@@ -29471,6 +29831,7 @@ export namespace Prisma {
     isFeatured?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    products?: ProductUncheckedCreateNestedManyWithoutMerchantInput
   }
 
   export type MerchantCreateOrConnectWithoutDocumentsInput = {
@@ -29503,6 +29864,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutMerchantNestedInput
+    products?: ProductUpdateManyWithoutMerchantNestedInput
   }
 
   export type MerchantUncheckedUpdateWithoutDocumentsInput = {
@@ -29519,6 +29881,7 @@ export namespace Prisma {
     isFeatured?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    products?: ProductUncheckedUpdateManyWithoutMerchantNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -29821,6 +30184,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: MerchantDocumentCreateNestedManyWithoutMerchantInput
+    products?: ProductCreateNestedManyWithoutMerchantInput
   }
 
   export type MerchantUncheckedCreateWithoutUserInput = {
@@ -29837,6 +30201,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: MerchantDocumentUncheckedCreateNestedManyWithoutMerchantInput
+    products?: ProductUncheckedCreateNestedManyWithoutMerchantInput
   }
 
   export type MerchantCreateOrConnectWithoutUserInput = {
@@ -29972,6 +30337,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: MerchantDocumentUpdateManyWithoutMerchantNestedInput
+    products?: ProductUpdateManyWithoutMerchantNestedInput
   }
 
   export type MerchantUncheckedUpdateWithoutUserInput = {
@@ -29988,6 +30354,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: MerchantDocumentUncheckedUpdateManyWithoutMerchantNestedInput
+    products?: ProductUncheckedUpdateManyWithoutMerchantNestedInput
   }
 
   export type CategoryCreateManyParentInput = {
@@ -30023,6 +30390,7 @@ export namespace Prisma {
     requiresColdChain?: boolean
     bestBefore?: Date | string | null
     shelfLifeDays?: number | null
+    merchantId?: string | null
     status?: $Enums.ProductStatus
     featured?: boolean
     tags?: ProductCreatetagsInput | string[]
@@ -30093,6 +30461,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     images?: ProductImageUpdateManyWithoutProductNestedInput
+    merchant?: MerchantUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUpdateManyWithoutProductNestedInput
@@ -30121,6 +30490,7 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     featured?: BoolFieldUpdateOperationsInput | boolean
     tags?: ProductUpdatetagsInput | string[]
@@ -30155,6 +30525,7 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
     featured?: BoolFieldUpdateOperationsInput | boolean
     tags?: ProductUpdatetagsInput | string[]
@@ -30473,6 +30844,37 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ProductCreateManyMerchantInput = {
+    id?: string
+    name: string
+    sku?: string | null
+    slug: string
+    description?: string | null
+    shortDescription?: string | null
+    productType?: $Enums.ProductType
+    seafoodType?: $Enums.SeafoodType
+    speciesName?: string | null
+    localName?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    compareAtPrice?: Decimal | DecimalJsLike | number | string | null
+    costPerItem?: Decimal | DecimalJsLike | number | string | null
+    stockType?: $Enums.StockType
+    stockQuantity: Decimal | DecimalJsLike | number | string
+    stockUnit?: string
+    minOrderQty?: Decimal | DecimalJsLike | number | string
+    maxOrderQty?: Decimal | DecimalJsLike | number | string | null
+    weightKg?: Decimal | DecimalJsLike | number | string
+    requiresColdChain?: boolean
+    bestBefore?: Date | string | null
+    shelfLifeDays?: number | null
+    categoryId: string
+    status?: $Enums.ProductStatus
+    featured?: boolean
+    tags?: ProductCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type MerchantDocumentUpdateWithoutMerchantInput = {
     id?: StringFieldUpdateOperationsInput | string
     documentType?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
@@ -30502,6 +30904,107 @@ export namespace Prisma {
     documentNumber?: StringFieldUpdateOperationsInput | string
     expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductUpdateWithoutMerchantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: EnumProductTypeFieldUpdateOperationsInput | $Enums.ProductType
+    seafoodType?: EnumSeafoodTypeFieldUpdateOperationsInput | $Enums.SeafoodType
+    speciesName?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    compareAtPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    costPerItem?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    stockType?: EnumStockTypeFieldUpdateOperationsInput | $Enums.StockType
+    stockQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    stockUnit?: StringFieldUpdateOperationsInput | string
+    minOrderQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxOrderQty?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    tags?: ProductUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: ProductImageUpdateManyWithoutProductNestedInput
+    category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    variants?: ProductVariantUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUpdateManyWithoutProductNestedInput
+    cartItems?: CartItemUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutMerchantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: EnumProductTypeFieldUpdateOperationsInput | $Enums.ProductType
+    seafoodType?: EnumSeafoodTypeFieldUpdateOperationsInput | $Enums.SeafoodType
+    speciesName?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    compareAtPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    costPerItem?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    stockType?: EnumStockTypeFieldUpdateOperationsInput | $Enums.StockType
+    stockQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    stockUnit?: StringFieldUpdateOperationsInput | string
+    minOrderQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxOrderQty?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    categoryId?: StringFieldUpdateOperationsInput | string
+    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    tags?: ProductUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
+    variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
+    cartItems?: CartItemUncheckedUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateManyWithoutMerchantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: EnumProductTypeFieldUpdateOperationsInput | $Enums.ProductType
+    seafoodType?: EnumSeafoodTypeFieldUpdateOperationsInput | $Enums.SeafoodType
+    speciesName?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    compareAtPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    costPerItem?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    stockType?: EnumStockTypeFieldUpdateOperationsInput | $Enums.StockType
+    stockQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    stockUnit?: StringFieldUpdateOperationsInput | string
+    minOrderQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxOrderQty?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    categoryId?: StringFieldUpdateOperationsInput | string
+    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    tags?: ProductUpdatetagsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

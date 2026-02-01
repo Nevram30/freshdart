@@ -156,6 +156,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   bestBefore: 'bestBefore',
   shelfLifeDays: 'shelfLifeDays',
   categoryId: 'categoryId',
+  merchantId: 'merchantId',
   status: 'status',
   featured: 'featured',
   tags: 'tags',
