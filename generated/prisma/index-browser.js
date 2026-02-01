@@ -241,6 +241,34 @@ exports.Prisma.ShippingRateScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MerchantScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  businessName: 'businessName',
+  businessRegistrationNumber: 'businessRegistrationNumber',
+  businessType: 'businessType',
+  businessSize: 'businessSize',
+  description: 'description',
+  ratingAverage: 'ratingAverage',
+  totalSales: 'totalSales',
+  verificationStatus: 'verificationStatus',
+  isFeatured: 'isFeatured',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MerchantDocumentScalarFieldEnum = {
+  id: 'id',
+  merchantId: 'merchantId',
+  documentType: 'documentType',
+  documentUrl: 'documentUrl',
+  documentNumber: 'documentNumber',
+  expiryDate: 'expiryDate',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.AccountScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -341,6 +369,39 @@ exports.OrderStatus = exports.$Enums.OrderStatus = {
   REFUNDED: 'REFUNDED'
 };
 
+exports.BusinessType = exports.$Enums.BusinessType = {
+  MSME: 'MSME',
+  FISHERY: 'FISHERY',
+  AQUACULTURE: 'AQUACULTURE',
+  PROCESSOR: 'PROCESSOR'
+};
+
+exports.BusinessSize = exports.$Enums.BusinessSize = {
+  MICRO: 'MICRO',
+  SMALL: 'SMALL',
+  MEDIUM: 'MEDIUM'
+};
+
+exports.VerificationStatus = exports.$Enums.VerificationStatus = {
+  PENDING: 'PENDING',
+  VERIFIED: 'VERIFIED',
+  REJECTED: 'REJECTED'
+};
+
+exports.DocumentType = exports.$Enums.DocumentType = {
+  BUSINESS_PERMIT: 'BUSINESS_PERMIT',
+  FDA_LICENSE: 'FDA_LICENSE',
+  BFAR_REGISTRATION: 'BFAR_REGISTRATION',
+  SANITARY_PERMIT: 'SANITARY_PERMIT'
+};
+
+exports.DocumentStatus = exports.$Enums.DocumentStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  EXPIRED: 'EXPIRED'
+};
+
 exports.UserRole = exports.$Enums.UserRole = {
   CUSTOMER: 'CUSTOMER',
   MERCHANT: 'MERCHANT',
@@ -357,6 +418,8 @@ exports.Prisma.ModelName = {
   CartItem: 'CartItem',
   ShippingZone: 'ShippingZone',
   ShippingRate: 'ShippingRate',
+  Merchant: 'Merchant',
+  MerchantDocument: 'MerchantDocument',
   Account: 'Account',
   Session: 'Session',
   User: 'User',

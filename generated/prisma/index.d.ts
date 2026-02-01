@@ -59,6 +59,16 @@ export type ShippingZone = $Result.DefaultSelection<Prisma.$ShippingZonePayload>
  */
 export type ShippingRate = $Result.DefaultSelection<Prisma.$ShippingRatePayload>
 /**
+ * Model Merchant
+ * 
+ */
+export type Merchant = $Result.DefaultSelection<Prisma.$MerchantPayload>
+/**
+ * Model MerchantDocument
+ * 
+ */
+export type MerchantDocument = $Result.DefaultSelection<Prisma.$MerchantDocumentPayload>
+/**
  * Model Account
  * 
  */
@@ -123,6 +133,54 @@ export const PaymentStatus: {
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
 
 
+export const BusinessType: {
+  MSME: 'MSME',
+  FISHERY: 'FISHERY',
+  AQUACULTURE: 'AQUACULTURE',
+  PROCESSOR: 'PROCESSOR'
+};
+
+export type BusinessType = (typeof BusinessType)[keyof typeof BusinessType]
+
+
+export const BusinessSize: {
+  MICRO: 'MICRO',
+  SMALL: 'SMALL',
+  MEDIUM: 'MEDIUM'
+};
+
+export type BusinessSize = (typeof BusinessSize)[keyof typeof BusinessSize]
+
+
+export const VerificationStatus: {
+  PENDING: 'PENDING',
+  VERIFIED: 'VERIFIED',
+  REJECTED: 'REJECTED'
+};
+
+export type VerificationStatus = (typeof VerificationStatus)[keyof typeof VerificationStatus]
+
+
+export const DocumentType: {
+  BUSINESS_PERMIT: 'BUSINESS_PERMIT',
+  FDA_LICENSE: 'FDA_LICENSE',
+  BFAR_REGISTRATION: 'BFAR_REGISTRATION',
+  SANITARY_PERMIT: 'SANITARY_PERMIT'
+};
+
+export type DocumentType = (typeof DocumentType)[keyof typeof DocumentType]
+
+
+export const DocumentStatus: {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  EXPIRED: 'EXPIRED'
+};
+
+export type DocumentStatus = (typeof DocumentStatus)[keyof typeof DocumentStatus]
+
+
 export const UserRole: {
   CUSTOMER: 'CUSTOMER',
   MERCHANT: 'MERCHANT',
@@ -148,6 +206,26 @@ export const OrderStatus: typeof $Enums.OrderStatus
 export type PaymentStatus = $Enums.PaymentStatus
 
 export const PaymentStatus: typeof $Enums.PaymentStatus
+
+export type BusinessType = $Enums.BusinessType
+
+export const BusinessType: typeof $Enums.BusinessType
+
+export type BusinessSize = $Enums.BusinessSize
+
+export const BusinessSize: typeof $Enums.BusinessSize
+
+export type VerificationStatus = $Enums.VerificationStatus
+
+export const VerificationStatus: typeof $Enums.VerificationStatus
+
+export type DocumentType = $Enums.DocumentType
+
+export const DocumentType: typeof $Enums.DocumentType
+
+export type DocumentStatus = $Enums.DocumentStatus
+
+export const DocumentStatus: typeof $Enums.DocumentStatus
 
 export type UserRole = $Enums.UserRole
 
@@ -360,6 +438,26 @@ export class PrismaClient<
     * ```
     */
   get shippingRate(): Prisma.ShippingRateDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.merchant`: Exposes CRUD operations for the **Merchant** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Merchants
+    * const merchants = await prisma.merchant.findMany()
+    * ```
+    */
+  get merchant(): Prisma.MerchantDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.merchantDocument`: Exposes CRUD operations for the **MerchantDocument** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MerchantDocuments
+    * const merchantDocuments = await prisma.merchantDocument.findMany()
+    * ```
+    */
+  get merchantDocument(): Prisma.MerchantDocumentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.account`: Exposes CRUD operations for the **Account** model.
@@ -850,6 +948,8 @@ export namespace Prisma {
     CartItem: 'CartItem',
     ShippingZone: 'ShippingZone',
     ShippingRate: 'ShippingRate',
+    Merchant: 'Merchant',
+    MerchantDocument: 'MerchantDocument',
     Account: 'Account',
     Session: 'Session',
     User: 'User',
@@ -872,7 +972,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "category" | "product" | "productImage" | "order" | "orderItem" | "cart" | "cartItem" | "shippingZone" | "shippingRate" | "account" | "session" | "user" | "verificationToken"
+      modelProps: "category" | "product" | "productImage" | "order" | "orderItem" | "cart" | "cartItem" | "shippingZone" | "shippingRate" | "merchant" | "merchantDocument" | "account" | "session" | "user" | "verificationToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1542,6 +1642,154 @@ export namespace Prisma {
           }
         }
       }
+      Merchant: {
+        payload: Prisma.$MerchantPayload<ExtArgs>
+        fields: Prisma.MerchantFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MerchantFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MerchantFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          findFirst: {
+            args: Prisma.MerchantFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MerchantFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          findMany: {
+            args: Prisma.MerchantFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>[]
+          }
+          create: {
+            args: Prisma.MerchantCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          createMany: {
+            args: Prisma.MerchantCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MerchantCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>[]
+          }
+          delete: {
+            args: Prisma.MerchantDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          update: {
+            args: Prisma.MerchantUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          deleteMany: {
+            args: Prisma.MerchantDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MerchantUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MerchantUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>[]
+          }
+          upsert: {
+            args: Prisma.MerchantUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantPayload>
+          }
+          aggregate: {
+            args: Prisma.MerchantAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMerchant>
+          }
+          groupBy: {
+            args: Prisma.MerchantGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MerchantGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MerchantCountArgs<ExtArgs>
+            result: $Utils.Optional<MerchantCountAggregateOutputType> | number
+          }
+        }
+      }
+      MerchantDocument: {
+        payload: Prisma.$MerchantDocumentPayload<ExtArgs>
+        fields: Prisma.MerchantDocumentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MerchantDocumentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantDocumentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MerchantDocumentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantDocumentPayload>
+          }
+          findFirst: {
+            args: Prisma.MerchantDocumentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantDocumentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MerchantDocumentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantDocumentPayload>
+          }
+          findMany: {
+            args: Prisma.MerchantDocumentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantDocumentPayload>[]
+          }
+          create: {
+            args: Prisma.MerchantDocumentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantDocumentPayload>
+          }
+          createMany: {
+            args: Prisma.MerchantDocumentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MerchantDocumentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantDocumentPayload>[]
+          }
+          delete: {
+            args: Prisma.MerchantDocumentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantDocumentPayload>
+          }
+          update: {
+            args: Prisma.MerchantDocumentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantDocumentPayload>
+          }
+          deleteMany: {
+            args: Prisma.MerchantDocumentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MerchantDocumentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MerchantDocumentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantDocumentPayload>[]
+          }
+          upsert: {
+            args: Prisma.MerchantDocumentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MerchantDocumentPayload>
+          }
+          aggregate: {
+            args: Prisma.MerchantDocumentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMerchantDocument>
+          }
+          groupBy: {
+            args: Prisma.MerchantDocumentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MerchantDocumentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MerchantDocumentCountArgs<ExtArgs>
+            result: $Utils.Optional<MerchantDocumentCountAggregateOutputType> | number
+          }
+        }
+      }
       Account: {
         payload: Prisma.$AccountPayload<ExtArgs>
         fields: Prisma.AccountFieldRefs
@@ -1943,6 +2191,8 @@ export namespace Prisma {
     cartItem?: CartItemOmit
     shippingZone?: ShippingZoneOmit
     shippingRate?: ShippingRateOmit
+    merchant?: MerchantOmit
+    merchantDocument?: MerchantDocumentOmit
     account?: AccountOmit
     session?: SessionOmit
     user?: UserOmit
@@ -2201,6 +2451,37 @@ export namespace Prisma {
    */
   export type ShippingZoneCountOutputTypeCountRatesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ShippingRateWhereInput
+  }
+
+
+  /**
+   * Count Type MerchantCountOutputType
+   */
+
+  export type MerchantCountOutputType = {
+    documents: number
+  }
+
+  export type MerchantCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    documents?: boolean | MerchantCountOutputTypeCountDocumentsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * MerchantCountOutputType without action
+   */
+  export type MerchantCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantCountOutputType
+     */
+    select?: MerchantCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * MerchantCountOutputType without action
+   */
+  export type MerchantCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MerchantDocumentWhereInput
   }
 
 
@@ -12909,6 +13190,2346 @@ export namespace Prisma {
 
 
   /**
+   * Model Merchant
+   */
+
+  export type AggregateMerchant = {
+    _count: MerchantCountAggregateOutputType | null
+    _avg: MerchantAvgAggregateOutputType | null
+    _sum: MerchantSumAggregateOutputType | null
+    _min: MerchantMinAggregateOutputType | null
+    _max: MerchantMaxAggregateOutputType | null
+  }
+
+  export type MerchantAvgAggregateOutputType = {
+    ratingAverage: Decimal | null
+    totalSales: number | null
+  }
+
+  export type MerchantSumAggregateOutputType = {
+    ratingAverage: Decimal | null
+    totalSales: number | null
+  }
+
+  export type MerchantMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    businessName: string | null
+    businessRegistrationNumber: string | null
+    businessType: $Enums.BusinessType | null
+    businessSize: $Enums.BusinessSize | null
+    description: string | null
+    ratingAverage: Decimal | null
+    totalSales: number | null
+    verificationStatus: $Enums.VerificationStatus | null
+    isFeatured: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MerchantMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    businessName: string | null
+    businessRegistrationNumber: string | null
+    businessType: $Enums.BusinessType | null
+    businessSize: $Enums.BusinessSize | null
+    description: string | null
+    ratingAverage: Decimal | null
+    totalSales: number | null
+    verificationStatus: $Enums.VerificationStatus | null
+    isFeatured: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MerchantCountAggregateOutputType = {
+    id: number
+    userId: number
+    businessName: number
+    businessRegistrationNumber: number
+    businessType: number
+    businessSize: number
+    description: number
+    ratingAverage: number
+    totalSales: number
+    verificationStatus: number
+    isFeatured: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MerchantAvgAggregateInputType = {
+    ratingAverage?: true
+    totalSales?: true
+  }
+
+  export type MerchantSumAggregateInputType = {
+    ratingAverage?: true
+    totalSales?: true
+  }
+
+  export type MerchantMinAggregateInputType = {
+    id?: true
+    userId?: true
+    businessName?: true
+    businessRegistrationNumber?: true
+    businessType?: true
+    businessSize?: true
+    description?: true
+    ratingAverage?: true
+    totalSales?: true
+    verificationStatus?: true
+    isFeatured?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MerchantMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    businessName?: true
+    businessRegistrationNumber?: true
+    businessType?: true
+    businessSize?: true
+    description?: true
+    ratingAverage?: true
+    totalSales?: true
+    verificationStatus?: true
+    isFeatured?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MerchantCountAggregateInputType = {
+    id?: true
+    userId?: true
+    businessName?: true
+    businessRegistrationNumber?: true
+    businessType?: true
+    businessSize?: true
+    description?: true
+    ratingAverage?: true
+    totalSales?: true
+    verificationStatus?: true
+    isFeatured?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MerchantAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Merchant to aggregate.
+     */
+    where?: MerchantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Merchants to fetch.
+     */
+    orderBy?: MerchantOrderByWithRelationInput | MerchantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MerchantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Merchants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Merchants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Merchants
+    **/
+    _count?: true | MerchantCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MerchantAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MerchantSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MerchantMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MerchantMaxAggregateInputType
+  }
+
+  export type GetMerchantAggregateType<T extends MerchantAggregateArgs> = {
+        [P in keyof T & keyof AggregateMerchant]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMerchant[P]>
+      : GetScalarType<T[P], AggregateMerchant[P]>
+  }
+
+
+
+
+  export type MerchantGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MerchantWhereInput
+    orderBy?: MerchantOrderByWithAggregationInput | MerchantOrderByWithAggregationInput[]
+    by: MerchantScalarFieldEnum[] | MerchantScalarFieldEnum
+    having?: MerchantScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MerchantCountAggregateInputType | true
+    _avg?: MerchantAvgAggregateInputType
+    _sum?: MerchantSumAggregateInputType
+    _min?: MerchantMinAggregateInputType
+    _max?: MerchantMaxAggregateInputType
+  }
+
+  export type MerchantGroupByOutputType = {
+    id: string
+    userId: string
+    businessName: string
+    businessRegistrationNumber: string
+    businessType: $Enums.BusinessType
+    businessSize: $Enums.BusinessSize
+    description: string | null
+    ratingAverage: Decimal
+    totalSales: number
+    verificationStatus: $Enums.VerificationStatus
+    isFeatured: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: MerchantCountAggregateOutputType | null
+    _avg: MerchantAvgAggregateOutputType | null
+    _sum: MerchantSumAggregateOutputType | null
+    _min: MerchantMinAggregateOutputType | null
+    _max: MerchantMaxAggregateOutputType | null
+  }
+
+  type GetMerchantGroupByPayload<T extends MerchantGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MerchantGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MerchantGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MerchantGroupByOutputType[P]>
+            : GetScalarType<T[P], MerchantGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MerchantSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    businessName?: boolean
+    businessRegistrationNumber?: boolean
+    businessType?: boolean
+    businessSize?: boolean
+    description?: boolean
+    ratingAverage?: boolean
+    totalSales?: boolean
+    verificationStatus?: boolean
+    isFeatured?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    documents?: boolean | Merchant$documentsArgs<ExtArgs>
+    _count?: boolean | MerchantCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["merchant"]>
+
+  export type MerchantSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    businessName?: boolean
+    businessRegistrationNumber?: boolean
+    businessType?: boolean
+    businessSize?: boolean
+    description?: boolean
+    ratingAverage?: boolean
+    totalSales?: boolean
+    verificationStatus?: boolean
+    isFeatured?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["merchant"]>
+
+  export type MerchantSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    businessName?: boolean
+    businessRegistrationNumber?: boolean
+    businessType?: boolean
+    businessSize?: boolean
+    description?: boolean
+    ratingAverage?: boolean
+    totalSales?: boolean
+    verificationStatus?: boolean
+    isFeatured?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["merchant"]>
+
+  export type MerchantSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    businessName?: boolean
+    businessRegistrationNumber?: boolean
+    businessType?: boolean
+    businessSize?: boolean
+    description?: boolean
+    ratingAverage?: boolean
+    totalSales?: boolean
+    verificationStatus?: boolean
+    isFeatured?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MerchantOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "businessName" | "businessRegistrationNumber" | "businessType" | "businessSize" | "description" | "ratingAverage" | "totalSales" | "verificationStatus" | "isFeatured" | "createdAt" | "updatedAt", ExtArgs["result"]["merchant"]>
+  export type MerchantInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    documents?: boolean | Merchant$documentsArgs<ExtArgs>
+    _count?: boolean | MerchantCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type MerchantIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type MerchantIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $MerchantPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Merchant"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      documents: Prisma.$MerchantDocumentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      businessName: string
+      businessRegistrationNumber: string
+      businessType: $Enums.BusinessType
+      businessSize: $Enums.BusinessSize
+      description: string | null
+      ratingAverage: Prisma.Decimal
+      totalSales: number
+      verificationStatus: $Enums.VerificationStatus
+      isFeatured: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["merchant"]>
+    composites: {}
+  }
+
+  type MerchantGetPayload<S extends boolean | null | undefined | MerchantDefaultArgs> = $Result.GetResult<Prisma.$MerchantPayload, S>
+
+  type MerchantCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MerchantFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MerchantCountAggregateInputType | true
+    }
+
+  export interface MerchantDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Merchant'], meta: { name: 'Merchant' } }
+    /**
+     * Find zero or one Merchant that matches the filter.
+     * @param {MerchantFindUniqueArgs} args - Arguments to find a Merchant
+     * @example
+     * // Get one Merchant
+     * const merchant = await prisma.merchant.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MerchantFindUniqueArgs>(args: SelectSubset<T, MerchantFindUniqueArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Merchant that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MerchantFindUniqueOrThrowArgs} args - Arguments to find a Merchant
+     * @example
+     * // Get one Merchant
+     * const merchant = await prisma.merchant.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MerchantFindUniqueOrThrowArgs>(args: SelectSubset<T, MerchantFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Merchant that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantFindFirstArgs} args - Arguments to find a Merchant
+     * @example
+     * // Get one Merchant
+     * const merchant = await prisma.merchant.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MerchantFindFirstArgs>(args?: SelectSubset<T, MerchantFindFirstArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Merchant that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantFindFirstOrThrowArgs} args - Arguments to find a Merchant
+     * @example
+     * // Get one Merchant
+     * const merchant = await prisma.merchant.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MerchantFindFirstOrThrowArgs>(args?: SelectSubset<T, MerchantFindFirstOrThrowArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Merchants that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Merchants
+     * const merchants = await prisma.merchant.findMany()
+     * 
+     * // Get first 10 Merchants
+     * const merchants = await prisma.merchant.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const merchantWithIdOnly = await prisma.merchant.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MerchantFindManyArgs>(args?: SelectSubset<T, MerchantFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Merchant.
+     * @param {MerchantCreateArgs} args - Arguments to create a Merchant.
+     * @example
+     * // Create one Merchant
+     * const Merchant = await prisma.merchant.create({
+     *   data: {
+     *     // ... data to create a Merchant
+     *   }
+     * })
+     * 
+     */
+    create<T extends MerchantCreateArgs>(args: SelectSubset<T, MerchantCreateArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Merchants.
+     * @param {MerchantCreateManyArgs} args - Arguments to create many Merchants.
+     * @example
+     * // Create many Merchants
+     * const merchant = await prisma.merchant.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MerchantCreateManyArgs>(args?: SelectSubset<T, MerchantCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Merchants and returns the data saved in the database.
+     * @param {MerchantCreateManyAndReturnArgs} args - Arguments to create many Merchants.
+     * @example
+     * // Create many Merchants
+     * const merchant = await prisma.merchant.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Merchants and only return the `id`
+     * const merchantWithIdOnly = await prisma.merchant.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MerchantCreateManyAndReturnArgs>(args?: SelectSubset<T, MerchantCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Merchant.
+     * @param {MerchantDeleteArgs} args - Arguments to delete one Merchant.
+     * @example
+     * // Delete one Merchant
+     * const Merchant = await prisma.merchant.delete({
+     *   where: {
+     *     // ... filter to delete one Merchant
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MerchantDeleteArgs>(args: SelectSubset<T, MerchantDeleteArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Merchant.
+     * @param {MerchantUpdateArgs} args - Arguments to update one Merchant.
+     * @example
+     * // Update one Merchant
+     * const merchant = await prisma.merchant.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MerchantUpdateArgs>(args: SelectSubset<T, MerchantUpdateArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Merchants.
+     * @param {MerchantDeleteManyArgs} args - Arguments to filter Merchants to delete.
+     * @example
+     * // Delete a few Merchants
+     * const { count } = await prisma.merchant.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MerchantDeleteManyArgs>(args?: SelectSubset<T, MerchantDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Merchants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Merchants
+     * const merchant = await prisma.merchant.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MerchantUpdateManyArgs>(args: SelectSubset<T, MerchantUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Merchants and returns the data updated in the database.
+     * @param {MerchantUpdateManyAndReturnArgs} args - Arguments to update many Merchants.
+     * @example
+     * // Update many Merchants
+     * const merchant = await prisma.merchant.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Merchants and only return the `id`
+     * const merchantWithIdOnly = await prisma.merchant.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MerchantUpdateManyAndReturnArgs>(args: SelectSubset<T, MerchantUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Merchant.
+     * @param {MerchantUpsertArgs} args - Arguments to update or create a Merchant.
+     * @example
+     * // Update or create a Merchant
+     * const merchant = await prisma.merchant.upsert({
+     *   create: {
+     *     // ... data to create a Merchant
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Merchant we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MerchantUpsertArgs>(args: SelectSubset<T, MerchantUpsertArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Merchants.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantCountArgs} args - Arguments to filter Merchants to count.
+     * @example
+     * // Count the number of Merchants
+     * const count = await prisma.merchant.count({
+     *   where: {
+     *     // ... the filter for the Merchants we want to count
+     *   }
+     * })
+    **/
+    count<T extends MerchantCountArgs>(
+      args?: Subset<T, MerchantCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MerchantCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Merchant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MerchantAggregateArgs>(args: Subset<T, MerchantAggregateArgs>): Prisma.PrismaPromise<GetMerchantAggregateType<T>>
+
+    /**
+     * Group by Merchant.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MerchantGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MerchantGroupByArgs['orderBy'] }
+        : { orderBy?: MerchantGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MerchantGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMerchantGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Merchant model
+   */
+  readonly fields: MerchantFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Merchant.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MerchantClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    documents<T extends Merchant$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Merchant$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Merchant model
+   */
+  interface MerchantFieldRefs {
+    readonly id: FieldRef<"Merchant", 'String'>
+    readonly userId: FieldRef<"Merchant", 'String'>
+    readonly businessName: FieldRef<"Merchant", 'String'>
+    readonly businessRegistrationNumber: FieldRef<"Merchant", 'String'>
+    readonly businessType: FieldRef<"Merchant", 'BusinessType'>
+    readonly businessSize: FieldRef<"Merchant", 'BusinessSize'>
+    readonly description: FieldRef<"Merchant", 'String'>
+    readonly ratingAverage: FieldRef<"Merchant", 'Decimal'>
+    readonly totalSales: FieldRef<"Merchant", 'Int'>
+    readonly verificationStatus: FieldRef<"Merchant", 'VerificationStatus'>
+    readonly isFeatured: FieldRef<"Merchant", 'Boolean'>
+    readonly createdAt: FieldRef<"Merchant", 'DateTime'>
+    readonly updatedAt: FieldRef<"Merchant", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Merchant findUnique
+   */
+  export type MerchantFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+    /**
+     * Filter, which Merchant to fetch.
+     */
+    where: MerchantWhereUniqueInput
+  }
+
+  /**
+   * Merchant findUniqueOrThrow
+   */
+  export type MerchantFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+    /**
+     * Filter, which Merchant to fetch.
+     */
+    where: MerchantWhereUniqueInput
+  }
+
+  /**
+   * Merchant findFirst
+   */
+  export type MerchantFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+    /**
+     * Filter, which Merchant to fetch.
+     */
+    where?: MerchantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Merchants to fetch.
+     */
+    orderBy?: MerchantOrderByWithRelationInput | MerchantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Merchants.
+     */
+    cursor?: MerchantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Merchants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Merchants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Merchants.
+     */
+    distinct?: MerchantScalarFieldEnum | MerchantScalarFieldEnum[]
+  }
+
+  /**
+   * Merchant findFirstOrThrow
+   */
+  export type MerchantFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+    /**
+     * Filter, which Merchant to fetch.
+     */
+    where?: MerchantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Merchants to fetch.
+     */
+    orderBy?: MerchantOrderByWithRelationInput | MerchantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Merchants.
+     */
+    cursor?: MerchantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Merchants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Merchants.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Merchants.
+     */
+    distinct?: MerchantScalarFieldEnum | MerchantScalarFieldEnum[]
+  }
+
+  /**
+   * Merchant findMany
+   */
+  export type MerchantFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+    /**
+     * Filter, which Merchants to fetch.
+     */
+    where?: MerchantWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Merchants to fetch.
+     */
+    orderBy?: MerchantOrderByWithRelationInput | MerchantOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Merchants.
+     */
+    cursor?: MerchantWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Merchants from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Merchants.
+     */
+    skip?: number
+    distinct?: MerchantScalarFieldEnum | MerchantScalarFieldEnum[]
+  }
+
+  /**
+   * Merchant create
+   */
+  export type MerchantCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Merchant.
+     */
+    data: XOR<MerchantCreateInput, MerchantUncheckedCreateInput>
+  }
+
+  /**
+   * Merchant createMany
+   */
+  export type MerchantCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Merchants.
+     */
+    data: MerchantCreateManyInput | MerchantCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Merchant createManyAndReturn
+   */
+  export type MerchantCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * The data used to create many Merchants.
+     */
+    data: MerchantCreateManyInput | MerchantCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Merchant update
+   */
+  export type MerchantUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Merchant.
+     */
+    data: XOR<MerchantUpdateInput, MerchantUncheckedUpdateInput>
+    /**
+     * Choose, which Merchant to update.
+     */
+    where: MerchantWhereUniqueInput
+  }
+
+  /**
+   * Merchant updateMany
+   */
+  export type MerchantUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Merchants.
+     */
+    data: XOR<MerchantUpdateManyMutationInput, MerchantUncheckedUpdateManyInput>
+    /**
+     * Filter which Merchants to update
+     */
+    where?: MerchantWhereInput
+    /**
+     * Limit how many Merchants to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Merchant updateManyAndReturn
+   */
+  export type MerchantUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * The data used to update Merchants.
+     */
+    data: XOR<MerchantUpdateManyMutationInput, MerchantUncheckedUpdateManyInput>
+    /**
+     * Filter which Merchants to update
+     */
+    where?: MerchantWhereInput
+    /**
+     * Limit how many Merchants to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Merchant upsert
+   */
+  export type MerchantUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Merchant to update in case it exists.
+     */
+    where: MerchantWhereUniqueInput
+    /**
+     * In case the Merchant found by the `where` argument doesn't exist, create a new Merchant with this data.
+     */
+    create: XOR<MerchantCreateInput, MerchantUncheckedCreateInput>
+    /**
+     * In case the Merchant was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MerchantUpdateInput, MerchantUncheckedUpdateInput>
+  }
+
+  /**
+   * Merchant delete
+   */
+  export type MerchantDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+    /**
+     * Filter which Merchant to delete.
+     */
+    where: MerchantWhereUniqueInput
+  }
+
+  /**
+   * Merchant deleteMany
+   */
+  export type MerchantDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Merchants to delete
+     */
+    where?: MerchantWhereInput
+    /**
+     * Limit how many Merchants to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Merchant.documents
+   */
+  export type Merchant$documentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentInclude<ExtArgs> | null
+    where?: MerchantDocumentWhereInput
+    orderBy?: MerchantDocumentOrderByWithRelationInput | MerchantDocumentOrderByWithRelationInput[]
+    cursor?: MerchantDocumentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MerchantDocumentScalarFieldEnum | MerchantDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Merchant without action
+   */
+  export type MerchantDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MerchantDocument
+   */
+
+  export type AggregateMerchantDocument = {
+    _count: MerchantDocumentCountAggregateOutputType | null
+    _min: MerchantDocumentMinAggregateOutputType | null
+    _max: MerchantDocumentMaxAggregateOutputType | null
+  }
+
+  export type MerchantDocumentMinAggregateOutputType = {
+    id: string | null
+    merchantId: string | null
+    documentType: $Enums.DocumentType | null
+    documentUrl: string | null
+    documentNumber: string | null
+    expiryDate: Date | null
+    status: $Enums.DocumentStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MerchantDocumentMaxAggregateOutputType = {
+    id: string | null
+    merchantId: string | null
+    documentType: $Enums.DocumentType | null
+    documentUrl: string | null
+    documentNumber: string | null
+    expiryDate: Date | null
+    status: $Enums.DocumentStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MerchantDocumentCountAggregateOutputType = {
+    id: number
+    merchantId: number
+    documentType: number
+    documentUrl: number
+    documentNumber: number
+    expiryDate: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MerchantDocumentMinAggregateInputType = {
+    id?: true
+    merchantId?: true
+    documentType?: true
+    documentUrl?: true
+    documentNumber?: true
+    expiryDate?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MerchantDocumentMaxAggregateInputType = {
+    id?: true
+    merchantId?: true
+    documentType?: true
+    documentUrl?: true
+    documentNumber?: true
+    expiryDate?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MerchantDocumentCountAggregateInputType = {
+    id?: true
+    merchantId?: true
+    documentType?: true
+    documentUrl?: true
+    documentNumber?: true
+    expiryDate?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MerchantDocumentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MerchantDocument to aggregate.
+     */
+    where?: MerchantDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MerchantDocuments to fetch.
+     */
+    orderBy?: MerchantDocumentOrderByWithRelationInput | MerchantDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MerchantDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MerchantDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MerchantDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MerchantDocuments
+    **/
+    _count?: true | MerchantDocumentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MerchantDocumentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MerchantDocumentMaxAggregateInputType
+  }
+
+  export type GetMerchantDocumentAggregateType<T extends MerchantDocumentAggregateArgs> = {
+        [P in keyof T & keyof AggregateMerchantDocument]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMerchantDocument[P]>
+      : GetScalarType<T[P], AggregateMerchantDocument[P]>
+  }
+
+
+
+
+  export type MerchantDocumentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MerchantDocumentWhereInput
+    orderBy?: MerchantDocumentOrderByWithAggregationInput | MerchantDocumentOrderByWithAggregationInput[]
+    by: MerchantDocumentScalarFieldEnum[] | MerchantDocumentScalarFieldEnum
+    having?: MerchantDocumentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MerchantDocumentCountAggregateInputType | true
+    _min?: MerchantDocumentMinAggregateInputType
+    _max?: MerchantDocumentMaxAggregateInputType
+  }
+
+  export type MerchantDocumentGroupByOutputType = {
+    id: string
+    merchantId: string
+    documentType: $Enums.DocumentType
+    documentUrl: string | null
+    documentNumber: string
+    expiryDate: Date
+    status: $Enums.DocumentStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: MerchantDocumentCountAggregateOutputType | null
+    _min: MerchantDocumentMinAggregateOutputType | null
+    _max: MerchantDocumentMaxAggregateOutputType | null
+  }
+
+  type GetMerchantDocumentGroupByPayload<T extends MerchantDocumentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MerchantDocumentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MerchantDocumentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MerchantDocumentGroupByOutputType[P]>
+            : GetScalarType<T[P], MerchantDocumentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MerchantDocumentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    merchantId?: boolean
+    documentType?: boolean
+    documentUrl?: boolean
+    documentNumber?: boolean
+    expiryDate?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    merchant?: boolean | MerchantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["merchantDocument"]>
+
+  export type MerchantDocumentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    merchantId?: boolean
+    documentType?: boolean
+    documentUrl?: boolean
+    documentNumber?: boolean
+    expiryDate?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    merchant?: boolean | MerchantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["merchantDocument"]>
+
+  export type MerchantDocumentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    merchantId?: boolean
+    documentType?: boolean
+    documentUrl?: boolean
+    documentNumber?: boolean
+    expiryDate?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    merchant?: boolean | MerchantDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["merchantDocument"]>
+
+  export type MerchantDocumentSelectScalar = {
+    id?: boolean
+    merchantId?: boolean
+    documentType?: boolean
+    documentUrl?: boolean
+    documentNumber?: boolean
+    expiryDate?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MerchantDocumentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "merchantId" | "documentType" | "documentUrl" | "documentNumber" | "expiryDate" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["merchantDocument"]>
+  export type MerchantDocumentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    merchant?: boolean | MerchantDefaultArgs<ExtArgs>
+  }
+  export type MerchantDocumentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    merchant?: boolean | MerchantDefaultArgs<ExtArgs>
+  }
+  export type MerchantDocumentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    merchant?: boolean | MerchantDefaultArgs<ExtArgs>
+  }
+
+  export type $MerchantDocumentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MerchantDocument"
+    objects: {
+      merchant: Prisma.$MerchantPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      merchantId: string
+      documentType: $Enums.DocumentType
+      documentUrl: string | null
+      documentNumber: string
+      expiryDate: Date
+      status: $Enums.DocumentStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["merchantDocument"]>
+    composites: {}
+  }
+
+  type MerchantDocumentGetPayload<S extends boolean | null | undefined | MerchantDocumentDefaultArgs> = $Result.GetResult<Prisma.$MerchantDocumentPayload, S>
+
+  type MerchantDocumentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MerchantDocumentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MerchantDocumentCountAggregateInputType | true
+    }
+
+  export interface MerchantDocumentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MerchantDocument'], meta: { name: 'MerchantDocument' } }
+    /**
+     * Find zero or one MerchantDocument that matches the filter.
+     * @param {MerchantDocumentFindUniqueArgs} args - Arguments to find a MerchantDocument
+     * @example
+     * // Get one MerchantDocument
+     * const merchantDocument = await prisma.merchantDocument.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MerchantDocumentFindUniqueArgs>(args: SelectSubset<T, MerchantDocumentFindUniqueArgs<ExtArgs>>): Prisma__MerchantDocumentClient<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MerchantDocument that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MerchantDocumentFindUniqueOrThrowArgs} args - Arguments to find a MerchantDocument
+     * @example
+     * // Get one MerchantDocument
+     * const merchantDocument = await prisma.merchantDocument.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MerchantDocumentFindUniqueOrThrowArgs>(args: SelectSubset<T, MerchantDocumentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MerchantDocumentClient<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MerchantDocument that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantDocumentFindFirstArgs} args - Arguments to find a MerchantDocument
+     * @example
+     * // Get one MerchantDocument
+     * const merchantDocument = await prisma.merchantDocument.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MerchantDocumentFindFirstArgs>(args?: SelectSubset<T, MerchantDocumentFindFirstArgs<ExtArgs>>): Prisma__MerchantDocumentClient<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MerchantDocument that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantDocumentFindFirstOrThrowArgs} args - Arguments to find a MerchantDocument
+     * @example
+     * // Get one MerchantDocument
+     * const merchantDocument = await prisma.merchantDocument.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MerchantDocumentFindFirstOrThrowArgs>(args?: SelectSubset<T, MerchantDocumentFindFirstOrThrowArgs<ExtArgs>>): Prisma__MerchantDocumentClient<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MerchantDocuments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantDocumentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MerchantDocuments
+     * const merchantDocuments = await prisma.merchantDocument.findMany()
+     * 
+     * // Get first 10 MerchantDocuments
+     * const merchantDocuments = await prisma.merchantDocument.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const merchantDocumentWithIdOnly = await prisma.merchantDocument.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MerchantDocumentFindManyArgs>(args?: SelectSubset<T, MerchantDocumentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MerchantDocument.
+     * @param {MerchantDocumentCreateArgs} args - Arguments to create a MerchantDocument.
+     * @example
+     * // Create one MerchantDocument
+     * const MerchantDocument = await prisma.merchantDocument.create({
+     *   data: {
+     *     // ... data to create a MerchantDocument
+     *   }
+     * })
+     * 
+     */
+    create<T extends MerchantDocumentCreateArgs>(args: SelectSubset<T, MerchantDocumentCreateArgs<ExtArgs>>): Prisma__MerchantDocumentClient<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MerchantDocuments.
+     * @param {MerchantDocumentCreateManyArgs} args - Arguments to create many MerchantDocuments.
+     * @example
+     * // Create many MerchantDocuments
+     * const merchantDocument = await prisma.merchantDocument.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MerchantDocumentCreateManyArgs>(args?: SelectSubset<T, MerchantDocumentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MerchantDocuments and returns the data saved in the database.
+     * @param {MerchantDocumentCreateManyAndReturnArgs} args - Arguments to create many MerchantDocuments.
+     * @example
+     * // Create many MerchantDocuments
+     * const merchantDocument = await prisma.merchantDocument.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MerchantDocuments and only return the `id`
+     * const merchantDocumentWithIdOnly = await prisma.merchantDocument.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MerchantDocumentCreateManyAndReturnArgs>(args?: SelectSubset<T, MerchantDocumentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MerchantDocument.
+     * @param {MerchantDocumentDeleteArgs} args - Arguments to delete one MerchantDocument.
+     * @example
+     * // Delete one MerchantDocument
+     * const MerchantDocument = await prisma.merchantDocument.delete({
+     *   where: {
+     *     // ... filter to delete one MerchantDocument
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MerchantDocumentDeleteArgs>(args: SelectSubset<T, MerchantDocumentDeleteArgs<ExtArgs>>): Prisma__MerchantDocumentClient<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MerchantDocument.
+     * @param {MerchantDocumentUpdateArgs} args - Arguments to update one MerchantDocument.
+     * @example
+     * // Update one MerchantDocument
+     * const merchantDocument = await prisma.merchantDocument.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MerchantDocumentUpdateArgs>(args: SelectSubset<T, MerchantDocumentUpdateArgs<ExtArgs>>): Prisma__MerchantDocumentClient<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MerchantDocuments.
+     * @param {MerchantDocumentDeleteManyArgs} args - Arguments to filter MerchantDocuments to delete.
+     * @example
+     * // Delete a few MerchantDocuments
+     * const { count } = await prisma.merchantDocument.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MerchantDocumentDeleteManyArgs>(args?: SelectSubset<T, MerchantDocumentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MerchantDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantDocumentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MerchantDocuments
+     * const merchantDocument = await prisma.merchantDocument.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MerchantDocumentUpdateManyArgs>(args: SelectSubset<T, MerchantDocumentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MerchantDocuments and returns the data updated in the database.
+     * @param {MerchantDocumentUpdateManyAndReturnArgs} args - Arguments to update many MerchantDocuments.
+     * @example
+     * // Update many MerchantDocuments
+     * const merchantDocument = await prisma.merchantDocument.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MerchantDocuments and only return the `id`
+     * const merchantDocumentWithIdOnly = await prisma.merchantDocument.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MerchantDocumentUpdateManyAndReturnArgs>(args: SelectSubset<T, MerchantDocumentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MerchantDocument.
+     * @param {MerchantDocumentUpsertArgs} args - Arguments to update or create a MerchantDocument.
+     * @example
+     * // Update or create a MerchantDocument
+     * const merchantDocument = await prisma.merchantDocument.upsert({
+     *   create: {
+     *     // ... data to create a MerchantDocument
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MerchantDocument we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MerchantDocumentUpsertArgs>(args: SelectSubset<T, MerchantDocumentUpsertArgs<ExtArgs>>): Prisma__MerchantDocumentClient<$Result.GetResult<Prisma.$MerchantDocumentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MerchantDocuments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantDocumentCountArgs} args - Arguments to filter MerchantDocuments to count.
+     * @example
+     * // Count the number of MerchantDocuments
+     * const count = await prisma.merchantDocument.count({
+     *   where: {
+     *     // ... the filter for the MerchantDocuments we want to count
+     *   }
+     * })
+    **/
+    count<T extends MerchantDocumentCountArgs>(
+      args?: Subset<T, MerchantDocumentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MerchantDocumentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MerchantDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantDocumentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MerchantDocumentAggregateArgs>(args: Subset<T, MerchantDocumentAggregateArgs>): Prisma.PrismaPromise<GetMerchantDocumentAggregateType<T>>
+
+    /**
+     * Group by MerchantDocument.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MerchantDocumentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MerchantDocumentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MerchantDocumentGroupByArgs['orderBy'] }
+        : { orderBy?: MerchantDocumentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MerchantDocumentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMerchantDocumentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MerchantDocument model
+   */
+  readonly fields: MerchantDocumentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MerchantDocument.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MerchantDocumentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    merchant<T extends MerchantDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MerchantDefaultArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MerchantDocument model
+   */
+  interface MerchantDocumentFieldRefs {
+    readonly id: FieldRef<"MerchantDocument", 'String'>
+    readonly merchantId: FieldRef<"MerchantDocument", 'String'>
+    readonly documentType: FieldRef<"MerchantDocument", 'DocumentType'>
+    readonly documentUrl: FieldRef<"MerchantDocument", 'String'>
+    readonly documentNumber: FieldRef<"MerchantDocument", 'String'>
+    readonly expiryDate: FieldRef<"MerchantDocument", 'DateTime'>
+    readonly status: FieldRef<"MerchantDocument", 'DocumentStatus'>
+    readonly createdAt: FieldRef<"MerchantDocument", 'DateTime'>
+    readonly updatedAt: FieldRef<"MerchantDocument", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MerchantDocument findUnique
+   */
+  export type MerchantDocumentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which MerchantDocument to fetch.
+     */
+    where: MerchantDocumentWhereUniqueInput
+  }
+
+  /**
+   * MerchantDocument findUniqueOrThrow
+   */
+  export type MerchantDocumentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which MerchantDocument to fetch.
+     */
+    where: MerchantDocumentWhereUniqueInput
+  }
+
+  /**
+   * MerchantDocument findFirst
+   */
+  export type MerchantDocumentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which MerchantDocument to fetch.
+     */
+    where?: MerchantDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MerchantDocuments to fetch.
+     */
+    orderBy?: MerchantDocumentOrderByWithRelationInput | MerchantDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MerchantDocuments.
+     */
+    cursor?: MerchantDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MerchantDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MerchantDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MerchantDocuments.
+     */
+    distinct?: MerchantDocumentScalarFieldEnum | MerchantDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * MerchantDocument findFirstOrThrow
+   */
+  export type MerchantDocumentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which MerchantDocument to fetch.
+     */
+    where?: MerchantDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MerchantDocuments to fetch.
+     */
+    orderBy?: MerchantDocumentOrderByWithRelationInput | MerchantDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MerchantDocuments.
+     */
+    cursor?: MerchantDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MerchantDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MerchantDocuments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MerchantDocuments.
+     */
+    distinct?: MerchantDocumentScalarFieldEnum | MerchantDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * MerchantDocument findMany
+   */
+  export type MerchantDocumentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentInclude<ExtArgs> | null
+    /**
+     * Filter, which MerchantDocuments to fetch.
+     */
+    where?: MerchantDocumentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MerchantDocuments to fetch.
+     */
+    orderBy?: MerchantDocumentOrderByWithRelationInput | MerchantDocumentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MerchantDocuments.
+     */
+    cursor?: MerchantDocumentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MerchantDocuments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MerchantDocuments.
+     */
+    skip?: number
+    distinct?: MerchantDocumentScalarFieldEnum | MerchantDocumentScalarFieldEnum[]
+  }
+
+  /**
+   * MerchantDocument create
+   */
+  export type MerchantDocumentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MerchantDocument.
+     */
+    data: XOR<MerchantDocumentCreateInput, MerchantDocumentUncheckedCreateInput>
+  }
+
+  /**
+   * MerchantDocument createMany
+   */
+  export type MerchantDocumentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MerchantDocuments.
+     */
+    data: MerchantDocumentCreateManyInput | MerchantDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MerchantDocument createManyAndReturn
+   */
+  export type MerchantDocumentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * The data used to create many MerchantDocuments.
+     */
+    data: MerchantDocumentCreateManyInput | MerchantDocumentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MerchantDocument update
+   */
+  export type MerchantDocumentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MerchantDocument.
+     */
+    data: XOR<MerchantDocumentUpdateInput, MerchantDocumentUncheckedUpdateInput>
+    /**
+     * Choose, which MerchantDocument to update.
+     */
+    where: MerchantDocumentWhereUniqueInput
+  }
+
+  /**
+   * MerchantDocument updateMany
+   */
+  export type MerchantDocumentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MerchantDocuments.
+     */
+    data: XOR<MerchantDocumentUpdateManyMutationInput, MerchantDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which MerchantDocuments to update
+     */
+    where?: MerchantDocumentWhereInput
+    /**
+     * Limit how many MerchantDocuments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MerchantDocument updateManyAndReturn
+   */
+  export type MerchantDocumentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * The data used to update MerchantDocuments.
+     */
+    data: XOR<MerchantDocumentUpdateManyMutationInput, MerchantDocumentUncheckedUpdateManyInput>
+    /**
+     * Filter which MerchantDocuments to update
+     */
+    where?: MerchantDocumentWhereInput
+    /**
+     * Limit how many MerchantDocuments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MerchantDocument upsert
+   */
+  export type MerchantDocumentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MerchantDocument to update in case it exists.
+     */
+    where: MerchantDocumentWhereUniqueInput
+    /**
+     * In case the MerchantDocument found by the `where` argument doesn't exist, create a new MerchantDocument with this data.
+     */
+    create: XOR<MerchantDocumentCreateInput, MerchantDocumentUncheckedCreateInput>
+    /**
+     * In case the MerchantDocument was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MerchantDocumentUpdateInput, MerchantDocumentUncheckedUpdateInput>
+  }
+
+  /**
+   * MerchantDocument delete
+   */
+  export type MerchantDocumentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentInclude<ExtArgs> | null
+    /**
+     * Filter which MerchantDocument to delete.
+     */
+    where: MerchantDocumentWhereUniqueInput
+  }
+
+  /**
+   * MerchantDocument deleteMany
+   */
+  export type MerchantDocumentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MerchantDocuments to delete
+     */
+    where?: MerchantDocumentWhereInput
+    /**
+     * Limit how many MerchantDocuments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MerchantDocument without action
+   */
+  export type MerchantDocumentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MerchantDocument
+     */
+    select?: MerchantDocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MerchantDocument
+     */
+    omit?: MerchantDocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantDocumentInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Account
    */
 
@@ -15364,6 +17985,7 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
+    merchant?: boolean | User$merchantArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -15414,6 +18036,7 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
+    merchant?: boolean | User$merchantArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -15425,6 +18048,7 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       orders: Prisma.$OrderPayload<ExtArgs>[]
+      merchant: Prisma.$MerchantPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -15835,6 +18459,7 @@ export namespace Prisma {
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orders<T extends User$ordersArgs<ExtArgs> = {}>(args?: Subset<T, User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    merchant<T extends User$merchantArgs<ExtArgs> = {}>(args?: Subset<T, User$merchantArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16332,6 +18957,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * User.merchant
+   */
+  export type User$merchantArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Merchant
+     */
+    select?: MerchantSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Merchant
+     */
+    omit?: MerchantOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MerchantInclude<ExtArgs> | null
+    where?: MerchantWhereInput
   }
 
   /**
@@ -17483,6 +20127,40 @@ export namespace Prisma {
   export type ShippingRateScalarFieldEnum = (typeof ShippingRateScalarFieldEnum)[keyof typeof ShippingRateScalarFieldEnum]
 
 
+  export const MerchantScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    businessName: 'businessName',
+    businessRegistrationNumber: 'businessRegistrationNumber',
+    businessType: 'businessType',
+    businessSize: 'businessSize',
+    description: 'description',
+    ratingAverage: 'ratingAverage',
+    totalSales: 'totalSales',
+    verificationStatus: 'verificationStatus',
+    isFeatured: 'isFeatured',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MerchantScalarFieldEnum = (typeof MerchantScalarFieldEnum)[keyof typeof MerchantScalarFieldEnum]
+
+
+  export const MerchantDocumentScalarFieldEnum: {
+    id: 'id',
+    merchantId: 'merchantId',
+    documentType: 'documentType',
+    documentUrl: 'documentUrl',
+    documentNumber: 'documentNumber',
+    expiryDate: 'expiryDate',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MerchantDocumentScalarFieldEnum = (typeof MerchantDocumentScalarFieldEnum)[keyof typeof MerchantDocumentScalarFieldEnum]
+
+
   export const AccountScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
@@ -17721,6 +20399,76 @@ export namespace Prisma {
    * Reference to a field of type 'OrderStatus[]'
    */
   export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BusinessType'
+   */
+  export type EnumBusinessTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BusinessType'>
+    
+
+
+  /**
+   * Reference to a field of type 'BusinessType[]'
+   */
+  export type ListEnumBusinessTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BusinessType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BusinessSize'
+   */
+  export type EnumBusinessSizeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BusinessSize'>
+    
+
+
+  /**
+   * Reference to a field of type 'BusinessSize[]'
+   */
+  export type ListEnumBusinessSizeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BusinessSize[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'VerificationStatus'
+   */
+  export type EnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'VerificationStatus[]'
+   */
+  export type ListEnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DocumentType'
+   */
+  export type EnumDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentType'>
+    
+
+
+  /**
+   * Reference to a field of type 'DocumentType[]'
+   */
+  export type ListEnumDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DocumentStatus'
+   */
+  export type EnumDocumentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'DocumentStatus[]'
+   */
+  export type ListEnumDocumentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentStatus[]'>
     
 
 
@@ -18527,6 +21275,181 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ShippingRate"> | Date | string
   }
 
+  export type MerchantWhereInput = {
+    AND?: MerchantWhereInput | MerchantWhereInput[]
+    OR?: MerchantWhereInput[]
+    NOT?: MerchantWhereInput | MerchantWhereInput[]
+    id?: StringFilter<"Merchant"> | string
+    userId?: StringFilter<"Merchant"> | string
+    businessName?: StringFilter<"Merchant"> | string
+    businessRegistrationNumber?: StringFilter<"Merchant"> | string
+    businessType?: EnumBusinessTypeFilter<"Merchant"> | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFilter<"Merchant"> | $Enums.BusinessSize
+    description?: StringNullableFilter<"Merchant"> | string | null
+    ratingAverage?: DecimalFilter<"Merchant"> | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFilter<"Merchant"> | number
+    verificationStatus?: EnumVerificationStatusFilter<"Merchant"> | $Enums.VerificationStatus
+    isFeatured?: BoolFilter<"Merchant"> | boolean
+    createdAt?: DateTimeFilter<"Merchant"> | Date | string
+    updatedAt?: DateTimeFilter<"Merchant"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    documents?: MerchantDocumentListRelationFilter
+  }
+
+  export type MerchantOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    businessName?: SortOrder
+    businessRegistrationNumber?: SortOrder
+    businessType?: SortOrder
+    businessSize?: SortOrder
+    description?: SortOrderInput | SortOrder
+    ratingAverage?: SortOrder
+    totalSales?: SortOrder
+    verificationStatus?: SortOrder
+    isFeatured?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    documents?: MerchantDocumentOrderByRelationAggregateInput
+  }
+
+  export type MerchantWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: MerchantWhereInput | MerchantWhereInput[]
+    OR?: MerchantWhereInput[]
+    NOT?: MerchantWhereInput | MerchantWhereInput[]
+    businessName?: StringFilter<"Merchant"> | string
+    businessRegistrationNumber?: StringFilter<"Merchant"> | string
+    businessType?: EnumBusinessTypeFilter<"Merchant"> | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFilter<"Merchant"> | $Enums.BusinessSize
+    description?: StringNullableFilter<"Merchant"> | string | null
+    ratingAverage?: DecimalFilter<"Merchant"> | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFilter<"Merchant"> | number
+    verificationStatus?: EnumVerificationStatusFilter<"Merchant"> | $Enums.VerificationStatus
+    isFeatured?: BoolFilter<"Merchant"> | boolean
+    createdAt?: DateTimeFilter<"Merchant"> | Date | string
+    updatedAt?: DateTimeFilter<"Merchant"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    documents?: MerchantDocumentListRelationFilter
+  }, "id" | "userId">
+
+  export type MerchantOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    businessName?: SortOrder
+    businessRegistrationNumber?: SortOrder
+    businessType?: SortOrder
+    businessSize?: SortOrder
+    description?: SortOrderInput | SortOrder
+    ratingAverage?: SortOrder
+    totalSales?: SortOrder
+    verificationStatus?: SortOrder
+    isFeatured?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MerchantCountOrderByAggregateInput
+    _avg?: MerchantAvgOrderByAggregateInput
+    _max?: MerchantMaxOrderByAggregateInput
+    _min?: MerchantMinOrderByAggregateInput
+    _sum?: MerchantSumOrderByAggregateInput
+  }
+
+  export type MerchantScalarWhereWithAggregatesInput = {
+    AND?: MerchantScalarWhereWithAggregatesInput | MerchantScalarWhereWithAggregatesInput[]
+    OR?: MerchantScalarWhereWithAggregatesInput[]
+    NOT?: MerchantScalarWhereWithAggregatesInput | MerchantScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Merchant"> | string
+    userId?: StringWithAggregatesFilter<"Merchant"> | string
+    businessName?: StringWithAggregatesFilter<"Merchant"> | string
+    businessRegistrationNumber?: StringWithAggregatesFilter<"Merchant"> | string
+    businessType?: EnumBusinessTypeWithAggregatesFilter<"Merchant"> | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeWithAggregatesFilter<"Merchant"> | $Enums.BusinessSize
+    description?: StringNullableWithAggregatesFilter<"Merchant"> | string | null
+    ratingAverage?: DecimalWithAggregatesFilter<"Merchant"> | Decimal | DecimalJsLike | number | string
+    totalSales?: IntWithAggregatesFilter<"Merchant"> | number
+    verificationStatus?: EnumVerificationStatusWithAggregatesFilter<"Merchant"> | $Enums.VerificationStatus
+    isFeatured?: BoolWithAggregatesFilter<"Merchant"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Merchant"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Merchant"> | Date | string
+  }
+
+  export type MerchantDocumentWhereInput = {
+    AND?: MerchantDocumentWhereInput | MerchantDocumentWhereInput[]
+    OR?: MerchantDocumentWhereInput[]
+    NOT?: MerchantDocumentWhereInput | MerchantDocumentWhereInput[]
+    id?: StringFilter<"MerchantDocument"> | string
+    merchantId?: StringFilter<"MerchantDocument"> | string
+    documentType?: EnumDocumentTypeFilter<"MerchantDocument"> | $Enums.DocumentType
+    documentUrl?: StringNullableFilter<"MerchantDocument"> | string | null
+    documentNumber?: StringFilter<"MerchantDocument"> | string
+    expiryDate?: DateTimeFilter<"MerchantDocument"> | Date | string
+    status?: EnumDocumentStatusFilter<"MerchantDocument"> | $Enums.DocumentStatus
+    createdAt?: DateTimeFilter<"MerchantDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"MerchantDocument"> | Date | string
+    merchant?: XOR<MerchantScalarRelationFilter, MerchantWhereInput>
+  }
+
+  export type MerchantDocumentOrderByWithRelationInput = {
+    id?: SortOrder
+    merchantId?: SortOrder
+    documentType?: SortOrder
+    documentUrl?: SortOrderInput | SortOrder
+    documentNumber?: SortOrder
+    expiryDate?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    merchant?: MerchantOrderByWithRelationInput
+  }
+
+  export type MerchantDocumentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MerchantDocumentWhereInput | MerchantDocumentWhereInput[]
+    OR?: MerchantDocumentWhereInput[]
+    NOT?: MerchantDocumentWhereInput | MerchantDocumentWhereInput[]
+    merchantId?: StringFilter<"MerchantDocument"> | string
+    documentType?: EnumDocumentTypeFilter<"MerchantDocument"> | $Enums.DocumentType
+    documentUrl?: StringNullableFilter<"MerchantDocument"> | string | null
+    documentNumber?: StringFilter<"MerchantDocument"> | string
+    expiryDate?: DateTimeFilter<"MerchantDocument"> | Date | string
+    status?: EnumDocumentStatusFilter<"MerchantDocument"> | $Enums.DocumentStatus
+    createdAt?: DateTimeFilter<"MerchantDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"MerchantDocument"> | Date | string
+    merchant?: XOR<MerchantScalarRelationFilter, MerchantWhereInput>
+  }, "id">
+
+  export type MerchantDocumentOrderByWithAggregationInput = {
+    id?: SortOrder
+    merchantId?: SortOrder
+    documentType?: SortOrder
+    documentUrl?: SortOrderInput | SortOrder
+    documentNumber?: SortOrder
+    expiryDate?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MerchantDocumentCountOrderByAggregateInput
+    _max?: MerchantDocumentMaxOrderByAggregateInput
+    _min?: MerchantDocumentMinOrderByAggregateInput
+  }
+
+  export type MerchantDocumentScalarWhereWithAggregatesInput = {
+    AND?: MerchantDocumentScalarWhereWithAggregatesInput | MerchantDocumentScalarWhereWithAggregatesInput[]
+    OR?: MerchantDocumentScalarWhereWithAggregatesInput[]
+    NOT?: MerchantDocumentScalarWhereWithAggregatesInput | MerchantDocumentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MerchantDocument"> | string
+    merchantId?: StringWithAggregatesFilter<"MerchantDocument"> | string
+    documentType?: EnumDocumentTypeWithAggregatesFilter<"MerchantDocument"> | $Enums.DocumentType
+    documentUrl?: StringNullableWithAggregatesFilter<"MerchantDocument"> | string | null
+    documentNumber?: StringWithAggregatesFilter<"MerchantDocument"> | string
+    expiryDate?: DateTimeWithAggregatesFilter<"MerchantDocument"> | Date | string
+    status?: EnumDocumentStatusWithAggregatesFilter<"MerchantDocument"> | $Enums.DocumentStatus
+    createdAt?: DateTimeWithAggregatesFilter<"MerchantDocument"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MerchantDocument"> | Date | string
+  }
+
   export type AccountWhereInput = {
     AND?: AccountWhereInput | AccountWhereInput[]
     OR?: AccountWhereInput[]
@@ -18693,6 +21616,7 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     orders?: OrderListRelationFilter
+    merchant?: XOR<MerchantNullableScalarRelationFilter, MerchantWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -18710,6 +21634,7 @@ export namespace Prisma {
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     orders?: OrderOrderByRelationAggregateInput
+    merchant?: MerchantOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -18730,6 +21655,7 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     orders?: OrderListRelationFilter
+    merchant?: XOR<MerchantNullableScalarRelationFilter, MerchantWhereInput> | null
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -19672,6 +22598,204 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MerchantCreateInput = {
+    id?: string
+    businessName: string
+    businessRegistrationNumber: string
+    businessType: $Enums.BusinessType
+    businessSize: $Enums.BusinessSize
+    description?: string | null
+    ratingAverage?: Decimal | DecimalJsLike | number | string
+    totalSales?: number
+    verificationStatus?: $Enums.VerificationStatus
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutMerchantInput
+    documents?: MerchantDocumentCreateNestedManyWithoutMerchantInput
+  }
+
+  export type MerchantUncheckedCreateInput = {
+    id?: string
+    userId: string
+    businessName: string
+    businessRegistrationNumber: string
+    businessType: $Enums.BusinessType
+    businessSize: $Enums.BusinessSize
+    description?: string | null
+    ratingAverage?: Decimal | DecimalJsLike | number | string
+    totalSales?: number
+    verificationStatus?: $Enums.VerificationStatus
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: MerchantDocumentUncheckedCreateNestedManyWithoutMerchantInput
+  }
+
+  export type MerchantUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessRegistrationNumber?: StringFieldUpdateOperationsInput | string
+    businessType?: EnumBusinessTypeFieldUpdateOperationsInput | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFieldUpdateOperationsInput | $Enums.BusinessSize
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    ratingAverage?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFieldUpdateOperationsInput | number
+    verificationStatus?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutMerchantNestedInput
+    documents?: MerchantDocumentUpdateManyWithoutMerchantNestedInput
+  }
+
+  export type MerchantUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessRegistrationNumber?: StringFieldUpdateOperationsInput | string
+    businessType?: EnumBusinessTypeFieldUpdateOperationsInput | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFieldUpdateOperationsInput | $Enums.BusinessSize
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    ratingAverage?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFieldUpdateOperationsInput | number
+    verificationStatus?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: MerchantDocumentUncheckedUpdateManyWithoutMerchantNestedInput
+  }
+
+  export type MerchantCreateManyInput = {
+    id?: string
+    userId: string
+    businessName: string
+    businessRegistrationNumber: string
+    businessType: $Enums.BusinessType
+    businessSize: $Enums.BusinessSize
+    description?: string | null
+    ratingAverage?: Decimal | DecimalJsLike | number | string
+    totalSales?: number
+    verificationStatus?: $Enums.VerificationStatus
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MerchantUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessRegistrationNumber?: StringFieldUpdateOperationsInput | string
+    businessType?: EnumBusinessTypeFieldUpdateOperationsInput | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFieldUpdateOperationsInput | $Enums.BusinessSize
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    ratingAverage?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFieldUpdateOperationsInput | number
+    verificationStatus?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessRegistrationNumber?: StringFieldUpdateOperationsInput | string
+    businessType?: EnumBusinessTypeFieldUpdateOperationsInput | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFieldUpdateOperationsInput | $Enums.BusinessSize
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    ratingAverage?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFieldUpdateOperationsInput | number
+    verificationStatus?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantDocumentCreateInput = {
+    id?: string
+    documentType: $Enums.DocumentType
+    documentUrl?: string | null
+    documentNumber: string
+    expiryDate: Date | string
+    status?: $Enums.DocumentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    merchant: MerchantCreateNestedOneWithoutDocumentsInput
+  }
+
+  export type MerchantDocumentUncheckedCreateInput = {
+    id?: string
+    merchantId: string
+    documentType: $Enums.DocumentType
+    documentUrl?: string | null
+    documentNumber: string
+    expiryDate: Date | string
+    status?: $Enums.DocumentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MerchantDocumentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentType?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    merchant?: MerchantUpdateOneRequiredWithoutDocumentsNestedInput
+  }
+
+  export type MerchantDocumentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    merchantId?: StringFieldUpdateOperationsInput | string
+    documentType?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantDocumentCreateManyInput = {
+    id?: string
+    merchantId: string
+    documentType: $Enums.DocumentType
+    documentUrl?: string | null
+    documentNumber: string
+    expiryDate: Date | string
+    status?: $Enums.DocumentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MerchantDocumentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentType?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantDocumentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    merchantId?: StringFieldUpdateOperationsInput | string
+    documentType?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AccountCreateInput = {
     id?: string
     type: string
@@ -19846,6 +22970,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    merchant?: MerchantCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -19863,6 +22988,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    merchant?: MerchantUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -19880,6 +23006,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -19897,6 +23024,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -20892,6 +24020,200 @@ export namespace Prisma {
     estimatedDays?: SortOrder
   }
 
+  export type EnumBusinessTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusinessType | EnumBusinessTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusinessType[] | ListEnumBusinessTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusinessType[] | ListEnumBusinessTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusinessTypeFilter<$PrismaModel> | $Enums.BusinessType
+  }
+
+  export type EnumBusinessSizeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusinessSize | EnumBusinessSizeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusinessSize[] | ListEnumBusinessSizeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusinessSize[] | ListEnumBusinessSizeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusinessSizeFilter<$PrismaModel> | $Enums.BusinessSize
+  }
+
+  export type EnumVerificationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusFilter<$PrismaModel> | $Enums.VerificationStatus
+  }
+
+  export type MerchantDocumentListRelationFilter = {
+    every?: MerchantDocumentWhereInput
+    some?: MerchantDocumentWhereInput
+    none?: MerchantDocumentWhereInput
+  }
+
+  export type MerchantDocumentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MerchantCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    businessName?: SortOrder
+    businessRegistrationNumber?: SortOrder
+    businessType?: SortOrder
+    businessSize?: SortOrder
+    description?: SortOrder
+    ratingAverage?: SortOrder
+    totalSales?: SortOrder
+    verificationStatus?: SortOrder
+    isFeatured?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MerchantAvgOrderByAggregateInput = {
+    ratingAverage?: SortOrder
+    totalSales?: SortOrder
+  }
+
+  export type MerchantMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    businessName?: SortOrder
+    businessRegistrationNumber?: SortOrder
+    businessType?: SortOrder
+    businessSize?: SortOrder
+    description?: SortOrder
+    ratingAverage?: SortOrder
+    totalSales?: SortOrder
+    verificationStatus?: SortOrder
+    isFeatured?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MerchantMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    businessName?: SortOrder
+    businessRegistrationNumber?: SortOrder
+    businessType?: SortOrder
+    businessSize?: SortOrder
+    description?: SortOrder
+    ratingAverage?: SortOrder
+    totalSales?: SortOrder
+    verificationStatus?: SortOrder
+    isFeatured?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MerchantSumOrderByAggregateInput = {
+    ratingAverage?: SortOrder
+    totalSales?: SortOrder
+  }
+
+  export type EnumBusinessTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusinessType | EnumBusinessTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusinessType[] | ListEnumBusinessTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusinessType[] | ListEnumBusinessTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusinessTypeWithAggregatesFilter<$PrismaModel> | $Enums.BusinessType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBusinessTypeFilter<$PrismaModel>
+    _max?: NestedEnumBusinessTypeFilter<$PrismaModel>
+  }
+
+  export type EnumBusinessSizeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusinessSize | EnumBusinessSizeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusinessSize[] | ListEnumBusinessSizeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusinessSize[] | ListEnumBusinessSizeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusinessSizeWithAggregatesFilter<$PrismaModel> | $Enums.BusinessSize
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBusinessSizeFilter<$PrismaModel>
+    _max?: NestedEnumBusinessSizeFilter<$PrismaModel>
+  }
+
+  export type EnumVerificationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusWithAggregatesFilter<$PrismaModel> | $Enums.VerificationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVerificationStatusFilter<$PrismaModel>
+    _max?: NestedEnumVerificationStatusFilter<$PrismaModel>
+  }
+
+  export type EnumDocumentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeFilter<$PrismaModel> | $Enums.DocumentType
+  }
+
+  export type EnumDocumentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentStatus | EnumDocumentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentStatus[] | ListEnumDocumentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentStatus[] | ListEnumDocumentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentStatusFilter<$PrismaModel> | $Enums.DocumentStatus
+  }
+
+  export type MerchantScalarRelationFilter = {
+    is?: MerchantWhereInput
+    isNot?: MerchantWhereInput
+  }
+
+  export type MerchantDocumentCountOrderByAggregateInput = {
+    id?: SortOrder
+    merchantId?: SortOrder
+    documentType?: SortOrder
+    documentUrl?: SortOrder
+    documentNumber?: SortOrder
+    expiryDate?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MerchantDocumentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    merchantId?: SortOrder
+    documentType?: SortOrder
+    documentUrl?: SortOrder
+    documentNumber?: SortOrder
+    expiryDate?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MerchantDocumentMinOrderByAggregateInput = {
+    id?: SortOrder
+    merchantId?: SortOrder
+    documentType?: SortOrder
+    documentUrl?: SortOrder
+    documentNumber?: SortOrder
+    expiryDate?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumDocumentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeWithAggregatesFilter<$PrismaModel> | $Enums.DocumentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentTypeFilter<$PrismaModel>
+    _max?: NestedEnumDocumentTypeFilter<$PrismaModel>
+  }
+
+  export type EnumDocumentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentStatus | EnumDocumentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentStatus[] | ListEnumDocumentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentStatus[] | ListEnumDocumentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentStatusWithAggregatesFilter<$PrismaModel> | $Enums.DocumentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentStatusFilter<$PrismaModel>
+    _max?: NestedEnumDocumentStatusFilter<$PrismaModel>
+  }
+
   export type AccountProviderProviderAccountIdCompoundUniqueInput = {
     provider: string
     providerAccountId: string
@@ -21022,6 +24344,11 @@ export namespace Prisma {
     every?: OrderWhereInput
     some?: OrderWhereInput
     none?: OrderWhereInput
+  }
+
+  export type MerchantNullableScalarRelationFilter = {
+    is?: MerchantWhereInput | null
+    isNot?: MerchantWhereInput | null
   }
 
   export type AccountOrderByRelationAggregateInput = {
@@ -21676,6 +25003,96 @@ export namespace Prisma {
     update?: XOR<XOR<ShippingZoneUpdateToOneWithWhereWithoutRatesInput, ShippingZoneUpdateWithoutRatesInput>, ShippingZoneUncheckedUpdateWithoutRatesInput>
   }
 
+  export type UserCreateNestedOneWithoutMerchantInput = {
+    create?: XOR<UserCreateWithoutMerchantInput, UserUncheckedCreateWithoutMerchantInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMerchantInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type MerchantDocumentCreateNestedManyWithoutMerchantInput = {
+    create?: XOR<MerchantDocumentCreateWithoutMerchantInput, MerchantDocumentUncheckedCreateWithoutMerchantInput> | MerchantDocumentCreateWithoutMerchantInput[] | MerchantDocumentUncheckedCreateWithoutMerchantInput[]
+    connectOrCreate?: MerchantDocumentCreateOrConnectWithoutMerchantInput | MerchantDocumentCreateOrConnectWithoutMerchantInput[]
+    createMany?: MerchantDocumentCreateManyMerchantInputEnvelope
+    connect?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
+  }
+
+  export type MerchantDocumentUncheckedCreateNestedManyWithoutMerchantInput = {
+    create?: XOR<MerchantDocumentCreateWithoutMerchantInput, MerchantDocumentUncheckedCreateWithoutMerchantInput> | MerchantDocumentCreateWithoutMerchantInput[] | MerchantDocumentUncheckedCreateWithoutMerchantInput[]
+    connectOrCreate?: MerchantDocumentCreateOrConnectWithoutMerchantInput | MerchantDocumentCreateOrConnectWithoutMerchantInput[]
+    createMany?: MerchantDocumentCreateManyMerchantInputEnvelope
+    connect?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
+  }
+
+  export type EnumBusinessTypeFieldUpdateOperationsInput = {
+    set?: $Enums.BusinessType
+  }
+
+  export type EnumBusinessSizeFieldUpdateOperationsInput = {
+    set?: $Enums.BusinessSize
+  }
+
+  export type EnumVerificationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.VerificationStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutMerchantNestedInput = {
+    create?: XOR<UserCreateWithoutMerchantInput, UserUncheckedCreateWithoutMerchantInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMerchantInput
+    upsert?: UserUpsertWithoutMerchantInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMerchantInput, UserUpdateWithoutMerchantInput>, UserUncheckedUpdateWithoutMerchantInput>
+  }
+
+  export type MerchantDocumentUpdateManyWithoutMerchantNestedInput = {
+    create?: XOR<MerchantDocumentCreateWithoutMerchantInput, MerchantDocumentUncheckedCreateWithoutMerchantInput> | MerchantDocumentCreateWithoutMerchantInput[] | MerchantDocumentUncheckedCreateWithoutMerchantInput[]
+    connectOrCreate?: MerchantDocumentCreateOrConnectWithoutMerchantInput | MerchantDocumentCreateOrConnectWithoutMerchantInput[]
+    upsert?: MerchantDocumentUpsertWithWhereUniqueWithoutMerchantInput | MerchantDocumentUpsertWithWhereUniqueWithoutMerchantInput[]
+    createMany?: MerchantDocumentCreateManyMerchantInputEnvelope
+    set?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
+    disconnect?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
+    delete?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
+    connect?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
+    update?: MerchantDocumentUpdateWithWhereUniqueWithoutMerchantInput | MerchantDocumentUpdateWithWhereUniqueWithoutMerchantInput[]
+    updateMany?: MerchantDocumentUpdateManyWithWhereWithoutMerchantInput | MerchantDocumentUpdateManyWithWhereWithoutMerchantInput[]
+    deleteMany?: MerchantDocumentScalarWhereInput | MerchantDocumentScalarWhereInput[]
+  }
+
+  export type MerchantDocumentUncheckedUpdateManyWithoutMerchantNestedInput = {
+    create?: XOR<MerchantDocumentCreateWithoutMerchantInput, MerchantDocumentUncheckedCreateWithoutMerchantInput> | MerchantDocumentCreateWithoutMerchantInput[] | MerchantDocumentUncheckedCreateWithoutMerchantInput[]
+    connectOrCreate?: MerchantDocumentCreateOrConnectWithoutMerchantInput | MerchantDocumentCreateOrConnectWithoutMerchantInput[]
+    upsert?: MerchantDocumentUpsertWithWhereUniqueWithoutMerchantInput | MerchantDocumentUpsertWithWhereUniqueWithoutMerchantInput[]
+    createMany?: MerchantDocumentCreateManyMerchantInputEnvelope
+    set?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
+    disconnect?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
+    delete?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
+    connect?: MerchantDocumentWhereUniqueInput | MerchantDocumentWhereUniqueInput[]
+    update?: MerchantDocumentUpdateWithWhereUniqueWithoutMerchantInput | MerchantDocumentUpdateWithWhereUniqueWithoutMerchantInput[]
+    updateMany?: MerchantDocumentUpdateManyWithWhereWithoutMerchantInput | MerchantDocumentUpdateManyWithWhereWithoutMerchantInput[]
+    deleteMany?: MerchantDocumentScalarWhereInput | MerchantDocumentScalarWhereInput[]
+  }
+
+  export type MerchantCreateNestedOneWithoutDocumentsInput = {
+    create?: XOR<MerchantCreateWithoutDocumentsInput, MerchantUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: MerchantCreateOrConnectWithoutDocumentsInput
+    connect?: MerchantWhereUniqueInput
+  }
+
+  export type EnumDocumentTypeFieldUpdateOperationsInput = {
+    set?: $Enums.DocumentType
+  }
+
+  export type EnumDocumentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.DocumentStatus
+  }
+
+  export type MerchantUpdateOneRequiredWithoutDocumentsNestedInput = {
+    create?: XOR<MerchantCreateWithoutDocumentsInput, MerchantUncheckedCreateWithoutDocumentsInput>
+    connectOrCreate?: MerchantCreateOrConnectWithoutDocumentsInput
+    upsert?: MerchantUpsertWithoutDocumentsInput
+    connect?: MerchantWhereUniqueInput
+    update?: XOR<XOR<MerchantUpdateToOneWithWhereWithoutDocumentsInput, MerchantUpdateWithoutDocumentsInput>, MerchantUncheckedUpdateWithoutDocumentsInput>
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -21725,6 +25142,12 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
+  export type MerchantCreateNestedOneWithoutUserInput = {
+    create?: XOR<MerchantCreateWithoutUserInput, MerchantUncheckedCreateWithoutUserInput>
+    connectOrCreate?: MerchantCreateOrConnectWithoutUserInput
+    connect?: MerchantWhereUniqueInput
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -21744,6 +25167,12 @@ export namespace Prisma {
     connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
     createMany?: OrderCreateManyUserInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type MerchantUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<MerchantCreateWithoutUserInput, MerchantUncheckedCreateWithoutUserInput>
+    connectOrCreate?: MerchantCreateOrConnectWithoutUserInput
+    connect?: MerchantWhereUniqueInput
   }
 
   export type EnumUserRoleFieldUpdateOperationsInput = {
@@ -21792,6 +25221,16 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type MerchantUpdateOneWithoutUserNestedInput = {
+    create?: XOR<MerchantCreateWithoutUserInput, MerchantUncheckedCreateWithoutUserInput>
+    connectOrCreate?: MerchantCreateOrConnectWithoutUserInput
+    upsert?: MerchantUpsertWithoutUserInput
+    disconnect?: MerchantWhereInput | boolean
+    delete?: MerchantWhereInput | boolean
+    connect?: MerchantWhereUniqueInput
+    update?: XOR<XOR<MerchantUpdateToOneWithWhereWithoutUserInput, MerchantUpdateWithoutUserInput>, MerchantUncheckedUpdateWithoutUserInput>
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -21832,6 +25271,16 @@ export namespace Prisma {
     update?: OrderUpdateWithWhereUniqueWithoutUserInput | OrderUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: OrderUpdateManyWithWhereWithoutUserInput | OrderUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  }
+
+  export type MerchantUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<MerchantCreateWithoutUserInput, MerchantUncheckedCreateWithoutUserInput>
+    connectOrCreate?: MerchantCreateOrConnectWithoutUserInput
+    upsert?: MerchantUpsertWithoutUserInput
+    disconnect?: MerchantWhereInput | boolean
+    delete?: MerchantWhereInput | boolean
+    connect?: MerchantWhereUniqueInput
+    update?: XOR<XOR<MerchantUpdateToOneWithWhereWithoutUserInput, MerchantUpdateWithoutUserInput>, MerchantUncheckedUpdateWithoutUserInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -22178,6 +25627,91 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumOrderStatusFilter<$PrismaModel>
     _max?: NestedEnumOrderStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBusinessTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusinessType | EnumBusinessTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusinessType[] | ListEnumBusinessTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusinessType[] | ListEnumBusinessTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusinessTypeFilter<$PrismaModel> | $Enums.BusinessType
+  }
+
+  export type NestedEnumBusinessSizeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusinessSize | EnumBusinessSizeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusinessSize[] | ListEnumBusinessSizeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusinessSize[] | ListEnumBusinessSizeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusinessSizeFilter<$PrismaModel> | $Enums.BusinessSize
+  }
+
+  export type NestedEnumVerificationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusFilter<$PrismaModel> | $Enums.VerificationStatus
+  }
+
+  export type NestedEnumBusinessTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusinessType | EnumBusinessTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusinessType[] | ListEnumBusinessTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusinessType[] | ListEnumBusinessTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusinessTypeWithAggregatesFilter<$PrismaModel> | $Enums.BusinessType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBusinessTypeFilter<$PrismaModel>
+    _max?: NestedEnumBusinessTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBusinessSizeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusinessSize | EnumBusinessSizeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusinessSize[] | ListEnumBusinessSizeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusinessSize[] | ListEnumBusinessSizeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusinessSizeWithAggregatesFilter<$PrismaModel> | $Enums.BusinessSize
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBusinessSizeFilter<$PrismaModel>
+    _max?: NestedEnumBusinessSizeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumVerificationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusWithAggregatesFilter<$PrismaModel> | $Enums.VerificationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVerificationStatusFilter<$PrismaModel>
+    _max?: NestedEnumVerificationStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDocumentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeFilter<$PrismaModel> | $Enums.DocumentType
+  }
+
+  export type NestedEnumDocumentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentStatus | EnumDocumentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentStatus[] | ListEnumDocumentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentStatus[] | ListEnumDocumentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentStatusFilter<$PrismaModel> | $Enums.DocumentStatus
+  }
+
+  export type NestedEnumDocumentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentType | EnumDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentType[] | ListEnumDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentTypeWithAggregatesFilter<$PrismaModel> | $Enums.DocumentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentTypeFilter<$PrismaModel>
+    _max?: NestedEnumDocumentTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumDocumentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DocumentStatus | EnumDocumentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DocumentStatus[] | ListEnumDocumentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DocumentStatus[] | ListEnumDocumentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDocumentStatusWithAggregatesFilter<$PrismaModel> | $Enums.DocumentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumDocumentStatusFilter<$PrismaModel>
+    _max?: NestedEnumDocumentStatusFilter<$PrismaModel>
   }
 
   export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
@@ -22838,6 +26372,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    merchant?: MerchantCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOrdersInput = {
@@ -22854,6 +26389,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    merchant?: MerchantUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOrdersInput = {
@@ -22922,6 +26458,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -22938,6 +26475,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type OrderItemUpsertWithWhereUniqueWithoutOrderInput = {
@@ -23512,6 +27050,233 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserCreateWithoutMerchantInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phone?: string | null
+    password?: string | null
+    role?: $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    orders?: OrderCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutMerchantInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phone?: string | null
+    password?: string | null
+    role?: $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutMerchantInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMerchantInput, UserUncheckedCreateWithoutMerchantInput>
+  }
+
+  export type MerchantDocumentCreateWithoutMerchantInput = {
+    id?: string
+    documentType: $Enums.DocumentType
+    documentUrl?: string | null
+    documentNumber: string
+    expiryDate: Date | string
+    status?: $Enums.DocumentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MerchantDocumentUncheckedCreateWithoutMerchantInput = {
+    id?: string
+    documentType: $Enums.DocumentType
+    documentUrl?: string | null
+    documentNumber: string
+    expiryDate: Date | string
+    status?: $Enums.DocumentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MerchantDocumentCreateOrConnectWithoutMerchantInput = {
+    where: MerchantDocumentWhereUniqueInput
+    create: XOR<MerchantDocumentCreateWithoutMerchantInput, MerchantDocumentUncheckedCreateWithoutMerchantInput>
+  }
+
+  export type MerchantDocumentCreateManyMerchantInputEnvelope = {
+    data: MerchantDocumentCreateManyMerchantInput | MerchantDocumentCreateManyMerchantInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutMerchantInput = {
+    update: XOR<UserUpdateWithoutMerchantInput, UserUncheckedUpdateWithoutMerchantInput>
+    create: XOR<UserCreateWithoutMerchantInput, UserUncheckedCreateWithoutMerchantInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMerchantInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMerchantInput, UserUncheckedUpdateWithoutMerchantInput>
+  }
+
+  export type UserUpdateWithoutMerchantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    orders?: OrderUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMerchantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type MerchantDocumentUpsertWithWhereUniqueWithoutMerchantInput = {
+    where: MerchantDocumentWhereUniqueInput
+    update: XOR<MerchantDocumentUpdateWithoutMerchantInput, MerchantDocumentUncheckedUpdateWithoutMerchantInput>
+    create: XOR<MerchantDocumentCreateWithoutMerchantInput, MerchantDocumentUncheckedCreateWithoutMerchantInput>
+  }
+
+  export type MerchantDocumentUpdateWithWhereUniqueWithoutMerchantInput = {
+    where: MerchantDocumentWhereUniqueInput
+    data: XOR<MerchantDocumentUpdateWithoutMerchantInput, MerchantDocumentUncheckedUpdateWithoutMerchantInput>
+  }
+
+  export type MerchantDocumentUpdateManyWithWhereWithoutMerchantInput = {
+    where: MerchantDocumentScalarWhereInput
+    data: XOR<MerchantDocumentUpdateManyMutationInput, MerchantDocumentUncheckedUpdateManyWithoutMerchantInput>
+  }
+
+  export type MerchantDocumentScalarWhereInput = {
+    AND?: MerchantDocumentScalarWhereInput | MerchantDocumentScalarWhereInput[]
+    OR?: MerchantDocumentScalarWhereInput[]
+    NOT?: MerchantDocumentScalarWhereInput | MerchantDocumentScalarWhereInput[]
+    id?: StringFilter<"MerchantDocument"> | string
+    merchantId?: StringFilter<"MerchantDocument"> | string
+    documentType?: EnumDocumentTypeFilter<"MerchantDocument"> | $Enums.DocumentType
+    documentUrl?: StringNullableFilter<"MerchantDocument"> | string | null
+    documentNumber?: StringFilter<"MerchantDocument"> | string
+    expiryDate?: DateTimeFilter<"MerchantDocument"> | Date | string
+    status?: EnumDocumentStatusFilter<"MerchantDocument"> | $Enums.DocumentStatus
+    createdAt?: DateTimeFilter<"MerchantDocument"> | Date | string
+    updatedAt?: DateTimeFilter<"MerchantDocument"> | Date | string
+  }
+
+  export type MerchantCreateWithoutDocumentsInput = {
+    id?: string
+    businessName: string
+    businessRegistrationNumber: string
+    businessType: $Enums.BusinessType
+    businessSize: $Enums.BusinessSize
+    description?: string | null
+    ratingAverage?: Decimal | DecimalJsLike | number | string
+    totalSales?: number
+    verificationStatus?: $Enums.VerificationStatus
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutMerchantInput
+  }
+
+  export type MerchantUncheckedCreateWithoutDocumentsInput = {
+    id?: string
+    userId: string
+    businessName: string
+    businessRegistrationNumber: string
+    businessType: $Enums.BusinessType
+    businessSize: $Enums.BusinessSize
+    description?: string | null
+    ratingAverage?: Decimal | DecimalJsLike | number | string
+    totalSales?: number
+    verificationStatus?: $Enums.VerificationStatus
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MerchantCreateOrConnectWithoutDocumentsInput = {
+    where: MerchantWhereUniqueInput
+    create: XOR<MerchantCreateWithoutDocumentsInput, MerchantUncheckedCreateWithoutDocumentsInput>
+  }
+
+  export type MerchantUpsertWithoutDocumentsInput = {
+    update: XOR<MerchantUpdateWithoutDocumentsInput, MerchantUncheckedUpdateWithoutDocumentsInput>
+    create: XOR<MerchantCreateWithoutDocumentsInput, MerchantUncheckedCreateWithoutDocumentsInput>
+    where?: MerchantWhereInput
+  }
+
+  export type MerchantUpdateToOneWithWhereWithoutDocumentsInput = {
+    where?: MerchantWhereInput
+    data: XOR<MerchantUpdateWithoutDocumentsInput, MerchantUncheckedUpdateWithoutDocumentsInput>
+  }
+
+  export type MerchantUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessRegistrationNumber?: StringFieldUpdateOperationsInput | string
+    businessType?: EnumBusinessTypeFieldUpdateOperationsInput | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFieldUpdateOperationsInput | $Enums.BusinessSize
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    ratingAverage?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFieldUpdateOperationsInput | number
+    verificationStatus?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutMerchantNestedInput
+  }
+
+  export type MerchantUncheckedUpdateWithoutDocumentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessRegistrationNumber?: StringFieldUpdateOperationsInput | string
+    businessType?: EnumBusinessTypeFieldUpdateOperationsInput | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFieldUpdateOperationsInput | $Enums.BusinessSize
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    ratingAverage?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFieldUpdateOperationsInput | number
+    verificationStatus?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
@@ -23526,6 +27291,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    merchant?: MerchantCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -23542,6 +27308,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    merchant?: MerchantUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -23574,6 +27341,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -23590,6 +27358,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -23606,6 +27375,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    merchant?: MerchantCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -23622,6 +27392,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    merchant?: MerchantUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -23654,6 +27425,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -23670,6 +27442,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -23790,6 +27563,43 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MerchantCreateWithoutUserInput = {
+    id?: string
+    businessName: string
+    businessRegistrationNumber: string
+    businessType: $Enums.BusinessType
+    businessSize: $Enums.BusinessSize
+    description?: string | null
+    ratingAverage?: Decimal | DecimalJsLike | number | string
+    totalSales?: number
+    verificationStatus?: $Enums.VerificationStatus
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: MerchantDocumentCreateNestedManyWithoutMerchantInput
+  }
+
+  export type MerchantUncheckedCreateWithoutUserInput = {
+    id?: string
+    businessName: string
+    businessRegistrationNumber: string
+    businessType: $Enums.BusinessType
+    businessSize: $Enums.BusinessSize
+    description?: string | null
+    ratingAverage?: Decimal | DecimalJsLike | number | string
+    totalSales?: number
+    verificationStatus?: $Enums.VerificationStatus
+    isFeatured?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: MerchantDocumentUncheckedCreateNestedManyWithoutMerchantInput
+  }
+
+  export type MerchantCreateOrConnectWithoutUserInput = {
+    where: MerchantWhereUniqueInput
+    create: XOR<MerchantCreateWithoutUserInput, MerchantUncheckedCreateWithoutUserInput>
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -23891,6 +27701,49 @@ export namespace Prisma {
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
+  }
+
+  export type MerchantUpsertWithoutUserInput = {
+    update: XOR<MerchantUpdateWithoutUserInput, MerchantUncheckedUpdateWithoutUserInput>
+    create: XOR<MerchantCreateWithoutUserInput, MerchantUncheckedCreateWithoutUserInput>
+    where?: MerchantWhereInput
+  }
+
+  export type MerchantUpdateToOneWithWhereWithoutUserInput = {
+    where?: MerchantWhereInput
+    data: XOR<MerchantUpdateWithoutUserInput, MerchantUncheckedUpdateWithoutUserInput>
+  }
+
+  export type MerchantUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessRegistrationNumber?: StringFieldUpdateOperationsInput | string
+    businessType?: EnumBusinessTypeFieldUpdateOperationsInput | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFieldUpdateOperationsInput | $Enums.BusinessSize
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    ratingAverage?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFieldUpdateOperationsInput | number
+    verificationStatus?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: MerchantDocumentUpdateManyWithoutMerchantNestedInput
+  }
+
+  export type MerchantUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    businessName?: StringFieldUpdateOperationsInput | string
+    businessRegistrationNumber?: StringFieldUpdateOperationsInput | string
+    businessType?: EnumBusinessTypeFieldUpdateOperationsInput | $Enums.BusinessType
+    businessSize?: EnumBusinessSizeFieldUpdateOperationsInput | $Enums.BusinessSize
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    ratingAverage?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalSales?: IntFieldUpdateOperationsInput | number
+    verificationStatus?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    isFeatured?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: MerchantDocumentUncheckedUpdateManyWithoutMerchantNestedInput
   }
 
   export type CategoryCreateManyParentInput = {
@@ -24287,6 +28140,50 @@ export namespace Prisma {
     basePrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     pricePerKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     estimatedDays?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantDocumentCreateManyMerchantInput = {
+    id?: string
+    documentType: $Enums.DocumentType
+    documentUrl?: string | null
+    documentNumber: string
+    expiryDate: Date | string
+    status?: $Enums.DocumentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MerchantDocumentUpdateWithoutMerchantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentType?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantDocumentUncheckedUpdateWithoutMerchantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentType?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MerchantDocumentUncheckedUpdateManyWithoutMerchantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentType?: EnumDocumentTypeFieldUpdateOperationsInput | $Enums.DocumentType
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    documentNumber?: StringFieldUpdateOperationsInput | string
+    expiryDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumDocumentStatusFieldUpdateOperationsInput | $Enums.DocumentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

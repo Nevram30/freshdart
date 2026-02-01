@@ -103,7 +103,7 @@ export default function MSMEsPage() {
             </span>
 
             {/* Headline */}
-            <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-5xl">
               Scale Your Business with{" "}
               <span className="block italic text-teal-400">
                 Premium Seafood Sourcing

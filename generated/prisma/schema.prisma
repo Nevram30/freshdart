@@ -258,6 +258,94 @@ model ShippingRate {
 }
 
 // ============================================
+// MERCHANT & PRODUCER MODELS
+// ============================================
+
+enum BusinessType {
+  MSME
+  FISHERY
+  AQUACULTURE
+  PROCESSOR
+}
+
+enum BusinessSize {
+  MICRO
+  SMALL
+  MEDIUM
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum DocumentType {
+  BUSINESS_PERMIT
+  FDA_LICENSE
+  BFAR_REGISTRATION
+  SANITARY_PERMIT
+}
+
+enum DocumentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+model Merchant {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Business Profile
+  businessName               String
+  businessRegistrationNumber String
+  businessType               BusinessType
+  businessSize               BusinessSize
+  description                String?
+
+  // Metrics
+  ratingAverage Decimal @default(0) @db.Decimal(3, 2)
+  totalSales    Int     @default(0)
+
+  // Status
+  verificationStatus VerificationStatus @default(PENDING)
+  isFeatured         Boolean            @default(false)
+
+  // Relations
+  documents MerchantDocument[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([verificationStatus])
+  @@index([businessType])
+}
+
+model MerchantDocument {
+  id         String   @id @default(cuid())
+  merchantId String
+  merchant   Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  documentType   DocumentType
+  documentUrl    String?
+  documentNumber String
+  expiryDate     DateTime
+
+  status DocumentStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([merchantId])
+  @@index([status])
+  @@index([expiryDate])
+}
+
+// ============================================
 // AUTH MODELS (NextAuth)
 // ============================================
 
@@ -310,6 +398,7 @@ model User {
   accounts Account[]
   sessions Session[]
   orders   Order[]
+  merchant Merchant? // For MERCHANT and PRODUCER roles
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

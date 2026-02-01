@@ -305,7 +305,7 @@ export default function ProducersPage() {
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/producers/register"
+              href="/register"
               className="inline-flex items-center gap-2 rounded-lg bg-teal-500 px-8 py-4 font-semibold text-white transition-colors hover:bg-teal-600"
             >
               Register Your Fleet

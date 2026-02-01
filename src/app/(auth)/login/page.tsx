@@ -80,16 +80,14 @@ export default function LoginPage() {
               <Anchor className="h-6 w-6 text-teal-400" />
             </div>
             <span className="text-xl font-bold uppercase tracking-wider text-white">
-              SeaMarket
+              Katig
             </span>
           </div>
 
           {/* Main Content */}
           <div className="max-w-md">
             <h1 className="text-5xl font-bold leading-tight text-white">
-              Empowering
-              <br />
-              the
+              Empowering the
               <br />
               <span className="text-teal-400">Blue Economy</span>
             </h1>
@@ -127,18 +125,6 @@ export default function LoginPage() {
               <span className="text-xl font-bold text-[#0B3D4C]">SeaMarket</span>
             </div>
 
-            {/* Tab Navigation */}
-            <div className="mb-8 flex rounded-xl bg-gray-100 p-1">
-              <button className="flex-1 rounded-lg bg-white py-3 text-center text-sm font-medium text-[#0B3D4C] shadow-sm">
-                Sign In
-              </button>
-              <Link
-                href="/register"
-                className="flex-1 rounded-lg py-3 text-center text-sm font-medium text-gray-500 transition-colors hover:text-gray-700"
-              >
-                Create Account
-              </Link>
-            </div>
 
             {/* Header */}
             <div className="mb-6 text-center">
@@ -284,16 +270,18 @@ export default function LoginPage() {
                 </button>
               </div>
 
-              {/* Sign Up Link */}
-              <p className="mt-6 text-center text-sm text-gray-600">
-                Don&apos;t have an account?{" "}
+              {/* Create Account Button */}
+              <div className="mt-6 text-center">
+                <p className="mb-3 text-sm text-gray-600">
+                  Don&apos;t have an account?
+                </p>
                 <Link
                   href="/register"
-                  className="font-semibold text-[#0B3D4C] hover:underline"
+                  className="inline-flex w-full items-center justify-center rounded-lg border-2 border-[#0B3D4C] bg-white px-4 py-3 text-sm font-semibold text-[#0B3D4C] transition-colors hover:bg-[#0B3D4C] hover:text-white"
                 >
-                  Sign up
+                  Create Account
                 </Link>
-              </p>
+              </div>
             </form>
           </div>
         </div>

@@ -58,7 +58,7 @@ export function Header() {
             className="flex items-center gap-2 text-xl font-bold text-white"
           >
             <Anchor className="h-6 w-6" />
-            <span className="hidden sm:inline">freshdart</span>
+            <span className="hidden sm:inline">katig</span>
           </Link>
 
           {/* Navigation */}
