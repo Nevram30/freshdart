@@ -14,7 +14,9 @@ import {
   X,
   ImagePlus,
   GripVertical,
+  Loader2,
 } from "lucide-react";
+import { api } from "~/trpc/react";
 
 // Types based on Prisma schema
 type ProductType = "FRESH" | "FROZEN" | "PROCESSED" | "DRIED" | "LIVE";
@@ -32,49 +34,6 @@ interface ProductVariant {
   lowStockThreshold: number;
 }
 
-interface ProductImage {
-  id: string;
-  url: string;
-  alt: string | null;
-  isPrimary: boolean;
-  sortOrder: number;
-}
-
-interface Product {
-  id: string;
-  name: string;
-  sku: string | null;
-  slug: string;
-  description: string | null;
-  shortDescription: string | null;
-  productType: ProductType;
-  seafoodType: SeafoodType;
-  speciesName: string | null;
-  localName: string | null;
-  price: number;
-  compareAtPrice: number | null;
-  costPerItem: number | null;
-  stockType: StockType;
-  stockQuantity: number;
-  stockUnit: string;
-  minOrderQty: number;
-  maxOrderQty: number | null;
-  weightKg: number;
-  requiresColdChain: boolean;
-  bestBefore: string | null;
-  shelfLifeDays: number | null;
-  images: ProductImage[];
-  categoryId: string;
-  categoryName: string;
-  variants: ProductVariant[];
-  status: ProductStatus;
-  featured: boolean;
-  tags: string[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-// Form state type
 interface ProductFormData {
   name: string;
   sku: string;
@@ -131,120 +90,6 @@ const initialFormData: ProductFormData = {
   variants: [],
 };
 
-// Mock data for demonstration
-const mockProducts: Product[] = [
-  {
-    id: "1",
-    name: "Atlantic Salmon",
-    sku: "SAL-ATL-001",
-    slug: "atlantic-salmon",
-    description: "Premium Atlantic Salmon, wild-caught from Norwegian waters.",
-    shortDescription: "Wild-caught Norwegian salmon",
-    productType: "FRESH",
-    seafoodType: "FISH",
-    speciesName: "Salmo salar",
-    localName: "Salmon",
-    price: 850,
-    compareAtPrice: 950,
-    costPerItem: 600,
-    stockType: "WEIGHT",
-    stockQuantity: 120,
-    stockUnit: "kg",
-    minOrderQty: 0.5,
-    maxOrderQty: 50,
-    weightKg: 1,
-    requiresColdChain: true,
-    bestBefore: "2024-02-15",
-    shelfLifeDays: 5,
-    images: [],
-    categoryId: "cat-1",
-    categoryName: "Fresh Fish",
-    variants: [
-      { id: "v1", name: "Whole (2-3kg)", sku: "SAL-ATL-001-WH", price: 750, weightValue: 2.5, stockQuantity: 20, lowStockThreshold: 5 },
-      { id: "v2", name: "Fillet (500g)", sku: "SAL-ATL-001-FI", price: 450, weightValue: 0.5, stockQuantity: 50, lowStockThreshold: 10 },
-    ],
-    status: "ACTIVE",
-    featured: true,
-    tags: ["premium", "wild-caught", "norwegian"],
-    createdAt: "2024-01-15",
-    updatedAt: "2024-01-20",
-  },
-  {
-    id: "2",
-    name: "Tiger Prawns",
-    sku: "PRW-TIG-001",
-    slug: "tiger-prawns",
-    description: "Jumbo tiger prawns, sustainably farmed.",
-    shortDescription: "Jumbo sustainably farmed prawns",
-    productType: "FRESH",
-    seafoodType: "CRUSTACEAN",
-    speciesName: "Penaeus monodon",
-    localName: "Sugpo",
-    price: 1200,
-    compareAtPrice: null,
-    costPerItem: 800,
-    stockType: "WEIGHT",
-    stockQuantity: 8.5,
-    stockUnit: "kg",
-    minOrderQty: 0.25,
-    maxOrderQty: 20,
-    weightKg: 1,
-    requiresColdChain: true,
-    bestBefore: "2024-02-10",
-    shelfLifeDays: 3,
-    images: [],
-    categoryId: "cat-2",
-    categoryName: "Crustaceans",
-    variants: [],
-    status: "ACTIVE",
-    featured: false,
-    tags: ["jumbo", "sustainable"],
-    createdAt: "2024-01-10",
-    updatedAt: "2024-01-18",
-  },
-  {
-    id: "3",
-    name: "Blue Mussels",
-    sku: "MSL-BLU-001",
-    slug: "blue-mussels",
-    description: "Fresh blue mussels, in-shell.",
-    shortDescription: "Fresh in-shell mussels",
-    productType: "FRESH",
-    seafoodType: "MOLLUSK",
-    speciesName: "Mytilus edulis",
-    localName: "Tahong",
-    price: 380,
-    compareAtPrice: 420,
-    costPerItem: 250,
-    stockType: "WEIGHT",
-    stockQuantity: 45,
-    stockUnit: "kg",
-    minOrderQty: 1,
-    maxOrderQty: 100,
-    weightKg: 1,
-    requiresColdChain: true,
-    bestBefore: "2024-02-08",
-    shelfLifeDays: 4,
-    images: [],
-    categoryId: "cat-3",
-    categoryName: "Shellfish",
-    variants: [],
-    status: "DRAFT",
-    featured: false,
-    tags: ["fresh", "in-shell"],
-    createdAt: "2024-01-20",
-    updatedAt: "2024-01-20",
-  },
-];
-
-const mockCategories = [
-  { id: "cat-1", name: "Fresh Fish" },
-  { id: "cat-2", name: "Crustaceans" },
-  { id: "cat-3", name: "Shellfish" },
-  { id: "cat-4", name: "Processed" },
-  { id: "cat-5", name: "Dried Seafood" },
-];
-
 const productTypeOptions: { value: ProductType; label: string }[] = [
   { value: "FRESH", label: "Fresh" },
   { value: "FROZEN", label: "Frozen" },
@@ -278,67 +123,104 @@ const statusOptions: { value: ProductStatus; label: string; color: string }[] = 
 const stockUnitOptions = ["kg", "g", "piece", "pack", "box", "tray"];
 
 export default function ProducerProductsPage() {
-  const [products, setProducts] = useState<Product[]>(mockProducts);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [selectedStatus, setSelectedStatus] = useState("All Status");
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [editingProductId, setEditingProductId] = useState<string | null>(null);
   const [formData, setFormData] = useState<ProductFormData>(initialFormData);
   const [activeTab, setActiveTab] = useState<"basic" | "pricing" | "inventory" | "variants">("basic");
-  const [viewingProduct, setViewingProduct] = useState<Product | null>(null);
-  const [deleteConfirmProduct, setDeleteConfirmProduct] = useState<Product | null>(null);
+  const [viewingProductId, setViewingProductId] = useState<string | null>(null);
+  const [deleteConfirmProductId, setDeleteConfirmProductId] = useState<string | null>(null);
+
+  // tRPC queries
+  const utils = api.useUtils();
+
+  const { data: productsData, isLoading: isLoadingProducts } = api.product.getForProducer.useQuery({
+    search: searchQuery || undefined,
+    categoryId: selectedCategory !== "All Categories" ? selectedCategory : undefined,
+    status: selectedStatus !== "All Status" ? (selectedStatus as ProductStatus) : undefined,
+  });
+
+  const { data: categories, isLoading: isLoadingCategories } = api.category.getAll.useQuery();
+
+  // tRPC mutations
+  const createProduct = api.product.create.useMutation({
+    onSuccess: () => {
+      void utils.product.getForProducer.invalidate();
+      handleCloseForm();
+    },
+  });
+
+  const updateProduct = api.product.update.useMutation({
+    onSuccess: () => {
+      void utils.product.getForProducer.invalidate();
+      handleCloseForm();
+    },
+  });
+
+  const deleteProduct = api.product.delete.useMutation({
+    onSuccess: () => {
+      void utils.product.getForProducer.invalidate();
+      setDeleteConfirmProductId(null);
+    },
+  });
+
+  const products = productsData?.products ?? [];
 
   // Stats
   const totalProducts = products.length;
   const activeProducts = products.filter((p) => p.status === "ACTIVE").length;
-  const lowStockProducts = products.filter((p) => p.stockQuantity < 10).length;
+  const lowStockProducts = products.filter((p) => Number(p.stockQuantity) < 10).length;
   const draftProducts = products.filter((p) => p.status === "DRAFT").length;
 
-  // Filter products
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch =
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.sku?.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "All Categories" || product.categoryName === selectedCategory;
-    const matchesStatus =
-      selectedStatus === "All Status" || product.status === selectedStatus;
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
+  // Find product for viewing/deleting
+  const viewingProduct = products.find((p) => p.id === viewingProductId);
+  const deleteConfirmProduct = products.find((p) => p.id === deleteConfirmProductId);
 
-  const handleOpenForm = (product?: Product) => {
-    if (product) {
-      setEditingProduct(product);
-      setFormData({
-        name: product.name,
-        sku: product.sku ?? "",
-        slug: product.slug,
-        description: product.description ?? "",
-        shortDescription: product.shortDescription ?? "",
-        productType: product.productType,
-        seafoodType: product.seafoodType,
-        speciesName: product.speciesName ?? "",
-        localName: product.localName ?? "",
-        price: product.price.toString(),
-        compareAtPrice: product.compareAtPrice?.toString() ?? "",
-        costPerItem: product.costPerItem?.toString() ?? "",
-        stockType: product.stockType,
-        stockQuantity: product.stockQuantity.toString(),
-        stockUnit: product.stockUnit,
-        minOrderQty: product.minOrderQty.toString(),
-        maxOrderQty: product.maxOrderQty?.toString() ?? "",
-        weightKg: product.weightKg.toString(),
-        requiresColdChain: product.requiresColdChain,
-        shelfLifeDays: product.shelfLifeDays?.toString() ?? "",
-        categoryId: product.categoryId,
-        status: product.status,
-        featured: product.featured,
-        tags: product.tags.join(", "),
-        variants: product.variants,
-      });
+  const handleOpenForm = (productId?: string) => {
+    if (productId) {
+      const product = products.find((p) => p.id === productId);
+      if (product) {
+        setEditingProductId(productId);
+        setFormData({
+          name: product.name,
+          sku: product.sku ?? "",
+          slug: product.slug,
+          description: product.description ?? "",
+          shortDescription: product.shortDescription ?? "",
+          productType: product.productType,
+          seafoodType: product.seafoodType,
+          speciesName: product.speciesName ?? "",
+          localName: product.localName ?? "",
+          price: String(product.price),
+          compareAtPrice: product.compareAtPrice ? String(product.compareAtPrice) : "",
+          costPerItem: product.costPerItem ? String(product.costPerItem) : "",
+          stockType: product.stockType,
+          stockQuantity: String(product.stockQuantity),
+          stockUnit: product.stockUnit,
+          minOrderQty: String(product.minOrderQty),
+          maxOrderQty: product.maxOrderQty ? String(product.maxOrderQty) : "",
+          weightKg: String(product.weightKg),
+          requiresColdChain: product.requiresColdChain,
+          shelfLifeDays: product.shelfLifeDays ? String(product.shelfLifeDays) : "",
+          categoryId: product.categoryId,
+          status: product.status,
+          featured: product.featured,
+          tags: product.tags.join(", "),
+          variants: product.variants.map((v) => ({
+            id: v.id,
+            name: v.name,
+            sku: v.sku,
+            price: Number(v.price),
+            weightValue: Number(v.weightValue),
+            stockQuantity: v.stockQuantity,
+            lowStockThreshold: v.lowStockThreshold,
+          })),
+        });
+      }
     } else {
-      setEditingProduct(null);
+      setEditingProductId(null);
       setFormData(initialFormData);
     }
     setActiveTab("basic");
@@ -347,82 +229,81 @@ export default function ProducerProductsPage() {
 
   const handleCloseForm = () => {
     setIsFormOpen(false);
-    setEditingProduct(null);
+    setEditingProductId(null);
     setFormData(initialFormData);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newProduct: Product = {
-      id: editingProduct?.id ?? `prod-${Date.now()}`,
+    const productData = {
       name: formData.name,
-      sku: formData.sku || null,
-      slug: formData.slug || formData.name.toLowerCase().replace(/\s+/g, "-"),
-      description: formData.description || null,
-      shortDescription: formData.shortDescription || null,
+      sku: formData.sku || undefined,
+      slug: formData.slug || undefined,
+      description: formData.description || undefined,
+      shortDescription: formData.shortDescription || undefined,
       productType: formData.productType,
       seafoodType: formData.seafoodType,
-      speciesName: formData.speciesName || null,
-      localName: formData.localName || null,
+      speciesName: formData.speciesName || undefined,
+      localName: formData.localName || undefined,
       price: parseFloat(formData.price) || 0,
-      compareAtPrice: formData.compareAtPrice ? parseFloat(formData.compareAtPrice) : null,
-      costPerItem: formData.costPerItem ? parseFloat(formData.costPerItem) : null,
+      compareAtPrice: formData.compareAtPrice ? parseFloat(formData.compareAtPrice) : undefined,
+      costPerItem: formData.costPerItem ? parseFloat(formData.costPerItem) : undefined,
       stockType: formData.stockType,
       stockQuantity: parseFloat(formData.stockQuantity) || 0,
       stockUnit: formData.stockUnit,
       minOrderQty: parseFloat(formData.minOrderQty) || 1,
-      maxOrderQty: formData.maxOrderQty ? parseFloat(formData.maxOrderQty) : null,
+      maxOrderQty: formData.maxOrderQty ? parseFloat(formData.maxOrderQty) : undefined,
       weightKg: parseFloat(formData.weightKg) || 0,
       requiresColdChain: formData.requiresColdChain,
-      bestBefore: null,
-      shelfLifeDays: formData.shelfLifeDays ? parseInt(formData.shelfLifeDays) : null,
-      images: editingProduct?.images ?? [],
+      shelfLifeDays: formData.shelfLifeDays ? parseInt(formData.shelfLifeDays) : undefined,
       categoryId: formData.categoryId,
-      categoryName: mockCategories.find((c) => c.id === formData.categoryId)?.name ?? "",
-      variants: formData.variants,
       status: formData.status,
       featured: formData.featured,
       tags: formData.tags.split(",").map((t) => t.trim()).filter(Boolean),
-      createdAt: editingProduct?.createdAt ?? new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      variants: formData.variants.map((v) => ({
+        id: v.id,
+        name: v.name,
+        sku: v.sku,
+        price: v.price,
+        weightValue: v.weightValue,
+        stockQuantity: v.stockQuantity,
+        lowStockThreshold: v.lowStockThreshold,
+      })),
     };
 
-    if (editingProduct) {
-      setProducts(products.map((p) => (p.id === editingProduct.id ? newProduct : p)));
+    if (editingProductId) {
+      updateProduct.mutate({ id: editingProductId, ...productData });
     } else {
-      setProducts([...products, newProduct]);
+      createProduct.mutate(productData);
     }
-
-    handleCloseForm();
   };
 
-  const handleDeleteClick = (product: Product) => {
-    setDeleteConfirmProduct(product);
+  const handleDeleteClick = (productId: string) => {
+    setDeleteConfirmProductId(productId);
   };
 
   const handleConfirmDelete = () => {
-    if (deleteConfirmProduct) {
-      setProducts(products.filter((p) => p.id !== deleteConfirmProduct.id));
-      setDeleteConfirmProduct(null);
+    if (deleteConfirmProductId) {
+      deleteProduct.mutate({ id: deleteConfirmProductId });
     }
   };
 
   const handleCancelDelete = () => {
-    setDeleteConfirmProduct(null);
+    setDeleteConfirmProductId(null);
   };
 
-  const handleViewProduct = (product: Product) => {
-    setViewingProduct(product);
+  const handleViewProduct = (productId: string) => {
+    setViewingProductId(productId);
   };
 
   const handleCloseView = () => {
-    setViewingProduct(null);
+    setViewingProductId(null);
   };
 
   const handleAddVariant = () => {
     const newVariant: ProductVariant = {
-      id: `var-${Date.now()}`,
+      id: `temp-${Date.now()}`,
       name: "",
       sku: "",
       price: 0,
@@ -460,6 +341,16 @@ export default function ProducerProductsPage() {
       </span>
     );
   };
+
+  const isSubmitting = createProduct.isPending || updateProduct.isPending;
+
+  if (isLoadingProducts || isLoadingCategories) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-teal-600" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
@@ -560,8 +451,8 @@ export default function ProducerProductsPage() {
             className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700"
           >
             <option>All Categories</option>
-            {mockCategories.map((cat) => (
-              <option key={cat.id} value={cat.name}>
+            {categories?.map((cat) => (
+              <option key={cat.id} value={cat.id}>
                 {cat.name}
               </option>
             ))}
@@ -610,7 +501,7 @@ export default function ProducerProductsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 bg-white">
-              {filteredProducts.map((product) => (
+              {products.map((product) => (
                 <tr key={product.id} className="transition-colors hover:bg-gray-50">
                   <td className="whitespace-nowrap px-6 py-4">
                     <div className="flex items-center gap-3">
@@ -620,7 +511,7 @@ export default function ProducerProductsPage() {
                       <div>
                         <div className="font-medium text-gray-900">{product.name}</div>
                         <div className="text-xs text-gray-500">
-                          {product.categoryName}
+                          {product.category.name}
                           {product.localName && ` • ${product.localName}`}
                         </div>
                         {product.variants.length > 0 && (
@@ -641,15 +532,15 @@ export default function ProducerProductsPage() {
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
                     <div className="font-semibold text-gray-900">
-                      ₱{product.price.toLocaleString()}
+                      ₱{Number(product.price).toLocaleString()}
                     </div>
                     <div className="text-xs text-gray-500">per {product.stockUnit}</div>
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    <div className={`font-semibold ${product.stockQuantity < 10 ? "text-orange-600" : "text-gray-900"}`}>
-                      {product.stockQuantity} {product.stockUnit}
+                    <div className={`font-semibold ${Number(product.stockQuantity) < 10 ? "text-orange-600" : "text-gray-900"}`}>
+                      {Number(product.stockQuantity)} {product.stockUnit}
                     </div>
-                    {product.stockQuantity < 10 && (
+                    {Number(product.stockQuantity) < 10 && (
                       <div className="text-xs text-orange-600">Low stock</div>
                     )}
                   </td>
@@ -659,21 +550,21 @@ export default function ProducerProductsPage() {
                   <td className="whitespace-nowrap px-6 py-4">
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => handleOpenForm(product)}
+                        onClick={() => handleOpenForm(product.id)}
                         className="rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-teal-600"
                         title="Edit"
                       >
                         <Edit2 className="h-4 w-4" />
                       </button>
                       <button
-                        onClick={() => handleViewProduct(product)}
+                        onClick={() => handleViewProduct(product.id)}
                         className="rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-blue-600"
                         title="View"
                       >
                         <Eye className="h-4 w-4" />
                       </button>
                       <button
-                        onClick={() => handleDeleteClick(product)}
+                        onClick={() => handleDeleteClick(product.id)}
                         className="rounded-lg p-2 text-gray-500 transition-colors hover:bg-gray-100 hover:text-red-600"
                         title="Delete"
                       >
@@ -687,7 +578,7 @@ export default function ProducerProductsPage() {
           </table>
         </div>
 
-        {filteredProducts.length === 0 && (
+        {products.length === 0 && (
           <div className="flex flex-col items-center justify-center py-12">
             <Fish className="h-12 w-12 text-gray-300" />
             <p className="mt-4 text-gray-500">No products found</p>
@@ -709,7 +600,7 @@ export default function ProducerProductsPage() {
               {/* Modal Header */}
               <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4">
                 <h2 className="text-xl font-semibold text-gray-900">
-                  {editingProduct ? "Edit Product" : "Add New Product"}
+                  {editingProductId ? "Edit Product" : "Add New Product"}
                 </h2>
                 <button
                   type="button"
@@ -719,6 +610,13 @@ export default function ProducerProductsPage() {
                   <X className="h-5 w-5" />
                 </button>
               </div>
+
+              {/* Error Display */}
+              {(createProduct.error ?? updateProduct.error) && (
+                <div className="mx-6 mt-4 rounded-lg bg-red-50 p-4 text-sm text-red-700">
+                  {createProduct.error?.message ?? updateProduct.error?.message}
+                </div>
+              )}
 
               {/* Tabs */}
               <div className="border-b border-gray-200 bg-gray-50 px-6">
@@ -859,7 +757,7 @@ export default function ProducerProductsPage() {
                         className="w-full rounded-lg border border-gray-300 px-4 py-2.5 text-gray-900 focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500"
                       >
                         <option value="">Select a category</option>
-                        {mockCategories.map((cat) => (
+                        {categories?.map((cat) => (
                           <option key={cat.id} value={cat.id}>
                             {cat.name}
                           </option>
@@ -1299,15 +1197,18 @@ export default function ProducerProductsPage() {
                 <button
                   type="button"
                   onClick={handleCloseForm}
-                  className="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                  disabled={isSubmitting}
+                  className="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="rounded-lg bg-teal-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-teal-700"
+                  disabled={isSubmitting}
+                  className="flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-teal-700 disabled:opacity-50"
                 >
-                  {editingProduct ? "Update Product" : "Create Product"}
+                  {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
+                  {editingProductId ? "Update Product" : "Create Product"}
                 </button>
               </div>
             </form>
@@ -1347,7 +1248,7 @@ export default function ProducerProductsPage() {
                     )}
                   </div>
                   <p className="mt-1 text-gray-500">
-                    {viewingProduct.categoryName}
+                    {viewingProduct.category.name}
                     {viewingProduct.localName && ` • ${viewingProduct.localName}`}
                   </p>
                   <div className="mt-2">{getStatusBadge(viewingProduct.status)}</div>
@@ -1408,19 +1309,19 @@ export default function ProducerProductsPage() {
                 <div className="grid grid-cols-3 gap-4">
                   <div className="rounded-lg border border-teal-200 bg-teal-50 p-4">
                     <p className="text-xs font-medium uppercase tracking-wide text-teal-600">Selling Price</p>
-                    <p className="mt-1 text-xl font-bold text-teal-700">₱{viewingProduct.price.toLocaleString()}</p>
+                    <p className="mt-1 text-xl font-bold text-teal-700">₱{Number(viewingProduct.price).toLocaleString()}</p>
                     <p className="text-xs text-teal-600">per {viewingProduct.stockUnit}</p>
                   </div>
                   {viewingProduct.compareAtPrice && (
                     <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
                       <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Compare At</p>
-                      <p className="mt-1 text-xl font-bold text-gray-400 line-through">₱{viewingProduct.compareAtPrice.toLocaleString()}</p>
+                      <p className="mt-1 text-xl font-bold text-gray-400 line-through">₱{Number(viewingProduct.compareAtPrice).toLocaleString()}</p>
                     </div>
                   )}
                   {viewingProduct.costPerItem && (
                     <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
                       <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Cost</p>
-                      <p className="mt-1 text-xl font-bold text-gray-700">₱{viewingProduct.costPerItem.toLocaleString()}</p>
+                      <p className="mt-1 text-xl font-bold text-gray-700">₱{Number(viewingProduct.costPerItem).toLocaleString()}</p>
                     </div>
                   )}
                 </div>
@@ -1430,12 +1331,12 @@ export default function ProducerProductsPage() {
               <div className="mb-6">
                 <h4 className="mb-3 font-semibold text-gray-900">Inventory</h4>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className={`rounded-lg border p-4 ${viewingProduct.stockQuantity < 10 ? "border-orange-200 bg-orange-50" : "border-gray-200 bg-gray-50"}`}>
-                    <p className={`text-xs font-medium uppercase tracking-wide ${viewingProduct.stockQuantity < 10 ? "text-orange-600" : "text-gray-500"}`}>Stock Quantity</p>
-                    <p className={`mt-1 text-xl font-bold ${viewingProduct.stockQuantity < 10 ? "text-orange-600" : "text-gray-900"}`}>
-                      {viewingProduct.stockQuantity} {viewingProduct.stockUnit}
+                  <div className={`rounded-lg border p-4 ${Number(viewingProduct.stockQuantity) < 10 ? "border-orange-200 bg-orange-50" : "border-gray-200 bg-gray-50"}`}>
+                    <p className={`text-xs font-medium uppercase tracking-wide ${Number(viewingProduct.stockQuantity) < 10 ? "text-orange-600" : "text-gray-500"}`}>Stock Quantity</p>
+                    <p className={`mt-1 text-xl font-bold ${Number(viewingProduct.stockQuantity) < 10 ? "text-orange-600" : "text-gray-900"}`}>
+                      {Number(viewingProduct.stockQuantity)} {viewingProduct.stockUnit}
                     </p>
-                    {viewingProduct.stockQuantity < 10 && (
+                    {Number(viewingProduct.stockQuantity) < 10 && (
                       <p className="mt-1 flex items-center gap-1 text-xs text-orange-600">
                         <AlertTriangle className="h-3 w-3" />
                         Low stock warning
@@ -1448,11 +1349,11 @@ export default function ProducerProductsPage() {
                   </div>
                   <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
                     <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Min Order</p>
-                    <p className="mt-1 font-semibold text-gray-900">{viewingProduct.minOrderQty} {viewingProduct.stockUnit}</p>
+                    <p className="mt-1 font-semibold text-gray-900">{Number(viewingProduct.minOrderQty)} {viewingProduct.stockUnit}</p>
                   </div>
                   <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
                     <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Max Order</p>
-                    <p className="mt-1 font-semibold text-gray-900">{viewingProduct.maxOrderQty ? `${viewingProduct.maxOrderQty} ${viewingProduct.stockUnit}` : "No limit"}</p>
+                    <p className="mt-1 font-semibold text-gray-900">{viewingProduct.maxOrderQty ? `${Number(viewingProduct.maxOrderQty)} ${viewingProduct.stockUnit}` : "No limit"}</p>
                   </div>
                 </div>
               </div>
@@ -1463,7 +1364,7 @@ export default function ProducerProductsPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
                     <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Weight</p>
-                    <p className="mt-1 font-semibold text-gray-900">{viewingProduct.weightKg} kg</p>
+                    <p className="mt-1 font-semibold text-gray-900">{Number(viewingProduct.weightKg)} kg</p>
                   </div>
                   <div className={`rounded-lg border p-4 ${viewingProduct.requiresColdChain ? "border-blue-200 bg-blue-50" : "border-gray-200 bg-gray-50"}`}>
                     <p className={`text-xs font-medium uppercase tracking-wide ${viewingProduct.requiresColdChain ? "text-blue-600" : "text-gray-500"}`}>Cold Chain</p>
@@ -1480,7 +1381,7 @@ export default function ProducerProductsPage() {
                   {viewingProduct.bestBefore && (
                     <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
                       <p className="text-xs font-medium uppercase tracking-wide text-gray-500">Best Before</p>
-                      <p className="mt-1 font-semibold text-gray-900">{viewingProduct.bestBefore}</p>
+                      <p className="mt-1 font-semibold text-gray-900">{new Date(viewingProduct.bestBefore).toLocaleDateString()}</p>
                     </div>
                   )}
                 </div>
@@ -1498,7 +1399,7 @@ export default function ProducerProductsPage() {
                           <p className="text-sm text-gray-500">SKU: {variant.sku}</p>
                         </div>
                         <div className="text-right">
-                          <p className="font-semibold text-gray-900">₱{variant.price.toLocaleString()}</p>
+                          <p className="font-semibold text-gray-900">₱{Number(variant.price).toLocaleString()}</p>
                           <p className="text-sm text-gray-500">{variant.stockQuantity} in stock</p>
                         </div>
                       </div>
@@ -1547,7 +1448,7 @@ export default function ProducerProductsPage() {
               <button
                 onClick={() => {
                   handleCloseView();
-                  handleOpenForm(viewingProduct);
+                  handleOpenForm(viewingProduct.id);
                 }}
                 className="rounded-lg bg-teal-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-teal-700"
               >
@@ -1583,23 +1484,33 @@ export default function ProducerProductsPage() {
               <div className="flex-1">
                 <p className="font-medium text-gray-900">{deleteConfirmProduct.name}</p>
                 <p className="text-sm text-gray-500">
-                  {deleteConfirmProduct.sku ?? "No SKU"} • {deleteConfirmProduct.categoryName}
+                  {deleteConfirmProduct.sku ?? "No SKU"} • {deleteConfirmProduct.category.name}
                 </p>
               </div>
             </div>
+
+            {/* Error Display */}
+            {deleteProduct.error && (
+              <div className="mt-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+                {deleteProduct.error.message}
+              </div>
+            )}
 
             {/* Actions */}
             <div className="mt-6 flex gap-3">
               <button
                 onClick={handleCancelDelete}
-                className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                disabled={deleteProduct.isPending}
+                className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirmDelete}
-                className="flex-1 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-red-700"
+                disabled={deleteProduct.isPending}
+                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-red-700 disabled:opacity-50"
               >
+                {deleteProduct.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
                 Delete Product
               </button>
             </div>

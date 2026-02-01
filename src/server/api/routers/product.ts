@@ -5,14 +5,139 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
+// Enums matching Prisma schema
+const ProductStatusEnum = z.enum(["DRAFT", "ACTIVE", "INACTIVE", "ARCHIVED", "OUT_OF_STOCK", "DISCONTINUED"]);
+const ProductTypeEnum = z.enum(["FRESH", "FROZEN", "PROCESSED", "DRIED", "LIVE"]);
+const SeafoodTypeEnum = z.enum(["FISH", "SHELLFISH", "CRUSTACEAN", "MOLLUSK", "SEAWEED"]);
+const StockTypeEnum = z.enum(["WEIGHT", "UNIT"]);
+
+// Variant schema for create/update
+const VariantSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().min(1),
+  sku: z.string().min(1),
+  price: z.number().min(0),
+  weightValue: z.number().min(0),
+  stockQuantity: z.number().int().min(0),
+  lowStockThreshold: z.number().int().min(0).default(10),
+});
+
+// Create product input schema
+const CreateProductSchema = z.object({
+  name: z.string().min(1),
+  sku: z.string().optional(),
+  slug: z.string().optional(),
+  description: z.string().optional(),
+  shortDescription: z.string().optional(),
+  productType: ProductTypeEnum.default("FRESH"),
+  seafoodType: SeafoodTypeEnum.default("FISH"),
+  speciesName: z.string().optional(),
+  localName: z.string().optional(),
+  price: z.number().min(0),
+  compareAtPrice: z.number().optional(),
+  costPerItem: z.number().optional(),
+  stockType: StockTypeEnum.default("WEIGHT"),
+  stockQuantity: z.number().min(0),
+  stockUnit: z.string().default("kg"),
+  minOrderQty: z.number().min(0).default(1),
+  maxOrderQty: z.number().optional(),
+  weightKg: z.number().min(0).default(0),
+  requiresColdChain: z.boolean().default(true),
+  shelfLifeDays: z.number().int().optional(),
+  categoryId: z.string().min(1),
+  status: ProductStatusEnum.default("DRAFT"),
+  featured: z.boolean().default(false),
+  tags: z.array(z.string()).default([]),
+  variants: z.array(VariantSchema).default([]),
+});
+
+// Update product input schema
+const UpdateProductSchema = CreateProductSchema.partial().extend({
+  id: z.string().min(1),
+});
+
 export const productRouter = createTRPCRouter({
+  // Get products for sourcing market (merchant view)
+  getForSourcing: publicProcedure
+    .input(
+      z.object({
+        productType: ProductTypeEnum.optional(),
+        seafoodType: SeafoodTypeEnum.optional(),
+        search: z.string().optional(),
+        requiresColdChain: z.boolean().optional(),
+        inStockOnly: z.boolean().default(true),
+        limit: z.number().min(1).max(100).default(50),
+        cursor: z.string().optional(),
+      }).optional()
+    )
+    .query(async ({ ctx, input }) => {
+      const {
+        productType,
+        seafoodType,
+        search,
+        requiresColdChain,
+        inStockOnly = true,
+        limit = 50,
+        cursor,
+      } = input ?? {};
+
+      const where = {
+        status: "ACTIVE" as const,
+        ...(productType && { productType }),
+        ...(seafoodType && { seafoodType }),
+        ...(requiresColdChain !== undefined && { requiresColdChain }),
+        ...(inStockOnly && {
+          stockQuantity: { gt: 0 },
+        }),
+        ...(search && {
+          OR: [
+            { name: { contains: search, mode: "insensitive" as const } },
+            { description: { contains: search, mode: "insensitive" as const } },
+            { localName: { contains: search, mode: "insensitive" as const } },
+            { speciesName: { contains: search, mode: "insensitive" as const } },
+            { tags: { has: search.toLowerCase() } },
+          ],
+        }),
+      };
+
+      const products = await ctx.db.product.findMany({
+        where,
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        orderBy: [
+          { featured: "desc" },
+          { createdAt: "desc" },
+        ],
+        include: {
+          images: {
+            orderBy: { sortOrder: "asc" },
+          },
+          category: true,
+          variants: true,
+        },
+      });
+
+      let nextCursor: typeof cursor = undefined;
+      if (products.length > limit) {
+        const nextItem = products.pop();
+        nextCursor = nextItem!.id;
+      }
+
+      return {
+        products,
+        nextCursor,
+      };
+    }),
+
   // Get all products with optional filtering
   getAll: publicProcedure
     .input(
       z.object({
         categorySlug: z.string().optional(),
         featured: z.boolean().optional(),
-        status: z.enum(["ACTIVE", "OUT_OF_STOCK", "DISCONTINUED"]).optional(),
+        status: ProductStatusEnum.optional(),
+        productType: ProductTypeEnum.optional(),
+        seafoodType: SeafoodTypeEnum.optional(),
         search: z.string().optional(),
         limit: z.number().min(1).max(100).default(20),
         cursor: z.string().optional(),
@@ -25,6 +150,8 @@ export const productRouter = createTRPCRouter({
         categorySlug,
         featured,
         status = "ACTIVE",
+        productType,
+        seafoodType,
         search,
         limit = 20,
         cursor,
@@ -38,10 +165,13 @@ export const productRouter = createTRPCRouter({
           category: { slug: categorySlug },
         }),
         ...(featured !== undefined && { featured }),
+        ...(productType && { productType }),
+        ...(seafoodType && { seafoodType }),
         ...(search && {
           OR: [
             { name: { contains: search, mode: "insensitive" as const } },
             { description: { contains: search, mode: "insensitive" as const } },
+            { localName: { contains: search, mode: "insensitive" as const } },
             { tags: { has: search.toLowerCase() } },
           ],
         }),
@@ -57,6 +187,7 @@ export const productRouter = createTRPCRouter({
             orderBy: { sortOrder: "asc" },
           },
           category: true,
+          variants: true,
         },
       });
 
@@ -220,5 +351,275 @@ export const productRouter = createTRPCRouter({
       });
 
       return products;
+    }),
+
+  // Get products for producer (all statuses)
+  getForProducer: publicProcedure
+    .input(
+      z.object({
+        search: z.string().optional(),
+        categoryId: z.string().optional(),
+        status: ProductStatusEnum.optional(),
+        limit: z.number().min(1).max(100).default(50),
+        cursor: z.string().optional(),
+      }).optional()
+    )
+    .query(async ({ ctx, input }) => {
+      const {
+        search,
+        categoryId,
+        status,
+        limit = 50,
+        cursor,
+      } = input ?? {};
+
+      const where = {
+        ...(status && { status }),
+        ...(categoryId && { categoryId }),
+        ...(search && {
+          OR: [
+            { name: { contains: search, mode: "insensitive" as const } },
+            { sku: { contains: search, mode: "insensitive" as const } },
+          ],
+        }),
+      };
+
+      const products = await ctx.db.product.findMany({
+        where,
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        orderBy: { createdAt: "desc" },
+        include: {
+          images: {
+            orderBy: { sortOrder: "asc" },
+          },
+          category: true,
+          variants: true,
+        },
+      });
+
+      let nextCursor: typeof cursor = undefined;
+      if (products.length > limit) {
+        const nextItem = products.pop();
+        nextCursor = nextItem!.id;
+      }
+
+      return {
+        products,
+        nextCursor,
+      };
+    }),
+
+  // Create a new product
+  create: publicProcedure
+    .input(CreateProductSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { variants, ...productData } = input;
+
+      // Normalize optional string fields (treat empty strings as undefined)
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      const normalizedSlug = productData.slug || undefined;
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      const normalizedSku = productData.sku || undefined;
+
+      // Generate slug if not provided
+      const slug = normalizedSlug ?? productData.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+
+      // Check if slug already exists
+      const existingProduct = await ctx.db.product.findUnique({
+        where: { slug },
+      });
+
+      if (existingProduct) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "A product with this slug already exists",
+        });
+      }
+
+      // Check if SKU already exists (if provided)
+      if (normalizedSku) {
+        const existingSku = await ctx.db.product.findUnique({
+          where: { sku: normalizedSku },
+        });
+
+        if (existingSku) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "A product with this SKU already exists",
+          });
+        }
+      }
+
+      // Create product with variants
+      const product = await ctx.db.product.create({
+        data: {
+          ...productData,
+          slug,
+          sku: normalizedSku ?? null,
+          variants: {
+            create: variants.map((v) => ({
+              name: v.name,
+              sku: v.sku,
+              price: v.price,
+              weightValue: v.weightValue,
+              stockQuantity: v.stockQuantity,
+              lowStockThreshold: v.lowStockThreshold,
+            })),
+          },
+        },
+        include: {
+          images: {
+            orderBy: { sortOrder: "asc" },
+          },
+          category: true,
+          variants: true,
+        },
+      });
+
+      return product;
+    }),
+
+  // Update an existing product
+  update: publicProcedure
+    .input(UpdateProductSchema)
+    .mutation(async ({ ctx, input }) => {
+      const { id, variants, ...productData } = input;
+
+      // Normalize optional string fields (treat empty strings as undefined)
+      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+      const normalizedSku = productData.sku || undefined;
+
+      // Check if product exists
+      const existingProduct = await ctx.db.product.findUnique({
+        where: { id },
+        include: { variants: true },
+      });
+
+      if (!existingProduct) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Product not found",
+        });
+      }
+
+      // Check slug uniqueness if changed
+      if (productData.slug && productData.slug !== existingProduct.slug) {
+        const slugExists = await ctx.db.product.findUnique({
+          where: { slug: productData.slug },
+        });
+
+        if (slugExists) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "A product with this slug already exists",
+          });
+        }
+      }
+
+      // Check SKU uniqueness if changed
+      if (normalizedSku && normalizedSku !== existingProduct.sku) {
+        const skuExists = await ctx.db.product.findUnique({
+          where: { sku: normalizedSku },
+        });
+
+        if (skuExists) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "A product with this SKU already exists",
+          });
+        }
+      }
+
+      // Handle variants update
+      if (variants) {
+        // Get existing variant IDs
+        const existingVariantIds = existingProduct.variants.map((v) => v.id);
+        const inputVariantIds = variants.filter((v) => v.id).map((v) => v.id!);
+
+        // Delete variants that are no longer in the input
+        const variantsToDelete = existingVariantIds.filter((id) => !inputVariantIds.includes(id));
+
+        if (variantsToDelete.length > 0) {
+          await ctx.db.productVariant.deleteMany({
+            where: { id: { in: variantsToDelete } },
+          });
+        }
+
+        // Update or create variants
+        for (const variant of variants) {
+          if (variant.id && existingVariantIds.includes(variant.id)) {
+            // Update existing variant
+            await ctx.db.productVariant.update({
+              where: { id: variant.id },
+              data: {
+                name: variant.name,
+                sku: variant.sku,
+                price: variant.price,
+                weightValue: variant.weightValue,
+                stockQuantity: variant.stockQuantity,
+                lowStockThreshold: variant.lowStockThreshold,
+              },
+            });
+          } else {
+            // Create new variant
+            await ctx.db.productVariant.create({
+              data: {
+                productId: id,
+                name: variant.name,
+                sku: variant.sku,
+                price: variant.price,
+                weightValue: variant.weightValue,
+                stockQuantity: variant.stockQuantity,
+                lowStockThreshold: variant.lowStockThreshold,
+              },
+            });
+          }
+        }
+      }
+
+      // Update product
+      const product = await ctx.db.product.update({
+        where: { id },
+        data: {
+          ...productData,
+          sku: normalizedSku ?? null,
+        },
+        include: {
+          images: {
+            orderBy: { sortOrder: "asc" },
+          },
+          category: true,
+          variants: true,
+        },
+      });
+
+      return product;
+    }),
+
+  // Delete a product
+  delete: publicProcedure
+    .input(z.object({ id: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const { id } = input;
+
+      // Check if product exists
+      const existingProduct = await ctx.db.product.findUnique({
+        where: { id },
+      });
+
+      if (!existingProduct) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Product not found",
+        });
+      }
+
+      // Delete product (variants and images will be cascade deleted)
+      await ctx.db.product.delete({
+        where: { id },
+      });
+
+      return { success: true };
     }),
 });
