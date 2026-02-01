@@ -21,9 +21,28 @@ enum StockType {
 }
 
 enum ProductStatus {
+    DRAFT
     ACTIVE
-    OUT_OF_STOCK
-    DISCONTINUED
+    INACTIVE
+    ARCHIVED
+    OUT_OF_STOCK   // Legacy - kept for backward compatibility
+    DISCONTINUED   // Legacy - kept for backward compatibility
+}
+
+enum ProductType {
+    FRESH
+    FROZEN
+    PROCESSED
+    DRIED
+    LIVE
+}
+
+enum SeafoodType {
+    FISH
+    SHELLFISH
+    CRUSTACEAN
+    MOLLUSK
+    SEAWEED
 }
 
 model Category {
@@ -44,30 +63,38 @@ model Category {
 }
 
 model Product {
-    id              String        @id @default(cuid())
-    name            String
-    slug            String        @unique
-    description     String?
+    id               String        @id @default(cuid())
+    name             String
+    sku              String?       @unique // Stock keeping unit (optional during migration)
+    slug             String        @unique
+    description      String?
     shortDescription String?
 
+    // Seafood-specific attributes
+    productType      ProductType   @default(FRESH) // fresh | frozen | processed | dried | live
+    seafoodType      SeafoodType   @default(FISH)  // fish | shellfish | crustacean | mollusk | seaweed
+    speciesName      String?       // Scientific species name
+    localName        String?       // Filipino/local name (e.g., Bangus, Tilapia)
+
     // Pricing
-    price           Decimal       @db.Decimal(10, 2)
+    price           Decimal       @db.Decimal(10, 2) // Base selling price
     compareAtPrice  Decimal?      @db.Decimal(10, 2) // Original price for showing discounts
     costPerItem     Decimal?      @db.Decimal(10, 2) // For profit calculations
 
     // Stock Management
     stockType       StockType     @default(UNIT)
     stockQuantity   Decimal       @db.Decimal(10, 3) // Supports both kg (e.g., 25.500) and units (e.g., 100.000)
-    stockUnit       String        @default("unit") // "kg", "g", "unit", "pack", "dozen"
+    stockUnit       String        @default("kg") // kg | gram | piece | pack | box | tray
     minOrderQty     Decimal       @default(1) @db.Decimal(10, 3)
     maxOrderQty     Decimal?      @db.Decimal(10, 3)
 
     // Weight for shipping calculations (always in kg)
     weightKg        Decimal       @default(0) @db.Decimal(10, 3)
 
-    // Freshness & Expiry
+    // Cold Chain & Freshness
+    requiresColdChain Boolean     @default(true) // Requires temperature-controlled shipping
     bestBefore      DateTime?     // Best before date for current batch
-    shelfLifeDays   Int?          // Default shelf life in days
+    shelfLifeDays   Int?          // Product freshness duration in days
 
     // Images
     images          ProductImage[]
@@ -75,20 +102,24 @@ model Product {
     // Relations
     categoryId      String
     category        Category      @relation(fields: [categoryId], references: [id])
+    variants        ProductVariant[]
     orderItems      OrderItem[]
     cartItems       CartItem[]
 
     // Metadata
-    status          ProductStatus @default(ACTIVE)
+    status          ProductStatus @default(DRAFT) // draft | active | inactive | archived
     featured        Boolean       @default(false)
     tags            String[]      @default([])
 
     createdAt       DateTime      @default(now())
     updatedAt       DateTime      @updatedAt
 
+    @@index([sku])
     @@index([slug])
     @@index([categoryId])
     @@index([status])
+    @@index([productType])
+    @@index([seafoodType])
     @@index([featured])
     @@index([bestBefore])
 }
@@ -104,6 +135,27 @@ model ProductImage {
     createdAt DateTime @default(now())
 
     @@index([productId])
+}
+
+model ProductVariant {
+    id                String   @id @default(cuid())
+    productId         String
+    product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+    name              String   // Variant name (500g, 1kg, whole, fillet)
+    sku               String   @unique // Unique variant SKU
+    price             Decimal  @db.Decimal(10, 2) // Variant price
+    weightValue       Decimal  @db.Decimal(10, 3) // Weight amount
+
+    // Inventory
+    stockQuantity     Int      @default(0) // Available stock
+    lowStockThreshold Int      @default(10) // Alert threshold
+
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+
+    @@index([productId])
+    @@index([sku])
 }
 
 // ============================================

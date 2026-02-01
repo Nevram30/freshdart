@@ -1,9 +1,79 @@
 import { PrismaClient } from "../generated/prisma";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log("🌱 Seeding database...");
+
+  // Create Sample Users
+  const hashedPassword = await bcrypt.hash("password123", 12);
+
+  const users = await Promise.all([
+    // Customer user
+    prisma.user.upsert({
+      where: { email: "customer@freshdart.com" },
+      update: {},
+      create: {
+        name: "Juan Dela Cruz",
+        email: "customer@freshdart.com",
+        password: hashedPassword,
+        role: "CUSTOMER",
+        phone: "+63 912 345 6789",
+        defaultAddress: {
+          street: "123 Rizal Street",
+          city: "Makati City",
+          state: "Metro Manila",
+          postalCode: "1200",
+          country: "Philippines",
+        },
+      },
+    }),
+    // Merchant user
+    prisma.user.upsert({
+      where: { email: "merchant@freshdart.com" },
+      update: {},
+      create: {
+        name: "Maria Santos",
+        email: "merchant@freshdart.com",
+        password: hashedPassword,
+        role: "MERCHANT",
+        phone: "+63 917 123 4567",
+        merchant: {
+          create: {
+            businessName: "Santos Fresh Seafood",
+            businessRegistrationNumber: "DTI-2024-001234",
+            businessType: "FISHERY",
+            businessSize: "SMALL",
+            description: "Quality fresh seafood from local fishermen",
+          },
+        },
+      },
+    }),
+    // Producer user
+    prisma.user.upsert({
+      where: { email: "producer@freshdart.com" },
+      update: {},
+      create: {
+        name: "Pedro Aquino",
+        email: "producer@freshdart.com",
+        password: hashedPassword,
+        role: "PRODUCER",
+        phone: "+63 918 987 6543",
+        merchant: {
+          create: {
+            businessName: "Aquino Fish Farm",
+            businessRegistrationNumber: "BFAR-2024-005678",
+            businessType: "AQUACULTURE",
+            businessSize: "MEDIUM",
+            description: "Sustainable aquaculture farm specializing in bangus and tilapia",
+          },
+        },
+      },
+    }),
+  ]);
+
+  console.log(`✅ Created ${users.length} users`);
 
   // Create Categories for Fresh Fish & Shrimps
   const categories = await Promise.all([

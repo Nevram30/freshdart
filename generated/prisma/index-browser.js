@@ -135,9 +135,14 @@ exports.Prisma.CategoryScalarFieldEnum = {
 exports.Prisma.ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
+  sku: 'sku',
   slug: 'slug',
   description: 'description',
   shortDescription: 'shortDescription',
+  productType: 'productType',
+  seafoodType: 'seafoodType',
+  speciesName: 'speciesName',
+  localName: 'localName',
   price: 'price',
   compareAtPrice: 'compareAtPrice',
   costPerItem: 'costPerItem',
@@ -147,6 +152,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   minOrderQty: 'minOrderQty',
   maxOrderQty: 'maxOrderQty',
   weightKg: 'weightKg',
+  requiresColdChain: 'requiresColdChain',
   bestBefore: 'bestBefore',
   shelfLifeDays: 'shelfLifeDays',
   categoryId: 'categoryId',
@@ -165,6 +171,19 @@ exports.Prisma.ProductImageScalarFieldEnum = {
   sortOrder: 'sortOrder',
   productId: 'productId',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.ProductVariantScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  name: 'name',
+  sku: 'sku',
+  price: 'price',
+  weightValue: 'weightValue',
+  stockQuantity: 'stockQuantity',
+  lowStockThreshold: 'lowStockThreshold',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.OrderScalarFieldEnum = {
@@ -341,13 +360,32 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.ProductType = exports.$Enums.ProductType = {
+  FRESH: 'FRESH',
+  FROZEN: 'FROZEN',
+  PROCESSED: 'PROCESSED',
+  DRIED: 'DRIED',
+  LIVE: 'LIVE'
+};
+
+exports.SeafoodType = exports.$Enums.SeafoodType = {
+  FISH: 'FISH',
+  SHELLFISH: 'SHELLFISH',
+  CRUSTACEAN: 'CRUSTACEAN',
+  MOLLUSK: 'MOLLUSK',
+  SEAWEED: 'SEAWEED'
+};
+
 exports.StockType = exports.$Enums.StockType = {
   WEIGHT: 'WEIGHT',
   UNIT: 'UNIT'
 };
 
 exports.ProductStatus = exports.$Enums.ProductStatus = {
+  DRAFT: 'DRAFT',
   ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  ARCHIVED: 'ARCHIVED',
   OUT_OF_STOCK: 'OUT_OF_STOCK',
   DISCONTINUED: 'DISCONTINUED'
 };
@@ -412,6 +450,7 @@ exports.Prisma.ModelName = {
   Category: 'Category',
   Product: 'Product',
   ProductImage: 'ProductImage',
+  ProductVariant: 'ProductVariant',
   Order: 'Order',
   OrderItem: 'OrderItem',
   Cart: 'Cart',

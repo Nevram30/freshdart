@@ -16,7 +16,7 @@ export interface Category {
 }
 
 export type StockType = "WEIGHT" | "UNIT";
-export type ProductStatus = "ACTIVE" | "OUT_OF_STOCK" | "DISCONTINUED";
+export type ProductStatus = "DRAFT" | "ACTIVE" | "INACTIVE" | "ARCHIVED" | "OUT_OF_STOCK" | "DISCONTINUED";
 
 export interface Product {
   id: string;
