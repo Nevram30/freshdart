@@ -47,7 +47,7 @@ const merchantNavItems: NavItem[] = [
 
 const producerNavItems: NavItem[] = [
   { label: "Dashboard", href: "/producer/dashboard", icon: LayoutDashboard },
-  { label: "Products", href: "/producer/dashboard/products", icon: Fish },
+  { label: "Products", href: "/producer/products", icon: Fish },
   { label: "Orders", href: "/producer/dashboard/orders", icon: ShoppingCart },
   { label: "Shipments", href: "/producer/dashboard/shipments", icon: Truck },
   { label: "Customers", href: "/producer/dashboard/customers", icon: Users },
