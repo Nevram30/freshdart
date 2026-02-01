@@ -103,7 +103,7 @@ export default function RegisterPage() {
               <Anchor className="h-6 w-6 text-teal-400" />
             </div>
             <span className="text-xl font-bold uppercase tracking-wider text-white">
-              SeaMarket
+              Katig
             </span>
           </div>
 
@@ -166,7 +166,7 @@ export default function RegisterPage() {
             {/* Header */}
             <div className="mb-6 text-center">
               <h2 className="text-2xl font-bold text-[#0B3D4C]">
-                Join SeaMarket
+                Join Katig
               </h2>
               <p className="mt-1 text-gray-600">
                 Choose your account type to get started.

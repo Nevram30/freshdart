@@ -39,9 +39,9 @@ const customerNavItems: NavItem[] = [
 
 const merchantNavItems: NavItem[] = [
   { label: "Dashboard", href: "/merchant/dashboard", icon: LayoutDashboard },
-  { label: "My Orders", href: "/merchant/dashboard/orders", icon: ShoppingCart },
-  { label: "Sourcing Market", href: "/merchant/dashboard/sourcing", icon: Store },
-  { label: "Inventory", href: "/merchant/dashboard/inventory", icon: Package },
+  { label: "My Orders", href: "/merchant/orders", icon: ShoppingCart },
+  { label: "Sourcing Market", href: "/merchant/sourcing", icon: Store },
+  { label: "Inventory", href: "/merchant/inventory", icon: Package },
   { label: "Invoices", href: "/merchant/dashboard/invoices", icon: Receipt },
 ];
 
