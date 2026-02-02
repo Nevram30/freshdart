@@ -483,10 +483,24 @@ enum BulkOrderStatus {
     QUOTED        // Quote has been provided
     CONFIRMED     // Customer confirmed the order
     PROCESSING    // Order is being prepared
+    READY_FOR_PICKUP // Ready to be picked up by courier
     SHIPPED       // Order has been shipped
+    IN_TRANSIT    // Order is in transit
+    OUT_FOR_DELIVERY // Order is out for delivery
     DELIVERED     // Order has been delivered
     CANCELLED     // Order was cancelled
     REJECTED      // Order was rejected
+}
+
+enum ShippingCarrier {
+    JT_EXPRESS    // J&T Express
+    LALAMOVE      // Lalamove
+    GRAB_EXPRESS  // Grab Express
+    LBC           // LBC Express
+    GOGO_XPRESS   // GoGo Xpress
+    NINJA_VAN     // Ninja Van
+    SELF_DELIVERY // Producer's own delivery
+    OTHER         // Other carrier
 }
 
 enum QuoteStatus {
@@ -518,6 +532,7 @@ model BulkOrder {
     finalSubtotal    Decimal?        @db.Decimal(10, 2)
     finalShipping    Decimal?        @db.Decimal(10, 2)
     finalTotal       Decimal?        @db.Decimal(10, 2)
+    coldChainSurcharge Decimal?      @db.Decimal(10, 2) // Extra charge for cold chain shipping
 
     // Delivery preferences
     preferredDeliveryDate DateTime?
@@ -534,8 +549,39 @@ model BulkOrder {
     status           BulkOrderStatus @default(PENDING)
     notes            String?         // Internal notes
 
+    // Shipping & Tracking
+    carrier          ShippingCarrier?
+    carrierOther     String?         // If carrier is OTHER, specify name
+    trackingNumber   String?
+    trackingUrl      String?         // External tracking URL
+    requiresColdChain Boolean        @default(false) // Does this order require cold chain?
+
+    // Estimated delivery
+    estimatedDeliveryDate DateTime?
+    actualDeliveryDate    DateTime?
+
+    // Status timestamps (for tracking)
+    reviewedAt       DateTime?
+    quotedAt         DateTime?
+    confirmedAt      DateTime?
+    processingAt     DateTime?
+    readyForPickupAt DateTime?
+    shippedAt        DateTime?
+    inTransitAt      DateTime?
+    outForDeliveryAt DateTime?
+    deliveredAt      DateTime?
+    cancelledAt      DateTime?
+
+    // Proof of delivery
+    deliveryProofUrl  String?        // Photo of delivered goods
+    deliverySignature String?        // Signature image URL
+    receivedBy        String?        // Name of person who received
+
     // Related quote
     quote            Quote?
+
+    // Status history
+    statusHistory    OrderStatusHistory[]
 
     createdAt        DateTime        @default(now())
     updatedAt        DateTime        @updatedAt
@@ -544,6 +590,8 @@ model BulkOrder {
     @@index([orderNumber])
     @@index([status])
     @@index([createdAt])
+    @@index([trackingNumber])
+    @@index([carrier])
 }
 
 model BulkOrderItem {
@@ -647,4 +695,31 @@ model QuoteItem {
 
     @@index([quoteId])
     @@index([productId])
+}
+
+// ============================================
+// ORDER STATUS HISTORY (Audit Trail)
+// ============================================
+
+model OrderStatusHistory {
+    id            String          @id @default(cuid())
+    bulkOrderId   String
+    bulkOrder     BulkOrder       @relation(fields: [bulkOrderId], references: [id], onDelete: Cascade)
+
+    fromStatus    BulkOrderStatus
+    toStatus      BulkOrderStatus
+
+    // Who made the change
+    changedById   String
+    changedByName String          // Snapshot of user name at time of change
+    changedByRole String          // PRODUCER, MERCHANT, ADMIN
+
+    // Additional info
+    notes         String?
+    metadata      Json?           // Any additional data (e.g., tracking info when shipped)
+
+    createdAt     DateTime        @default(now())
+
+    @@index([bulkOrderId])
+    @@index([createdAt])
 }

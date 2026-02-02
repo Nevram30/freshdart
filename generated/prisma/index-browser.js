@@ -342,6 +342,7 @@ exports.Prisma.BulkOrderScalarFieldEnum = {
   finalSubtotal: 'finalSubtotal',
   finalShipping: 'finalShipping',
   finalTotal: 'finalTotal',
+  coldChainSurcharge: 'coldChainSurcharge',
   preferredDeliveryDate: 'preferredDeliveryDate',
   deliveryNotes: 'deliveryNotes',
   contactName: 'contactName',
@@ -351,6 +352,26 @@ exports.Prisma.BulkOrderScalarFieldEnum = {
   shippingAddress: 'shippingAddress',
   status: 'status',
   notes: 'notes',
+  carrier: 'carrier',
+  carrierOther: 'carrierOther',
+  trackingNumber: 'trackingNumber',
+  trackingUrl: 'trackingUrl',
+  requiresColdChain: 'requiresColdChain',
+  estimatedDeliveryDate: 'estimatedDeliveryDate',
+  actualDeliveryDate: 'actualDeliveryDate',
+  reviewedAt: 'reviewedAt',
+  quotedAt: 'quotedAt',
+  confirmedAt: 'confirmedAt',
+  processingAt: 'processingAt',
+  readyForPickupAt: 'readyForPickupAt',
+  shippedAt: 'shippedAt',
+  inTransitAt: 'inTransitAt',
+  outForDeliveryAt: 'outForDeliveryAt',
+  deliveredAt: 'deliveredAt',
+  cancelledAt: 'cancelledAt',
+  deliveryProofUrl: 'deliveryProofUrl',
+  deliverySignature: 'deliverySignature',
+  receivedBy: 'receivedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -410,6 +431,19 @@ exports.Prisma.QuoteItemScalarFieldEnum = {
   unitPrice: 'unitPrice',
   totalPrice: 'totalPrice',
   weightKg: 'weightKg',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.OrderStatusHistoryScalarFieldEnum = {
+  id: 'id',
+  bulkOrderId: 'bulkOrderId',
+  fromStatus: 'fromStatus',
+  toStatus: 'toStatus',
+  changedById: 'changedById',
+  changedByName: 'changedByName',
+  changedByRole: 'changedByRole',
+  notes: 'notes',
+  metadata: 'metadata',
   createdAt: 'createdAt'
 };
 
@@ -535,10 +569,24 @@ exports.BulkOrderStatus = exports.$Enums.BulkOrderStatus = {
   QUOTED: 'QUOTED',
   CONFIRMED: 'CONFIRMED',
   PROCESSING: 'PROCESSING',
+  READY_FOR_PICKUP: 'READY_FOR_PICKUP',
   SHIPPED: 'SHIPPED',
+  IN_TRANSIT: 'IN_TRANSIT',
+  OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
   DELIVERED: 'DELIVERED',
   CANCELLED: 'CANCELLED',
   REJECTED: 'REJECTED'
+};
+
+exports.ShippingCarrier = exports.$Enums.ShippingCarrier = {
+  JT_EXPRESS: 'JT_EXPRESS',
+  LALAMOVE: 'LALAMOVE',
+  GRAB_EXPRESS: 'GRAB_EXPRESS',
+  LBC: 'LBC',
+  GOGO_XPRESS: 'GOGO_XPRESS',
+  NINJA_VAN: 'NINJA_VAN',
+  SELF_DELIVERY: 'SELF_DELIVERY',
+  OTHER: 'OTHER'
 };
 
 exports.QuoteStatus = exports.$Enums.QuoteStatus = {
@@ -570,7 +618,8 @@ exports.Prisma.ModelName = {
   BulkOrder: 'BulkOrder',
   BulkOrderItem: 'BulkOrderItem',
   Quote: 'Quote',
-  QuoteItem: 'QuoteItem'
+  QuoteItem: 'QuoteItem',
+  OrderStatusHistory: 'OrderStatusHistory'
 };
 
 /**

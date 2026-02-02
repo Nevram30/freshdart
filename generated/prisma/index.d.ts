@@ -113,6 +113,11 @@ export type Quote = $Result.DefaultSelection<Prisma.$QuotePayload>
  * 
  */
 export type QuoteItem = $Result.DefaultSelection<Prisma.$QuoteItemPayload>
+/**
+ * Model OrderStatusHistory
+ * 
+ */
+export type OrderStatusHistory = $Result.DefaultSelection<Prisma.$OrderStatusHistoryPayload>
 
 /**
  * Enums
@@ -247,13 +252,30 @@ export const BulkOrderStatus: {
   QUOTED: 'QUOTED',
   CONFIRMED: 'CONFIRMED',
   PROCESSING: 'PROCESSING',
+  READY_FOR_PICKUP: 'READY_FOR_PICKUP',
   SHIPPED: 'SHIPPED',
+  IN_TRANSIT: 'IN_TRANSIT',
+  OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
   DELIVERED: 'DELIVERED',
   CANCELLED: 'CANCELLED',
   REJECTED: 'REJECTED'
 };
 
 export type BulkOrderStatus = (typeof BulkOrderStatus)[keyof typeof BulkOrderStatus]
+
+
+export const ShippingCarrier: {
+  JT_EXPRESS: 'JT_EXPRESS',
+  LALAMOVE: 'LALAMOVE',
+  GRAB_EXPRESS: 'GRAB_EXPRESS',
+  LBC: 'LBC',
+  GOGO_XPRESS: 'GOGO_XPRESS',
+  NINJA_VAN: 'NINJA_VAN',
+  SELF_DELIVERY: 'SELF_DELIVERY',
+  OTHER: 'OTHER'
+};
+
+export type ShippingCarrier = (typeof ShippingCarrier)[keyof typeof ShippingCarrier]
 
 
 export const QuoteStatus: {
@@ -320,6 +342,10 @@ export const UserRole: typeof $Enums.UserRole
 export type BulkOrderStatus = $Enums.BulkOrderStatus
 
 export const BulkOrderStatus: typeof $Enums.BulkOrderStatus
+
+export type ShippingCarrier = $Enums.ShippingCarrier
+
+export const ShippingCarrier: typeof $Enums.ShippingCarrier
 
 export type QuoteStatus = $Enums.QuoteStatus
 
@@ -642,6 +668,16 @@ export class PrismaClient<
     * ```
     */
   get quoteItem(): Prisma.QuoteItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.orderStatusHistory`: Exposes CRUD operations for the **OrderStatusHistory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OrderStatusHistories
+    * const orderStatusHistories = await prisma.orderStatusHistory.findMany()
+    * ```
+    */
+  get orderStatusHistory(): Prisma.OrderStatusHistoryDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1102,7 +1138,8 @@ export namespace Prisma {
     BulkOrder: 'BulkOrder',
     BulkOrderItem: 'BulkOrderItem',
     Quote: 'Quote',
-    QuoteItem: 'QuoteItem'
+    QuoteItem: 'QuoteItem',
+    OrderStatusHistory: 'OrderStatusHistory'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1121,7 +1158,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "category" | "product" | "productImage" | "productVariant" | "order" | "orderItem" | "cart" | "cartItem" | "shippingZone" | "shippingRate" | "merchant" | "merchantDocument" | "account" | "session" | "user" | "verificationToken" | "bulkOrder" | "bulkOrderItem" | "quote" | "quoteItem"
+      modelProps: "category" | "product" | "productImage" | "productVariant" | "order" | "orderItem" | "cart" | "cartItem" | "shippingZone" | "shippingRate" | "merchant" | "merchantDocument" | "account" | "session" | "user" | "verificationToken" | "bulkOrder" | "bulkOrderItem" | "quote" | "quoteItem" | "orderStatusHistory"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2605,6 +2642,80 @@ export namespace Prisma {
           }
         }
       }
+      OrderStatusHistory: {
+        payload: Prisma.$OrderStatusHistoryPayload<ExtArgs>
+        fields: Prisma.OrderStatusHistoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OrderStatusHistoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OrderStatusHistoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+          }
+          findFirst: {
+            args: Prisma.OrderStatusHistoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OrderStatusHistoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+          }
+          findMany: {
+            args: Prisma.OrderStatusHistoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>[]
+          }
+          create: {
+            args: Prisma.OrderStatusHistoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+          }
+          createMany: {
+            args: Prisma.OrderStatusHistoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OrderStatusHistoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>[]
+          }
+          delete: {
+            args: Prisma.OrderStatusHistoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+          }
+          update: {
+            args: Prisma.OrderStatusHistoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.OrderStatusHistoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OrderStatusHistoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.OrderStatusHistoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.OrderStatusHistoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+          }
+          aggregate: {
+            args: Prisma.OrderStatusHistoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOrderStatusHistory>
+          }
+          groupBy: {
+            args: Prisma.OrderStatusHistoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OrderStatusHistoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OrderStatusHistoryCountArgs<ExtArgs>
+            result: $Utils.Optional<OrderStatusHistoryCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2721,6 +2832,7 @@ export namespace Prisma {
     bulkOrderItem?: BulkOrderItemOmit
     quote?: QuoteOmit
     quoteItem?: QuoteItemOmit
+    orderStatusHistory?: OrderStatusHistoryOmit
   }
 
   /* Types for Logging */
@@ -3118,10 +3230,12 @@ export namespace Prisma {
 
   export type BulkOrderCountOutputType = {
     items: number
+    statusHistory: number
   }
 
   export type BulkOrderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | BulkOrderCountOutputTypeCountItemsArgs
+    statusHistory?: boolean | BulkOrderCountOutputTypeCountStatusHistoryArgs
   }
 
   // Custom InputTypes
@@ -3140,6 +3254,13 @@ export namespace Prisma {
    */
   export type BulkOrderCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BulkOrderItemWhereInput
+  }
+
+  /**
+   * BulkOrderCountOutputType without action
+   */
+  export type BulkOrderCountOutputTypeCountStatusHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderStatusHistoryWhereInput
   }
 
 
@@ -22080,6 +22201,7 @@ export namespace Prisma {
     finalSubtotal: Decimal | null
     finalShipping: Decimal | null
     finalTotal: Decimal | null
+    coldChainSurcharge: Decimal | null
   }
 
   export type BulkOrderSumAggregateOutputType = {
@@ -22089,6 +22211,7 @@ export namespace Prisma {
     finalSubtotal: Decimal | null
     finalShipping: Decimal | null
     finalTotal: Decimal | null
+    coldChainSurcharge: Decimal | null
   }
 
   export type BulkOrderMinAggregateOutputType = {
@@ -22101,6 +22224,7 @@ export namespace Prisma {
     finalSubtotal: Decimal | null
     finalShipping: Decimal | null
     finalTotal: Decimal | null
+    coldChainSurcharge: Decimal | null
     preferredDeliveryDate: Date | null
     deliveryNotes: string | null
     contactName: string | null
@@ -22109,6 +22233,26 @@ export namespace Prisma {
     companyName: string | null
     status: $Enums.BulkOrderStatus | null
     notes: string | null
+    carrier: $Enums.ShippingCarrier | null
+    carrierOther: string | null
+    trackingNumber: string | null
+    trackingUrl: string | null
+    requiresColdChain: boolean | null
+    estimatedDeliveryDate: Date | null
+    actualDeliveryDate: Date | null
+    reviewedAt: Date | null
+    quotedAt: Date | null
+    confirmedAt: Date | null
+    processingAt: Date | null
+    readyForPickupAt: Date | null
+    shippedAt: Date | null
+    inTransitAt: Date | null
+    outForDeliveryAt: Date | null
+    deliveredAt: Date | null
+    cancelledAt: Date | null
+    deliveryProofUrl: string | null
+    deliverySignature: string | null
+    receivedBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -22123,6 +22267,7 @@ export namespace Prisma {
     finalSubtotal: Decimal | null
     finalShipping: Decimal | null
     finalTotal: Decimal | null
+    coldChainSurcharge: Decimal | null
     preferredDeliveryDate: Date | null
     deliveryNotes: string | null
     contactName: string | null
@@ -22131,6 +22276,26 @@ export namespace Prisma {
     companyName: string | null
     status: $Enums.BulkOrderStatus | null
     notes: string | null
+    carrier: $Enums.ShippingCarrier | null
+    carrierOther: string | null
+    trackingNumber: string | null
+    trackingUrl: string | null
+    requiresColdChain: boolean | null
+    estimatedDeliveryDate: Date | null
+    actualDeliveryDate: Date | null
+    reviewedAt: Date | null
+    quotedAt: Date | null
+    confirmedAt: Date | null
+    processingAt: Date | null
+    readyForPickupAt: Date | null
+    shippedAt: Date | null
+    inTransitAt: Date | null
+    outForDeliveryAt: Date | null
+    deliveredAt: Date | null
+    cancelledAt: Date | null
+    deliveryProofUrl: string | null
+    deliverySignature: string | null
+    receivedBy: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -22145,6 +22310,7 @@ export namespace Prisma {
     finalSubtotal: number
     finalShipping: number
     finalTotal: number
+    coldChainSurcharge: number
     preferredDeliveryDate: number
     deliveryNotes: number
     contactName: number
@@ -22154,6 +22320,26 @@ export namespace Prisma {
     shippingAddress: number
     status: number
     notes: number
+    carrier: number
+    carrierOther: number
+    trackingNumber: number
+    trackingUrl: number
+    requiresColdChain: number
+    estimatedDeliveryDate: number
+    actualDeliveryDate: number
+    reviewedAt: number
+    quotedAt: number
+    confirmedAt: number
+    processingAt: number
+    readyForPickupAt: number
+    shippedAt: number
+    inTransitAt: number
+    outForDeliveryAt: number
+    deliveredAt: number
+    cancelledAt: number
+    deliveryProofUrl: number
+    deliverySignature: number
+    receivedBy: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -22167,6 +22353,7 @@ export namespace Prisma {
     finalSubtotal?: true
     finalShipping?: true
     finalTotal?: true
+    coldChainSurcharge?: true
   }
 
   export type BulkOrderSumAggregateInputType = {
@@ -22176,6 +22363,7 @@ export namespace Prisma {
     finalSubtotal?: true
     finalShipping?: true
     finalTotal?: true
+    coldChainSurcharge?: true
   }
 
   export type BulkOrderMinAggregateInputType = {
@@ -22188,6 +22376,7 @@ export namespace Prisma {
     finalSubtotal?: true
     finalShipping?: true
     finalTotal?: true
+    coldChainSurcharge?: true
     preferredDeliveryDate?: true
     deliveryNotes?: true
     contactName?: true
@@ -22196,6 +22385,26 @@ export namespace Prisma {
     companyName?: true
     status?: true
     notes?: true
+    carrier?: true
+    carrierOther?: true
+    trackingNumber?: true
+    trackingUrl?: true
+    requiresColdChain?: true
+    estimatedDeliveryDate?: true
+    actualDeliveryDate?: true
+    reviewedAt?: true
+    quotedAt?: true
+    confirmedAt?: true
+    processingAt?: true
+    readyForPickupAt?: true
+    shippedAt?: true
+    inTransitAt?: true
+    outForDeliveryAt?: true
+    deliveredAt?: true
+    cancelledAt?: true
+    deliveryProofUrl?: true
+    deliverySignature?: true
+    receivedBy?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -22210,6 +22419,7 @@ export namespace Prisma {
     finalSubtotal?: true
     finalShipping?: true
     finalTotal?: true
+    coldChainSurcharge?: true
     preferredDeliveryDate?: true
     deliveryNotes?: true
     contactName?: true
@@ -22218,6 +22428,26 @@ export namespace Prisma {
     companyName?: true
     status?: true
     notes?: true
+    carrier?: true
+    carrierOther?: true
+    trackingNumber?: true
+    trackingUrl?: true
+    requiresColdChain?: true
+    estimatedDeliveryDate?: true
+    actualDeliveryDate?: true
+    reviewedAt?: true
+    quotedAt?: true
+    confirmedAt?: true
+    processingAt?: true
+    readyForPickupAt?: true
+    shippedAt?: true
+    inTransitAt?: true
+    outForDeliveryAt?: true
+    deliveredAt?: true
+    cancelledAt?: true
+    deliveryProofUrl?: true
+    deliverySignature?: true
+    receivedBy?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -22232,6 +22462,7 @@ export namespace Prisma {
     finalSubtotal?: true
     finalShipping?: true
     finalTotal?: true
+    coldChainSurcharge?: true
     preferredDeliveryDate?: true
     deliveryNotes?: true
     contactName?: true
@@ -22241,6 +22472,26 @@ export namespace Prisma {
     shippingAddress?: true
     status?: true
     notes?: true
+    carrier?: true
+    carrierOther?: true
+    trackingNumber?: true
+    trackingUrl?: true
+    requiresColdChain?: true
+    estimatedDeliveryDate?: true
+    actualDeliveryDate?: true
+    reviewedAt?: true
+    quotedAt?: true
+    confirmedAt?: true
+    processingAt?: true
+    readyForPickupAt?: true
+    shippedAt?: true
+    inTransitAt?: true
+    outForDeliveryAt?: true
+    deliveredAt?: true
+    cancelledAt?: true
+    deliveryProofUrl?: true
+    deliverySignature?: true
+    receivedBy?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -22342,6 +22593,7 @@ export namespace Prisma {
     finalSubtotal: Decimal | null
     finalShipping: Decimal | null
     finalTotal: Decimal | null
+    coldChainSurcharge: Decimal | null
     preferredDeliveryDate: Date | null
     deliveryNotes: string | null
     contactName: string
@@ -22351,6 +22603,26 @@ export namespace Prisma {
     shippingAddress: JsonValue | null
     status: $Enums.BulkOrderStatus
     notes: string | null
+    carrier: $Enums.ShippingCarrier | null
+    carrierOther: string | null
+    trackingNumber: string | null
+    trackingUrl: string | null
+    requiresColdChain: boolean
+    estimatedDeliveryDate: Date | null
+    actualDeliveryDate: Date | null
+    reviewedAt: Date | null
+    quotedAt: Date | null
+    confirmedAt: Date | null
+    processingAt: Date | null
+    readyForPickupAt: Date | null
+    shippedAt: Date | null
+    inTransitAt: Date | null
+    outForDeliveryAt: Date | null
+    deliveredAt: Date | null
+    cancelledAt: Date | null
+    deliveryProofUrl: string | null
+    deliverySignature: string | null
+    receivedBy: string | null
     createdAt: Date
     updatedAt: Date
     _count: BulkOrderCountAggregateOutputType | null
@@ -22384,6 +22656,7 @@ export namespace Prisma {
     finalSubtotal?: boolean
     finalShipping?: boolean
     finalTotal?: boolean
+    coldChainSurcharge?: boolean
     preferredDeliveryDate?: boolean
     deliveryNotes?: boolean
     contactName?: boolean
@@ -22393,11 +22666,32 @@ export namespace Prisma {
     shippingAddress?: boolean
     status?: boolean
     notes?: boolean
+    carrier?: boolean
+    carrierOther?: boolean
+    trackingNumber?: boolean
+    trackingUrl?: boolean
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: boolean
+    actualDeliveryDate?: boolean
+    reviewedAt?: boolean
+    quotedAt?: boolean
+    confirmedAt?: boolean
+    processingAt?: boolean
+    readyForPickupAt?: boolean
+    shippedAt?: boolean
+    inTransitAt?: boolean
+    outForDeliveryAt?: boolean
+    deliveredAt?: boolean
+    cancelledAt?: boolean
+    deliveryProofUrl?: boolean
+    deliverySignature?: boolean
+    receivedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     items?: boolean | BulkOrder$itemsArgs<ExtArgs>
     quote?: boolean | BulkOrder$quoteArgs<ExtArgs>
+    statusHistory?: boolean | BulkOrder$statusHistoryArgs<ExtArgs>
     _count?: boolean | BulkOrderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bulkOrder"]>
 
@@ -22411,6 +22705,7 @@ export namespace Prisma {
     finalSubtotal?: boolean
     finalShipping?: boolean
     finalTotal?: boolean
+    coldChainSurcharge?: boolean
     preferredDeliveryDate?: boolean
     deliveryNotes?: boolean
     contactName?: boolean
@@ -22420,6 +22715,26 @@ export namespace Prisma {
     shippingAddress?: boolean
     status?: boolean
     notes?: boolean
+    carrier?: boolean
+    carrierOther?: boolean
+    trackingNumber?: boolean
+    trackingUrl?: boolean
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: boolean
+    actualDeliveryDate?: boolean
+    reviewedAt?: boolean
+    quotedAt?: boolean
+    confirmedAt?: boolean
+    processingAt?: boolean
+    readyForPickupAt?: boolean
+    shippedAt?: boolean
+    inTransitAt?: boolean
+    outForDeliveryAt?: boolean
+    deliveredAt?: boolean
+    cancelledAt?: boolean
+    deliveryProofUrl?: boolean
+    deliverySignature?: boolean
+    receivedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -22435,6 +22750,7 @@ export namespace Prisma {
     finalSubtotal?: boolean
     finalShipping?: boolean
     finalTotal?: boolean
+    coldChainSurcharge?: boolean
     preferredDeliveryDate?: boolean
     deliveryNotes?: boolean
     contactName?: boolean
@@ -22444,6 +22760,26 @@ export namespace Prisma {
     shippingAddress?: boolean
     status?: boolean
     notes?: boolean
+    carrier?: boolean
+    carrierOther?: boolean
+    trackingNumber?: boolean
+    trackingUrl?: boolean
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: boolean
+    actualDeliveryDate?: boolean
+    reviewedAt?: boolean
+    quotedAt?: boolean
+    confirmedAt?: boolean
+    processingAt?: boolean
+    readyForPickupAt?: boolean
+    shippedAt?: boolean
+    inTransitAt?: boolean
+    outForDeliveryAt?: boolean
+    deliveredAt?: boolean
+    cancelledAt?: boolean
+    deliveryProofUrl?: boolean
+    deliverySignature?: boolean
+    receivedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -22459,6 +22795,7 @@ export namespace Prisma {
     finalSubtotal?: boolean
     finalShipping?: boolean
     finalTotal?: boolean
+    coldChainSurcharge?: boolean
     preferredDeliveryDate?: boolean
     deliveryNotes?: boolean
     contactName?: boolean
@@ -22468,15 +22805,36 @@ export namespace Prisma {
     shippingAddress?: boolean
     status?: boolean
     notes?: boolean
+    carrier?: boolean
+    carrierOther?: boolean
+    trackingNumber?: boolean
+    trackingUrl?: boolean
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: boolean
+    actualDeliveryDate?: boolean
+    reviewedAt?: boolean
+    quotedAt?: boolean
+    confirmedAt?: boolean
+    processingAt?: boolean
+    readyForPickupAt?: boolean
+    shippedAt?: boolean
+    inTransitAt?: boolean
+    outForDeliveryAt?: boolean
+    deliveredAt?: boolean
+    cancelledAt?: boolean
+    deliveryProofUrl?: boolean
+    deliverySignature?: boolean
+    receivedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BulkOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderNumber" | "userId" | "estimatedSubtotal" | "estimatedTotal" | "estimatedWeightKg" | "finalSubtotal" | "finalShipping" | "finalTotal" | "preferredDeliveryDate" | "deliveryNotes" | "contactName" | "contactEmail" | "contactPhone" | "companyName" | "shippingAddress" | "status" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["bulkOrder"]>
+  export type BulkOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderNumber" | "userId" | "estimatedSubtotal" | "estimatedTotal" | "estimatedWeightKg" | "finalSubtotal" | "finalShipping" | "finalTotal" | "coldChainSurcharge" | "preferredDeliveryDate" | "deliveryNotes" | "contactName" | "contactEmail" | "contactPhone" | "companyName" | "shippingAddress" | "status" | "notes" | "carrier" | "carrierOther" | "trackingNumber" | "trackingUrl" | "requiresColdChain" | "estimatedDeliveryDate" | "actualDeliveryDate" | "reviewedAt" | "quotedAt" | "confirmedAt" | "processingAt" | "readyForPickupAt" | "shippedAt" | "inTransitAt" | "outForDeliveryAt" | "deliveredAt" | "cancelledAt" | "deliveryProofUrl" | "deliverySignature" | "receivedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["bulkOrder"]>
   export type BulkOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     items?: boolean | BulkOrder$itemsArgs<ExtArgs>
     quote?: boolean | BulkOrder$quoteArgs<ExtArgs>
+    statusHistory?: boolean | BulkOrder$statusHistoryArgs<ExtArgs>
     _count?: boolean | BulkOrderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BulkOrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -22492,6 +22850,7 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
       items: Prisma.$BulkOrderItemPayload<ExtArgs>[]
       quote: Prisma.$QuotePayload<ExtArgs> | null
+      statusHistory: Prisma.$OrderStatusHistoryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -22503,6 +22862,7 @@ export namespace Prisma {
       finalSubtotal: Prisma.Decimal | null
       finalShipping: Prisma.Decimal | null
       finalTotal: Prisma.Decimal | null
+      coldChainSurcharge: Prisma.Decimal | null
       preferredDeliveryDate: Date | null
       deliveryNotes: string | null
       contactName: string
@@ -22512,6 +22872,26 @@ export namespace Prisma {
       shippingAddress: Prisma.JsonValue | null
       status: $Enums.BulkOrderStatus
       notes: string | null
+      carrier: $Enums.ShippingCarrier | null
+      carrierOther: string | null
+      trackingNumber: string | null
+      trackingUrl: string | null
+      requiresColdChain: boolean
+      estimatedDeliveryDate: Date | null
+      actualDeliveryDate: Date | null
+      reviewedAt: Date | null
+      quotedAt: Date | null
+      confirmedAt: Date | null
+      processingAt: Date | null
+      readyForPickupAt: Date | null
+      shippedAt: Date | null
+      inTransitAt: Date | null
+      outForDeliveryAt: Date | null
+      deliveredAt: Date | null
+      cancelledAt: Date | null
+      deliveryProofUrl: string | null
+      deliverySignature: string | null
+      receivedBy: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["bulkOrder"]>
@@ -22911,6 +23291,7 @@ export namespace Prisma {
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     items<T extends BulkOrder$itemsArgs<ExtArgs> = {}>(args?: Subset<T, BulkOrder$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     quote<T extends BulkOrder$quoteArgs<ExtArgs> = {}>(args?: Subset<T, BulkOrder$quoteArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    statusHistory<T extends BulkOrder$statusHistoryArgs<ExtArgs> = {}>(args?: Subset<T, BulkOrder$statusHistoryArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -22949,6 +23330,7 @@ export namespace Prisma {
     readonly finalSubtotal: FieldRef<"BulkOrder", 'Decimal'>
     readonly finalShipping: FieldRef<"BulkOrder", 'Decimal'>
     readonly finalTotal: FieldRef<"BulkOrder", 'Decimal'>
+    readonly coldChainSurcharge: FieldRef<"BulkOrder", 'Decimal'>
     readonly preferredDeliveryDate: FieldRef<"BulkOrder", 'DateTime'>
     readonly deliveryNotes: FieldRef<"BulkOrder", 'String'>
     readonly contactName: FieldRef<"BulkOrder", 'String'>
@@ -22958,6 +23340,26 @@ export namespace Prisma {
     readonly shippingAddress: FieldRef<"BulkOrder", 'Json'>
     readonly status: FieldRef<"BulkOrder", 'BulkOrderStatus'>
     readonly notes: FieldRef<"BulkOrder", 'String'>
+    readonly carrier: FieldRef<"BulkOrder", 'ShippingCarrier'>
+    readonly carrierOther: FieldRef<"BulkOrder", 'String'>
+    readonly trackingNumber: FieldRef<"BulkOrder", 'String'>
+    readonly trackingUrl: FieldRef<"BulkOrder", 'String'>
+    readonly requiresColdChain: FieldRef<"BulkOrder", 'Boolean'>
+    readonly estimatedDeliveryDate: FieldRef<"BulkOrder", 'DateTime'>
+    readonly actualDeliveryDate: FieldRef<"BulkOrder", 'DateTime'>
+    readonly reviewedAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly quotedAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly confirmedAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly processingAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly readyForPickupAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly shippedAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly inTransitAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly outForDeliveryAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly deliveredAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly cancelledAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly deliveryProofUrl: FieldRef<"BulkOrder", 'String'>
+    readonly deliverySignature: FieldRef<"BulkOrder", 'String'>
+    readonly receivedBy: FieldRef<"BulkOrder", 'String'>
     readonly createdAt: FieldRef<"BulkOrder", 'DateTime'>
     readonly updatedAt: FieldRef<"BulkOrder", 'DateTime'>
   }
@@ -23396,6 +23798,30 @@ export namespace Prisma {
      */
     include?: QuoteInclude<ExtArgs> | null
     where?: QuoteWhereInput
+  }
+
+  /**
+   * BulkOrder.statusHistory
+   */
+  export type BulkOrder$statusHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryInclude<ExtArgs> | null
+    where?: OrderStatusHistoryWhereInput
+    orderBy?: OrderStatusHistoryOrderByWithRelationInput | OrderStatusHistoryOrderByWithRelationInput[]
+    cursor?: OrderStatusHistoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderStatusHistoryScalarFieldEnum | OrderStatusHistoryScalarFieldEnum[]
   }
 
   /**
@@ -27257,6 +27683,1125 @@ export namespace Prisma {
 
 
   /**
+   * Model OrderStatusHistory
+   */
+
+  export type AggregateOrderStatusHistory = {
+    _count: OrderStatusHistoryCountAggregateOutputType | null
+    _min: OrderStatusHistoryMinAggregateOutputType | null
+    _max: OrderStatusHistoryMaxAggregateOutputType | null
+  }
+
+  export type OrderStatusHistoryMinAggregateOutputType = {
+    id: string | null
+    bulkOrderId: string | null
+    fromStatus: $Enums.BulkOrderStatus | null
+    toStatus: $Enums.BulkOrderStatus | null
+    changedById: string | null
+    changedByName: string | null
+    changedByRole: string | null
+    notes: string | null
+    createdAt: Date | null
+  }
+
+  export type OrderStatusHistoryMaxAggregateOutputType = {
+    id: string | null
+    bulkOrderId: string | null
+    fromStatus: $Enums.BulkOrderStatus | null
+    toStatus: $Enums.BulkOrderStatus | null
+    changedById: string | null
+    changedByName: string | null
+    changedByRole: string | null
+    notes: string | null
+    createdAt: Date | null
+  }
+
+  export type OrderStatusHistoryCountAggregateOutputType = {
+    id: number
+    bulkOrderId: number
+    fromStatus: number
+    toStatus: number
+    changedById: number
+    changedByName: number
+    changedByRole: number
+    notes: number
+    metadata: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type OrderStatusHistoryMinAggregateInputType = {
+    id?: true
+    bulkOrderId?: true
+    fromStatus?: true
+    toStatus?: true
+    changedById?: true
+    changedByName?: true
+    changedByRole?: true
+    notes?: true
+    createdAt?: true
+  }
+
+  export type OrderStatusHistoryMaxAggregateInputType = {
+    id?: true
+    bulkOrderId?: true
+    fromStatus?: true
+    toStatus?: true
+    changedById?: true
+    changedByName?: true
+    changedByRole?: true
+    notes?: true
+    createdAt?: true
+  }
+
+  export type OrderStatusHistoryCountAggregateInputType = {
+    id?: true
+    bulkOrderId?: true
+    fromStatus?: true
+    toStatus?: true
+    changedById?: true
+    changedByName?: true
+    changedByRole?: true
+    notes?: true
+    metadata?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type OrderStatusHistoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OrderStatusHistory to aggregate.
+     */
+    where?: OrderStatusHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrderStatusHistories to fetch.
+     */
+    orderBy?: OrderStatusHistoryOrderByWithRelationInput | OrderStatusHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OrderStatusHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrderStatusHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrderStatusHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OrderStatusHistories
+    **/
+    _count?: true | OrderStatusHistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OrderStatusHistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OrderStatusHistoryMaxAggregateInputType
+  }
+
+  export type GetOrderStatusHistoryAggregateType<T extends OrderStatusHistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateOrderStatusHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOrderStatusHistory[P]>
+      : GetScalarType<T[P], AggregateOrderStatusHistory[P]>
+  }
+
+
+
+
+  export type OrderStatusHistoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderStatusHistoryWhereInput
+    orderBy?: OrderStatusHistoryOrderByWithAggregationInput | OrderStatusHistoryOrderByWithAggregationInput[]
+    by: OrderStatusHistoryScalarFieldEnum[] | OrderStatusHistoryScalarFieldEnum
+    having?: OrderStatusHistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OrderStatusHistoryCountAggregateInputType | true
+    _min?: OrderStatusHistoryMinAggregateInputType
+    _max?: OrderStatusHistoryMaxAggregateInputType
+  }
+
+  export type OrderStatusHistoryGroupByOutputType = {
+    id: string
+    bulkOrderId: string
+    fromStatus: $Enums.BulkOrderStatus
+    toStatus: $Enums.BulkOrderStatus
+    changedById: string
+    changedByName: string
+    changedByRole: string
+    notes: string | null
+    metadata: JsonValue | null
+    createdAt: Date
+    _count: OrderStatusHistoryCountAggregateOutputType | null
+    _min: OrderStatusHistoryMinAggregateOutputType | null
+    _max: OrderStatusHistoryMaxAggregateOutputType | null
+  }
+
+  type GetOrderStatusHistoryGroupByPayload<T extends OrderStatusHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OrderStatusHistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OrderStatusHistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OrderStatusHistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], OrderStatusHistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OrderStatusHistorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bulkOrderId?: boolean
+    fromStatus?: boolean
+    toStatus?: boolean
+    changedById?: boolean
+    changedByName?: boolean
+    changedByRole?: boolean
+    notes?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["orderStatusHistory"]>
+
+  export type OrderStatusHistorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bulkOrderId?: boolean
+    fromStatus?: boolean
+    toStatus?: boolean
+    changedById?: boolean
+    changedByName?: boolean
+    changedByRole?: boolean
+    notes?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["orderStatusHistory"]>
+
+  export type OrderStatusHistorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bulkOrderId?: boolean
+    fromStatus?: boolean
+    toStatus?: boolean
+    changedById?: boolean
+    changedByName?: boolean
+    changedByRole?: boolean
+    notes?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["orderStatusHistory"]>
+
+  export type OrderStatusHistorySelectScalar = {
+    id?: boolean
+    bulkOrderId?: boolean
+    fromStatus?: boolean
+    toStatus?: boolean
+    changedById?: boolean
+    changedByName?: boolean
+    changedByRole?: boolean
+    notes?: boolean
+    metadata?: boolean
+    createdAt?: boolean
+  }
+
+  export type OrderStatusHistoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bulkOrderId" | "fromStatus" | "toStatus" | "changedById" | "changedByName" | "changedByRole" | "notes" | "metadata" | "createdAt", ExtArgs["result"]["orderStatusHistory"]>
+  export type OrderStatusHistoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+  }
+  export type OrderStatusHistoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+  }
+  export type OrderStatusHistoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+  }
+
+  export type $OrderStatusHistoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OrderStatusHistory"
+    objects: {
+      bulkOrder: Prisma.$BulkOrderPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      bulkOrderId: string
+      fromStatus: $Enums.BulkOrderStatus
+      toStatus: $Enums.BulkOrderStatus
+      changedById: string
+      changedByName: string
+      changedByRole: string
+      notes: string | null
+      metadata: Prisma.JsonValue | null
+      createdAt: Date
+    }, ExtArgs["result"]["orderStatusHistory"]>
+    composites: {}
+  }
+
+  type OrderStatusHistoryGetPayload<S extends boolean | null | undefined | OrderStatusHistoryDefaultArgs> = $Result.GetResult<Prisma.$OrderStatusHistoryPayload, S>
+
+  type OrderStatusHistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<OrderStatusHistoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: OrderStatusHistoryCountAggregateInputType | true
+    }
+
+  export interface OrderStatusHistoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OrderStatusHistory'], meta: { name: 'OrderStatusHistory' } }
+    /**
+     * Find zero or one OrderStatusHistory that matches the filter.
+     * @param {OrderStatusHistoryFindUniqueArgs} args - Arguments to find a OrderStatusHistory
+     * @example
+     * // Get one OrderStatusHistory
+     * const orderStatusHistory = await prisma.orderStatusHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OrderStatusHistoryFindUniqueArgs>(args: SelectSubset<T, OrderStatusHistoryFindUniqueArgs<ExtArgs>>): Prisma__OrderStatusHistoryClient<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one OrderStatusHistory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {OrderStatusHistoryFindUniqueOrThrowArgs} args - Arguments to find a OrderStatusHistory
+     * @example
+     * // Get one OrderStatusHistory
+     * const orderStatusHistory = await prisma.orderStatusHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OrderStatusHistoryFindUniqueOrThrowArgs>(args: SelectSubset<T, OrderStatusHistoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OrderStatusHistoryClient<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OrderStatusHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderStatusHistoryFindFirstArgs} args - Arguments to find a OrderStatusHistory
+     * @example
+     * // Get one OrderStatusHistory
+     * const orderStatusHistory = await prisma.orderStatusHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OrderStatusHistoryFindFirstArgs>(args?: SelectSubset<T, OrderStatusHistoryFindFirstArgs<ExtArgs>>): Prisma__OrderStatusHistoryClient<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first OrderStatusHistory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderStatusHistoryFindFirstOrThrowArgs} args - Arguments to find a OrderStatusHistory
+     * @example
+     * // Get one OrderStatusHistory
+     * const orderStatusHistory = await prisma.orderStatusHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OrderStatusHistoryFindFirstOrThrowArgs>(args?: SelectSubset<T, OrderStatusHistoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__OrderStatusHistoryClient<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more OrderStatusHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderStatusHistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OrderStatusHistories
+     * const orderStatusHistories = await prisma.orderStatusHistory.findMany()
+     * 
+     * // Get first 10 OrderStatusHistories
+     * const orderStatusHistories = await prisma.orderStatusHistory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const orderStatusHistoryWithIdOnly = await prisma.orderStatusHistory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OrderStatusHistoryFindManyArgs>(args?: SelectSubset<T, OrderStatusHistoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a OrderStatusHistory.
+     * @param {OrderStatusHistoryCreateArgs} args - Arguments to create a OrderStatusHistory.
+     * @example
+     * // Create one OrderStatusHistory
+     * const OrderStatusHistory = await prisma.orderStatusHistory.create({
+     *   data: {
+     *     // ... data to create a OrderStatusHistory
+     *   }
+     * })
+     * 
+     */
+    create<T extends OrderStatusHistoryCreateArgs>(args: SelectSubset<T, OrderStatusHistoryCreateArgs<ExtArgs>>): Prisma__OrderStatusHistoryClient<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many OrderStatusHistories.
+     * @param {OrderStatusHistoryCreateManyArgs} args - Arguments to create many OrderStatusHistories.
+     * @example
+     * // Create many OrderStatusHistories
+     * const orderStatusHistory = await prisma.orderStatusHistory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OrderStatusHistoryCreateManyArgs>(args?: SelectSubset<T, OrderStatusHistoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OrderStatusHistories and returns the data saved in the database.
+     * @param {OrderStatusHistoryCreateManyAndReturnArgs} args - Arguments to create many OrderStatusHistories.
+     * @example
+     * // Create many OrderStatusHistories
+     * const orderStatusHistory = await prisma.orderStatusHistory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OrderStatusHistories and only return the `id`
+     * const orderStatusHistoryWithIdOnly = await prisma.orderStatusHistory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OrderStatusHistoryCreateManyAndReturnArgs>(args?: SelectSubset<T, OrderStatusHistoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a OrderStatusHistory.
+     * @param {OrderStatusHistoryDeleteArgs} args - Arguments to delete one OrderStatusHistory.
+     * @example
+     * // Delete one OrderStatusHistory
+     * const OrderStatusHistory = await prisma.orderStatusHistory.delete({
+     *   where: {
+     *     // ... filter to delete one OrderStatusHistory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OrderStatusHistoryDeleteArgs>(args: SelectSubset<T, OrderStatusHistoryDeleteArgs<ExtArgs>>): Prisma__OrderStatusHistoryClient<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one OrderStatusHistory.
+     * @param {OrderStatusHistoryUpdateArgs} args - Arguments to update one OrderStatusHistory.
+     * @example
+     * // Update one OrderStatusHistory
+     * const orderStatusHistory = await prisma.orderStatusHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OrderStatusHistoryUpdateArgs>(args: SelectSubset<T, OrderStatusHistoryUpdateArgs<ExtArgs>>): Prisma__OrderStatusHistoryClient<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more OrderStatusHistories.
+     * @param {OrderStatusHistoryDeleteManyArgs} args - Arguments to filter OrderStatusHistories to delete.
+     * @example
+     * // Delete a few OrderStatusHistories
+     * const { count } = await prisma.orderStatusHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OrderStatusHistoryDeleteManyArgs>(args?: SelectSubset<T, OrderStatusHistoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OrderStatusHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderStatusHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OrderStatusHistories
+     * const orderStatusHistory = await prisma.orderStatusHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OrderStatusHistoryUpdateManyArgs>(args: SelectSubset<T, OrderStatusHistoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OrderStatusHistories and returns the data updated in the database.
+     * @param {OrderStatusHistoryUpdateManyAndReturnArgs} args - Arguments to update many OrderStatusHistories.
+     * @example
+     * // Update many OrderStatusHistories
+     * const orderStatusHistory = await prisma.orderStatusHistory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more OrderStatusHistories and only return the `id`
+     * const orderStatusHistoryWithIdOnly = await prisma.orderStatusHistory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends OrderStatusHistoryUpdateManyAndReturnArgs>(args: SelectSubset<T, OrderStatusHistoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one OrderStatusHistory.
+     * @param {OrderStatusHistoryUpsertArgs} args - Arguments to update or create a OrderStatusHistory.
+     * @example
+     * // Update or create a OrderStatusHistory
+     * const orderStatusHistory = await prisma.orderStatusHistory.upsert({
+     *   create: {
+     *     // ... data to create a OrderStatusHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OrderStatusHistory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OrderStatusHistoryUpsertArgs>(args: SelectSubset<T, OrderStatusHistoryUpsertArgs<ExtArgs>>): Prisma__OrderStatusHistoryClient<$Result.GetResult<Prisma.$OrderStatusHistoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of OrderStatusHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderStatusHistoryCountArgs} args - Arguments to filter OrderStatusHistories to count.
+     * @example
+     * // Count the number of OrderStatusHistories
+     * const count = await prisma.orderStatusHistory.count({
+     *   where: {
+     *     // ... the filter for the OrderStatusHistories we want to count
+     *   }
+     * })
+    **/
+    count<T extends OrderStatusHistoryCountArgs>(
+      args?: Subset<T, OrderStatusHistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OrderStatusHistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OrderStatusHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderStatusHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OrderStatusHistoryAggregateArgs>(args: Subset<T, OrderStatusHistoryAggregateArgs>): Prisma.PrismaPromise<GetOrderStatusHistoryAggregateType<T>>
+
+    /**
+     * Group by OrderStatusHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OrderStatusHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OrderStatusHistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OrderStatusHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: OrderStatusHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OrderStatusHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrderStatusHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OrderStatusHistory model
+   */
+  readonly fields: OrderStatusHistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OrderStatusHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OrderStatusHistoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    bulkOrder<T extends BulkOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BulkOrderDefaultArgs<ExtArgs>>): Prisma__BulkOrderClient<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OrderStatusHistory model
+   */
+  interface OrderStatusHistoryFieldRefs {
+    readonly id: FieldRef<"OrderStatusHistory", 'String'>
+    readonly bulkOrderId: FieldRef<"OrderStatusHistory", 'String'>
+    readonly fromStatus: FieldRef<"OrderStatusHistory", 'BulkOrderStatus'>
+    readonly toStatus: FieldRef<"OrderStatusHistory", 'BulkOrderStatus'>
+    readonly changedById: FieldRef<"OrderStatusHistory", 'String'>
+    readonly changedByName: FieldRef<"OrderStatusHistory", 'String'>
+    readonly changedByRole: FieldRef<"OrderStatusHistory", 'String'>
+    readonly notes: FieldRef<"OrderStatusHistory", 'String'>
+    readonly metadata: FieldRef<"OrderStatusHistory", 'Json'>
+    readonly createdAt: FieldRef<"OrderStatusHistory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OrderStatusHistory findUnique
+   */
+  export type OrderStatusHistoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which OrderStatusHistory to fetch.
+     */
+    where: OrderStatusHistoryWhereUniqueInput
+  }
+
+  /**
+   * OrderStatusHistory findUniqueOrThrow
+   */
+  export type OrderStatusHistoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which OrderStatusHistory to fetch.
+     */
+    where: OrderStatusHistoryWhereUniqueInput
+  }
+
+  /**
+   * OrderStatusHistory findFirst
+   */
+  export type OrderStatusHistoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which OrderStatusHistory to fetch.
+     */
+    where?: OrderStatusHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrderStatusHistories to fetch.
+     */
+    orderBy?: OrderStatusHistoryOrderByWithRelationInput | OrderStatusHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OrderStatusHistories.
+     */
+    cursor?: OrderStatusHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrderStatusHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrderStatusHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OrderStatusHistories.
+     */
+    distinct?: OrderStatusHistoryScalarFieldEnum | OrderStatusHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * OrderStatusHistory findFirstOrThrow
+   */
+  export type OrderStatusHistoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which OrderStatusHistory to fetch.
+     */
+    where?: OrderStatusHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrderStatusHistories to fetch.
+     */
+    orderBy?: OrderStatusHistoryOrderByWithRelationInput | OrderStatusHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OrderStatusHistories.
+     */
+    cursor?: OrderStatusHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrderStatusHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrderStatusHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OrderStatusHistories.
+     */
+    distinct?: OrderStatusHistoryScalarFieldEnum | OrderStatusHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * OrderStatusHistory findMany
+   */
+  export type OrderStatusHistoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryInclude<ExtArgs> | null
+    /**
+     * Filter, which OrderStatusHistories to fetch.
+     */
+    where?: OrderStatusHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OrderStatusHistories to fetch.
+     */
+    orderBy?: OrderStatusHistoryOrderByWithRelationInput | OrderStatusHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OrderStatusHistories.
+     */
+    cursor?: OrderStatusHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OrderStatusHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OrderStatusHistories.
+     */
+    skip?: number
+    distinct?: OrderStatusHistoryScalarFieldEnum | OrderStatusHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * OrderStatusHistory create
+   */
+  export type OrderStatusHistoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a OrderStatusHistory.
+     */
+    data: XOR<OrderStatusHistoryCreateInput, OrderStatusHistoryUncheckedCreateInput>
+  }
+
+  /**
+   * OrderStatusHistory createMany
+   */
+  export type OrderStatusHistoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OrderStatusHistories.
+     */
+    data: OrderStatusHistoryCreateManyInput | OrderStatusHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OrderStatusHistory createManyAndReturn
+   */
+  export type OrderStatusHistoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many OrderStatusHistories.
+     */
+    data: OrderStatusHistoryCreateManyInput | OrderStatusHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OrderStatusHistory update
+   */
+  export type OrderStatusHistoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a OrderStatusHistory.
+     */
+    data: XOR<OrderStatusHistoryUpdateInput, OrderStatusHistoryUncheckedUpdateInput>
+    /**
+     * Choose, which OrderStatusHistory to update.
+     */
+    where: OrderStatusHistoryWhereUniqueInput
+  }
+
+  /**
+   * OrderStatusHistory updateMany
+   */
+  export type OrderStatusHistoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OrderStatusHistories.
+     */
+    data: XOR<OrderStatusHistoryUpdateManyMutationInput, OrderStatusHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which OrderStatusHistories to update
+     */
+    where?: OrderStatusHistoryWhereInput
+    /**
+     * Limit how many OrderStatusHistories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * OrderStatusHistory updateManyAndReturn
+   */
+  export type OrderStatusHistoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * The data used to update OrderStatusHistories.
+     */
+    data: XOR<OrderStatusHistoryUpdateManyMutationInput, OrderStatusHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which OrderStatusHistories to update
+     */
+    where?: OrderStatusHistoryWhereInput
+    /**
+     * Limit how many OrderStatusHistories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * OrderStatusHistory upsert
+   */
+  export type OrderStatusHistoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the OrderStatusHistory to update in case it exists.
+     */
+    where: OrderStatusHistoryWhereUniqueInput
+    /**
+     * In case the OrderStatusHistory found by the `where` argument doesn't exist, create a new OrderStatusHistory with this data.
+     */
+    create: XOR<OrderStatusHistoryCreateInput, OrderStatusHistoryUncheckedCreateInput>
+    /**
+     * In case the OrderStatusHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OrderStatusHistoryUpdateInput, OrderStatusHistoryUncheckedUpdateInput>
+  }
+
+  /**
+   * OrderStatusHistory delete
+   */
+  export type OrderStatusHistoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryInclude<ExtArgs> | null
+    /**
+     * Filter which OrderStatusHistory to delete.
+     */
+    where: OrderStatusHistoryWhereUniqueInput
+  }
+
+  /**
+   * OrderStatusHistory deleteMany
+   */
+  export type OrderStatusHistoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OrderStatusHistories to delete
+     */
+    where?: OrderStatusHistoryWhereInput
+    /**
+     * Limit how many OrderStatusHistories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * OrderStatusHistory without action
+   */
+  export type OrderStatusHistoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderStatusHistory
+     */
+    select?: OrderStatusHistorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderStatusHistory
+     */
+    omit?: OrderStatusHistoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderStatusHistoryInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -27539,6 +29084,7 @@ export namespace Prisma {
     finalSubtotal: 'finalSubtotal',
     finalShipping: 'finalShipping',
     finalTotal: 'finalTotal',
+    coldChainSurcharge: 'coldChainSurcharge',
     preferredDeliveryDate: 'preferredDeliveryDate',
     deliveryNotes: 'deliveryNotes',
     contactName: 'contactName',
@@ -27548,6 +29094,26 @@ export namespace Prisma {
     shippingAddress: 'shippingAddress',
     status: 'status',
     notes: 'notes',
+    carrier: 'carrier',
+    carrierOther: 'carrierOther',
+    trackingNumber: 'trackingNumber',
+    trackingUrl: 'trackingUrl',
+    requiresColdChain: 'requiresColdChain',
+    estimatedDeliveryDate: 'estimatedDeliveryDate',
+    actualDeliveryDate: 'actualDeliveryDate',
+    reviewedAt: 'reviewedAt',
+    quotedAt: 'quotedAt',
+    confirmedAt: 'confirmedAt',
+    processingAt: 'processingAt',
+    readyForPickupAt: 'readyForPickupAt',
+    shippedAt: 'shippedAt',
+    inTransitAt: 'inTransitAt',
+    outForDeliveryAt: 'outForDeliveryAt',
+    deliveredAt: 'deliveredAt',
+    cancelledAt: 'cancelledAt',
+    deliveryProofUrl: 'deliveryProofUrl',
+    deliverySignature: 'deliverySignature',
+    receivedBy: 'receivedBy',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -27620,6 +29186,22 @@ export namespace Prisma {
   };
 
   export type QuoteItemScalarFieldEnum = (typeof QuoteItemScalarFieldEnum)[keyof typeof QuoteItemScalarFieldEnum]
+
+
+  export const OrderStatusHistoryScalarFieldEnum: {
+    id: 'id',
+    bulkOrderId: 'bulkOrderId',
+    fromStatus: 'fromStatus',
+    toStatus: 'toStatus',
+    changedById: 'changedById',
+    changedByName: 'changedByName',
+    changedByRole: 'changedByRole',
+    notes: 'notes',
+    metadata: 'metadata',
+    createdAt: 'createdAt'
+  };
+
+  export type OrderStatusHistoryScalarFieldEnum = (typeof OrderStatusHistoryScalarFieldEnum)[keyof typeof OrderStatusHistoryScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -27931,6 +29513,20 @@ export namespace Prisma {
    * Reference to a field of type 'BulkOrderStatus[]'
    */
   export type ListEnumBulkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BulkOrderStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ShippingCarrier'
+   */
+  export type EnumShippingCarrierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShippingCarrier'>
+    
+
+
+  /**
+   * Reference to a field of type 'ShippingCarrier[]'
+   */
+  export type ListEnumShippingCarrierFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ShippingCarrier[]'>
     
 
 
@@ -29348,6 +30944,7 @@ export namespace Prisma {
     finalSubtotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     finalShipping?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     finalTotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     deliveryNotes?: StringNullableFilter<"BulkOrder"> | string | null
     contactName?: StringFilter<"BulkOrder"> | string
@@ -29357,11 +30954,32 @@ export namespace Prisma {
     shippingAddress?: JsonNullableFilter<"BulkOrder">
     status?: EnumBulkOrderStatusFilter<"BulkOrder"> | $Enums.BulkOrderStatus
     notes?: StringNullableFilter<"BulkOrder"> | string | null
+    carrier?: EnumShippingCarrierNullableFilter<"BulkOrder"> | $Enums.ShippingCarrier | null
+    carrierOther?: StringNullableFilter<"BulkOrder"> | string | null
+    trackingNumber?: StringNullableFilter<"BulkOrder"> | string | null
+    trackingUrl?: StringNullableFilter<"BulkOrder"> | string | null
+    requiresColdChain?: BoolFilter<"BulkOrder"> | boolean
+    estimatedDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    actualDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    reviewedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    quotedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    confirmedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    processingAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    readyForPickupAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    shippedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    inTransitAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    outForDeliveryAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    cancelledAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    deliveryProofUrl?: StringNullableFilter<"BulkOrder"> | string | null
+    deliverySignature?: StringNullableFilter<"BulkOrder"> | string | null
+    receivedBy?: StringNullableFilter<"BulkOrder"> | string | null
     createdAt?: DateTimeFilter<"BulkOrder"> | Date | string
     updatedAt?: DateTimeFilter<"BulkOrder"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     items?: BulkOrderItemListRelationFilter
     quote?: XOR<QuoteNullableScalarRelationFilter, QuoteWhereInput> | null
+    statusHistory?: OrderStatusHistoryListRelationFilter
   }
 
   export type BulkOrderOrderByWithRelationInput = {
@@ -29374,6 +30992,7 @@ export namespace Prisma {
     finalSubtotal?: SortOrderInput | SortOrder
     finalShipping?: SortOrderInput | SortOrder
     finalTotal?: SortOrderInput | SortOrder
+    coldChainSurcharge?: SortOrderInput | SortOrder
     preferredDeliveryDate?: SortOrderInput | SortOrder
     deliveryNotes?: SortOrderInput | SortOrder
     contactName?: SortOrder
@@ -29383,11 +31002,32 @@ export namespace Prisma {
     shippingAddress?: SortOrderInput | SortOrder
     status?: SortOrder
     notes?: SortOrderInput | SortOrder
+    carrier?: SortOrderInput | SortOrder
+    carrierOther?: SortOrderInput | SortOrder
+    trackingNumber?: SortOrderInput | SortOrder
+    trackingUrl?: SortOrderInput | SortOrder
+    requiresColdChain?: SortOrder
+    estimatedDeliveryDate?: SortOrderInput | SortOrder
+    actualDeliveryDate?: SortOrderInput | SortOrder
+    reviewedAt?: SortOrderInput | SortOrder
+    quotedAt?: SortOrderInput | SortOrder
+    confirmedAt?: SortOrderInput | SortOrder
+    processingAt?: SortOrderInput | SortOrder
+    readyForPickupAt?: SortOrderInput | SortOrder
+    shippedAt?: SortOrderInput | SortOrder
+    inTransitAt?: SortOrderInput | SortOrder
+    outForDeliveryAt?: SortOrderInput | SortOrder
+    deliveredAt?: SortOrderInput | SortOrder
+    cancelledAt?: SortOrderInput | SortOrder
+    deliveryProofUrl?: SortOrderInput | SortOrder
+    deliverySignature?: SortOrderInput | SortOrder
+    receivedBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     items?: BulkOrderItemOrderByRelationAggregateInput
     quote?: QuoteOrderByWithRelationInput
+    statusHistory?: OrderStatusHistoryOrderByRelationAggregateInput
   }
 
   export type BulkOrderWhereUniqueInput = Prisma.AtLeast<{
@@ -29403,6 +31043,7 @@ export namespace Prisma {
     finalSubtotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     finalShipping?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     finalTotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     deliveryNotes?: StringNullableFilter<"BulkOrder"> | string | null
     contactName?: StringFilter<"BulkOrder"> | string
@@ -29412,11 +31053,32 @@ export namespace Prisma {
     shippingAddress?: JsonNullableFilter<"BulkOrder">
     status?: EnumBulkOrderStatusFilter<"BulkOrder"> | $Enums.BulkOrderStatus
     notes?: StringNullableFilter<"BulkOrder"> | string | null
+    carrier?: EnumShippingCarrierNullableFilter<"BulkOrder"> | $Enums.ShippingCarrier | null
+    carrierOther?: StringNullableFilter<"BulkOrder"> | string | null
+    trackingNumber?: StringNullableFilter<"BulkOrder"> | string | null
+    trackingUrl?: StringNullableFilter<"BulkOrder"> | string | null
+    requiresColdChain?: BoolFilter<"BulkOrder"> | boolean
+    estimatedDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    actualDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    reviewedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    quotedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    confirmedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    processingAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    readyForPickupAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    shippedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    inTransitAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    outForDeliveryAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    cancelledAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    deliveryProofUrl?: StringNullableFilter<"BulkOrder"> | string | null
+    deliverySignature?: StringNullableFilter<"BulkOrder"> | string | null
+    receivedBy?: StringNullableFilter<"BulkOrder"> | string | null
     createdAt?: DateTimeFilter<"BulkOrder"> | Date | string
     updatedAt?: DateTimeFilter<"BulkOrder"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     items?: BulkOrderItemListRelationFilter
     quote?: XOR<QuoteNullableScalarRelationFilter, QuoteWhereInput> | null
+    statusHistory?: OrderStatusHistoryListRelationFilter
   }, "id" | "orderNumber">
 
   export type BulkOrderOrderByWithAggregationInput = {
@@ -29429,6 +31091,7 @@ export namespace Prisma {
     finalSubtotal?: SortOrderInput | SortOrder
     finalShipping?: SortOrderInput | SortOrder
     finalTotal?: SortOrderInput | SortOrder
+    coldChainSurcharge?: SortOrderInput | SortOrder
     preferredDeliveryDate?: SortOrderInput | SortOrder
     deliveryNotes?: SortOrderInput | SortOrder
     contactName?: SortOrder
@@ -29438,6 +31101,26 @@ export namespace Prisma {
     shippingAddress?: SortOrderInput | SortOrder
     status?: SortOrder
     notes?: SortOrderInput | SortOrder
+    carrier?: SortOrderInput | SortOrder
+    carrierOther?: SortOrderInput | SortOrder
+    trackingNumber?: SortOrderInput | SortOrder
+    trackingUrl?: SortOrderInput | SortOrder
+    requiresColdChain?: SortOrder
+    estimatedDeliveryDate?: SortOrderInput | SortOrder
+    actualDeliveryDate?: SortOrderInput | SortOrder
+    reviewedAt?: SortOrderInput | SortOrder
+    quotedAt?: SortOrderInput | SortOrder
+    confirmedAt?: SortOrderInput | SortOrder
+    processingAt?: SortOrderInput | SortOrder
+    readyForPickupAt?: SortOrderInput | SortOrder
+    shippedAt?: SortOrderInput | SortOrder
+    inTransitAt?: SortOrderInput | SortOrder
+    outForDeliveryAt?: SortOrderInput | SortOrder
+    deliveredAt?: SortOrderInput | SortOrder
+    cancelledAt?: SortOrderInput | SortOrder
+    deliveryProofUrl?: SortOrderInput | SortOrder
+    deliverySignature?: SortOrderInput | SortOrder
+    receivedBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BulkOrderCountOrderByAggregateInput
@@ -29460,6 +31143,7 @@ export namespace Prisma {
     finalSubtotal?: DecimalNullableWithAggregatesFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     finalShipping?: DecimalNullableWithAggregatesFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     finalTotal?: DecimalNullableWithAggregatesFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: DecimalNullableWithAggregatesFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
     deliveryNotes?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
     contactName?: StringWithAggregatesFilter<"BulkOrder"> | string
@@ -29469,6 +31153,26 @@ export namespace Prisma {
     shippingAddress?: JsonNullableWithAggregatesFilter<"BulkOrder">
     status?: EnumBulkOrderStatusWithAggregatesFilter<"BulkOrder"> | $Enums.BulkOrderStatus
     notes?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    carrier?: EnumShippingCarrierNullableWithAggregatesFilter<"BulkOrder"> | $Enums.ShippingCarrier | null
+    carrierOther?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    trackingNumber?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    trackingUrl?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    requiresColdChain?: BoolWithAggregatesFilter<"BulkOrder"> | boolean
+    estimatedDeliveryDate?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    actualDeliveryDate?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    reviewedAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    quotedAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    confirmedAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    processingAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    readyForPickupAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    shippedAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    inTransitAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    outForDeliveryAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    deliveredAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    cancelledAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    deliveryProofUrl?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    deliverySignature?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    receivedBy?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"BulkOrder"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BulkOrder"> | Date | string
   }
@@ -29824,6 +31528,86 @@ export namespace Prisma {
     totalPrice?: DecimalWithAggregatesFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
     weightKg?: DecimalWithAggregatesFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeWithAggregatesFilter<"QuoteItem"> | Date | string
+  }
+
+  export type OrderStatusHistoryWhereInput = {
+    AND?: OrderStatusHistoryWhereInput | OrderStatusHistoryWhereInput[]
+    OR?: OrderStatusHistoryWhereInput[]
+    NOT?: OrderStatusHistoryWhereInput | OrderStatusHistoryWhereInput[]
+    id?: StringFilter<"OrderStatusHistory"> | string
+    bulkOrderId?: StringFilter<"OrderStatusHistory"> | string
+    fromStatus?: EnumBulkOrderStatusFilter<"OrderStatusHistory"> | $Enums.BulkOrderStatus
+    toStatus?: EnumBulkOrderStatusFilter<"OrderStatusHistory"> | $Enums.BulkOrderStatus
+    changedById?: StringFilter<"OrderStatusHistory"> | string
+    changedByName?: StringFilter<"OrderStatusHistory"> | string
+    changedByRole?: StringFilter<"OrderStatusHistory"> | string
+    notes?: StringNullableFilter<"OrderStatusHistory"> | string | null
+    metadata?: JsonNullableFilter<"OrderStatusHistory">
+    createdAt?: DateTimeFilter<"OrderStatusHistory"> | Date | string
+    bulkOrder?: XOR<BulkOrderScalarRelationFilter, BulkOrderWhereInput>
+  }
+
+  export type OrderStatusHistoryOrderByWithRelationInput = {
+    id?: SortOrder
+    bulkOrderId?: SortOrder
+    fromStatus?: SortOrder
+    toStatus?: SortOrder
+    changedById?: SortOrder
+    changedByName?: SortOrder
+    changedByRole?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    bulkOrder?: BulkOrderOrderByWithRelationInput
+  }
+
+  export type OrderStatusHistoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OrderStatusHistoryWhereInput | OrderStatusHistoryWhereInput[]
+    OR?: OrderStatusHistoryWhereInput[]
+    NOT?: OrderStatusHistoryWhereInput | OrderStatusHistoryWhereInput[]
+    bulkOrderId?: StringFilter<"OrderStatusHistory"> | string
+    fromStatus?: EnumBulkOrderStatusFilter<"OrderStatusHistory"> | $Enums.BulkOrderStatus
+    toStatus?: EnumBulkOrderStatusFilter<"OrderStatusHistory"> | $Enums.BulkOrderStatus
+    changedById?: StringFilter<"OrderStatusHistory"> | string
+    changedByName?: StringFilter<"OrderStatusHistory"> | string
+    changedByRole?: StringFilter<"OrderStatusHistory"> | string
+    notes?: StringNullableFilter<"OrderStatusHistory"> | string | null
+    metadata?: JsonNullableFilter<"OrderStatusHistory">
+    createdAt?: DateTimeFilter<"OrderStatusHistory"> | Date | string
+    bulkOrder?: XOR<BulkOrderScalarRelationFilter, BulkOrderWhereInput>
+  }, "id">
+
+  export type OrderStatusHistoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    bulkOrderId?: SortOrder
+    fromStatus?: SortOrder
+    toStatus?: SortOrder
+    changedById?: SortOrder
+    changedByName?: SortOrder
+    changedByRole?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    metadata?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: OrderStatusHistoryCountOrderByAggregateInput
+    _max?: OrderStatusHistoryMaxOrderByAggregateInput
+    _min?: OrderStatusHistoryMinOrderByAggregateInput
+  }
+
+  export type OrderStatusHistoryScalarWhereWithAggregatesInput = {
+    AND?: OrderStatusHistoryScalarWhereWithAggregatesInput | OrderStatusHistoryScalarWhereWithAggregatesInput[]
+    OR?: OrderStatusHistoryScalarWhereWithAggregatesInput[]
+    NOT?: OrderStatusHistoryScalarWhereWithAggregatesInput | OrderStatusHistoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OrderStatusHistory"> | string
+    bulkOrderId?: StringWithAggregatesFilter<"OrderStatusHistory"> | string
+    fromStatus?: EnumBulkOrderStatusWithAggregatesFilter<"OrderStatusHistory"> | $Enums.BulkOrderStatus
+    toStatus?: EnumBulkOrderStatusWithAggregatesFilter<"OrderStatusHistory"> | $Enums.BulkOrderStatus
+    changedById?: StringWithAggregatesFilter<"OrderStatusHistory"> | string
+    changedByName?: StringWithAggregatesFilter<"OrderStatusHistory"> | string
+    changedByRole?: StringWithAggregatesFilter<"OrderStatusHistory"> | string
+    notes?: StringNullableWithAggregatesFilter<"OrderStatusHistory"> | string | null
+    metadata?: JsonNullableWithAggregatesFilter<"OrderStatusHistory">
+    createdAt?: DateTimeWithAggregatesFilter<"OrderStatusHistory"> | Date | string
   }
 
   export type CategoryCreateInput = {
@@ -31373,6 +33157,7 @@ export namespace Prisma {
     finalSubtotal?: Decimal | DecimalJsLike | number | string | null
     finalShipping?: Decimal | DecimalJsLike | number | string | null
     finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: Date | string | null
     deliveryNotes?: string | null
     contactName: string
@@ -31382,11 +33167,32 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.BulkOrderStatus
     notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutBulkOrdersInput
     items?: BulkOrderItemCreateNestedManyWithoutBulkOrderInput
     quote?: QuoteCreateNestedOneWithoutBulkOrderInput
+    statusHistory?: OrderStatusHistoryCreateNestedManyWithoutBulkOrderInput
   }
 
   export type BulkOrderUncheckedCreateInput = {
@@ -31399,6 +33205,7 @@ export namespace Prisma {
     finalSubtotal?: Decimal | DecimalJsLike | number | string | null
     finalShipping?: Decimal | DecimalJsLike | number | string | null
     finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: Date | string | null
     deliveryNotes?: string | null
     contactName: string
@@ -31408,10 +33215,31 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.BulkOrderStatus
     notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: BulkOrderItemUncheckedCreateNestedManyWithoutBulkOrderInput
     quote?: QuoteUncheckedCreateNestedOneWithoutBulkOrderInput
+    statusHistory?: OrderStatusHistoryUncheckedCreateNestedManyWithoutBulkOrderInput
   }
 
   export type BulkOrderUpdateInput = {
@@ -31423,6 +33251,7 @@ export namespace Prisma {
     finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: StringFieldUpdateOperationsInput | string
@@ -31432,11 +33261,32 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutBulkOrdersNestedInput
     items?: BulkOrderItemUpdateManyWithoutBulkOrderNestedInput
     quote?: QuoteUpdateOneWithoutBulkOrderNestedInput
+    statusHistory?: OrderStatusHistoryUpdateManyWithoutBulkOrderNestedInput
   }
 
   export type BulkOrderUncheckedUpdateInput = {
@@ -31449,6 +33299,7 @@ export namespace Prisma {
     finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: StringFieldUpdateOperationsInput | string
@@ -31458,10 +33309,31 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: BulkOrderItemUncheckedUpdateManyWithoutBulkOrderNestedInput
     quote?: QuoteUncheckedUpdateOneWithoutBulkOrderNestedInput
+    statusHistory?: OrderStatusHistoryUncheckedUpdateManyWithoutBulkOrderNestedInput
   }
 
   export type BulkOrderCreateManyInput = {
@@ -31474,6 +33346,7 @@ export namespace Prisma {
     finalSubtotal?: Decimal | DecimalJsLike | number | string | null
     finalShipping?: Decimal | DecimalJsLike | number | string | null
     finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: Date | string | null
     deliveryNotes?: string | null
     contactName: string
@@ -31483,6 +33356,26 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.BulkOrderStatus
     notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31496,6 +33389,7 @@ export namespace Prisma {
     finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: StringFieldUpdateOperationsInput | string
@@ -31505,6 +33399,26 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31519,6 +33433,7 @@ export namespace Prisma {
     finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: StringFieldUpdateOperationsInput | string
@@ -31528,6 +33443,26 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31933,6 +33868,96 @@ export namespace Prisma {
     unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderStatusHistoryCreateInput = {
+    id?: string
+    fromStatus: $Enums.BulkOrderStatus
+    toStatus: $Enums.BulkOrderStatus
+    changedById: string
+    changedByName: string
+    changedByRole: string
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    bulkOrder: BulkOrderCreateNestedOneWithoutStatusHistoryInput
+  }
+
+  export type OrderStatusHistoryUncheckedCreateInput = {
+    id?: string
+    bulkOrderId: string
+    fromStatus: $Enums.BulkOrderStatus
+    toStatus: $Enums.BulkOrderStatus
+    changedById: string
+    changedByName: string
+    changedByRole: string
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type OrderStatusHistoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fromStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    toStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    changedById?: StringFieldUpdateOperationsInput | string
+    changedByName?: StringFieldUpdateOperationsInput | string
+    changedByRole?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bulkOrder?: BulkOrderUpdateOneRequiredWithoutStatusHistoryNestedInput
+  }
+
+  export type OrderStatusHistoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bulkOrderId?: StringFieldUpdateOperationsInput | string
+    fromStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    toStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    changedById?: StringFieldUpdateOperationsInput | string
+    changedByName?: StringFieldUpdateOperationsInput | string
+    changedByRole?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderStatusHistoryCreateManyInput = {
+    id?: string
+    bulkOrderId: string
+    fromStatus: $Enums.BulkOrderStatus
+    toStatus: $Enums.BulkOrderStatus
+    changedById: string
+    changedByName: string
+    changedByRole: string
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type OrderStatusHistoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fromStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    toStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    changedById?: StringFieldUpdateOperationsInput | string
+    changedByName?: StringFieldUpdateOperationsInput | string
+    changedByRole?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderStatusHistoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bulkOrderId?: StringFieldUpdateOperationsInput | string
+    fromStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    toStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    changedById?: StringFieldUpdateOperationsInput | string
+    changedByName?: StringFieldUpdateOperationsInput | string
+    changedByRole?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -33452,9 +35477,26 @@ export namespace Prisma {
     not?: NestedEnumBulkOrderStatusFilter<$PrismaModel> | $Enums.BulkOrderStatus
   }
 
+  export type EnumShippingCarrierNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShippingCarrier | EnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ShippingCarrier[] | ListEnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ShippingCarrier[] | ListEnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumShippingCarrierNullableFilter<$PrismaModel> | $Enums.ShippingCarrier | null
+  }
+
   export type QuoteNullableScalarRelationFilter = {
     is?: QuoteWhereInput | null
     isNot?: QuoteWhereInput | null
+  }
+
+  export type OrderStatusHistoryListRelationFilter = {
+    every?: OrderStatusHistoryWhereInput
+    some?: OrderStatusHistoryWhereInput
+    none?: OrderStatusHistoryWhereInput
+  }
+
+  export type OrderStatusHistoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type BulkOrderCountOrderByAggregateInput = {
@@ -33467,6 +35509,7 @@ export namespace Prisma {
     finalSubtotal?: SortOrder
     finalShipping?: SortOrder
     finalTotal?: SortOrder
+    coldChainSurcharge?: SortOrder
     preferredDeliveryDate?: SortOrder
     deliveryNotes?: SortOrder
     contactName?: SortOrder
@@ -33476,6 +35519,26 @@ export namespace Prisma {
     shippingAddress?: SortOrder
     status?: SortOrder
     notes?: SortOrder
+    carrier?: SortOrder
+    carrierOther?: SortOrder
+    trackingNumber?: SortOrder
+    trackingUrl?: SortOrder
+    requiresColdChain?: SortOrder
+    estimatedDeliveryDate?: SortOrder
+    actualDeliveryDate?: SortOrder
+    reviewedAt?: SortOrder
+    quotedAt?: SortOrder
+    confirmedAt?: SortOrder
+    processingAt?: SortOrder
+    readyForPickupAt?: SortOrder
+    shippedAt?: SortOrder
+    inTransitAt?: SortOrder
+    outForDeliveryAt?: SortOrder
+    deliveredAt?: SortOrder
+    cancelledAt?: SortOrder
+    deliveryProofUrl?: SortOrder
+    deliverySignature?: SortOrder
+    receivedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -33487,6 +35550,7 @@ export namespace Prisma {
     finalSubtotal?: SortOrder
     finalShipping?: SortOrder
     finalTotal?: SortOrder
+    coldChainSurcharge?: SortOrder
   }
 
   export type BulkOrderMaxOrderByAggregateInput = {
@@ -33499,6 +35563,7 @@ export namespace Prisma {
     finalSubtotal?: SortOrder
     finalShipping?: SortOrder
     finalTotal?: SortOrder
+    coldChainSurcharge?: SortOrder
     preferredDeliveryDate?: SortOrder
     deliveryNotes?: SortOrder
     contactName?: SortOrder
@@ -33507,6 +35572,26 @@ export namespace Prisma {
     companyName?: SortOrder
     status?: SortOrder
     notes?: SortOrder
+    carrier?: SortOrder
+    carrierOther?: SortOrder
+    trackingNumber?: SortOrder
+    trackingUrl?: SortOrder
+    requiresColdChain?: SortOrder
+    estimatedDeliveryDate?: SortOrder
+    actualDeliveryDate?: SortOrder
+    reviewedAt?: SortOrder
+    quotedAt?: SortOrder
+    confirmedAt?: SortOrder
+    processingAt?: SortOrder
+    readyForPickupAt?: SortOrder
+    shippedAt?: SortOrder
+    inTransitAt?: SortOrder
+    outForDeliveryAt?: SortOrder
+    deliveredAt?: SortOrder
+    cancelledAt?: SortOrder
+    deliveryProofUrl?: SortOrder
+    deliverySignature?: SortOrder
+    receivedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -33521,6 +35606,7 @@ export namespace Prisma {
     finalSubtotal?: SortOrder
     finalShipping?: SortOrder
     finalTotal?: SortOrder
+    coldChainSurcharge?: SortOrder
     preferredDeliveryDate?: SortOrder
     deliveryNotes?: SortOrder
     contactName?: SortOrder
@@ -33529,6 +35615,26 @@ export namespace Prisma {
     companyName?: SortOrder
     status?: SortOrder
     notes?: SortOrder
+    carrier?: SortOrder
+    carrierOther?: SortOrder
+    trackingNumber?: SortOrder
+    trackingUrl?: SortOrder
+    requiresColdChain?: SortOrder
+    estimatedDeliveryDate?: SortOrder
+    actualDeliveryDate?: SortOrder
+    reviewedAt?: SortOrder
+    quotedAt?: SortOrder
+    confirmedAt?: SortOrder
+    processingAt?: SortOrder
+    readyForPickupAt?: SortOrder
+    shippedAt?: SortOrder
+    inTransitAt?: SortOrder
+    outForDeliveryAt?: SortOrder
+    deliveredAt?: SortOrder
+    cancelledAt?: SortOrder
+    deliveryProofUrl?: SortOrder
+    deliverySignature?: SortOrder
+    receivedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -33540,6 +35646,7 @@ export namespace Prisma {
     finalSubtotal?: SortOrder
     finalShipping?: SortOrder
     finalTotal?: SortOrder
+    coldChainSurcharge?: SortOrder
   }
 
   export type EnumBulkOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -33550,6 +35657,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBulkOrderStatusFilter<$PrismaModel>
     _max?: NestedEnumBulkOrderStatusFilter<$PrismaModel>
+  }
+
+  export type EnumShippingCarrierNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShippingCarrier | EnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ShippingCarrier[] | ListEnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ShippingCarrier[] | ListEnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumShippingCarrierNullableWithAggregatesFilter<$PrismaModel> | $Enums.ShippingCarrier | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumShippingCarrierNullableFilter<$PrismaModel>
+    _max?: NestedEnumShippingCarrierNullableFilter<$PrismaModel>
   }
 
   export type BulkOrderScalarRelationFilter = {
@@ -33804,6 +35921,43 @@ export namespace Prisma {
     unitPrice?: SortOrder
     totalPrice?: SortOrder
     weightKg?: SortOrder
+  }
+
+  export type OrderStatusHistoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    bulkOrderId?: SortOrder
+    fromStatus?: SortOrder
+    toStatus?: SortOrder
+    changedById?: SortOrder
+    changedByName?: SortOrder
+    changedByRole?: SortOrder
+    notes?: SortOrder
+    metadata?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OrderStatusHistoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    bulkOrderId?: SortOrder
+    fromStatus?: SortOrder
+    toStatus?: SortOrder
+    changedById?: SortOrder
+    changedByName?: SortOrder
+    changedByRole?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OrderStatusHistoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    bulkOrderId?: SortOrder
+    fromStatus?: SortOrder
+    toStatus?: SortOrder
+    changedById?: SortOrder
+    changedByName?: SortOrder
+    changedByRole?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type CategoryCreateNestedOneWithoutChildrenInput = {
@@ -34936,6 +37090,13 @@ export namespace Prisma {
     connect?: QuoteWhereUniqueInput
   }
 
+  export type OrderStatusHistoryCreateNestedManyWithoutBulkOrderInput = {
+    create?: XOR<OrderStatusHistoryCreateWithoutBulkOrderInput, OrderStatusHistoryUncheckedCreateWithoutBulkOrderInput> | OrderStatusHistoryCreateWithoutBulkOrderInput[] | OrderStatusHistoryUncheckedCreateWithoutBulkOrderInput[]
+    connectOrCreate?: OrderStatusHistoryCreateOrConnectWithoutBulkOrderInput | OrderStatusHistoryCreateOrConnectWithoutBulkOrderInput[]
+    createMany?: OrderStatusHistoryCreateManyBulkOrderInputEnvelope
+    connect?: OrderStatusHistoryWhereUniqueInput | OrderStatusHistoryWhereUniqueInput[]
+  }
+
   export type BulkOrderItemUncheckedCreateNestedManyWithoutBulkOrderInput = {
     create?: XOR<BulkOrderItemCreateWithoutBulkOrderInput, BulkOrderItemUncheckedCreateWithoutBulkOrderInput> | BulkOrderItemCreateWithoutBulkOrderInput[] | BulkOrderItemUncheckedCreateWithoutBulkOrderInput[]
     connectOrCreate?: BulkOrderItemCreateOrConnectWithoutBulkOrderInput | BulkOrderItemCreateOrConnectWithoutBulkOrderInput[]
@@ -34949,8 +37110,19 @@ export namespace Prisma {
     connect?: QuoteWhereUniqueInput
   }
 
+  export type OrderStatusHistoryUncheckedCreateNestedManyWithoutBulkOrderInput = {
+    create?: XOR<OrderStatusHistoryCreateWithoutBulkOrderInput, OrderStatusHistoryUncheckedCreateWithoutBulkOrderInput> | OrderStatusHistoryCreateWithoutBulkOrderInput[] | OrderStatusHistoryUncheckedCreateWithoutBulkOrderInput[]
+    connectOrCreate?: OrderStatusHistoryCreateOrConnectWithoutBulkOrderInput | OrderStatusHistoryCreateOrConnectWithoutBulkOrderInput[]
+    createMany?: OrderStatusHistoryCreateManyBulkOrderInputEnvelope
+    connect?: OrderStatusHistoryWhereUniqueInput | OrderStatusHistoryWhereUniqueInput[]
+  }
+
   export type EnumBulkOrderStatusFieldUpdateOperationsInput = {
     set?: $Enums.BulkOrderStatus
+  }
+
+  export type NullableEnumShippingCarrierFieldUpdateOperationsInput = {
+    set?: $Enums.ShippingCarrier | null
   }
 
   export type UserUpdateOneRequiredWithoutBulkOrdersNestedInput = {
@@ -34985,6 +37157,20 @@ export namespace Prisma {
     update?: XOR<XOR<QuoteUpdateToOneWithWhereWithoutBulkOrderInput, QuoteUpdateWithoutBulkOrderInput>, QuoteUncheckedUpdateWithoutBulkOrderInput>
   }
 
+  export type OrderStatusHistoryUpdateManyWithoutBulkOrderNestedInput = {
+    create?: XOR<OrderStatusHistoryCreateWithoutBulkOrderInput, OrderStatusHistoryUncheckedCreateWithoutBulkOrderInput> | OrderStatusHistoryCreateWithoutBulkOrderInput[] | OrderStatusHistoryUncheckedCreateWithoutBulkOrderInput[]
+    connectOrCreate?: OrderStatusHistoryCreateOrConnectWithoutBulkOrderInput | OrderStatusHistoryCreateOrConnectWithoutBulkOrderInput[]
+    upsert?: OrderStatusHistoryUpsertWithWhereUniqueWithoutBulkOrderInput | OrderStatusHistoryUpsertWithWhereUniqueWithoutBulkOrderInput[]
+    createMany?: OrderStatusHistoryCreateManyBulkOrderInputEnvelope
+    set?: OrderStatusHistoryWhereUniqueInput | OrderStatusHistoryWhereUniqueInput[]
+    disconnect?: OrderStatusHistoryWhereUniqueInput | OrderStatusHistoryWhereUniqueInput[]
+    delete?: OrderStatusHistoryWhereUniqueInput | OrderStatusHistoryWhereUniqueInput[]
+    connect?: OrderStatusHistoryWhereUniqueInput | OrderStatusHistoryWhereUniqueInput[]
+    update?: OrderStatusHistoryUpdateWithWhereUniqueWithoutBulkOrderInput | OrderStatusHistoryUpdateWithWhereUniqueWithoutBulkOrderInput[]
+    updateMany?: OrderStatusHistoryUpdateManyWithWhereWithoutBulkOrderInput | OrderStatusHistoryUpdateManyWithWhereWithoutBulkOrderInput[]
+    deleteMany?: OrderStatusHistoryScalarWhereInput | OrderStatusHistoryScalarWhereInput[]
+  }
+
   export type BulkOrderItemUncheckedUpdateManyWithoutBulkOrderNestedInput = {
     create?: XOR<BulkOrderItemCreateWithoutBulkOrderInput, BulkOrderItemUncheckedCreateWithoutBulkOrderInput> | BulkOrderItemCreateWithoutBulkOrderInput[] | BulkOrderItemUncheckedCreateWithoutBulkOrderInput[]
     connectOrCreate?: BulkOrderItemCreateOrConnectWithoutBulkOrderInput | BulkOrderItemCreateOrConnectWithoutBulkOrderInput[]
@@ -35007,6 +37193,20 @@ export namespace Prisma {
     delete?: QuoteWhereInput | boolean
     connect?: QuoteWhereUniqueInput
     update?: XOR<XOR<QuoteUpdateToOneWithWhereWithoutBulkOrderInput, QuoteUpdateWithoutBulkOrderInput>, QuoteUncheckedUpdateWithoutBulkOrderInput>
+  }
+
+  export type OrderStatusHistoryUncheckedUpdateManyWithoutBulkOrderNestedInput = {
+    create?: XOR<OrderStatusHistoryCreateWithoutBulkOrderInput, OrderStatusHistoryUncheckedCreateWithoutBulkOrderInput> | OrderStatusHistoryCreateWithoutBulkOrderInput[] | OrderStatusHistoryUncheckedCreateWithoutBulkOrderInput[]
+    connectOrCreate?: OrderStatusHistoryCreateOrConnectWithoutBulkOrderInput | OrderStatusHistoryCreateOrConnectWithoutBulkOrderInput[]
+    upsert?: OrderStatusHistoryUpsertWithWhereUniqueWithoutBulkOrderInput | OrderStatusHistoryUpsertWithWhereUniqueWithoutBulkOrderInput[]
+    createMany?: OrderStatusHistoryCreateManyBulkOrderInputEnvelope
+    set?: OrderStatusHistoryWhereUniqueInput | OrderStatusHistoryWhereUniqueInput[]
+    disconnect?: OrderStatusHistoryWhereUniqueInput | OrderStatusHistoryWhereUniqueInput[]
+    delete?: OrderStatusHistoryWhereUniqueInput | OrderStatusHistoryWhereUniqueInput[]
+    connect?: OrderStatusHistoryWhereUniqueInput | OrderStatusHistoryWhereUniqueInput[]
+    update?: OrderStatusHistoryUpdateWithWhereUniqueWithoutBulkOrderInput | OrderStatusHistoryUpdateWithWhereUniqueWithoutBulkOrderInput[]
+    updateMany?: OrderStatusHistoryUpdateManyWithWhereWithoutBulkOrderInput | OrderStatusHistoryUpdateManyWithWhereWithoutBulkOrderInput[]
+    deleteMany?: OrderStatusHistoryScalarWhereInput | OrderStatusHistoryScalarWhereInput[]
   }
 
   export type BulkOrderCreateNestedOneWithoutItemsInput = {
@@ -35139,6 +37339,20 @@ export namespace Prisma {
     upsert?: ProductUpsertWithoutQuoteItemsInput
     connect?: ProductWhereUniqueInput
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutQuoteItemsInput, ProductUpdateWithoutQuoteItemsInput>, ProductUncheckedUpdateWithoutQuoteItemsInput>
+  }
+
+  export type BulkOrderCreateNestedOneWithoutStatusHistoryInput = {
+    create?: XOR<BulkOrderCreateWithoutStatusHistoryInput, BulkOrderUncheckedCreateWithoutStatusHistoryInput>
+    connectOrCreate?: BulkOrderCreateOrConnectWithoutStatusHistoryInput
+    connect?: BulkOrderWhereUniqueInput
+  }
+
+  export type BulkOrderUpdateOneRequiredWithoutStatusHistoryNestedInput = {
+    create?: XOR<BulkOrderCreateWithoutStatusHistoryInput, BulkOrderUncheckedCreateWithoutStatusHistoryInput>
+    connectOrCreate?: BulkOrderCreateOrConnectWithoutStatusHistoryInput
+    upsert?: BulkOrderUpsertWithoutStatusHistoryInput
+    connect?: BulkOrderWhereUniqueInput
+    update?: XOR<XOR<BulkOrderUpdateToOneWithWhereWithoutStatusHistoryInput, BulkOrderUpdateWithoutStatusHistoryInput>, BulkOrderUncheckedUpdateWithoutStatusHistoryInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -35653,6 +37867,13 @@ export namespace Prisma {
     not?: NestedEnumBulkOrderStatusFilter<$PrismaModel> | $Enums.BulkOrderStatus
   }
 
+  export type NestedEnumShippingCarrierNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShippingCarrier | EnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ShippingCarrier[] | ListEnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ShippingCarrier[] | ListEnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumShippingCarrierNullableFilter<$PrismaModel> | $Enums.ShippingCarrier | null
+  }
+
   export type NestedEnumBulkOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.BulkOrderStatus | EnumBulkOrderStatusFieldRefInput<$PrismaModel>
     in?: $Enums.BulkOrderStatus[] | ListEnumBulkOrderStatusFieldRefInput<$PrismaModel>
@@ -35661,6 +37882,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBulkOrderStatusFilter<$PrismaModel>
     _max?: NestedEnumBulkOrderStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumShippingCarrierNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ShippingCarrier | EnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ShippingCarrier[] | ListEnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ShippingCarrier[] | ListEnumShippingCarrierFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumShippingCarrierNullableWithAggregatesFilter<$PrismaModel> | $Enums.ShippingCarrier | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumShippingCarrierNullableFilter<$PrismaModel>
+    _max?: NestedEnumShippingCarrierNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumQuoteStatusFilter<$PrismaModel = never> = {
@@ -38257,6 +40488,7 @@ export namespace Prisma {
     finalSubtotal?: Decimal | DecimalJsLike | number | string | null
     finalShipping?: Decimal | DecimalJsLike | number | string | null
     finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: Date | string | null
     deliveryNotes?: string | null
     contactName: string
@@ -38266,10 +40498,31 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.BulkOrderStatus
     notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: BulkOrderItemCreateNestedManyWithoutBulkOrderInput
     quote?: QuoteCreateNestedOneWithoutBulkOrderInput
+    statusHistory?: OrderStatusHistoryCreateNestedManyWithoutBulkOrderInput
   }
 
   export type BulkOrderUncheckedCreateWithoutUserInput = {
@@ -38281,6 +40534,7 @@ export namespace Prisma {
     finalSubtotal?: Decimal | DecimalJsLike | number | string | null
     finalShipping?: Decimal | DecimalJsLike | number | string | null
     finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: Date | string | null
     deliveryNotes?: string | null
     contactName: string
@@ -38290,10 +40544,31 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.BulkOrderStatus
     notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: BulkOrderItemUncheckedCreateNestedManyWithoutBulkOrderInput
     quote?: QuoteUncheckedCreateNestedOneWithoutBulkOrderInput
+    statusHistory?: OrderStatusHistoryUncheckedCreateNestedManyWithoutBulkOrderInput
   }
 
   export type BulkOrderCreateOrConnectWithoutUserInput = {
@@ -38531,6 +40806,7 @@ export namespace Prisma {
     finalSubtotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     finalShipping?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     finalTotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     deliveryNotes?: StringNullableFilter<"BulkOrder"> | string | null
     contactName?: StringFilter<"BulkOrder"> | string
@@ -38540,6 +40816,26 @@ export namespace Prisma {
     shippingAddress?: JsonNullableFilter<"BulkOrder">
     status?: EnumBulkOrderStatusFilter<"BulkOrder"> | $Enums.BulkOrderStatus
     notes?: StringNullableFilter<"BulkOrder"> | string | null
+    carrier?: EnumShippingCarrierNullableFilter<"BulkOrder"> | $Enums.ShippingCarrier | null
+    carrierOther?: StringNullableFilter<"BulkOrder"> | string | null
+    trackingNumber?: StringNullableFilter<"BulkOrder"> | string | null
+    trackingUrl?: StringNullableFilter<"BulkOrder"> | string | null
+    requiresColdChain?: BoolFilter<"BulkOrder"> | boolean
+    estimatedDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    actualDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    reviewedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    quotedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    confirmedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    processingAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    readyForPickupAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    shippedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    inTransitAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    outForDeliveryAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    deliveredAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    cancelledAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    deliveryProofUrl?: StringNullableFilter<"BulkOrder"> | string | null
+    deliverySignature?: StringNullableFilter<"BulkOrder"> | string | null
+    receivedBy?: StringNullableFilter<"BulkOrder"> | string | null
     createdAt?: DateTimeFilter<"BulkOrder"> | Date | string
     updatedAt?: DateTimeFilter<"BulkOrder"> | Date | string
   }
@@ -38768,6 +41064,40 @@ export namespace Prisma {
     create: XOR<QuoteCreateWithoutBulkOrderInput, QuoteUncheckedCreateWithoutBulkOrderInput>
   }
 
+  export type OrderStatusHistoryCreateWithoutBulkOrderInput = {
+    id?: string
+    fromStatus: $Enums.BulkOrderStatus
+    toStatus: $Enums.BulkOrderStatus
+    changedById: string
+    changedByName: string
+    changedByRole: string
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type OrderStatusHistoryUncheckedCreateWithoutBulkOrderInput = {
+    id?: string
+    fromStatus: $Enums.BulkOrderStatus
+    toStatus: $Enums.BulkOrderStatus
+    changedById: string
+    changedByName: string
+    changedByRole: string
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
+  export type OrderStatusHistoryCreateOrConnectWithoutBulkOrderInput = {
+    where: OrderStatusHistoryWhereUniqueInput
+    create: XOR<OrderStatusHistoryCreateWithoutBulkOrderInput, OrderStatusHistoryUncheckedCreateWithoutBulkOrderInput>
+  }
+
+  export type OrderStatusHistoryCreateManyBulkOrderInputEnvelope = {
+    data: OrderStatusHistoryCreateManyBulkOrderInput | OrderStatusHistoryCreateManyBulkOrderInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutBulkOrdersInput = {
     update: XOR<UserUpdateWithoutBulkOrdersInput, UserUncheckedUpdateWithoutBulkOrdersInput>
     create: XOR<UserCreateWithoutBulkOrdersInput, UserUncheckedCreateWithoutBulkOrdersInput>
@@ -38888,6 +41218,38 @@ export namespace Prisma {
     items?: QuoteItemUncheckedUpdateManyWithoutQuoteNestedInput
   }
 
+  export type OrderStatusHistoryUpsertWithWhereUniqueWithoutBulkOrderInput = {
+    where: OrderStatusHistoryWhereUniqueInput
+    update: XOR<OrderStatusHistoryUpdateWithoutBulkOrderInput, OrderStatusHistoryUncheckedUpdateWithoutBulkOrderInput>
+    create: XOR<OrderStatusHistoryCreateWithoutBulkOrderInput, OrderStatusHistoryUncheckedCreateWithoutBulkOrderInput>
+  }
+
+  export type OrderStatusHistoryUpdateWithWhereUniqueWithoutBulkOrderInput = {
+    where: OrderStatusHistoryWhereUniqueInput
+    data: XOR<OrderStatusHistoryUpdateWithoutBulkOrderInput, OrderStatusHistoryUncheckedUpdateWithoutBulkOrderInput>
+  }
+
+  export type OrderStatusHistoryUpdateManyWithWhereWithoutBulkOrderInput = {
+    where: OrderStatusHistoryScalarWhereInput
+    data: XOR<OrderStatusHistoryUpdateManyMutationInput, OrderStatusHistoryUncheckedUpdateManyWithoutBulkOrderInput>
+  }
+
+  export type OrderStatusHistoryScalarWhereInput = {
+    AND?: OrderStatusHistoryScalarWhereInput | OrderStatusHistoryScalarWhereInput[]
+    OR?: OrderStatusHistoryScalarWhereInput[]
+    NOT?: OrderStatusHistoryScalarWhereInput | OrderStatusHistoryScalarWhereInput[]
+    id?: StringFilter<"OrderStatusHistory"> | string
+    bulkOrderId?: StringFilter<"OrderStatusHistory"> | string
+    fromStatus?: EnumBulkOrderStatusFilter<"OrderStatusHistory"> | $Enums.BulkOrderStatus
+    toStatus?: EnumBulkOrderStatusFilter<"OrderStatusHistory"> | $Enums.BulkOrderStatus
+    changedById?: StringFilter<"OrderStatusHistory"> | string
+    changedByName?: StringFilter<"OrderStatusHistory"> | string
+    changedByRole?: StringFilter<"OrderStatusHistory"> | string
+    notes?: StringNullableFilter<"OrderStatusHistory"> | string | null
+    metadata?: JsonNullableFilter<"OrderStatusHistory">
+    createdAt?: DateTimeFilter<"OrderStatusHistory"> | Date | string
+  }
+
   export type BulkOrderCreateWithoutItemsInput = {
     id?: string
     orderNumber?: string
@@ -38897,6 +41259,7 @@ export namespace Prisma {
     finalSubtotal?: Decimal | DecimalJsLike | number | string | null
     finalShipping?: Decimal | DecimalJsLike | number | string | null
     finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: Date | string | null
     deliveryNotes?: string | null
     contactName: string
@@ -38906,10 +41269,31 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.BulkOrderStatus
     notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutBulkOrdersInput
     quote?: QuoteCreateNestedOneWithoutBulkOrderInput
+    statusHistory?: OrderStatusHistoryCreateNestedManyWithoutBulkOrderInput
   }
 
   export type BulkOrderUncheckedCreateWithoutItemsInput = {
@@ -38922,6 +41306,7 @@ export namespace Prisma {
     finalSubtotal?: Decimal | DecimalJsLike | number | string | null
     finalShipping?: Decimal | DecimalJsLike | number | string | null
     finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: Date | string | null
     deliveryNotes?: string | null
     contactName: string
@@ -38931,9 +41316,30 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.BulkOrderStatus
     notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     quote?: QuoteUncheckedCreateNestedOneWithoutBulkOrderInput
+    statusHistory?: OrderStatusHistoryUncheckedCreateNestedManyWithoutBulkOrderInput
   }
 
   export type BulkOrderCreateOrConnectWithoutItemsInput = {
@@ -39040,6 +41446,7 @@ export namespace Prisma {
     finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: StringFieldUpdateOperationsInput | string
@@ -39049,10 +41456,31 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutBulkOrdersNestedInput
     quote?: QuoteUpdateOneWithoutBulkOrderNestedInput
+    statusHistory?: OrderStatusHistoryUpdateManyWithoutBulkOrderNestedInput
   }
 
   export type BulkOrderUncheckedUpdateWithoutItemsInput = {
@@ -39065,6 +41493,7 @@ export namespace Prisma {
     finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: StringFieldUpdateOperationsInput | string
@@ -39074,9 +41503,30 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quote?: QuoteUncheckedUpdateOneWithoutBulkOrderNestedInput
+    statusHistory?: OrderStatusHistoryUncheckedUpdateManyWithoutBulkOrderNestedInput
   }
 
   export type ProductUpsertWithoutBulkOrderItemsInput = {
@@ -39216,6 +41666,7 @@ export namespace Prisma {
     finalSubtotal?: Decimal | DecimalJsLike | number | string | null
     finalShipping?: Decimal | DecimalJsLike | number | string | null
     finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: Date | string | null
     deliveryNotes?: string | null
     contactName: string
@@ -39225,10 +41676,31 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.BulkOrderStatus
     notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutBulkOrdersInput
     items?: BulkOrderItemCreateNestedManyWithoutBulkOrderInput
+    statusHistory?: OrderStatusHistoryCreateNestedManyWithoutBulkOrderInput
   }
 
   export type BulkOrderUncheckedCreateWithoutQuoteInput = {
@@ -39241,6 +41713,7 @@ export namespace Prisma {
     finalSubtotal?: Decimal | DecimalJsLike | number | string | null
     finalShipping?: Decimal | DecimalJsLike | number | string | null
     finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: Date | string | null
     deliveryNotes?: string | null
     contactName: string
@@ -39250,9 +41723,30 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.BulkOrderStatus
     notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: BulkOrderItemUncheckedCreateNestedManyWithoutBulkOrderInput
+    statusHistory?: OrderStatusHistoryUncheckedCreateNestedManyWithoutBulkOrderInput
   }
 
   export type BulkOrderCreateOrConnectWithoutQuoteInput = {
@@ -39371,6 +41865,7 @@ export namespace Prisma {
     finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: StringFieldUpdateOperationsInput | string
@@ -39380,10 +41875,31 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutBulkOrdersNestedInput
     items?: BulkOrderItemUpdateManyWithoutBulkOrderNestedInput
+    statusHistory?: OrderStatusHistoryUpdateManyWithoutBulkOrderNestedInput
   }
 
   export type BulkOrderUncheckedUpdateWithoutQuoteInput = {
@@ -39396,6 +41912,7 @@ export namespace Prisma {
     finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: StringFieldUpdateOperationsInput | string
@@ -39405,9 +41922,30 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: BulkOrderItemUncheckedUpdateManyWithoutBulkOrderNestedInput
+    statusHistory?: OrderStatusHistoryUncheckedUpdateManyWithoutBulkOrderNestedInput
   }
 
   export type QuoteItemUpsertWithWhereUniqueWithoutQuoteInput = {
@@ -39692,6 +42230,206 @@ export namespace Prisma {
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUncheckedUpdateManyWithoutProductNestedInput
     bulkOrderItems?: BulkOrderItemUncheckedUpdateManyWithoutProductNestedInput
+  }
+
+  export type BulkOrderCreateWithoutStatusHistoryInput = {
+    id?: string
+    orderNumber?: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutBulkOrdersInput
+    items?: BulkOrderItemCreateNestedManyWithoutBulkOrderInput
+    quote?: QuoteCreateNestedOneWithoutBulkOrderInput
+  }
+
+  export type BulkOrderUncheckedCreateWithoutStatusHistoryInput = {
+    id?: string
+    orderNumber?: string
+    userId: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: BulkOrderItemUncheckedCreateNestedManyWithoutBulkOrderInput
+    quote?: QuoteUncheckedCreateNestedOneWithoutBulkOrderInput
+  }
+
+  export type BulkOrderCreateOrConnectWithoutStatusHistoryInput = {
+    where: BulkOrderWhereUniqueInput
+    create: XOR<BulkOrderCreateWithoutStatusHistoryInput, BulkOrderUncheckedCreateWithoutStatusHistoryInput>
+  }
+
+  export type BulkOrderUpsertWithoutStatusHistoryInput = {
+    update: XOR<BulkOrderUpdateWithoutStatusHistoryInput, BulkOrderUncheckedUpdateWithoutStatusHistoryInput>
+    create: XOR<BulkOrderCreateWithoutStatusHistoryInput, BulkOrderUncheckedCreateWithoutStatusHistoryInput>
+    where?: BulkOrderWhereInput
+  }
+
+  export type BulkOrderUpdateToOneWithWhereWithoutStatusHistoryInput = {
+    where?: BulkOrderWhereInput
+    data: XOR<BulkOrderUpdateWithoutStatusHistoryInput, BulkOrderUncheckedUpdateWithoutStatusHistoryInput>
+  }
+
+  export type BulkOrderUpdateWithoutStatusHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBulkOrdersNestedInput
+    items?: BulkOrderItemUpdateManyWithoutBulkOrderNestedInput
+    quote?: QuoteUpdateOneWithoutBulkOrderNestedInput
+  }
+
+  export type BulkOrderUncheckedUpdateWithoutStatusHistoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: BulkOrderItemUncheckedUpdateManyWithoutBulkOrderNestedInput
+    quote?: QuoteUncheckedUpdateOneWithoutBulkOrderNestedInput
   }
 
   export type CategoryCreateManyParentInput = {
@@ -40542,6 +43280,7 @@ export namespace Prisma {
     finalSubtotal?: Decimal | DecimalJsLike | number | string | null
     finalShipping?: Decimal | DecimalJsLike | number | string | null
     finalTotal?: Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: Date | string | null
     deliveryNotes?: string | null
     contactName: string
@@ -40551,6 +43290,26 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: $Enums.BulkOrderStatus
     notes?: string | null
+    carrier?: $Enums.ShippingCarrier | null
+    carrierOther?: string | null
+    trackingNumber?: string | null
+    trackingUrl?: string | null
+    requiresColdChain?: boolean
+    estimatedDeliveryDate?: Date | string | null
+    actualDeliveryDate?: Date | string | null
+    reviewedAt?: Date | string | null
+    quotedAt?: Date | string | null
+    confirmedAt?: Date | string | null
+    processingAt?: Date | string | null
+    readyForPickupAt?: Date | string | null
+    shippedAt?: Date | string | null
+    inTransitAt?: Date | string | null
+    outForDeliveryAt?: Date | string | null
+    deliveredAt?: Date | string | null
+    cancelledAt?: Date | string | null
+    deliveryProofUrl?: string | null
+    deliverySignature?: string | null
+    receivedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -40716,6 +43475,7 @@ export namespace Prisma {
     finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: StringFieldUpdateOperationsInput | string
@@ -40725,10 +43485,31 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: BulkOrderItemUpdateManyWithoutBulkOrderNestedInput
     quote?: QuoteUpdateOneWithoutBulkOrderNestedInput
+    statusHistory?: OrderStatusHistoryUpdateManyWithoutBulkOrderNestedInput
   }
 
   export type BulkOrderUncheckedUpdateWithoutUserInput = {
@@ -40740,6 +43521,7 @@ export namespace Prisma {
     finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: StringFieldUpdateOperationsInput | string
@@ -40749,10 +43531,31 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: BulkOrderItemUncheckedUpdateManyWithoutBulkOrderNestedInput
     quote?: QuoteUncheckedUpdateOneWithoutBulkOrderNestedInput
+    statusHistory?: OrderStatusHistoryUncheckedUpdateManyWithoutBulkOrderNestedInput
   }
 
   export type BulkOrderUncheckedUpdateManyWithoutUserInput = {
@@ -40764,6 +43567,7 @@ export namespace Prisma {
     finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    coldChainSurcharge?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
     contactName?: StringFieldUpdateOperationsInput | string
@@ -40773,6 +43577,26 @@ export namespace Prisma {
     shippingAddress?: NullableJsonNullValueInput | InputJsonValue
     status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
     notes?: NullableStringFieldUpdateOperationsInput | string | null
+    carrier?: NullableEnumShippingCarrierFieldUpdateOperationsInput | $Enums.ShippingCarrier | null
+    carrierOther?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    trackingUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -40860,6 +43684,18 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type OrderStatusHistoryCreateManyBulkOrderInput = {
+    id?: string
+    fromStatus: $Enums.BulkOrderStatus
+    toStatus: $Enums.BulkOrderStatus
+    changedById: string
+    changedByName: string
+    changedByRole: string
+    notes?: string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+  }
+
   export type BulkOrderItemUpdateWithoutBulkOrderInput = {
     id?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
@@ -40911,6 +43747,42 @@ export namespace Prisma {
     weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     finalUnitPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     finalTotalPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderStatusHistoryUpdateWithoutBulkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fromStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    toStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    changedById?: StringFieldUpdateOperationsInput | string
+    changedByName?: StringFieldUpdateOperationsInput | string
+    changedByRole?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderStatusHistoryUncheckedUpdateWithoutBulkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fromStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    toStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    changedById?: StringFieldUpdateOperationsInput | string
+    changedByName?: StringFieldUpdateOperationsInput | string
+    changedByRole?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderStatusHistoryUncheckedUpdateManyWithoutBulkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fromStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    toStatus?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    changedById?: StringFieldUpdateOperationsInput | string
+    changedByName?: StringFieldUpdateOperationsInput | string
+    changedByRole?: StringFieldUpdateOperationsInput | string
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

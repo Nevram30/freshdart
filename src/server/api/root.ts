@@ -4,6 +4,8 @@ import { checkoutRouter } from "~/server/api/routers/checkout";
 import { authRouter } from "~/server/api/routers/auth";
 import { merchantRouter } from "~/server/api/routers/merchant";
 import { bulkOrderRouter } from "~/server/api/routers/bulk-order";
+import { orderRouter } from "~/server/api/routers/order";
+import { shippingRouter } from "~/server/api/routers/shipping";
 import { adminRouter } from "~/server/api/routers/admin";
 import { profileRouter } from "~/server/api/routers/profile";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
@@ -20,6 +22,8 @@ export const appRouter = createTRPCRouter({
   auth: authRouter,
   merchant: merchantRouter,
   bulkOrder: bulkOrderRouter,
+  order: orderRouter,
+  shipping: shippingRouter,
   admin: adminRouter,
   profile: profileRouter,
 });
