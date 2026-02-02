@@ -10,6 +10,7 @@ interface LayoutWrapperProps {
   role: UserRole;
   userName?: string | null;
   userEmail?: string | null;
+  businessName?: string | null;
   children: React.ReactNode;
 }
 
@@ -17,6 +18,7 @@ export function DashboardLayoutWrapper({
   role,
   userName,
   userEmail,
+  businessName,
   children,
 }: LayoutWrapperProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -27,7 +29,7 @@ export function DashboardLayoutWrapper({
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <DashboardSidebar role={role} isOpen={isSidebarOpen} onToggle={toggleSidebar} />
+      <DashboardSidebar role={role} isOpen={isSidebarOpen} onToggle={toggleSidebar} businessName={businessName} />
       <div
         className={`flex flex-1 flex-col transition-all duration-300 ${
           isSidebarOpen ? "ml-64" : "ml-20"

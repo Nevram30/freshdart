@@ -92,11 +92,17 @@ interface DashboardSidebarProps {
   role: UserRole;
   isOpen?: boolean;
   onToggle?: () => void;
+  businessName?: string | null;
 }
 
-export function DashboardSidebar({ role, isOpen = true, onToggle }: DashboardSidebarProps) {
+export function DashboardSidebar({ role, isOpen = true, onToggle, businessName }: DashboardSidebarProps) {
   const pathname = usePathname();
   const config = roleConfig[role];
+
+  // Use business name for merchant/producer, fallback to role title
+  const displayTitle = (role === "MERCHANT" || role === "PRODUCER") && businessName
+    ? businessName
+    : config.title;
 
   return (
     <aside
@@ -113,7 +119,7 @@ export function DashboardSidebar({ role, isOpen = true, onToggle }: DashboardSid
                 <Utensils className="h-5 w-5 text-white" />
               </div>
               <div>
-                <span className="text-lg font-bold text-gray-800">{config.title}</span>
+                <span className="text-xs font-bold text-gray-800">{displayTitle}</span>
               </div>
             </div>
             <button

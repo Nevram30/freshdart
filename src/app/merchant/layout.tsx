@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
+import { db } from "~/server/db";
 import { DashboardLayoutWrapper } from "~/components/dashboard/layout-wrapper";
 
 export default async function MerchantDashboardLayout({
@@ -27,11 +28,18 @@ export default async function MerchantDashboardLayout({
     }
   }
 
+  // Fetch merchant business name
+  const merchant = await db.merchant.findUnique({
+    where: { userId: session.user.id },
+    select: { businessName: true },
+  });
+
   return (
     <DashboardLayoutWrapper
       role="MERCHANT"
       userName={session.user.name}
       userEmail={session.user.email}
+      businessName={merchant?.businessName}
     >
       {children}
     </DashboardLayoutWrapper>
