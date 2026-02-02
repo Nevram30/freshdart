@@ -62,6 +62,7 @@ async function main() {
         },
       },
     }),
+    
     // Producer user
     prisma.user.upsert({
       where: { email: "producer@freshdart.com" },

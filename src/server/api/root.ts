@@ -5,6 +5,7 @@ import { authRouter } from "~/server/api/routers/auth";
 import { merchantRouter } from "~/server/api/routers/merchant";
 import { bulkOrderRouter } from "~/server/api/routers/bulk-order";
 import { adminRouter } from "~/server/api/routers/admin";
+import { profileRouter } from "~/server/api/routers/profile";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -20,6 +21,7 @@ export const appRouter = createTRPCRouter({
   merchant: merchantRouter,
   bulkOrder: bulkOrderRouter,
   admin: adminRouter,
+  profile: profileRouter,
 });
 
 // export type definition of API

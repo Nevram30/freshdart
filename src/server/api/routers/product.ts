@@ -3,6 +3,7 @@ import { TRPCError } from "@trpc/server";
 import {
   createTRPCRouter,
   publicProcedure,
+  protectedProcedure,
 } from "~/server/api/trpc";
 
 // Enums matching Prisma schema
@@ -353,8 +354,8 @@ export const productRouter = createTRPCRouter({
       return products;
     }),
 
-  // Get products for producer (all statuses)
-  getForProducer: publicProcedure
+  // Get products for producer (all statuses) - filtered by logged-in producer's merchantId
+  getForProducer: protectedProcedure
     .input(
       z.object({
         search: z.string().optional(),
@@ -373,7 +374,20 @@ export const productRouter = createTRPCRouter({
         cursor,
       } = input ?? {};
 
+      // Get the user's merchant profile
+      const merchant = await ctx.db.merchant.findUnique({
+        where: { userId: ctx.session.user.id },
+      });
+
+      if (!merchant) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Merchant profile not found. Please complete your producer registration.",
+        });
+      }
+
       const where = {
+        merchantId: merchant.id, // Filter by the producer's merchantId
         ...(status && { status }),
         ...(categoryId && { categoryId }),
         ...(search && {
@@ -410,11 +424,23 @@ export const productRouter = createTRPCRouter({
       };
     }),
 
-  // Create a new product
-  create: publicProcedure
+  // Create a new product - links to the logged-in producer's merchantId
+  create: protectedProcedure
     .input(CreateProductSchema)
     .mutation(async ({ ctx, input }) => {
       const { variants, ...productData } = input;
+
+      // Get the user's merchant profile
+      const merchant = await ctx.db.merchant.findUnique({
+        where: { userId: ctx.session.user.id },
+      });
+
+      if (!merchant) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Merchant profile not found. Please complete your producer registration.",
+        });
+      }
 
       // Normalize optional string fields (treat empty strings as undefined)
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -451,12 +477,13 @@ export const productRouter = createTRPCRouter({
         }
       }
 
-      // Create product with variants
+      // Create product with variants and link to merchant
       const product = await ctx.db.product.create({
         data: {
           ...productData,
           slug,
           sku: normalizedSku ?? null,
+          merchantId: merchant.id, // Link product to the producer's merchant profile
           variants: {
             create: variants.map((v) => ({
               name: v.name,
@@ -480,17 +507,29 @@ export const productRouter = createTRPCRouter({
       return product;
     }),
 
-  // Update an existing product
-  update: publicProcedure
+  // Update an existing product - verifies ownership
+  update: protectedProcedure
     .input(UpdateProductSchema)
     .mutation(async ({ ctx, input }) => {
       const { id, variants, ...productData } = input;
+
+      // Get the user's merchant profile
+      const merchant = await ctx.db.merchant.findUnique({
+        where: { userId: ctx.session.user.id },
+      });
+
+      if (!merchant) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Merchant profile not found.",
+        });
+      }
 
       // Normalize optional string fields (treat empty strings as undefined)
       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       const normalizedSku = productData.sku || undefined;
 
-      // Check if product exists
+      // Check if product exists and belongs to this producer
       const existingProduct = await ctx.db.product.findUnique({
         where: { id },
         include: { variants: true },
@@ -500,6 +539,14 @@ export const productRouter = createTRPCRouter({
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Product not found",
+        });
+      }
+
+      // Verify ownership
+      if (existingProduct.merchantId !== merchant.id) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You do not have permission to update this product",
         });
       }
 
@@ -597,11 +644,23 @@ export const productRouter = createTRPCRouter({
       return product;
     }),
 
-  // Delete a product
-  delete: publicProcedure
+  // Delete a product - verifies ownership
+  delete: protectedProcedure
     .input(z.object({ id: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
       const { id } = input;
+
+      // Get the user's merchant profile
+      const merchant = await ctx.db.merchant.findUnique({
+        where: { userId: ctx.session.user.id },
+      });
+
+      if (!merchant) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Merchant profile not found.",
+        });
+      }
 
       // Check if product exists
       const existingProduct = await ctx.db.product.findUnique({
@@ -612,6 +671,14 @@ export const productRouter = createTRPCRouter({
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Product not found",
+        });
+      }
+
+      // Verify ownership
+      if (existingProduct.merchantId !== merchant.id) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "You do not have permission to delete this product",
         });
       }
 
