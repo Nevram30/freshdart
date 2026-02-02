@@ -3,6 +3,8 @@ import { categoryRouter } from "~/server/api/routers/category";
 import { checkoutRouter } from "~/server/api/routers/checkout";
 import { authRouter } from "~/server/api/routers/auth";
 import { merchantRouter } from "~/server/api/routers/merchant";
+import { bulkOrderRouter } from "~/server/api/routers/bulk-order";
+import { adminRouter } from "~/server/api/routers/admin";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -16,6 +18,8 @@ export const appRouter = createTRPCRouter({
   checkout: checkoutRouter,
   auth: authRouter,
   merchant: merchantRouter,
+  bulkOrder: bulkOrderRouter,
+  admin: adminRouter,
 });
 
 // export type definition of API

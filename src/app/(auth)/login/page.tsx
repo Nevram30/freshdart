@@ -45,6 +45,7 @@ export default function LoginPage() {
             CUSTOMER: "/customer/dashboard",
             MERCHANT: "/merchant/dashboard",
             PRODUCER: "/producer/dashboard",
+            ADMIN: "/admin/dashboard",
           };
           const redirectPath = redirectPaths[session.user.role];
           router.push(redirectPath ?? "/customer/dashboard");

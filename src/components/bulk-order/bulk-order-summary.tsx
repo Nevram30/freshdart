@@ -4,7 +4,11 @@ import { Package, Scale, ShoppingCart } from "lucide-react";
 import { formatPrice, formatWeight } from "~/lib/utils";
 import { useBulkOrderStore } from "~/stores/bulk-order-store";
 
-export function BulkOrderSummary() {
+interface BulkOrderSummaryProps {
+  compact?: boolean;
+}
+
+export function BulkOrderSummary({ compact = false }: BulkOrderSummaryProps) {
   const getItemCount = useBulkOrderStore((state) => state.getItemCount);
   const getTotalItems = useBulkOrderStore((state) => state.getTotalItems);
   const getSubtotal = useBulkOrderStore((state) => state.getSubtotal);
@@ -14,6 +18,29 @@ export function BulkOrderSummary() {
   const totalItems = getTotalItems();
   const subtotal = getSubtotal();
   const totalWeight = getTotalWeight();
+
+  if (compact) {
+    return (
+      <div className="space-y-2 text-sm">
+        <div className="flex items-center justify-between text-gray-600">
+          <span>Products</span>
+          <span className="font-medium">{itemCount} items</span>
+        </div>
+        <div className="flex items-center justify-between text-gray-600">
+          <span>Total Units</span>
+          <span className="font-medium">{totalItems}</span>
+        </div>
+        <div className="flex items-center justify-between text-gray-600">
+          <span>Est. Weight</span>
+          <span className="font-medium">{formatWeight(totalWeight)}</span>
+        </div>
+        <div className="flex items-center justify-between pt-2 text-gray-900">
+          <span className="font-semibold">Est. Total</span>
+          <span className="font-bold text-teal-700">{formatPrice(subtotal)}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-3 border-t border-gray-200 pt-4">

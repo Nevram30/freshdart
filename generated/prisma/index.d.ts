@@ -93,6 +93,26 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
+/**
+ * Model BulkOrder
+ * 
+ */
+export type BulkOrder = $Result.DefaultSelection<Prisma.$BulkOrderPayload>
+/**
+ * Model BulkOrderItem
+ * 
+ */
+export type BulkOrderItem = $Result.DefaultSelection<Prisma.$BulkOrderItemPayload>
+/**
+ * Model Quote
+ * 
+ */
+export type Quote = $Result.DefaultSelection<Prisma.$QuotePayload>
+/**
+ * Model QuoteItem
+ * 
+ */
+export type QuoteItem = $Result.DefaultSelection<Prisma.$QuoteItemPayload>
 
 /**
  * Enums
@@ -214,10 +234,38 @@ export type DocumentStatus = (typeof DocumentStatus)[keyof typeof DocumentStatus
 export const UserRole: {
   CUSTOMER: 'CUSTOMER',
   MERCHANT: 'MERCHANT',
-  PRODUCER: 'PRODUCER'
+  PRODUCER: 'PRODUCER',
+  ADMIN: 'ADMIN'
 };
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const BulkOrderStatus: {
+  PENDING: 'PENDING',
+  REVIEWING: 'REVIEWING',
+  QUOTED: 'QUOTED',
+  CONFIRMED: 'CONFIRMED',
+  PROCESSING: 'PROCESSING',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED',
+  REJECTED: 'REJECTED'
+};
+
+export type BulkOrderStatus = (typeof BulkOrderStatus)[keyof typeof BulkOrderStatus]
+
+
+export const QuoteStatus: {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  SENT: 'SENT',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  EXPIRED: 'EXPIRED'
+};
+
+export type QuoteStatus = (typeof QuoteStatus)[keyof typeof QuoteStatus]
 
 }
 
@@ -268,6 +316,14 @@ export const DocumentStatus: typeof $Enums.DocumentStatus
 export type UserRole = $Enums.UserRole
 
 export const UserRole: typeof $Enums.UserRole
+
+export type BulkOrderStatus = $Enums.BulkOrderStatus
+
+export const BulkOrderStatus: typeof $Enums.BulkOrderStatus
+
+export type QuoteStatus = $Enums.QuoteStatus
+
+export const QuoteStatus: typeof $Enums.QuoteStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -546,6 +602,46 @@ export class PrismaClient<
     * ```
     */
   get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.bulkOrder`: Exposes CRUD operations for the **BulkOrder** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BulkOrders
+    * const bulkOrders = await prisma.bulkOrder.findMany()
+    * ```
+    */
+  get bulkOrder(): Prisma.BulkOrderDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.bulkOrderItem`: Exposes CRUD operations for the **BulkOrderItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BulkOrderItems
+    * const bulkOrderItems = await prisma.bulkOrderItem.findMany()
+    * ```
+    */
+  get bulkOrderItem(): Prisma.BulkOrderItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.quote`: Exposes CRUD operations for the **Quote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Quotes
+    * const quotes = await prisma.quote.findMany()
+    * ```
+    */
+  get quote(): Prisma.QuoteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.quoteItem`: Exposes CRUD operations for the **QuoteItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more QuoteItems
+    * const quoteItems = await prisma.quoteItem.findMany()
+    * ```
+    */
+  get quoteItem(): Prisma.QuoteItemDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1002,7 +1098,11 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     User: 'User',
-    VerificationToken: 'VerificationToken'
+    VerificationToken: 'VerificationToken',
+    BulkOrder: 'BulkOrder',
+    BulkOrderItem: 'BulkOrderItem',
+    Quote: 'Quote',
+    QuoteItem: 'QuoteItem'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1021,7 +1121,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "category" | "product" | "productImage" | "productVariant" | "order" | "orderItem" | "cart" | "cartItem" | "shippingZone" | "shippingRate" | "merchant" | "merchantDocument" | "account" | "session" | "user" | "verificationToken"
+      modelProps: "category" | "product" | "productImage" | "productVariant" | "order" | "orderItem" | "cart" | "cartItem" | "shippingZone" | "shippingRate" | "merchant" | "merchantDocument" | "account" | "session" | "user" | "verificationToken" | "bulkOrder" | "bulkOrderItem" | "quote" | "quoteItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2209,6 +2309,302 @@ export namespace Prisma {
           }
         }
       }
+      BulkOrder: {
+        payload: Prisma.$BulkOrderPayload<ExtArgs>
+        fields: Prisma.BulkOrderFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BulkOrderFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BulkOrderFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderPayload>
+          }
+          findFirst: {
+            args: Prisma.BulkOrderFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BulkOrderFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderPayload>
+          }
+          findMany: {
+            args: Prisma.BulkOrderFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderPayload>[]
+          }
+          create: {
+            args: Prisma.BulkOrderCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderPayload>
+          }
+          createMany: {
+            args: Prisma.BulkOrderCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BulkOrderCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderPayload>[]
+          }
+          delete: {
+            args: Prisma.BulkOrderDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderPayload>
+          }
+          update: {
+            args: Prisma.BulkOrderUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderPayload>
+          }
+          deleteMany: {
+            args: Prisma.BulkOrderDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BulkOrderUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BulkOrderUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderPayload>[]
+          }
+          upsert: {
+            args: Prisma.BulkOrderUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderPayload>
+          }
+          aggregate: {
+            args: Prisma.BulkOrderAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBulkOrder>
+          }
+          groupBy: {
+            args: Prisma.BulkOrderGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BulkOrderGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BulkOrderCountArgs<ExtArgs>
+            result: $Utils.Optional<BulkOrderCountAggregateOutputType> | number
+          }
+        }
+      }
+      BulkOrderItem: {
+        payload: Prisma.$BulkOrderItemPayload<ExtArgs>
+        fields: Prisma.BulkOrderItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BulkOrderItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BulkOrderItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderItemPayload>
+          }
+          findFirst: {
+            args: Prisma.BulkOrderItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BulkOrderItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderItemPayload>
+          }
+          findMany: {
+            args: Prisma.BulkOrderItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderItemPayload>[]
+          }
+          create: {
+            args: Prisma.BulkOrderItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderItemPayload>
+          }
+          createMany: {
+            args: Prisma.BulkOrderItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BulkOrderItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderItemPayload>[]
+          }
+          delete: {
+            args: Prisma.BulkOrderItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderItemPayload>
+          }
+          update: {
+            args: Prisma.BulkOrderItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.BulkOrderItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BulkOrderItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BulkOrderItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.BulkOrderItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BulkOrderItemPayload>
+          }
+          aggregate: {
+            args: Prisma.BulkOrderItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBulkOrderItem>
+          }
+          groupBy: {
+            args: Prisma.BulkOrderItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BulkOrderItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BulkOrderItemCountArgs<ExtArgs>
+            result: $Utils.Optional<BulkOrderItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      Quote: {
+        payload: Prisma.$QuotePayload<ExtArgs>
+        fields: Prisma.QuoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          findFirst: {
+            args: Prisma.QuoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          findMany: {
+            args: Prisma.QuoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>[]
+          }
+          create: {
+            args: Prisma.QuoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          createMany: {
+            args: Prisma.QuoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>[]
+          }
+          delete: {
+            args: Prisma.QuoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          update: {
+            args: Prisma.QuoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          deleteMany: {
+            args: Prisma.QuoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuoteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>[]
+          }
+          upsert: {
+            args: Prisma.QuoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuotePayload>
+          }
+          aggregate: {
+            args: Prisma.QuoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuote>
+          }
+          groupBy: {
+            args: Prisma.QuoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuoteCountArgs<ExtArgs>
+            result: $Utils.Optional<QuoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      QuoteItem: {
+        payload: Prisma.$QuoteItemPayload<ExtArgs>
+        fields: Prisma.QuoteItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.QuoteItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuoteItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.QuoteItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuoteItemPayload>
+          }
+          findFirst: {
+            args: Prisma.QuoteItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuoteItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.QuoteItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuoteItemPayload>
+          }
+          findMany: {
+            args: Prisma.QuoteItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuoteItemPayload>[]
+          }
+          create: {
+            args: Prisma.QuoteItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuoteItemPayload>
+          }
+          createMany: {
+            args: Prisma.QuoteItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.QuoteItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuoteItemPayload>[]
+          }
+          delete: {
+            args: Prisma.QuoteItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuoteItemPayload>
+          }
+          update: {
+            args: Prisma.QuoteItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuoteItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.QuoteItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.QuoteItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.QuoteItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuoteItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.QuoteItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$QuoteItemPayload>
+          }
+          aggregate: {
+            args: Prisma.QuoteItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateQuoteItem>
+          }
+          groupBy: {
+            args: Prisma.QuoteItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<QuoteItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.QuoteItemCountArgs<ExtArgs>
+            result: $Utils.Optional<QuoteItemCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2321,6 +2717,10 @@ export namespace Prisma {
     session?: SessionOmit
     user?: UserOmit
     verificationToken?: VerificationTokenOmit
+    bulkOrder?: BulkOrderOmit
+    bulkOrderItem?: BulkOrderItemOmit
+    quote?: QuoteOmit
+    quoteItem?: QuoteItemOmit
   }
 
   /* Types for Logging */
@@ -2445,6 +2845,8 @@ export namespace Prisma {
     variants: number
     orderItems: number
     cartItems: number
+    bulkOrderItems: number
+    quoteItems: number
   }
 
   export type ProductCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2452,6 +2854,8 @@ export namespace Prisma {
     variants?: boolean | ProductCountOutputTypeCountVariantsArgs
     orderItems?: boolean | ProductCountOutputTypeCountOrderItemsArgs
     cartItems?: boolean | ProductCountOutputTypeCountCartItemsArgs
+    bulkOrderItems?: boolean | ProductCountOutputTypeCountBulkOrderItemsArgs
+    quoteItems?: boolean | ProductCountOutputTypeCountQuoteItemsArgs
   }
 
   // Custom InputTypes
@@ -2491,6 +2895,20 @@ export namespace Prisma {
    */
   export type ProductCountOutputTypeCountCartItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CartItemWhereInput
+  }
+
+  /**
+   * ProductCountOutputType without action
+   */
+  export type ProductCountOutputTypeCountBulkOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BulkOrderItemWhereInput
+  }
+
+  /**
+   * ProductCountOutputType without action
+   */
+  export type ProductCountOutputTypeCountQuoteItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuoteItemWhereInput
   }
 
 
@@ -2635,12 +3053,16 @@ export namespace Prisma {
     accounts: number
     sessions: number
     orders: number
+    bulkOrders: number
+    quotes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     orders?: boolean | UserCountOutputTypeCountOrdersArgs
+    bulkOrders?: boolean | UserCountOutputTypeCountBulkOrdersArgs
+    quotes?: boolean | UserCountOutputTypeCountQuotesArgs
   }
 
   // Custom InputTypes
@@ -2673,6 +3095,82 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBulkOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BulkOrderWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountQuotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuoteWhereInput
+  }
+
+
+  /**
+   * Count Type BulkOrderCountOutputType
+   */
+
+  export type BulkOrderCountOutputType = {
+    items: number
+  }
+
+  export type BulkOrderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | BulkOrderCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BulkOrderCountOutputType without action
+   */
+  export type BulkOrderCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderCountOutputType
+     */
+    select?: BulkOrderCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BulkOrderCountOutputType without action
+   */
+  export type BulkOrderCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BulkOrderItemWhereInput
+  }
+
+
+  /**
+   * Count Type QuoteCountOutputType
+   */
+
+  export type QuoteCountOutputType = {
+    items: number
+  }
+
+  export type QuoteCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | QuoteCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * QuoteCountOutputType without action
+   */
+  export type QuoteCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteCountOutputType
+     */
+    select?: QuoteCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * QuoteCountOutputType without action
+   */
+  export type QuoteCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuoteItemWhereInput
   }
 
 
@@ -4274,6 +4772,8 @@ export namespace Prisma {
     variants?: boolean | Product$variantsArgs<ExtArgs>
     orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
     cartItems?: boolean | Product$cartItemsArgs<ExtArgs>
+    bulkOrderItems?: boolean | Product$bulkOrderItemsArgs<ExtArgs>
+    quoteItems?: boolean | Product$quoteItemsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
@@ -4385,6 +4885,8 @@ export namespace Prisma {
     variants?: boolean | Product$variantsArgs<ExtArgs>
     orderItems?: boolean | Product$orderItemsArgs<ExtArgs>
     cartItems?: boolean | Product$cartItemsArgs<ExtArgs>
+    bulkOrderItems?: boolean | Product$bulkOrderItemsArgs<ExtArgs>
+    quoteItems?: boolean | Product$quoteItemsArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4405,6 +4907,8 @@ export namespace Prisma {
       variants: Prisma.$ProductVariantPayload<ExtArgs>[]
       orderItems: Prisma.$OrderItemPayload<ExtArgs>[]
       cartItems: Prisma.$CartItemPayload<ExtArgs>[]
+      bulkOrderItems: Prisma.$BulkOrderItemPayload<ExtArgs>[]
+      quoteItems: Prisma.$QuoteItemPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4836,6 +5340,8 @@ export namespace Prisma {
     variants<T extends Product$variantsArgs<ExtArgs> = {}>(args?: Subset<T, Product$variantsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductVariantPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orderItems<T extends Product$orderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$orderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     cartItems<T extends Product$cartItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$cartItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bulkOrderItems<T extends Product$bulkOrderItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$bulkOrderItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quoteItems<T extends Product$quoteItemsArgs<ExtArgs> = {}>(args?: Subset<T, Product$quoteItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5402,6 +5908,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CartItemScalarFieldEnum | CartItemScalarFieldEnum[]
+  }
+
+  /**
+   * Product.bulkOrderItems
+   */
+  export type Product$bulkOrderItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+    where?: BulkOrderItemWhereInput
+    orderBy?: BulkOrderItemOrderByWithRelationInput | BulkOrderItemOrderByWithRelationInput[]
+    cursor?: BulkOrderItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BulkOrderItemScalarFieldEnum | BulkOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * Product.quoteItems
+   */
+  export type Product$quoteItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+    where?: QuoteItemWhereInput
+    orderBy?: QuoteItemOrderByWithRelationInput | QuoteItemOrderByWithRelationInput[]
+    cursor?: QuoteItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuoteItemScalarFieldEnum | QuoteItemScalarFieldEnum[]
   }
 
   /**
@@ -19470,6 +20024,8 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
+    bulkOrders?: boolean | User$bulkOrdersArgs<ExtArgs>
+    quotes?: boolean | User$quotesArgs<ExtArgs>
     merchant?: boolean | User$merchantArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -19521,6 +20077,8 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     orders?: boolean | User$ordersArgs<ExtArgs>
+    bulkOrders?: boolean | User$bulkOrdersArgs<ExtArgs>
+    quotes?: boolean | User$quotesArgs<ExtArgs>
     merchant?: boolean | User$merchantArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -19533,6 +20091,8 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       orders: Prisma.$OrderPayload<ExtArgs>[]
+      bulkOrders: Prisma.$BulkOrderPayload<ExtArgs>[]
+      quotes: Prisma.$QuotePayload<ExtArgs>[]
       merchant: Prisma.$MerchantPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -19944,6 +20504,8 @@ export namespace Prisma {
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     orders<T extends User$ordersArgs<ExtArgs> = {}>(args?: Subset<T, User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bulkOrders<T extends User$bulkOrdersArgs<ExtArgs> = {}>(args?: Subset<T, User$bulkOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quotes<T extends User$quotesArgs<ExtArgs> = {}>(args?: Subset<T, User$quotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     merchant<T extends User$merchantArgs<ExtArgs> = {}>(args?: Subset<T, User$merchantArgs<ExtArgs>>): Prisma__MerchantClient<$Result.GetResult<Prisma.$MerchantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -20442,6 +21004,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+  }
+
+  /**
+   * User.bulkOrders
+   */
+  export type User$bulkOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+    where?: BulkOrderWhereInput
+    orderBy?: BulkOrderOrderByWithRelationInput | BulkOrderOrderByWithRelationInput[]
+    cursor?: BulkOrderWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BulkOrderScalarFieldEnum | BulkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * User.quotes
+   */
+  export type User$quotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    where?: QuoteWhereInput
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    cursor?: QuoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuoteScalarFieldEnum | QuoteScalarFieldEnum[]
   }
 
   /**
@@ -21452,6 +22062,5201 @@ export namespace Prisma {
 
 
   /**
+   * Model BulkOrder
+   */
+
+  export type AggregateBulkOrder = {
+    _count: BulkOrderCountAggregateOutputType | null
+    _avg: BulkOrderAvgAggregateOutputType | null
+    _sum: BulkOrderSumAggregateOutputType | null
+    _min: BulkOrderMinAggregateOutputType | null
+    _max: BulkOrderMaxAggregateOutputType | null
+  }
+
+  export type BulkOrderAvgAggregateOutputType = {
+    estimatedSubtotal: Decimal | null
+    estimatedTotal: Decimal | null
+    estimatedWeightKg: Decimal | null
+    finalSubtotal: Decimal | null
+    finalShipping: Decimal | null
+    finalTotal: Decimal | null
+  }
+
+  export type BulkOrderSumAggregateOutputType = {
+    estimatedSubtotal: Decimal | null
+    estimatedTotal: Decimal | null
+    estimatedWeightKg: Decimal | null
+    finalSubtotal: Decimal | null
+    finalShipping: Decimal | null
+    finalTotal: Decimal | null
+  }
+
+  export type BulkOrderMinAggregateOutputType = {
+    id: string | null
+    orderNumber: string | null
+    userId: string | null
+    estimatedSubtotal: Decimal | null
+    estimatedTotal: Decimal | null
+    estimatedWeightKg: Decimal | null
+    finalSubtotal: Decimal | null
+    finalShipping: Decimal | null
+    finalTotal: Decimal | null
+    preferredDeliveryDate: Date | null
+    deliveryNotes: string | null
+    contactName: string | null
+    contactEmail: string | null
+    contactPhone: string | null
+    companyName: string | null
+    status: $Enums.BulkOrderStatus | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BulkOrderMaxAggregateOutputType = {
+    id: string | null
+    orderNumber: string | null
+    userId: string | null
+    estimatedSubtotal: Decimal | null
+    estimatedTotal: Decimal | null
+    estimatedWeightKg: Decimal | null
+    finalSubtotal: Decimal | null
+    finalShipping: Decimal | null
+    finalTotal: Decimal | null
+    preferredDeliveryDate: Date | null
+    deliveryNotes: string | null
+    contactName: string | null
+    contactEmail: string | null
+    contactPhone: string | null
+    companyName: string | null
+    status: $Enums.BulkOrderStatus | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BulkOrderCountAggregateOutputType = {
+    id: number
+    orderNumber: number
+    userId: number
+    estimatedSubtotal: number
+    estimatedTotal: number
+    estimatedWeightKg: number
+    finalSubtotal: number
+    finalShipping: number
+    finalTotal: number
+    preferredDeliveryDate: number
+    deliveryNotes: number
+    contactName: number
+    contactEmail: number
+    contactPhone: number
+    companyName: number
+    shippingAddress: number
+    status: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BulkOrderAvgAggregateInputType = {
+    estimatedSubtotal?: true
+    estimatedTotal?: true
+    estimatedWeightKg?: true
+    finalSubtotal?: true
+    finalShipping?: true
+    finalTotal?: true
+  }
+
+  export type BulkOrderSumAggregateInputType = {
+    estimatedSubtotal?: true
+    estimatedTotal?: true
+    estimatedWeightKg?: true
+    finalSubtotal?: true
+    finalShipping?: true
+    finalTotal?: true
+  }
+
+  export type BulkOrderMinAggregateInputType = {
+    id?: true
+    orderNumber?: true
+    userId?: true
+    estimatedSubtotal?: true
+    estimatedTotal?: true
+    estimatedWeightKg?: true
+    finalSubtotal?: true
+    finalShipping?: true
+    finalTotal?: true
+    preferredDeliveryDate?: true
+    deliveryNotes?: true
+    contactName?: true
+    contactEmail?: true
+    contactPhone?: true
+    companyName?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BulkOrderMaxAggregateInputType = {
+    id?: true
+    orderNumber?: true
+    userId?: true
+    estimatedSubtotal?: true
+    estimatedTotal?: true
+    estimatedWeightKg?: true
+    finalSubtotal?: true
+    finalShipping?: true
+    finalTotal?: true
+    preferredDeliveryDate?: true
+    deliveryNotes?: true
+    contactName?: true
+    contactEmail?: true
+    contactPhone?: true
+    companyName?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BulkOrderCountAggregateInputType = {
+    id?: true
+    orderNumber?: true
+    userId?: true
+    estimatedSubtotal?: true
+    estimatedTotal?: true
+    estimatedWeightKg?: true
+    finalSubtotal?: true
+    finalShipping?: true
+    finalTotal?: true
+    preferredDeliveryDate?: true
+    deliveryNotes?: true
+    contactName?: true
+    contactEmail?: true
+    contactPhone?: true
+    companyName?: true
+    shippingAddress?: true
+    status?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BulkOrderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BulkOrder to aggregate.
+     */
+    where?: BulkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BulkOrders to fetch.
+     */
+    orderBy?: BulkOrderOrderByWithRelationInput | BulkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BulkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BulkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BulkOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BulkOrders
+    **/
+    _count?: true | BulkOrderCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BulkOrderAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BulkOrderSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BulkOrderMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BulkOrderMaxAggregateInputType
+  }
+
+  export type GetBulkOrderAggregateType<T extends BulkOrderAggregateArgs> = {
+        [P in keyof T & keyof AggregateBulkOrder]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBulkOrder[P]>
+      : GetScalarType<T[P], AggregateBulkOrder[P]>
+  }
+
+
+
+
+  export type BulkOrderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BulkOrderWhereInput
+    orderBy?: BulkOrderOrderByWithAggregationInput | BulkOrderOrderByWithAggregationInput[]
+    by: BulkOrderScalarFieldEnum[] | BulkOrderScalarFieldEnum
+    having?: BulkOrderScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BulkOrderCountAggregateInputType | true
+    _avg?: BulkOrderAvgAggregateInputType
+    _sum?: BulkOrderSumAggregateInputType
+    _min?: BulkOrderMinAggregateInputType
+    _max?: BulkOrderMaxAggregateInputType
+  }
+
+  export type BulkOrderGroupByOutputType = {
+    id: string
+    orderNumber: string
+    userId: string
+    estimatedSubtotal: Decimal
+    estimatedTotal: Decimal
+    estimatedWeightKg: Decimal
+    finalSubtotal: Decimal | null
+    finalShipping: Decimal | null
+    finalTotal: Decimal | null
+    preferredDeliveryDate: Date | null
+    deliveryNotes: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName: string | null
+    shippingAddress: JsonValue | null
+    status: $Enums.BulkOrderStatus
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BulkOrderCountAggregateOutputType | null
+    _avg: BulkOrderAvgAggregateOutputType | null
+    _sum: BulkOrderSumAggregateOutputType | null
+    _min: BulkOrderMinAggregateOutputType | null
+    _max: BulkOrderMaxAggregateOutputType | null
+  }
+
+  type GetBulkOrderGroupByPayload<T extends BulkOrderGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BulkOrderGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BulkOrderGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BulkOrderGroupByOutputType[P]>
+            : GetScalarType<T[P], BulkOrderGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BulkOrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orderNumber?: boolean
+    userId?: boolean
+    estimatedSubtotal?: boolean
+    estimatedTotal?: boolean
+    estimatedWeightKg?: boolean
+    finalSubtotal?: boolean
+    finalShipping?: boolean
+    finalTotal?: boolean
+    preferredDeliveryDate?: boolean
+    deliveryNotes?: boolean
+    contactName?: boolean
+    contactEmail?: boolean
+    contactPhone?: boolean
+    companyName?: boolean
+    shippingAddress?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    items?: boolean | BulkOrder$itemsArgs<ExtArgs>
+    quote?: boolean | BulkOrder$quoteArgs<ExtArgs>
+    _count?: boolean | BulkOrderCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bulkOrder"]>
+
+  export type BulkOrderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orderNumber?: boolean
+    userId?: boolean
+    estimatedSubtotal?: boolean
+    estimatedTotal?: boolean
+    estimatedWeightKg?: boolean
+    finalSubtotal?: boolean
+    finalShipping?: boolean
+    finalTotal?: boolean
+    preferredDeliveryDate?: boolean
+    deliveryNotes?: boolean
+    contactName?: boolean
+    contactEmail?: boolean
+    contactPhone?: boolean
+    companyName?: boolean
+    shippingAddress?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bulkOrder"]>
+
+  export type BulkOrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    orderNumber?: boolean
+    userId?: boolean
+    estimatedSubtotal?: boolean
+    estimatedTotal?: boolean
+    estimatedWeightKg?: boolean
+    finalSubtotal?: boolean
+    finalShipping?: boolean
+    finalTotal?: boolean
+    preferredDeliveryDate?: boolean
+    deliveryNotes?: boolean
+    contactName?: boolean
+    contactEmail?: boolean
+    contactPhone?: boolean
+    companyName?: boolean
+    shippingAddress?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bulkOrder"]>
+
+  export type BulkOrderSelectScalar = {
+    id?: boolean
+    orderNumber?: boolean
+    userId?: boolean
+    estimatedSubtotal?: boolean
+    estimatedTotal?: boolean
+    estimatedWeightKg?: boolean
+    finalSubtotal?: boolean
+    finalShipping?: boolean
+    finalTotal?: boolean
+    preferredDeliveryDate?: boolean
+    deliveryNotes?: boolean
+    contactName?: boolean
+    contactEmail?: boolean
+    contactPhone?: boolean
+    companyName?: boolean
+    shippingAddress?: boolean
+    status?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BulkOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderNumber" | "userId" | "estimatedSubtotal" | "estimatedTotal" | "estimatedWeightKg" | "finalSubtotal" | "finalShipping" | "finalTotal" | "preferredDeliveryDate" | "deliveryNotes" | "contactName" | "contactEmail" | "contactPhone" | "companyName" | "shippingAddress" | "status" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["bulkOrder"]>
+  export type BulkOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    items?: boolean | BulkOrder$itemsArgs<ExtArgs>
+    quote?: boolean | BulkOrder$quoteArgs<ExtArgs>
+    _count?: boolean | BulkOrderCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type BulkOrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BulkOrderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $BulkOrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BulkOrder"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      items: Prisma.$BulkOrderItemPayload<ExtArgs>[]
+      quote: Prisma.$QuotePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      orderNumber: string
+      userId: string
+      estimatedSubtotal: Prisma.Decimal
+      estimatedTotal: Prisma.Decimal
+      estimatedWeightKg: Prisma.Decimal
+      finalSubtotal: Prisma.Decimal | null
+      finalShipping: Prisma.Decimal | null
+      finalTotal: Prisma.Decimal | null
+      preferredDeliveryDate: Date | null
+      deliveryNotes: string | null
+      contactName: string
+      contactEmail: string
+      contactPhone: string
+      companyName: string | null
+      shippingAddress: Prisma.JsonValue | null
+      status: $Enums.BulkOrderStatus
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bulkOrder"]>
+    composites: {}
+  }
+
+  type BulkOrderGetPayload<S extends boolean | null | undefined | BulkOrderDefaultArgs> = $Result.GetResult<Prisma.$BulkOrderPayload, S>
+
+  type BulkOrderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BulkOrderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BulkOrderCountAggregateInputType | true
+    }
+
+  export interface BulkOrderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BulkOrder'], meta: { name: 'BulkOrder' } }
+    /**
+     * Find zero or one BulkOrder that matches the filter.
+     * @param {BulkOrderFindUniqueArgs} args - Arguments to find a BulkOrder
+     * @example
+     * // Get one BulkOrder
+     * const bulkOrder = await prisma.bulkOrder.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BulkOrderFindUniqueArgs>(args: SelectSubset<T, BulkOrderFindUniqueArgs<ExtArgs>>): Prisma__BulkOrderClient<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BulkOrder that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BulkOrderFindUniqueOrThrowArgs} args - Arguments to find a BulkOrder
+     * @example
+     * // Get one BulkOrder
+     * const bulkOrder = await prisma.bulkOrder.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BulkOrderFindUniqueOrThrowArgs>(args: SelectSubset<T, BulkOrderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BulkOrderClient<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BulkOrder that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderFindFirstArgs} args - Arguments to find a BulkOrder
+     * @example
+     * // Get one BulkOrder
+     * const bulkOrder = await prisma.bulkOrder.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BulkOrderFindFirstArgs>(args?: SelectSubset<T, BulkOrderFindFirstArgs<ExtArgs>>): Prisma__BulkOrderClient<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BulkOrder that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderFindFirstOrThrowArgs} args - Arguments to find a BulkOrder
+     * @example
+     * // Get one BulkOrder
+     * const bulkOrder = await prisma.bulkOrder.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BulkOrderFindFirstOrThrowArgs>(args?: SelectSubset<T, BulkOrderFindFirstOrThrowArgs<ExtArgs>>): Prisma__BulkOrderClient<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BulkOrders that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BulkOrders
+     * const bulkOrders = await prisma.bulkOrder.findMany()
+     * 
+     * // Get first 10 BulkOrders
+     * const bulkOrders = await prisma.bulkOrder.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bulkOrderWithIdOnly = await prisma.bulkOrder.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BulkOrderFindManyArgs>(args?: SelectSubset<T, BulkOrderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BulkOrder.
+     * @param {BulkOrderCreateArgs} args - Arguments to create a BulkOrder.
+     * @example
+     * // Create one BulkOrder
+     * const BulkOrder = await prisma.bulkOrder.create({
+     *   data: {
+     *     // ... data to create a BulkOrder
+     *   }
+     * })
+     * 
+     */
+    create<T extends BulkOrderCreateArgs>(args: SelectSubset<T, BulkOrderCreateArgs<ExtArgs>>): Prisma__BulkOrderClient<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BulkOrders.
+     * @param {BulkOrderCreateManyArgs} args - Arguments to create many BulkOrders.
+     * @example
+     * // Create many BulkOrders
+     * const bulkOrder = await prisma.bulkOrder.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BulkOrderCreateManyArgs>(args?: SelectSubset<T, BulkOrderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BulkOrders and returns the data saved in the database.
+     * @param {BulkOrderCreateManyAndReturnArgs} args - Arguments to create many BulkOrders.
+     * @example
+     * // Create many BulkOrders
+     * const bulkOrder = await prisma.bulkOrder.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BulkOrders and only return the `id`
+     * const bulkOrderWithIdOnly = await prisma.bulkOrder.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BulkOrderCreateManyAndReturnArgs>(args?: SelectSubset<T, BulkOrderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BulkOrder.
+     * @param {BulkOrderDeleteArgs} args - Arguments to delete one BulkOrder.
+     * @example
+     * // Delete one BulkOrder
+     * const BulkOrder = await prisma.bulkOrder.delete({
+     *   where: {
+     *     // ... filter to delete one BulkOrder
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BulkOrderDeleteArgs>(args: SelectSubset<T, BulkOrderDeleteArgs<ExtArgs>>): Prisma__BulkOrderClient<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BulkOrder.
+     * @param {BulkOrderUpdateArgs} args - Arguments to update one BulkOrder.
+     * @example
+     * // Update one BulkOrder
+     * const bulkOrder = await prisma.bulkOrder.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BulkOrderUpdateArgs>(args: SelectSubset<T, BulkOrderUpdateArgs<ExtArgs>>): Prisma__BulkOrderClient<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BulkOrders.
+     * @param {BulkOrderDeleteManyArgs} args - Arguments to filter BulkOrders to delete.
+     * @example
+     * // Delete a few BulkOrders
+     * const { count } = await prisma.bulkOrder.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BulkOrderDeleteManyArgs>(args?: SelectSubset<T, BulkOrderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BulkOrders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BulkOrders
+     * const bulkOrder = await prisma.bulkOrder.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BulkOrderUpdateManyArgs>(args: SelectSubset<T, BulkOrderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BulkOrders and returns the data updated in the database.
+     * @param {BulkOrderUpdateManyAndReturnArgs} args - Arguments to update many BulkOrders.
+     * @example
+     * // Update many BulkOrders
+     * const bulkOrder = await prisma.bulkOrder.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BulkOrders and only return the `id`
+     * const bulkOrderWithIdOnly = await prisma.bulkOrder.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BulkOrderUpdateManyAndReturnArgs>(args: SelectSubset<T, BulkOrderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BulkOrder.
+     * @param {BulkOrderUpsertArgs} args - Arguments to update or create a BulkOrder.
+     * @example
+     * // Update or create a BulkOrder
+     * const bulkOrder = await prisma.bulkOrder.upsert({
+     *   create: {
+     *     // ... data to create a BulkOrder
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BulkOrder we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BulkOrderUpsertArgs>(args: SelectSubset<T, BulkOrderUpsertArgs<ExtArgs>>): Prisma__BulkOrderClient<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BulkOrders.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderCountArgs} args - Arguments to filter BulkOrders to count.
+     * @example
+     * // Count the number of BulkOrders
+     * const count = await prisma.bulkOrder.count({
+     *   where: {
+     *     // ... the filter for the BulkOrders we want to count
+     *   }
+     * })
+    **/
+    count<T extends BulkOrderCountArgs>(
+      args?: Subset<T, BulkOrderCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BulkOrderCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BulkOrder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BulkOrderAggregateArgs>(args: Subset<T, BulkOrderAggregateArgs>): Prisma.PrismaPromise<GetBulkOrderAggregateType<T>>
+
+    /**
+     * Group by BulkOrder.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BulkOrderGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BulkOrderGroupByArgs['orderBy'] }
+        : { orderBy?: BulkOrderGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BulkOrderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBulkOrderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BulkOrder model
+   */
+  readonly fields: BulkOrderFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BulkOrder.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BulkOrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    items<T extends BulkOrder$itemsArgs<ExtArgs> = {}>(args?: Subset<T, BulkOrder$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quote<T extends BulkOrder$quoteArgs<ExtArgs> = {}>(args?: Subset<T, BulkOrder$quoteArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BulkOrder model
+   */
+  interface BulkOrderFieldRefs {
+    readonly id: FieldRef<"BulkOrder", 'String'>
+    readonly orderNumber: FieldRef<"BulkOrder", 'String'>
+    readonly userId: FieldRef<"BulkOrder", 'String'>
+    readonly estimatedSubtotal: FieldRef<"BulkOrder", 'Decimal'>
+    readonly estimatedTotal: FieldRef<"BulkOrder", 'Decimal'>
+    readonly estimatedWeightKg: FieldRef<"BulkOrder", 'Decimal'>
+    readonly finalSubtotal: FieldRef<"BulkOrder", 'Decimal'>
+    readonly finalShipping: FieldRef<"BulkOrder", 'Decimal'>
+    readonly finalTotal: FieldRef<"BulkOrder", 'Decimal'>
+    readonly preferredDeliveryDate: FieldRef<"BulkOrder", 'DateTime'>
+    readonly deliveryNotes: FieldRef<"BulkOrder", 'String'>
+    readonly contactName: FieldRef<"BulkOrder", 'String'>
+    readonly contactEmail: FieldRef<"BulkOrder", 'String'>
+    readonly contactPhone: FieldRef<"BulkOrder", 'String'>
+    readonly companyName: FieldRef<"BulkOrder", 'String'>
+    readonly shippingAddress: FieldRef<"BulkOrder", 'Json'>
+    readonly status: FieldRef<"BulkOrder", 'BulkOrderStatus'>
+    readonly notes: FieldRef<"BulkOrder", 'String'>
+    readonly createdAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly updatedAt: FieldRef<"BulkOrder", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BulkOrder findUnique
+   */
+  export type BulkOrderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which BulkOrder to fetch.
+     */
+    where: BulkOrderWhereUniqueInput
+  }
+
+  /**
+   * BulkOrder findUniqueOrThrow
+   */
+  export type BulkOrderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which BulkOrder to fetch.
+     */
+    where: BulkOrderWhereUniqueInput
+  }
+
+  /**
+   * BulkOrder findFirst
+   */
+  export type BulkOrderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which BulkOrder to fetch.
+     */
+    where?: BulkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BulkOrders to fetch.
+     */
+    orderBy?: BulkOrderOrderByWithRelationInput | BulkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BulkOrders.
+     */
+    cursor?: BulkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BulkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BulkOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BulkOrders.
+     */
+    distinct?: BulkOrderScalarFieldEnum | BulkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * BulkOrder findFirstOrThrow
+   */
+  export type BulkOrderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which BulkOrder to fetch.
+     */
+    where?: BulkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BulkOrders to fetch.
+     */
+    orderBy?: BulkOrderOrderByWithRelationInput | BulkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BulkOrders.
+     */
+    cursor?: BulkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BulkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BulkOrders.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BulkOrders.
+     */
+    distinct?: BulkOrderScalarFieldEnum | BulkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * BulkOrder findMany
+   */
+  export type BulkOrderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+    /**
+     * Filter, which BulkOrders to fetch.
+     */
+    where?: BulkOrderWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BulkOrders to fetch.
+     */
+    orderBy?: BulkOrderOrderByWithRelationInput | BulkOrderOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BulkOrders.
+     */
+    cursor?: BulkOrderWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BulkOrders from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BulkOrders.
+     */
+    skip?: number
+    distinct?: BulkOrderScalarFieldEnum | BulkOrderScalarFieldEnum[]
+  }
+
+  /**
+   * BulkOrder create
+   */
+  export type BulkOrderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BulkOrder.
+     */
+    data: XOR<BulkOrderCreateInput, BulkOrderUncheckedCreateInput>
+  }
+
+  /**
+   * BulkOrder createMany
+   */
+  export type BulkOrderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BulkOrders.
+     */
+    data: BulkOrderCreateManyInput | BulkOrderCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BulkOrder createManyAndReturn
+   */
+  export type BulkOrderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * The data used to create many BulkOrders.
+     */
+    data: BulkOrderCreateManyInput | BulkOrderCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BulkOrder update
+   */
+  export type BulkOrderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BulkOrder.
+     */
+    data: XOR<BulkOrderUpdateInput, BulkOrderUncheckedUpdateInput>
+    /**
+     * Choose, which BulkOrder to update.
+     */
+    where: BulkOrderWhereUniqueInput
+  }
+
+  /**
+   * BulkOrder updateMany
+   */
+  export type BulkOrderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BulkOrders.
+     */
+    data: XOR<BulkOrderUpdateManyMutationInput, BulkOrderUncheckedUpdateManyInput>
+    /**
+     * Filter which BulkOrders to update
+     */
+    where?: BulkOrderWhereInput
+    /**
+     * Limit how many BulkOrders to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BulkOrder updateManyAndReturn
+   */
+  export type BulkOrderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * The data used to update BulkOrders.
+     */
+    data: XOR<BulkOrderUpdateManyMutationInput, BulkOrderUncheckedUpdateManyInput>
+    /**
+     * Filter which BulkOrders to update
+     */
+    where?: BulkOrderWhereInput
+    /**
+     * Limit how many BulkOrders to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BulkOrder upsert
+   */
+  export type BulkOrderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BulkOrder to update in case it exists.
+     */
+    where: BulkOrderWhereUniqueInput
+    /**
+     * In case the BulkOrder found by the `where` argument doesn't exist, create a new BulkOrder with this data.
+     */
+    create: XOR<BulkOrderCreateInput, BulkOrderUncheckedCreateInput>
+    /**
+     * In case the BulkOrder was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BulkOrderUpdateInput, BulkOrderUncheckedUpdateInput>
+  }
+
+  /**
+   * BulkOrder delete
+   */
+  export type BulkOrderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+    /**
+     * Filter which BulkOrder to delete.
+     */
+    where: BulkOrderWhereUniqueInput
+  }
+
+  /**
+   * BulkOrder deleteMany
+   */
+  export type BulkOrderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BulkOrders to delete
+     */
+    where?: BulkOrderWhereInput
+    /**
+     * Limit how many BulkOrders to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BulkOrder.items
+   */
+  export type BulkOrder$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+    where?: BulkOrderItemWhereInput
+    orderBy?: BulkOrderItemOrderByWithRelationInput | BulkOrderItemOrderByWithRelationInput[]
+    cursor?: BulkOrderItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BulkOrderItemScalarFieldEnum | BulkOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * BulkOrder.quote
+   */
+  export type BulkOrder$quoteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    where?: QuoteWhereInput
+  }
+
+  /**
+   * BulkOrder without action
+   */
+  export type BulkOrderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BulkOrderItem
+   */
+
+  export type AggregateBulkOrderItem = {
+    _count: BulkOrderItemCountAggregateOutputType | null
+    _avg: BulkOrderItemAvgAggregateOutputType | null
+    _sum: BulkOrderItemSumAggregateOutputType | null
+    _min: BulkOrderItemMinAggregateOutputType | null
+    _max: BulkOrderItemMaxAggregateOutputType | null
+  }
+
+  export type BulkOrderItemAvgAggregateOutputType = {
+    quantity: Decimal | null
+    unitPrice: Decimal | null
+    totalPrice: Decimal | null
+    weightKg: Decimal | null
+    finalUnitPrice: Decimal | null
+    finalTotalPrice: Decimal | null
+  }
+
+  export type BulkOrderItemSumAggregateOutputType = {
+    quantity: Decimal | null
+    unitPrice: Decimal | null
+    totalPrice: Decimal | null
+    weightKg: Decimal | null
+    finalUnitPrice: Decimal | null
+    finalTotalPrice: Decimal | null
+  }
+
+  export type BulkOrderItemMinAggregateOutputType = {
+    id: string | null
+    bulkOrderId: string | null
+    productId: string | null
+    productName: string | null
+    productImage: string | null
+    localName: string | null
+    productType: string | null
+    seafoodType: string | null
+    quantity: Decimal | null
+    unitType: string | null
+    unitPrice: Decimal | null
+    totalPrice: Decimal | null
+    weightKg: Decimal | null
+    finalUnitPrice: Decimal | null
+    finalTotalPrice: Decimal | null
+    createdAt: Date | null
+  }
+
+  export type BulkOrderItemMaxAggregateOutputType = {
+    id: string | null
+    bulkOrderId: string | null
+    productId: string | null
+    productName: string | null
+    productImage: string | null
+    localName: string | null
+    productType: string | null
+    seafoodType: string | null
+    quantity: Decimal | null
+    unitType: string | null
+    unitPrice: Decimal | null
+    totalPrice: Decimal | null
+    weightKg: Decimal | null
+    finalUnitPrice: Decimal | null
+    finalTotalPrice: Decimal | null
+    createdAt: Date | null
+  }
+
+  export type BulkOrderItemCountAggregateOutputType = {
+    id: number
+    bulkOrderId: number
+    productId: number
+    productName: number
+    productImage: number
+    localName: number
+    productType: number
+    seafoodType: number
+    quantity: number
+    unitType: number
+    unitPrice: number
+    totalPrice: number
+    weightKg: number
+    finalUnitPrice: number
+    finalTotalPrice: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BulkOrderItemAvgAggregateInputType = {
+    quantity?: true
+    unitPrice?: true
+    totalPrice?: true
+    weightKg?: true
+    finalUnitPrice?: true
+    finalTotalPrice?: true
+  }
+
+  export type BulkOrderItemSumAggregateInputType = {
+    quantity?: true
+    unitPrice?: true
+    totalPrice?: true
+    weightKg?: true
+    finalUnitPrice?: true
+    finalTotalPrice?: true
+  }
+
+  export type BulkOrderItemMinAggregateInputType = {
+    id?: true
+    bulkOrderId?: true
+    productId?: true
+    productName?: true
+    productImage?: true
+    localName?: true
+    productType?: true
+    seafoodType?: true
+    quantity?: true
+    unitType?: true
+    unitPrice?: true
+    totalPrice?: true
+    weightKg?: true
+    finalUnitPrice?: true
+    finalTotalPrice?: true
+    createdAt?: true
+  }
+
+  export type BulkOrderItemMaxAggregateInputType = {
+    id?: true
+    bulkOrderId?: true
+    productId?: true
+    productName?: true
+    productImage?: true
+    localName?: true
+    productType?: true
+    seafoodType?: true
+    quantity?: true
+    unitType?: true
+    unitPrice?: true
+    totalPrice?: true
+    weightKg?: true
+    finalUnitPrice?: true
+    finalTotalPrice?: true
+    createdAt?: true
+  }
+
+  export type BulkOrderItemCountAggregateInputType = {
+    id?: true
+    bulkOrderId?: true
+    productId?: true
+    productName?: true
+    productImage?: true
+    localName?: true
+    productType?: true
+    seafoodType?: true
+    quantity?: true
+    unitType?: true
+    unitPrice?: true
+    totalPrice?: true
+    weightKg?: true
+    finalUnitPrice?: true
+    finalTotalPrice?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BulkOrderItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BulkOrderItem to aggregate.
+     */
+    where?: BulkOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BulkOrderItems to fetch.
+     */
+    orderBy?: BulkOrderItemOrderByWithRelationInput | BulkOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BulkOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BulkOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BulkOrderItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BulkOrderItems
+    **/
+    _count?: true | BulkOrderItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BulkOrderItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BulkOrderItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BulkOrderItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BulkOrderItemMaxAggregateInputType
+  }
+
+  export type GetBulkOrderItemAggregateType<T extends BulkOrderItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateBulkOrderItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBulkOrderItem[P]>
+      : GetScalarType<T[P], AggregateBulkOrderItem[P]>
+  }
+
+
+
+
+  export type BulkOrderItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BulkOrderItemWhereInput
+    orderBy?: BulkOrderItemOrderByWithAggregationInput | BulkOrderItemOrderByWithAggregationInput[]
+    by: BulkOrderItemScalarFieldEnum[] | BulkOrderItemScalarFieldEnum
+    having?: BulkOrderItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BulkOrderItemCountAggregateInputType | true
+    _avg?: BulkOrderItemAvgAggregateInputType
+    _sum?: BulkOrderItemSumAggregateInputType
+    _min?: BulkOrderItemMinAggregateInputType
+    _max?: BulkOrderItemMaxAggregateInputType
+  }
+
+  export type BulkOrderItemGroupByOutputType = {
+    id: string
+    bulkOrderId: string
+    productId: string
+    productName: string
+    productImage: string | null
+    localName: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal
+    unitType: string
+    unitPrice: Decimal
+    totalPrice: Decimal
+    weightKg: Decimal
+    finalUnitPrice: Decimal | null
+    finalTotalPrice: Decimal | null
+    createdAt: Date
+    _count: BulkOrderItemCountAggregateOutputType | null
+    _avg: BulkOrderItemAvgAggregateOutputType | null
+    _sum: BulkOrderItemSumAggregateOutputType | null
+    _min: BulkOrderItemMinAggregateOutputType | null
+    _max: BulkOrderItemMaxAggregateOutputType | null
+  }
+
+  type GetBulkOrderItemGroupByPayload<T extends BulkOrderItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BulkOrderItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BulkOrderItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BulkOrderItemGroupByOutputType[P]>
+            : GetScalarType<T[P], BulkOrderItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BulkOrderItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bulkOrderId?: boolean
+    productId?: boolean
+    productName?: boolean
+    productImage?: boolean
+    localName?: boolean
+    productType?: boolean
+    seafoodType?: boolean
+    quantity?: boolean
+    unitType?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    weightKg?: boolean
+    finalUnitPrice?: boolean
+    finalTotalPrice?: boolean
+    createdAt?: boolean
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bulkOrderItem"]>
+
+  export type BulkOrderItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bulkOrderId?: boolean
+    productId?: boolean
+    productName?: boolean
+    productImage?: boolean
+    localName?: boolean
+    productType?: boolean
+    seafoodType?: boolean
+    quantity?: boolean
+    unitType?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    weightKg?: boolean
+    finalUnitPrice?: boolean
+    finalTotalPrice?: boolean
+    createdAt?: boolean
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bulkOrderItem"]>
+
+  export type BulkOrderItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bulkOrderId?: boolean
+    productId?: boolean
+    productName?: boolean
+    productImage?: boolean
+    localName?: boolean
+    productType?: boolean
+    seafoodType?: boolean
+    quantity?: boolean
+    unitType?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    weightKg?: boolean
+    finalUnitPrice?: boolean
+    finalTotalPrice?: boolean
+    createdAt?: boolean
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bulkOrderItem"]>
+
+  export type BulkOrderItemSelectScalar = {
+    id?: boolean
+    bulkOrderId?: boolean
+    productId?: boolean
+    productName?: boolean
+    productImage?: boolean
+    localName?: boolean
+    productType?: boolean
+    seafoodType?: boolean
+    quantity?: boolean
+    unitType?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    weightKg?: boolean
+    finalUnitPrice?: boolean
+    finalTotalPrice?: boolean
+    createdAt?: boolean
+  }
+
+  export type BulkOrderItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bulkOrderId" | "productId" | "productName" | "productImage" | "localName" | "productType" | "seafoodType" | "quantity" | "unitType" | "unitPrice" | "totalPrice" | "weightKg" | "finalUnitPrice" | "finalTotalPrice" | "createdAt", ExtArgs["result"]["bulkOrderItem"]>
+  export type BulkOrderItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type BulkOrderItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type BulkOrderItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bulkOrder?: boolean | BulkOrderDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+
+  export type $BulkOrderItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BulkOrderItem"
+    objects: {
+      bulkOrder: Prisma.$BulkOrderPayload<ExtArgs>
+      product: Prisma.$ProductPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      bulkOrderId: string
+      productId: string
+      productName: string
+      productImage: string | null
+      localName: string | null
+      productType: string
+      seafoodType: string
+      quantity: Prisma.Decimal
+      unitType: string
+      unitPrice: Prisma.Decimal
+      totalPrice: Prisma.Decimal
+      weightKg: Prisma.Decimal
+      finalUnitPrice: Prisma.Decimal | null
+      finalTotalPrice: Prisma.Decimal | null
+      createdAt: Date
+    }, ExtArgs["result"]["bulkOrderItem"]>
+    composites: {}
+  }
+
+  type BulkOrderItemGetPayload<S extends boolean | null | undefined | BulkOrderItemDefaultArgs> = $Result.GetResult<Prisma.$BulkOrderItemPayload, S>
+
+  type BulkOrderItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BulkOrderItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BulkOrderItemCountAggregateInputType | true
+    }
+
+  export interface BulkOrderItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BulkOrderItem'], meta: { name: 'BulkOrderItem' } }
+    /**
+     * Find zero or one BulkOrderItem that matches the filter.
+     * @param {BulkOrderItemFindUniqueArgs} args - Arguments to find a BulkOrderItem
+     * @example
+     * // Get one BulkOrderItem
+     * const bulkOrderItem = await prisma.bulkOrderItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BulkOrderItemFindUniqueArgs>(args: SelectSubset<T, BulkOrderItemFindUniqueArgs<ExtArgs>>): Prisma__BulkOrderItemClient<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BulkOrderItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BulkOrderItemFindUniqueOrThrowArgs} args - Arguments to find a BulkOrderItem
+     * @example
+     * // Get one BulkOrderItem
+     * const bulkOrderItem = await prisma.bulkOrderItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BulkOrderItemFindUniqueOrThrowArgs>(args: SelectSubset<T, BulkOrderItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BulkOrderItemClient<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BulkOrderItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderItemFindFirstArgs} args - Arguments to find a BulkOrderItem
+     * @example
+     * // Get one BulkOrderItem
+     * const bulkOrderItem = await prisma.bulkOrderItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BulkOrderItemFindFirstArgs>(args?: SelectSubset<T, BulkOrderItemFindFirstArgs<ExtArgs>>): Prisma__BulkOrderItemClient<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BulkOrderItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderItemFindFirstOrThrowArgs} args - Arguments to find a BulkOrderItem
+     * @example
+     * // Get one BulkOrderItem
+     * const bulkOrderItem = await prisma.bulkOrderItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BulkOrderItemFindFirstOrThrowArgs>(args?: SelectSubset<T, BulkOrderItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__BulkOrderItemClient<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BulkOrderItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BulkOrderItems
+     * const bulkOrderItems = await prisma.bulkOrderItem.findMany()
+     * 
+     * // Get first 10 BulkOrderItems
+     * const bulkOrderItems = await prisma.bulkOrderItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bulkOrderItemWithIdOnly = await prisma.bulkOrderItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BulkOrderItemFindManyArgs>(args?: SelectSubset<T, BulkOrderItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BulkOrderItem.
+     * @param {BulkOrderItemCreateArgs} args - Arguments to create a BulkOrderItem.
+     * @example
+     * // Create one BulkOrderItem
+     * const BulkOrderItem = await prisma.bulkOrderItem.create({
+     *   data: {
+     *     // ... data to create a BulkOrderItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends BulkOrderItemCreateArgs>(args: SelectSubset<T, BulkOrderItemCreateArgs<ExtArgs>>): Prisma__BulkOrderItemClient<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BulkOrderItems.
+     * @param {BulkOrderItemCreateManyArgs} args - Arguments to create many BulkOrderItems.
+     * @example
+     * // Create many BulkOrderItems
+     * const bulkOrderItem = await prisma.bulkOrderItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BulkOrderItemCreateManyArgs>(args?: SelectSubset<T, BulkOrderItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BulkOrderItems and returns the data saved in the database.
+     * @param {BulkOrderItemCreateManyAndReturnArgs} args - Arguments to create many BulkOrderItems.
+     * @example
+     * // Create many BulkOrderItems
+     * const bulkOrderItem = await prisma.bulkOrderItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BulkOrderItems and only return the `id`
+     * const bulkOrderItemWithIdOnly = await prisma.bulkOrderItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BulkOrderItemCreateManyAndReturnArgs>(args?: SelectSubset<T, BulkOrderItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BulkOrderItem.
+     * @param {BulkOrderItemDeleteArgs} args - Arguments to delete one BulkOrderItem.
+     * @example
+     * // Delete one BulkOrderItem
+     * const BulkOrderItem = await prisma.bulkOrderItem.delete({
+     *   where: {
+     *     // ... filter to delete one BulkOrderItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BulkOrderItemDeleteArgs>(args: SelectSubset<T, BulkOrderItemDeleteArgs<ExtArgs>>): Prisma__BulkOrderItemClient<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BulkOrderItem.
+     * @param {BulkOrderItemUpdateArgs} args - Arguments to update one BulkOrderItem.
+     * @example
+     * // Update one BulkOrderItem
+     * const bulkOrderItem = await prisma.bulkOrderItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BulkOrderItemUpdateArgs>(args: SelectSubset<T, BulkOrderItemUpdateArgs<ExtArgs>>): Prisma__BulkOrderItemClient<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BulkOrderItems.
+     * @param {BulkOrderItemDeleteManyArgs} args - Arguments to filter BulkOrderItems to delete.
+     * @example
+     * // Delete a few BulkOrderItems
+     * const { count } = await prisma.bulkOrderItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BulkOrderItemDeleteManyArgs>(args?: SelectSubset<T, BulkOrderItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BulkOrderItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BulkOrderItems
+     * const bulkOrderItem = await prisma.bulkOrderItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BulkOrderItemUpdateManyArgs>(args: SelectSubset<T, BulkOrderItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BulkOrderItems and returns the data updated in the database.
+     * @param {BulkOrderItemUpdateManyAndReturnArgs} args - Arguments to update many BulkOrderItems.
+     * @example
+     * // Update many BulkOrderItems
+     * const bulkOrderItem = await prisma.bulkOrderItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BulkOrderItems and only return the `id`
+     * const bulkOrderItemWithIdOnly = await prisma.bulkOrderItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BulkOrderItemUpdateManyAndReturnArgs>(args: SelectSubset<T, BulkOrderItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BulkOrderItem.
+     * @param {BulkOrderItemUpsertArgs} args - Arguments to update or create a BulkOrderItem.
+     * @example
+     * // Update or create a BulkOrderItem
+     * const bulkOrderItem = await prisma.bulkOrderItem.upsert({
+     *   create: {
+     *     // ... data to create a BulkOrderItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BulkOrderItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BulkOrderItemUpsertArgs>(args: SelectSubset<T, BulkOrderItemUpsertArgs<ExtArgs>>): Prisma__BulkOrderItemClient<$Result.GetResult<Prisma.$BulkOrderItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BulkOrderItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderItemCountArgs} args - Arguments to filter BulkOrderItems to count.
+     * @example
+     * // Count the number of BulkOrderItems
+     * const count = await prisma.bulkOrderItem.count({
+     *   where: {
+     *     // ... the filter for the BulkOrderItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends BulkOrderItemCountArgs>(
+      args?: Subset<T, BulkOrderItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BulkOrderItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BulkOrderItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BulkOrderItemAggregateArgs>(args: Subset<T, BulkOrderItemAggregateArgs>): Prisma.PrismaPromise<GetBulkOrderItemAggregateType<T>>
+
+    /**
+     * Group by BulkOrderItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BulkOrderItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BulkOrderItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BulkOrderItemGroupByArgs['orderBy'] }
+        : { orderBy?: BulkOrderItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BulkOrderItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBulkOrderItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BulkOrderItem model
+   */
+  readonly fields: BulkOrderItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BulkOrderItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BulkOrderItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    bulkOrder<T extends BulkOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BulkOrderDefaultArgs<ExtArgs>>): Prisma__BulkOrderClient<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BulkOrderItem model
+   */
+  interface BulkOrderItemFieldRefs {
+    readonly id: FieldRef<"BulkOrderItem", 'String'>
+    readonly bulkOrderId: FieldRef<"BulkOrderItem", 'String'>
+    readonly productId: FieldRef<"BulkOrderItem", 'String'>
+    readonly productName: FieldRef<"BulkOrderItem", 'String'>
+    readonly productImage: FieldRef<"BulkOrderItem", 'String'>
+    readonly localName: FieldRef<"BulkOrderItem", 'String'>
+    readonly productType: FieldRef<"BulkOrderItem", 'String'>
+    readonly seafoodType: FieldRef<"BulkOrderItem", 'String'>
+    readonly quantity: FieldRef<"BulkOrderItem", 'Decimal'>
+    readonly unitType: FieldRef<"BulkOrderItem", 'String'>
+    readonly unitPrice: FieldRef<"BulkOrderItem", 'Decimal'>
+    readonly totalPrice: FieldRef<"BulkOrderItem", 'Decimal'>
+    readonly weightKg: FieldRef<"BulkOrderItem", 'Decimal'>
+    readonly finalUnitPrice: FieldRef<"BulkOrderItem", 'Decimal'>
+    readonly finalTotalPrice: FieldRef<"BulkOrderItem", 'Decimal'>
+    readonly createdAt: FieldRef<"BulkOrderItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BulkOrderItem findUnique
+   */
+  export type BulkOrderItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which BulkOrderItem to fetch.
+     */
+    where: BulkOrderItemWhereUniqueInput
+  }
+
+  /**
+   * BulkOrderItem findUniqueOrThrow
+   */
+  export type BulkOrderItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which BulkOrderItem to fetch.
+     */
+    where: BulkOrderItemWhereUniqueInput
+  }
+
+  /**
+   * BulkOrderItem findFirst
+   */
+  export type BulkOrderItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which BulkOrderItem to fetch.
+     */
+    where?: BulkOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BulkOrderItems to fetch.
+     */
+    orderBy?: BulkOrderItemOrderByWithRelationInput | BulkOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BulkOrderItems.
+     */
+    cursor?: BulkOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BulkOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BulkOrderItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BulkOrderItems.
+     */
+    distinct?: BulkOrderItemScalarFieldEnum | BulkOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * BulkOrderItem findFirstOrThrow
+   */
+  export type BulkOrderItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which BulkOrderItem to fetch.
+     */
+    where?: BulkOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BulkOrderItems to fetch.
+     */
+    orderBy?: BulkOrderItemOrderByWithRelationInput | BulkOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BulkOrderItems.
+     */
+    cursor?: BulkOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BulkOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BulkOrderItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BulkOrderItems.
+     */
+    distinct?: BulkOrderItemScalarFieldEnum | BulkOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * BulkOrderItem findMany
+   */
+  export type BulkOrderItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter, which BulkOrderItems to fetch.
+     */
+    where?: BulkOrderItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BulkOrderItems to fetch.
+     */
+    orderBy?: BulkOrderItemOrderByWithRelationInput | BulkOrderItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BulkOrderItems.
+     */
+    cursor?: BulkOrderItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BulkOrderItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BulkOrderItems.
+     */
+    skip?: number
+    distinct?: BulkOrderItemScalarFieldEnum | BulkOrderItemScalarFieldEnum[]
+  }
+
+  /**
+   * BulkOrderItem create
+   */
+  export type BulkOrderItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BulkOrderItem.
+     */
+    data: XOR<BulkOrderItemCreateInput, BulkOrderItemUncheckedCreateInput>
+  }
+
+  /**
+   * BulkOrderItem createMany
+   */
+  export type BulkOrderItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BulkOrderItems.
+     */
+    data: BulkOrderItemCreateManyInput | BulkOrderItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BulkOrderItem createManyAndReturn
+   */
+  export type BulkOrderItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many BulkOrderItems.
+     */
+    data: BulkOrderItemCreateManyInput | BulkOrderItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BulkOrderItem update
+   */
+  export type BulkOrderItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BulkOrderItem.
+     */
+    data: XOR<BulkOrderItemUpdateInput, BulkOrderItemUncheckedUpdateInput>
+    /**
+     * Choose, which BulkOrderItem to update.
+     */
+    where: BulkOrderItemWhereUniqueInput
+  }
+
+  /**
+   * BulkOrderItem updateMany
+   */
+  export type BulkOrderItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BulkOrderItems.
+     */
+    data: XOR<BulkOrderItemUpdateManyMutationInput, BulkOrderItemUncheckedUpdateManyInput>
+    /**
+     * Filter which BulkOrderItems to update
+     */
+    where?: BulkOrderItemWhereInput
+    /**
+     * Limit how many BulkOrderItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BulkOrderItem updateManyAndReturn
+   */
+  export type BulkOrderItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * The data used to update BulkOrderItems.
+     */
+    data: XOR<BulkOrderItemUpdateManyMutationInput, BulkOrderItemUncheckedUpdateManyInput>
+    /**
+     * Filter which BulkOrderItems to update
+     */
+    where?: BulkOrderItemWhereInput
+    /**
+     * Limit how many BulkOrderItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BulkOrderItem upsert
+   */
+  export type BulkOrderItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BulkOrderItem to update in case it exists.
+     */
+    where: BulkOrderItemWhereUniqueInput
+    /**
+     * In case the BulkOrderItem found by the `where` argument doesn't exist, create a new BulkOrderItem with this data.
+     */
+    create: XOR<BulkOrderItemCreateInput, BulkOrderItemUncheckedCreateInput>
+    /**
+     * In case the BulkOrderItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BulkOrderItemUpdateInput, BulkOrderItemUncheckedUpdateInput>
+  }
+
+  /**
+   * BulkOrderItem delete
+   */
+  export type BulkOrderItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+    /**
+     * Filter which BulkOrderItem to delete.
+     */
+    where: BulkOrderItemWhereUniqueInput
+  }
+
+  /**
+   * BulkOrderItem deleteMany
+   */
+  export type BulkOrderItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BulkOrderItems to delete
+     */
+    where?: BulkOrderItemWhereInput
+    /**
+     * Limit how many BulkOrderItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BulkOrderItem without action
+   */
+  export type BulkOrderItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrderItem
+     */
+    select?: BulkOrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrderItem
+     */
+    omit?: BulkOrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Quote
+   */
+
+  export type AggregateQuote = {
+    _count: QuoteCountAggregateOutputType | null
+    _avg: QuoteAvgAggregateOutputType | null
+    _sum: QuoteSumAggregateOutputType | null
+    _min: QuoteMinAggregateOutputType | null
+    _max: QuoteMaxAggregateOutputType | null
+  }
+
+  export type QuoteAvgAggregateOutputType = {
+    subtotal: Decimal | null
+    shippingCost: Decimal | null
+    discount: Decimal | null
+    total: Decimal | null
+    totalWeightKg: Decimal | null
+  }
+
+  export type QuoteSumAggregateOutputType = {
+    subtotal: Decimal | null
+    shippingCost: Decimal | null
+    discount: Decimal | null
+    total: Decimal | null
+    totalWeightKg: Decimal | null
+  }
+
+  export type QuoteMinAggregateOutputType = {
+    id: string | null
+    quoteNumber: string | null
+    userId: string | null
+    bulkOrderId: string | null
+    subtotal: Decimal | null
+    shippingCost: Decimal | null
+    discount: Decimal | null
+    total: Decimal | null
+    totalWeightKg: Decimal | null
+    contactName: string | null
+    contactEmail: string | null
+    contactPhone: string | null
+    companyName: string | null
+    validUntil: Date | null
+    status: $Enums.QuoteStatus | null
+    customerNotes: string | null
+    internalNotes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuoteMaxAggregateOutputType = {
+    id: string | null
+    quoteNumber: string | null
+    userId: string | null
+    bulkOrderId: string | null
+    subtotal: Decimal | null
+    shippingCost: Decimal | null
+    discount: Decimal | null
+    total: Decimal | null
+    totalWeightKg: Decimal | null
+    contactName: string | null
+    contactEmail: string | null
+    contactPhone: string | null
+    companyName: string | null
+    validUntil: Date | null
+    status: $Enums.QuoteStatus | null
+    customerNotes: string | null
+    internalNotes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type QuoteCountAggregateOutputType = {
+    id: number
+    quoteNumber: number
+    userId: number
+    bulkOrderId: number
+    subtotal: number
+    shippingCost: number
+    discount: number
+    total: number
+    totalWeightKg: number
+    contactName: number
+    contactEmail: number
+    contactPhone: number
+    companyName: number
+    validUntil: number
+    status: number
+    customerNotes: number
+    internalNotes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type QuoteAvgAggregateInputType = {
+    subtotal?: true
+    shippingCost?: true
+    discount?: true
+    total?: true
+    totalWeightKg?: true
+  }
+
+  export type QuoteSumAggregateInputType = {
+    subtotal?: true
+    shippingCost?: true
+    discount?: true
+    total?: true
+    totalWeightKg?: true
+  }
+
+  export type QuoteMinAggregateInputType = {
+    id?: true
+    quoteNumber?: true
+    userId?: true
+    bulkOrderId?: true
+    subtotal?: true
+    shippingCost?: true
+    discount?: true
+    total?: true
+    totalWeightKg?: true
+    contactName?: true
+    contactEmail?: true
+    contactPhone?: true
+    companyName?: true
+    validUntil?: true
+    status?: true
+    customerNotes?: true
+    internalNotes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuoteMaxAggregateInputType = {
+    id?: true
+    quoteNumber?: true
+    userId?: true
+    bulkOrderId?: true
+    subtotal?: true
+    shippingCost?: true
+    discount?: true
+    total?: true
+    totalWeightKg?: true
+    contactName?: true
+    contactEmail?: true
+    contactPhone?: true
+    companyName?: true
+    validUntil?: true
+    status?: true
+    customerNotes?: true
+    internalNotes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type QuoteCountAggregateInputType = {
+    id?: true
+    quoteNumber?: true
+    userId?: true
+    bulkOrderId?: true
+    subtotal?: true
+    shippingCost?: true
+    discount?: true
+    total?: true
+    totalWeightKg?: true
+    contactName?: true
+    contactEmail?: true
+    contactPhone?: true
+    companyName?: true
+    validUntil?: true
+    status?: true
+    customerNotes?: true
+    internalNotes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type QuoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Quote to aggregate.
+     */
+    where?: QuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quotes to fetch.
+     */
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Quotes
+    **/
+    _count?: true | QuoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: QuoteAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: QuoteSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuoteMaxAggregateInputType
+  }
+
+  export type GetQuoteAggregateType<T extends QuoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuote[P]>
+      : GetScalarType<T[P], AggregateQuote[P]>
+  }
+
+
+
+
+  export type QuoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuoteWhereInput
+    orderBy?: QuoteOrderByWithAggregationInput | QuoteOrderByWithAggregationInput[]
+    by: QuoteScalarFieldEnum[] | QuoteScalarFieldEnum
+    having?: QuoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuoteCountAggregateInputType | true
+    _avg?: QuoteAvgAggregateInputType
+    _sum?: QuoteSumAggregateInputType
+    _min?: QuoteMinAggregateInputType
+    _max?: QuoteMaxAggregateInputType
+  }
+
+  export type QuoteGroupByOutputType = {
+    id: string
+    quoteNumber: string
+    userId: string
+    bulkOrderId: string | null
+    subtotal: Decimal
+    shippingCost: Decimal | null
+    discount: Decimal
+    total: Decimal
+    totalWeightKg: Decimal
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName: string | null
+    validUntil: Date
+    status: $Enums.QuoteStatus
+    customerNotes: string | null
+    internalNotes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: QuoteCountAggregateOutputType | null
+    _avg: QuoteAvgAggregateOutputType | null
+    _sum: QuoteSumAggregateOutputType | null
+    _min: QuoteMinAggregateOutputType | null
+    _max: QuoteMaxAggregateOutputType | null
+  }
+
+  type GetQuoteGroupByPayload<T extends QuoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuoteGroupByOutputType[P]>
+            : GetScalarType<T[P], QuoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    quoteNumber?: boolean
+    userId?: boolean
+    bulkOrderId?: boolean
+    subtotal?: boolean
+    shippingCost?: boolean
+    discount?: boolean
+    total?: boolean
+    totalWeightKg?: boolean
+    contactName?: boolean
+    contactEmail?: boolean
+    contactPhone?: boolean
+    companyName?: boolean
+    validUntil?: boolean
+    status?: boolean
+    customerNotes?: boolean
+    internalNotes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    bulkOrder?: boolean | Quote$bulkOrderArgs<ExtArgs>
+    items?: boolean | Quote$itemsArgs<ExtArgs>
+    _count?: boolean | QuoteCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quote"]>
+
+  export type QuoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    quoteNumber?: boolean
+    userId?: boolean
+    bulkOrderId?: boolean
+    subtotal?: boolean
+    shippingCost?: boolean
+    discount?: boolean
+    total?: boolean
+    totalWeightKg?: boolean
+    contactName?: boolean
+    contactEmail?: boolean
+    contactPhone?: boolean
+    companyName?: boolean
+    validUntil?: boolean
+    status?: boolean
+    customerNotes?: boolean
+    internalNotes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    bulkOrder?: boolean | Quote$bulkOrderArgs<ExtArgs>
+  }, ExtArgs["result"]["quote"]>
+
+  export type QuoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    quoteNumber?: boolean
+    userId?: boolean
+    bulkOrderId?: boolean
+    subtotal?: boolean
+    shippingCost?: boolean
+    discount?: boolean
+    total?: boolean
+    totalWeightKg?: boolean
+    contactName?: boolean
+    contactEmail?: boolean
+    contactPhone?: boolean
+    companyName?: boolean
+    validUntil?: boolean
+    status?: boolean
+    customerNotes?: boolean
+    internalNotes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    bulkOrder?: boolean | Quote$bulkOrderArgs<ExtArgs>
+  }, ExtArgs["result"]["quote"]>
+
+  export type QuoteSelectScalar = {
+    id?: boolean
+    quoteNumber?: boolean
+    userId?: boolean
+    bulkOrderId?: boolean
+    subtotal?: boolean
+    shippingCost?: boolean
+    discount?: boolean
+    total?: boolean
+    totalWeightKg?: boolean
+    contactName?: boolean
+    contactEmail?: boolean
+    contactPhone?: boolean
+    companyName?: boolean
+    validUntil?: boolean
+    status?: boolean
+    customerNotes?: boolean
+    internalNotes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type QuoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "quoteNumber" | "userId" | "bulkOrderId" | "subtotal" | "shippingCost" | "discount" | "total" | "totalWeightKg" | "contactName" | "contactEmail" | "contactPhone" | "companyName" | "validUntil" | "status" | "customerNotes" | "internalNotes" | "createdAt" | "updatedAt", ExtArgs["result"]["quote"]>
+  export type QuoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    bulkOrder?: boolean | Quote$bulkOrderArgs<ExtArgs>
+    items?: boolean | Quote$itemsArgs<ExtArgs>
+    _count?: boolean | QuoteCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type QuoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    bulkOrder?: boolean | Quote$bulkOrderArgs<ExtArgs>
+  }
+  export type QuoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    bulkOrder?: boolean | Quote$bulkOrderArgs<ExtArgs>
+  }
+
+  export type $QuotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Quote"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      bulkOrder: Prisma.$BulkOrderPayload<ExtArgs> | null
+      items: Prisma.$QuoteItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      quoteNumber: string
+      userId: string
+      bulkOrderId: string | null
+      subtotal: Prisma.Decimal
+      shippingCost: Prisma.Decimal | null
+      discount: Prisma.Decimal
+      total: Prisma.Decimal
+      totalWeightKg: Prisma.Decimal
+      contactName: string
+      contactEmail: string
+      contactPhone: string
+      companyName: string | null
+      validUntil: Date
+      status: $Enums.QuoteStatus
+      customerNotes: string | null
+      internalNotes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["quote"]>
+    composites: {}
+  }
+
+  type QuoteGetPayload<S extends boolean | null | undefined | QuoteDefaultArgs> = $Result.GetResult<Prisma.$QuotePayload, S>
+
+  type QuoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuoteCountAggregateInputType | true
+    }
+
+  export interface QuoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Quote'], meta: { name: 'Quote' } }
+    /**
+     * Find zero or one Quote that matches the filter.
+     * @param {QuoteFindUniqueArgs} args - Arguments to find a Quote
+     * @example
+     * // Get one Quote
+     * const quote = await prisma.quote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuoteFindUniqueArgs>(args: SelectSubset<T, QuoteFindUniqueArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Quote that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuoteFindUniqueOrThrowArgs} args - Arguments to find a Quote
+     * @example
+     * // Get one Quote
+     * const quote = await prisma.quote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuoteFindUniqueOrThrowArgs>(args: SelectSubset<T, QuoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Quote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteFindFirstArgs} args - Arguments to find a Quote
+     * @example
+     * // Get one Quote
+     * const quote = await prisma.quote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuoteFindFirstArgs>(args?: SelectSubset<T, QuoteFindFirstArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Quote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteFindFirstOrThrowArgs} args - Arguments to find a Quote
+     * @example
+     * // Get one Quote
+     * const quote = await prisma.quote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuoteFindFirstOrThrowArgs>(args?: SelectSubset<T, QuoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Quotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Quotes
+     * const quotes = await prisma.quote.findMany()
+     * 
+     * // Get first 10 Quotes
+     * const quotes = await prisma.quote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const quoteWithIdOnly = await prisma.quote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuoteFindManyArgs>(args?: SelectSubset<T, QuoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Quote.
+     * @param {QuoteCreateArgs} args - Arguments to create a Quote.
+     * @example
+     * // Create one Quote
+     * const Quote = await prisma.quote.create({
+     *   data: {
+     *     // ... data to create a Quote
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuoteCreateArgs>(args: SelectSubset<T, QuoteCreateArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Quotes.
+     * @param {QuoteCreateManyArgs} args - Arguments to create many Quotes.
+     * @example
+     * // Create many Quotes
+     * const quote = await prisma.quote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuoteCreateManyArgs>(args?: SelectSubset<T, QuoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Quotes and returns the data saved in the database.
+     * @param {QuoteCreateManyAndReturnArgs} args - Arguments to create many Quotes.
+     * @example
+     * // Create many Quotes
+     * const quote = await prisma.quote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Quotes and only return the `id`
+     * const quoteWithIdOnly = await prisma.quote.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuoteCreateManyAndReturnArgs>(args?: SelectSubset<T, QuoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Quote.
+     * @param {QuoteDeleteArgs} args - Arguments to delete one Quote.
+     * @example
+     * // Delete one Quote
+     * const Quote = await prisma.quote.delete({
+     *   where: {
+     *     // ... filter to delete one Quote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuoteDeleteArgs>(args: SelectSubset<T, QuoteDeleteArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Quote.
+     * @param {QuoteUpdateArgs} args - Arguments to update one Quote.
+     * @example
+     * // Update one Quote
+     * const quote = await prisma.quote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuoteUpdateArgs>(args: SelectSubset<T, QuoteUpdateArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Quotes.
+     * @param {QuoteDeleteManyArgs} args - Arguments to filter Quotes to delete.
+     * @example
+     * // Delete a few Quotes
+     * const { count } = await prisma.quote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuoteDeleteManyArgs>(args?: SelectSubset<T, QuoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Quotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Quotes
+     * const quote = await prisma.quote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuoteUpdateManyArgs>(args: SelectSubset<T, QuoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Quotes and returns the data updated in the database.
+     * @param {QuoteUpdateManyAndReturnArgs} args - Arguments to update many Quotes.
+     * @example
+     * // Update many Quotes
+     * const quote = await prisma.quote.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Quotes and only return the `id`
+     * const quoteWithIdOnly = await prisma.quote.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuoteUpdateManyAndReturnArgs>(args: SelectSubset<T, QuoteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Quote.
+     * @param {QuoteUpsertArgs} args - Arguments to update or create a Quote.
+     * @example
+     * // Update or create a Quote
+     * const quote = await prisma.quote.upsert({
+     *   create: {
+     *     // ... data to create a Quote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Quote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuoteUpsertArgs>(args: SelectSubset<T, QuoteUpsertArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Quotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteCountArgs} args - Arguments to filter Quotes to count.
+     * @example
+     * // Count the number of Quotes
+     * const count = await prisma.quote.count({
+     *   where: {
+     *     // ... the filter for the Quotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuoteCountArgs>(
+      args?: Subset<T, QuoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Quote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuoteAggregateArgs>(args: Subset<T, QuoteAggregateArgs>): Prisma.PrismaPromise<GetQuoteAggregateType<T>>
+
+    /**
+     * Group by Quote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuoteGroupByArgs['orderBy'] }
+        : { orderBy?: QuoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Quote model
+   */
+  readonly fields: QuoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Quote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    bulkOrder<T extends Quote$bulkOrderArgs<ExtArgs> = {}>(args?: Subset<T, Quote$bulkOrderArgs<ExtArgs>>): Prisma__BulkOrderClient<$Result.GetResult<Prisma.$BulkOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    items<T extends Quote$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Quote$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Quote model
+   */
+  interface QuoteFieldRefs {
+    readonly id: FieldRef<"Quote", 'String'>
+    readonly quoteNumber: FieldRef<"Quote", 'String'>
+    readonly userId: FieldRef<"Quote", 'String'>
+    readonly bulkOrderId: FieldRef<"Quote", 'String'>
+    readonly subtotal: FieldRef<"Quote", 'Decimal'>
+    readonly shippingCost: FieldRef<"Quote", 'Decimal'>
+    readonly discount: FieldRef<"Quote", 'Decimal'>
+    readonly total: FieldRef<"Quote", 'Decimal'>
+    readonly totalWeightKg: FieldRef<"Quote", 'Decimal'>
+    readonly contactName: FieldRef<"Quote", 'String'>
+    readonly contactEmail: FieldRef<"Quote", 'String'>
+    readonly contactPhone: FieldRef<"Quote", 'String'>
+    readonly companyName: FieldRef<"Quote", 'String'>
+    readonly validUntil: FieldRef<"Quote", 'DateTime'>
+    readonly status: FieldRef<"Quote", 'QuoteStatus'>
+    readonly customerNotes: FieldRef<"Quote", 'String'>
+    readonly internalNotes: FieldRef<"Quote", 'String'>
+    readonly createdAt: FieldRef<"Quote", 'DateTime'>
+    readonly updatedAt: FieldRef<"Quote", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Quote findUnique
+   */
+  export type QuoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which Quote to fetch.
+     */
+    where: QuoteWhereUniqueInput
+  }
+
+  /**
+   * Quote findUniqueOrThrow
+   */
+  export type QuoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which Quote to fetch.
+     */
+    where: QuoteWhereUniqueInput
+  }
+
+  /**
+   * Quote findFirst
+   */
+  export type QuoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which Quote to fetch.
+     */
+    where?: QuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quotes to fetch.
+     */
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Quotes.
+     */
+    cursor?: QuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Quotes.
+     */
+    distinct?: QuoteScalarFieldEnum | QuoteScalarFieldEnum[]
+  }
+
+  /**
+   * Quote findFirstOrThrow
+   */
+  export type QuoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which Quote to fetch.
+     */
+    where?: QuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quotes to fetch.
+     */
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Quotes.
+     */
+    cursor?: QuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Quotes.
+     */
+    distinct?: QuoteScalarFieldEnum | QuoteScalarFieldEnum[]
+  }
+
+  /**
+   * Quote findMany
+   */
+  export type QuoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter, which Quotes to fetch.
+     */
+    where?: QuoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Quotes to fetch.
+     */
+    orderBy?: QuoteOrderByWithRelationInput | QuoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Quotes.
+     */
+    cursor?: QuoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Quotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Quotes.
+     */
+    skip?: number
+    distinct?: QuoteScalarFieldEnum | QuoteScalarFieldEnum[]
+  }
+
+  /**
+   * Quote create
+   */
+  export type QuoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Quote.
+     */
+    data: XOR<QuoteCreateInput, QuoteUncheckedCreateInput>
+  }
+
+  /**
+   * Quote createMany
+   */
+  export type QuoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Quotes.
+     */
+    data: QuoteCreateManyInput | QuoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Quote createManyAndReturn
+   */
+  export type QuoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * The data used to create many Quotes.
+     */
+    data: QuoteCreateManyInput | QuoteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Quote update
+   */
+  export type QuoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Quote.
+     */
+    data: XOR<QuoteUpdateInput, QuoteUncheckedUpdateInput>
+    /**
+     * Choose, which Quote to update.
+     */
+    where: QuoteWhereUniqueInput
+  }
+
+  /**
+   * Quote updateMany
+   */
+  export type QuoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Quotes.
+     */
+    data: XOR<QuoteUpdateManyMutationInput, QuoteUncheckedUpdateManyInput>
+    /**
+     * Filter which Quotes to update
+     */
+    where?: QuoteWhereInput
+    /**
+     * Limit how many Quotes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Quote updateManyAndReturn
+   */
+  export type QuoteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * The data used to update Quotes.
+     */
+    data: XOR<QuoteUpdateManyMutationInput, QuoteUncheckedUpdateManyInput>
+    /**
+     * Filter which Quotes to update
+     */
+    where?: QuoteWhereInput
+    /**
+     * Limit how many Quotes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Quote upsert
+   */
+  export type QuoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Quote to update in case it exists.
+     */
+    where: QuoteWhereUniqueInput
+    /**
+     * In case the Quote found by the `where` argument doesn't exist, create a new Quote with this data.
+     */
+    create: XOR<QuoteCreateInput, QuoteUncheckedCreateInput>
+    /**
+     * In case the Quote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuoteUpdateInput, QuoteUncheckedUpdateInput>
+  }
+
+  /**
+   * Quote delete
+   */
+  export type QuoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+    /**
+     * Filter which Quote to delete.
+     */
+    where: QuoteWhereUniqueInput
+  }
+
+  /**
+   * Quote deleteMany
+   */
+  export type QuoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Quotes to delete
+     */
+    where?: QuoteWhereInput
+    /**
+     * Limit how many Quotes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Quote.bulkOrder
+   */
+  export type Quote$bulkOrderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BulkOrder
+     */
+    select?: BulkOrderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BulkOrder
+     */
+    omit?: BulkOrderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BulkOrderInclude<ExtArgs> | null
+    where?: BulkOrderWhereInput
+  }
+
+  /**
+   * Quote.items
+   */
+  export type Quote$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+    where?: QuoteItemWhereInput
+    orderBy?: QuoteItemOrderByWithRelationInput | QuoteItemOrderByWithRelationInput[]
+    cursor?: QuoteItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuoteItemScalarFieldEnum | QuoteItemScalarFieldEnum[]
+  }
+
+  /**
+   * Quote without action
+   */
+  export type QuoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quote
+     */
+    select?: QuoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quote
+     */
+    omit?: QuoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model QuoteItem
+   */
+
+  export type AggregateQuoteItem = {
+    _count: QuoteItemCountAggregateOutputType | null
+    _avg: QuoteItemAvgAggregateOutputType | null
+    _sum: QuoteItemSumAggregateOutputType | null
+    _min: QuoteItemMinAggregateOutputType | null
+    _max: QuoteItemMaxAggregateOutputType | null
+  }
+
+  export type QuoteItemAvgAggregateOutputType = {
+    quantity: Decimal | null
+    unitPrice: Decimal | null
+    totalPrice: Decimal | null
+    weightKg: Decimal | null
+  }
+
+  export type QuoteItemSumAggregateOutputType = {
+    quantity: Decimal | null
+    unitPrice: Decimal | null
+    totalPrice: Decimal | null
+    weightKg: Decimal | null
+  }
+
+  export type QuoteItemMinAggregateOutputType = {
+    id: string | null
+    quoteId: string | null
+    productId: string | null
+    productName: string | null
+    productImage: string | null
+    localName: string | null
+    productType: string | null
+    seafoodType: string | null
+    quantity: Decimal | null
+    unitType: string | null
+    unitPrice: Decimal | null
+    totalPrice: Decimal | null
+    weightKg: Decimal | null
+    createdAt: Date | null
+  }
+
+  export type QuoteItemMaxAggregateOutputType = {
+    id: string | null
+    quoteId: string | null
+    productId: string | null
+    productName: string | null
+    productImage: string | null
+    localName: string | null
+    productType: string | null
+    seafoodType: string | null
+    quantity: Decimal | null
+    unitType: string | null
+    unitPrice: Decimal | null
+    totalPrice: Decimal | null
+    weightKg: Decimal | null
+    createdAt: Date | null
+  }
+
+  export type QuoteItemCountAggregateOutputType = {
+    id: number
+    quoteId: number
+    productId: number
+    productName: number
+    productImage: number
+    localName: number
+    productType: number
+    seafoodType: number
+    quantity: number
+    unitType: number
+    unitPrice: number
+    totalPrice: number
+    weightKg: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type QuoteItemAvgAggregateInputType = {
+    quantity?: true
+    unitPrice?: true
+    totalPrice?: true
+    weightKg?: true
+  }
+
+  export type QuoteItemSumAggregateInputType = {
+    quantity?: true
+    unitPrice?: true
+    totalPrice?: true
+    weightKg?: true
+  }
+
+  export type QuoteItemMinAggregateInputType = {
+    id?: true
+    quoteId?: true
+    productId?: true
+    productName?: true
+    productImage?: true
+    localName?: true
+    productType?: true
+    seafoodType?: true
+    quantity?: true
+    unitType?: true
+    unitPrice?: true
+    totalPrice?: true
+    weightKg?: true
+    createdAt?: true
+  }
+
+  export type QuoteItemMaxAggregateInputType = {
+    id?: true
+    quoteId?: true
+    productId?: true
+    productName?: true
+    productImage?: true
+    localName?: true
+    productType?: true
+    seafoodType?: true
+    quantity?: true
+    unitType?: true
+    unitPrice?: true
+    totalPrice?: true
+    weightKg?: true
+    createdAt?: true
+  }
+
+  export type QuoteItemCountAggregateInputType = {
+    id?: true
+    quoteId?: true
+    productId?: true
+    productName?: true
+    productImage?: true
+    localName?: true
+    productType?: true
+    seafoodType?: true
+    quantity?: true
+    unitType?: true
+    unitPrice?: true
+    totalPrice?: true
+    weightKg?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type QuoteItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuoteItem to aggregate.
+     */
+    where?: QuoteItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuoteItems to fetch.
+     */
+    orderBy?: QuoteItemOrderByWithRelationInput | QuoteItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: QuoteItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuoteItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuoteItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned QuoteItems
+    **/
+    _count?: true | QuoteItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: QuoteItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: QuoteItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: QuoteItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: QuoteItemMaxAggregateInputType
+  }
+
+  export type GetQuoteItemAggregateType<T extends QuoteItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateQuoteItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateQuoteItem[P]>
+      : GetScalarType<T[P], AggregateQuoteItem[P]>
+  }
+
+
+
+
+  export type QuoteItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuoteItemWhereInput
+    orderBy?: QuoteItemOrderByWithAggregationInput | QuoteItemOrderByWithAggregationInput[]
+    by: QuoteItemScalarFieldEnum[] | QuoteItemScalarFieldEnum
+    having?: QuoteItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: QuoteItemCountAggregateInputType | true
+    _avg?: QuoteItemAvgAggregateInputType
+    _sum?: QuoteItemSumAggregateInputType
+    _min?: QuoteItemMinAggregateInputType
+    _max?: QuoteItemMaxAggregateInputType
+  }
+
+  export type QuoteItemGroupByOutputType = {
+    id: string
+    quoteId: string
+    productId: string
+    productName: string
+    productImage: string | null
+    localName: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal
+    unitType: string
+    unitPrice: Decimal
+    totalPrice: Decimal
+    weightKg: Decimal
+    createdAt: Date
+    _count: QuoteItemCountAggregateOutputType | null
+    _avg: QuoteItemAvgAggregateOutputType | null
+    _sum: QuoteItemSumAggregateOutputType | null
+    _min: QuoteItemMinAggregateOutputType | null
+    _max: QuoteItemMaxAggregateOutputType | null
+  }
+
+  type GetQuoteItemGroupByPayload<T extends QuoteItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<QuoteItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof QuoteItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], QuoteItemGroupByOutputType[P]>
+            : GetScalarType<T[P], QuoteItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type QuoteItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    quoteId?: boolean
+    productId?: boolean
+    productName?: boolean
+    productImage?: boolean
+    localName?: boolean
+    productType?: boolean
+    seafoodType?: boolean
+    quantity?: boolean
+    unitType?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    weightKg?: boolean
+    createdAt?: boolean
+    quote?: boolean | QuoteDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quoteItem"]>
+
+  export type QuoteItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    quoteId?: boolean
+    productId?: boolean
+    productName?: boolean
+    productImage?: boolean
+    localName?: boolean
+    productType?: boolean
+    seafoodType?: boolean
+    quantity?: boolean
+    unitType?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    weightKg?: boolean
+    createdAt?: boolean
+    quote?: boolean | QuoteDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quoteItem"]>
+
+  export type QuoteItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    quoteId?: boolean
+    productId?: boolean
+    productName?: boolean
+    productImage?: boolean
+    localName?: boolean
+    productType?: boolean
+    seafoodType?: boolean
+    quantity?: boolean
+    unitType?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    weightKg?: boolean
+    createdAt?: boolean
+    quote?: boolean | QuoteDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["quoteItem"]>
+
+  export type QuoteItemSelectScalar = {
+    id?: boolean
+    quoteId?: boolean
+    productId?: boolean
+    productName?: boolean
+    productImage?: boolean
+    localName?: boolean
+    productType?: boolean
+    seafoodType?: boolean
+    quantity?: boolean
+    unitType?: boolean
+    unitPrice?: boolean
+    totalPrice?: boolean
+    weightKg?: boolean
+    createdAt?: boolean
+  }
+
+  export type QuoteItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "quoteId" | "productId" | "productName" | "productImage" | "localName" | "productType" | "seafoodType" | "quantity" | "unitType" | "unitPrice" | "totalPrice" | "weightKg" | "createdAt", ExtArgs["result"]["quoteItem"]>
+  export type QuoteItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    quote?: boolean | QuoteDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type QuoteItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    quote?: boolean | QuoteDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type QuoteItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    quote?: boolean | QuoteDefaultArgs<ExtArgs>
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+
+  export type $QuoteItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "QuoteItem"
+    objects: {
+      quote: Prisma.$QuotePayload<ExtArgs>
+      product: Prisma.$ProductPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      quoteId: string
+      productId: string
+      productName: string
+      productImage: string | null
+      localName: string | null
+      productType: string
+      seafoodType: string
+      quantity: Prisma.Decimal
+      unitType: string
+      unitPrice: Prisma.Decimal
+      totalPrice: Prisma.Decimal
+      weightKg: Prisma.Decimal
+      createdAt: Date
+    }, ExtArgs["result"]["quoteItem"]>
+    composites: {}
+  }
+
+  type QuoteItemGetPayload<S extends boolean | null | undefined | QuoteItemDefaultArgs> = $Result.GetResult<Prisma.$QuoteItemPayload, S>
+
+  type QuoteItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<QuoteItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: QuoteItemCountAggregateInputType | true
+    }
+
+  export interface QuoteItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['QuoteItem'], meta: { name: 'QuoteItem' } }
+    /**
+     * Find zero or one QuoteItem that matches the filter.
+     * @param {QuoteItemFindUniqueArgs} args - Arguments to find a QuoteItem
+     * @example
+     * // Get one QuoteItem
+     * const quoteItem = await prisma.quoteItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends QuoteItemFindUniqueArgs>(args: SelectSubset<T, QuoteItemFindUniqueArgs<ExtArgs>>): Prisma__QuoteItemClient<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one QuoteItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {QuoteItemFindUniqueOrThrowArgs} args - Arguments to find a QuoteItem
+     * @example
+     * // Get one QuoteItem
+     * const quoteItem = await prisma.quoteItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends QuoteItemFindUniqueOrThrowArgs>(args: SelectSubset<T, QuoteItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__QuoteItemClient<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuoteItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteItemFindFirstArgs} args - Arguments to find a QuoteItem
+     * @example
+     * // Get one QuoteItem
+     * const quoteItem = await prisma.quoteItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends QuoteItemFindFirstArgs>(args?: SelectSubset<T, QuoteItemFindFirstArgs<ExtArgs>>): Prisma__QuoteItemClient<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first QuoteItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteItemFindFirstOrThrowArgs} args - Arguments to find a QuoteItem
+     * @example
+     * // Get one QuoteItem
+     * const quoteItem = await prisma.quoteItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends QuoteItemFindFirstOrThrowArgs>(args?: SelectSubset<T, QuoteItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__QuoteItemClient<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more QuoteItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all QuoteItems
+     * const quoteItems = await prisma.quoteItem.findMany()
+     * 
+     * // Get first 10 QuoteItems
+     * const quoteItems = await prisma.quoteItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const quoteItemWithIdOnly = await prisma.quoteItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends QuoteItemFindManyArgs>(args?: SelectSubset<T, QuoteItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a QuoteItem.
+     * @param {QuoteItemCreateArgs} args - Arguments to create a QuoteItem.
+     * @example
+     * // Create one QuoteItem
+     * const QuoteItem = await prisma.quoteItem.create({
+     *   data: {
+     *     // ... data to create a QuoteItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends QuoteItemCreateArgs>(args: SelectSubset<T, QuoteItemCreateArgs<ExtArgs>>): Prisma__QuoteItemClient<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many QuoteItems.
+     * @param {QuoteItemCreateManyArgs} args - Arguments to create many QuoteItems.
+     * @example
+     * // Create many QuoteItems
+     * const quoteItem = await prisma.quoteItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends QuoteItemCreateManyArgs>(args?: SelectSubset<T, QuoteItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many QuoteItems and returns the data saved in the database.
+     * @param {QuoteItemCreateManyAndReturnArgs} args - Arguments to create many QuoteItems.
+     * @example
+     * // Create many QuoteItems
+     * const quoteItem = await prisma.quoteItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many QuoteItems and only return the `id`
+     * const quoteItemWithIdOnly = await prisma.quoteItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends QuoteItemCreateManyAndReturnArgs>(args?: SelectSubset<T, QuoteItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a QuoteItem.
+     * @param {QuoteItemDeleteArgs} args - Arguments to delete one QuoteItem.
+     * @example
+     * // Delete one QuoteItem
+     * const QuoteItem = await prisma.quoteItem.delete({
+     *   where: {
+     *     // ... filter to delete one QuoteItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends QuoteItemDeleteArgs>(args: SelectSubset<T, QuoteItemDeleteArgs<ExtArgs>>): Prisma__QuoteItemClient<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one QuoteItem.
+     * @param {QuoteItemUpdateArgs} args - Arguments to update one QuoteItem.
+     * @example
+     * // Update one QuoteItem
+     * const quoteItem = await prisma.quoteItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends QuoteItemUpdateArgs>(args: SelectSubset<T, QuoteItemUpdateArgs<ExtArgs>>): Prisma__QuoteItemClient<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more QuoteItems.
+     * @param {QuoteItemDeleteManyArgs} args - Arguments to filter QuoteItems to delete.
+     * @example
+     * // Delete a few QuoteItems
+     * const { count } = await prisma.quoteItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends QuoteItemDeleteManyArgs>(args?: SelectSubset<T, QuoteItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuoteItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many QuoteItems
+     * const quoteItem = await prisma.quoteItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends QuoteItemUpdateManyArgs>(args: SelectSubset<T, QuoteItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more QuoteItems and returns the data updated in the database.
+     * @param {QuoteItemUpdateManyAndReturnArgs} args - Arguments to update many QuoteItems.
+     * @example
+     * // Update many QuoteItems
+     * const quoteItem = await prisma.quoteItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more QuoteItems and only return the `id`
+     * const quoteItemWithIdOnly = await prisma.quoteItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends QuoteItemUpdateManyAndReturnArgs>(args: SelectSubset<T, QuoteItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one QuoteItem.
+     * @param {QuoteItemUpsertArgs} args - Arguments to update or create a QuoteItem.
+     * @example
+     * // Update or create a QuoteItem
+     * const quoteItem = await prisma.quoteItem.upsert({
+     *   create: {
+     *     // ... data to create a QuoteItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the QuoteItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends QuoteItemUpsertArgs>(args: SelectSubset<T, QuoteItemUpsertArgs<ExtArgs>>): Prisma__QuoteItemClient<$Result.GetResult<Prisma.$QuoteItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of QuoteItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteItemCountArgs} args - Arguments to filter QuoteItems to count.
+     * @example
+     * // Count the number of QuoteItems
+     * const count = await prisma.quoteItem.count({
+     *   where: {
+     *     // ... the filter for the QuoteItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends QuoteItemCountArgs>(
+      args?: Subset<T, QuoteItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], QuoteItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a QuoteItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends QuoteItemAggregateArgs>(args: Subset<T, QuoteItemAggregateArgs>): Prisma.PrismaPromise<GetQuoteItemAggregateType<T>>
+
+    /**
+     * Group by QuoteItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {QuoteItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends QuoteItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: QuoteItemGroupByArgs['orderBy'] }
+        : { orderBy?: QuoteItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, QuoteItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetQuoteItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the QuoteItem model
+   */
+  readonly fields: QuoteItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for QuoteItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__QuoteItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    quote<T extends QuoteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, QuoteDefaultArgs<ExtArgs>>): Prisma__QuoteClient<$Result.GetResult<Prisma.$QuotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the QuoteItem model
+   */
+  interface QuoteItemFieldRefs {
+    readonly id: FieldRef<"QuoteItem", 'String'>
+    readonly quoteId: FieldRef<"QuoteItem", 'String'>
+    readonly productId: FieldRef<"QuoteItem", 'String'>
+    readonly productName: FieldRef<"QuoteItem", 'String'>
+    readonly productImage: FieldRef<"QuoteItem", 'String'>
+    readonly localName: FieldRef<"QuoteItem", 'String'>
+    readonly productType: FieldRef<"QuoteItem", 'String'>
+    readonly seafoodType: FieldRef<"QuoteItem", 'String'>
+    readonly quantity: FieldRef<"QuoteItem", 'Decimal'>
+    readonly unitType: FieldRef<"QuoteItem", 'String'>
+    readonly unitPrice: FieldRef<"QuoteItem", 'Decimal'>
+    readonly totalPrice: FieldRef<"QuoteItem", 'Decimal'>
+    readonly weightKg: FieldRef<"QuoteItem", 'Decimal'>
+    readonly createdAt: FieldRef<"QuoteItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * QuoteItem findUnique
+   */
+  export type QuoteItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QuoteItem to fetch.
+     */
+    where: QuoteItemWhereUniqueInput
+  }
+
+  /**
+   * QuoteItem findUniqueOrThrow
+   */
+  export type QuoteItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QuoteItem to fetch.
+     */
+    where: QuoteItemWhereUniqueInput
+  }
+
+  /**
+   * QuoteItem findFirst
+   */
+  export type QuoteItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QuoteItem to fetch.
+     */
+    where?: QuoteItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuoteItems to fetch.
+     */
+    orderBy?: QuoteItemOrderByWithRelationInput | QuoteItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuoteItems.
+     */
+    cursor?: QuoteItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuoteItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuoteItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuoteItems.
+     */
+    distinct?: QuoteItemScalarFieldEnum | QuoteItemScalarFieldEnum[]
+  }
+
+  /**
+   * QuoteItem findFirstOrThrow
+   */
+  export type QuoteItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QuoteItem to fetch.
+     */
+    where?: QuoteItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuoteItems to fetch.
+     */
+    orderBy?: QuoteItemOrderByWithRelationInput | QuoteItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for QuoteItems.
+     */
+    cursor?: QuoteItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuoteItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuoteItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of QuoteItems.
+     */
+    distinct?: QuoteItemScalarFieldEnum | QuoteItemScalarFieldEnum[]
+  }
+
+  /**
+   * QuoteItem findMany
+   */
+  export type QuoteItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+    /**
+     * Filter, which QuoteItems to fetch.
+     */
+    where?: QuoteItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of QuoteItems to fetch.
+     */
+    orderBy?: QuoteItemOrderByWithRelationInput | QuoteItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing QuoteItems.
+     */
+    cursor?: QuoteItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` QuoteItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` QuoteItems.
+     */
+    skip?: number
+    distinct?: QuoteItemScalarFieldEnum | QuoteItemScalarFieldEnum[]
+  }
+
+  /**
+   * QuoteItem create
+   */
+  export type QuoteItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a QuoteItem.
+     */
+    data: XOR<QuoteItemCreateInput, QuoteItemUncheckedCreateInput>
+  }
+
+  /**
+   * QuoteItem createMany
+   */
+  export type QuoteItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many QuoteItems.
+     */
+    data: QuoteItemCreateManyInput | QuoteItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * QuoteItem createManyAndReturn
+   */
+  export type QuoteItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many QuoteItems.
+     */
+    data: QuoteItemCreateManyInput | QuoteItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuoteItem update
+   */
+  export type QuoteItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a QuoteItem.
+     */
+    data: XOR<QuoteItemUpdateInput, QuoteItemUncheckedUpdateInput>
+    /**
+     * Choose, which QuoteItem to update.
+     */
+    where: QuoteItemWhereUniqueInput
+  }
+
+  /**
+   * QuoteItem updateMany
+   */
+  export type QuoteItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update QuoteItems.
+     */
+    data: XOR<QuoteItemUpdateManyMutationInput, QuoteItemUncheckedUpdateManyInput>
+    /**
+     * Filter which QuoteItems to update
+     */
+    where?: QuoteItemWhereInput
+    /**
+     * Limit how many QuoteItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuoteItem updateManyAndReturn
+   */
+  export type QuoteItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * The data used to update QuoteItems.
+     */
+    data: XOR<QuoteItemUpdateManyMutationInput, QuoteItemUncheckedUpdateManyInput>
+    /**
+     * Filter which QuoteItems to update
+     */
+    where?: QuoteItemWhereInput
+    /**
+     * Limit how many QuoteItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * QuoteItem upsert
+   */
+  export type QuoteItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the QuoteItem to update in case it exists.
+     */
+    where: QuoteItemWhereUniqueInput
+    /**
+     * In case the QuoteItem found by the `where` argument doesn't exist, create a new QuoteItem with this data.
+     */
+    create: XOR<QuoteItemCreateInput, QuoteItemUncheckedCreateInput>
+    /**
+     * In case the QuoteItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<QuoteItemUpdateInput, QuoteItemUncheckedUpdateInput>
+  }
+
+  /**
+   * QuoteItem delete
+   */
+  export type QuoteItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+    /**
+     * Filter which QuoteItem to delete.
+     */
+    where: QuoteItemWhereUniqueInput
+  }
+
+  /**
+   * QuoteItem deleteMany
+   */
+  export type QuoteItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which QuoteItems to delete
+     */
+    where?: QuoteItemWhereInput
+    /**
+     * Limit how many QuoteItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * QuoteItem without action
+   */
+  export type QuoteItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the QuoteItem
+     */
+    select?: QuoteItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the QuoteItem
+     */
+    omit?: QuoteItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuoteItemInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -21722,6 +27527,99 @@ export namespace Prisma {
   };
 
   export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
+
+
+  export const BulkOrderScalarFieldEnum: {
+    id: 'id',
+    orderNumber: 'orderNumber',
+    userId: 'userId',
+    estimatedSubtotal: 'estimatedSubtotal',
+    estimatedTotal: 'estimatedTotal',
+    estimatedWeightKg: 'estimatedWeightKg',
+    finalSubtotal: 'finalSubtotal',
+    finalShipping: 'finalShipping',
+    finalTotal: 'finalTotal',
+    preferredDeliveryDate: 'preferredDeliveryDate',
+    deliveryNotes: 'deliveryNotes',
+    contactName: 'contactName',
+    contactEmail: 'contactEmail',
+    contactPhone: 'contactPhone',
+    companyName: 'companyName',
+    shippingAddress: 'shippingAddress',
+    status: 'status',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BulkOrderScalarFieldEnum = (typeof BulkOrderScalarFieldEnum)[keyof typeof BulkOrderScalarFieldEnum]
+
+
+  export const BulkOrderItemScalarFieldEnum: {
+    id: 'id',
+    bulkOrderId: 'bulkOrderId',
+    productId: 'productId',
+    productName: 'productName',
+    productImage: 'productImage',
+    localName: 'localName',
+    productType: 'productType',
+    seafoodType: 'seafoodType',
+    quantity: 'quantity',
+    unitType: 'unitType',
+    unitPrice: 'unitPrice',
+    totalPrice: 'totalPrice',
+    weightKg: 'weightKg',
+    finalUnitPrice: 'finalUnitPrice',
+    finalTotalPrice: 'finalTotalPrice',
+    createdAt: 'createdAt'
+  };
+
+  export type BulkOrderItemScalarFieldEnum = (typeof BulkOrderItemScalarFieldEnum)[keyof typeof BulkOrderItemScalarFieldEnum]
+
+
+  export const QuoteScalarFieldEnum: {
+    id: 'id',
+    quoteNumber: 'quoteNumber',
+    userId: 'userId',
+    bulkOrderId: 'bulkOrderId',
+    subtotal: 'subtotal',
+    shippingCost: 'shippingCost',
+    discount: 'discount',
+    total: 'total',
+    totalWeightKg: 'totalWeightKg',
+    contactName: 'contactName',
+    contactEmail: 'contactEmail',
+    contactPhone: 'contactPhone',
+    companyName: 'companyName',
+    validUntil: 'validUntil',
+    status: 'status',
+    customerNotes: 'customerNotes',
+    internalNotes: 'internalNotes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type QuoteScalarFieldEnum = (typeof QuoteScalarFieldEnum)[keyof typeof QuoteScalarFieldEnum]
+
+
+  export const QuoteItemScalarFieldEnum: {
+    id: 'id',
+    quoteId: 'quoteId',
+    productId: 'productId',
+    productName: 'productName',
+    productImage: 'productImage',
+    localName: 'localName',
+    productType: 'productType',
+    seafoodType: 'seafoodType',
+    quantity: 'quantity',
+    unitType: 'unitType',
+    unitPrice: 'unitPrice',
+    totalPrice: 'totalPrice',
+    weightKg: 'weightKg',
+    createdAt: 'createdAt'
+  };
+
+  export type QuoteItemScalarFieldEnum = (typeof QuoteItemScalarFieldEnum)[keyof typeof QuoteItemScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -22023,6 +27921,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'BulkOrderStatus'
+   */
+  export type EnumBulkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BulkOrderStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'BulkOrderStatus[]'
+   */
+  export type ListEnumBulkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BulkOrderStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'QuoteStatus'
+   */
+  export type EnumQuoteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuoteStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'QuoteStatus[]'
+   */
+  export type ListEnumQuoteStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QuoteStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -22154,6 +28080,8 @@ export namespace Prisma {
     variants?: ProductVariantListRelationFilter
     orderItems?: OrderItemListRelationFilter
     cartItems?: CartItemListRelationFilter
+    bulkOrderItems?: BulkOrderItemListRelationFilter
+    quoteItems?: QuoteItemListRelationFilter
   }
 
   export type ProductOrderByWithRelationInput = {
@@ -22192,6 +28120,8 @@ export namespace Prisma {
     variants?: ProductVariantOrderByRelationAggregateInput
     orderItems?: OrderItemOrderByRelationAggregateInput
     cartItems?: CartItemOrderByRelationAggregateInput
+    bulkOrderItems?: BulkOrderItemOrderByRelationAggregateInput
+    quoteItems?: QuoteItemOrderByRelationAggregateInput
   }
 
   export type ProductWhereUniqueInput = Prisma.AtLeast<{
@@ -22233,6 +28163,8 @@ export namespace Prisma {
     variants?: ProductVariantListRelationFilter
     orderItems?: OrderItemListRelationFilter
     cartItems?: CartItemListRelationFilter
+    bulkOrderItems?: BulkOrderItemListRelationFilter
+    quoteItems?: QuoteItemListRelationFilter
   }, "id" | "sku" | "slug">
 
   export type ProductOrderByWithAggregationInput = {
@@ -23278,6 +29210,8 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     orders?: OrderListRelationFilter
+    bulkOrders?: BulkOrderListRelationFilter
+    quotes?: QuoteListRelationFilter
     merchant?: XOR<MerchantNullableScalarRelationFilter, MerchantWhereInput> | null
   }
 
@@ -23296,6 +29230,8 @@ export namespace Prisma {
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     orders?: OrderOrderByRelationAggregateInput
+    bulkOrders?: BulkOrderOrderByRelationAggregateInput
+    quotes?: QuoteOrderByRelationAggregateInput
     merchant?: MerchantOrderByWithRelationInput
   }
 
@@ -23317,6 +29253,8 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     orders?: OrderListRelationFilter
+    bulkOrders?: BulkOrderListRelationFilter
+    quotes?: QuoteListRelationFilter
     merchant?: XOR<MerchantNullableScalarRelationFilter, MerchantWhereInput> | null
   }, "id" | "email">
 
@@ -23395,6 +29333,497 @@ export namespace Prisma {
     identifier?: StringWithAggregatesFilter<"VerificationToken"> | string
     token?: StringWithAggregatesFilter<"VerificationToken"> | string
     expires?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
+  }
+
+  export type BulkOrderWhereInput = {
+    AND?: BulkOrderWhereInput | BulkOrderWhereInput[]
+    OR?: BulkOrderWhereInput[]
+    NOT?: BulkOrderWhereInput | BulkOrderWhereInput[]
+    id?: StringFilter<"BulkOrder"> | string
+    orderNumber?: StringFilter<"BulkOrder"> | string
+    userId?: StringFilter<"BulkOrder"> | string
+    estimatedSubtotal?: DecimalFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    deliveryNotes?: StringNullableFilter<"BulkOrder"> | string | null
+    contactName?: StringFilter<"BulkOrder"> | string
+    contactEmail?: StringFilter<"BulkOrder"> | string
+    contactPhone?: StringFilter<"BulkOrder"> | string
+    companyName?: StringNullableFilter<"BulkOrder"> | string | null
+    shippingAddress?: JsonNullableFilter<"BulkOrder">
+    status?: EnumBulkOrderStatusFilter<"BulkOrder"> | $Enums.BulkOrderStatus
+    notes?: StringNullableFilter<"BulkOrder"> | string | null
+    createdAt?: DateTimeFilter<"BulkOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"BulkOrder"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    items?: BulkOrderItemListRelationFilter
+    quote?: XOR<QuoteNullableScalarRelationFilter, QuoteWhereInput> | null
+  }
+
+  export type BulkOrderOrderByWithRelationInput = {
+    id?: SortOrder
+    orderNumber?: SortOrder
+    userId?: SortOrder
+    estimatedSubtotal?: SortOrder
+    estimatedTotal?: SortOrder
+    estimatedWeightKg?: SortOrder
+    finalSubtotal?: SortOrderInput | SortOrder
+    finalShipping?: SortOrderInput | SortOrder
+    finalTotal?: SortOrderInput | SortOrder
+    preferredDeliveryDate?: SortOrderInput | SortOrder
+    deliveryNotes?: SortOrderInput | SortOrder
+    contactName?: SortOrder
+    contactEmail?: SortOrder
+    contactPhone?: SortOrder
+    companyName?: SortOrderInput | SortOrder
+    shippingAddress?: SortOrderInput | SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    items?: BulkOrderItemOrderByRelationAggregateInput
+    quote?: QuoteOrderByWithRelationInput
+  }
+
+  export type BulkOrderWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    orderNumber?: string
+    AND?: BulkOrderWhereInput | BulkOrderWhereInput[]
+    OR?: BulkOrderWhereInput[]
+    NOT?: BulkOrderWhereInput | BulkOrderWhereInput[]
+    userId?: StringFilter<"BulkOrder"> | string
+    estimatedSubtotal?: DecimalFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    deliveryNotes?: StringNullableFilter<"BulkOrder"> | string | null
+    contactName?: StringFilter<"BulkOrder"> | string
+    contactEmail?: StringFilter<"BulkOrder"> | string
+    contactPhone?: StringFilter<"BulkOrder"> | string
+    companyName?: StringNullableFilter<"BulkOrder"> | string | null
+    shippingAddress?: JsonNullableFilter<"BulkOrder">
+    status?: EnumBulkOrderStatusFilter<"BulkOrder"> | $Enums.BulkOrderStatus
+    notes?: StringNullableFilter<"BulkOrder"> | string | null
+    createdAt?: DateTimeFilter<"BulkOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"BulkOrder"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    items?: BulkOrderItemListRelationFilter
+    quote?: XOR<QuoteNullableScalarRelationFilter, QuoteWhereInput> | null
+  }, "id" | "orderNumber">
+
+  export type BulkOrderOrderByWithAggregationInput = {
+    id?: SortOrder
+    orderNumber?: SortOrder
+    userId?: SortOrder
+    estimatedSubtotal?: SortOrder
+    estimatedTotal?: SortOrder
+    estimatedWeightKg?: SortOrder
+    finalSubtotal?: SortOrderInput | SortOrder
+    finalShipping?: SortOrderInput | SortOrder
+    finalTotal?: SortOrderInput | SortOrder
+    preferredDeliveryDate?: SortOrderInput | SortOrder
+    deliveryNotes?: SortOrderInput | SortOrder
+    contactName?: SortOrder
+    contactEmail?: SortOrder
+    contactPhone?: SortOrder
+    companyName?: SortOrderInput | SortOrder
+    shippingAddress?: SortOrderInput | SortOrder
+    status?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BulkOrderCountOrderByAggregateInput
+    _avg?: BulkOrderAvgOrderByAggregateInput
+    _max?: BulkOrderMaxOrderByAggregateInput
+    _min?: BulkOrderMinOrderByAggregateInput
+    _sum?: BulkOrderSumOrderByAggregateInput
+  }
+
+  export type BulkOrderScalarWhereWithAggregatesInput = {
+    AND?: BulkOrderScalarWhereWithAggregatesInput | BulkOrderScalarWhereWithAggregatesInput[]
+    OR?: BulkOrderScalarWhereWithAggregatesInput[]
+    NOT?: BulkOrderScalarWhereWithAggregatesInput | BulkOrderScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BulkOrder"> | string
+    orderNumber?: StringWithAggregatesFilter<"BulkOrder"> | string
+    userId?: StringWithAggregatesFilter<"BulkOrder"> | string
+    estimatedSubtotal?: DecimalWithAggregatesFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalWithAggregatesFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalWithAggregatesFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: DecimalNullableWithAggregatesFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: DecimalNullableWithAggregatesFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: DecimalNullableWithAggregatesFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    deliveryNotes?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    contactName?: StringWithAggregatesFilter<"BulkOrder"> | string
+    contactEmail?: StringWithAggregatesFilter<"BulkOrder"> | string
+    contactPhone?: StringWithAggregatesFilter<"BulkOrder"> | string
+    companyName?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    shippingAddress?: JsonNullableWithAggregatesFilter<"BulkOrder">
+    status?: EnumBulkOrderStatusWithAggregatesFilter<"BulkOrder"> | $Enums.BulkOrderStatus
+    notes?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BulkOrder"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BulkOrder"> | Date | string
+  }
+
+  export type BulkOrderItemWhereInput = {
+    AND?: BulkOrderItemWhereInput | BulkOrderItemWhereInput[]
+    OR?: BulkOrderItemWhereInput[]
+    NOT?: BulkOrderItemWhereInput | BulkOrderItemWhereInput[]
+    id?: StringFilter<"BulkOrderItem"> | string
+    bulkOrderId?: StringFilter<"BulkOrderItem"> | string
+    productId?: StringFilter<"BulkOrderItem"> | string
+    productName?: StringFilter<"BulkOrderItem"> | string
+    productImage?: StringNullableFilter<"BulkOrderItem"> | string | null
+    localName?: StringNullableFilter<"BulkOrderItem"> | string | null
+    productType?: StringFilter<"BulkOrderItem"> | string
+    seafoodType?: StringFilter<"BulkOrderItem"> | string
+    quantity?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    unitType?: StringFilter<"BulkOrderItem"> | string
+    unitPrice?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: DecimalNullableFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: DecimalNullableFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFilter<"BulkOrderItem"> | Date | string
+    bulkOrder?: XOR<BulkOrderScalarRelationFilter, BulkOrderWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }
+
+  export type BulkOrderItemOrderByWithRelationInput = {
+    id?: SortOrder
+    bulkOrderId?: SortOrder
+    productId?: SortOrder
+    productName?: SortOrder
+    productImage?: SortOrderInput | SortOrder
+    localName?: SortOrderInput | SortOrder
+    productType?: SortOrder
+    seafoodType?: SortOrder
+    quantity?: SortOrder
+    unitType?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    finalUnitPrice?: SortOrderInput | SortOrder
+    finalTotalPrice?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    bulkOrder?: BulkOrderOrderByWithRelationInput
+    product?: ProductOrderByWithRelationInput
+  }
+
+  export type BulkOrderItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: BulkOrderItemWhereInput | BulkOrderItemWhereInput[]
+    OR?: BulkOrderItemWhereInput[]
+    NOT?: BulkOrderItemWhereInput | BulkOrderItemWhereInput[]
+    bulkOrderId?: StringFilter<"BulkOrderItem"> | string
+    productId?: StringFilter<"BulkOrderItem"> | string
+    productName?: StringFilter<"BulkOrderItem"> | string
+    productImage?: StringNullableFilter<"BulkOrderItem"> | string | null
+    localName?: StringNullableFilter<"BulkOrderItem"> | string | null
+    productType?: StringFilter<"BulkOrderItem"> | string
+    seafoodType?: StringFilter<"BulkOrderItem"> | string
+    quantity?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    unitType?: StringFilter<"BulkOrderItem"> | string
+    unitPrice?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: DecimalNullableFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: DecimalNullableFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFilter<"BulkOrderItem"> | Date | string
+    bulkOrder?: XOR<BulkOrderScalarRelationFilter, BulkOrderWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }, "id">
+
+  export type BulkOrderItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    bulkOrderId?: SortOrder
+    productId?: SortOrder
+    productName?: SortOrder
+    productImage?: SortOrderInput | SortOrder
+    localName?: SortOrderInput | SortOrder
+    productType?: SortOrder
+    seafoodType?: SortOrder
+    quantity?: SortOrder
+    unitType?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    finalUnitPrice?: SortOrderInput | SortOrder
+    finalTotalPrice?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: BulkOrderItemCountOrderByAggregateInput
+    _avg?: BulkOrderItemAvgOrderByAggregateInput
+    _max?: BulkOrderItemMaxOrderByAggregateInput
+    _min?: BulkOrderItemMinOrderByAggregateInput
+    _sum?: BulkOrderItemSumOrderByAggregateInput
+  }
+
+  export type BulkOrderItemScalarWhereWithAggregatesInput = {
+    AND?: BulkOrderItemScalarWhereWithAggregatesInput | BulkOrderItemScalarWhereWithAggregatesInput[]
+    OR?: BulkOrderItemScalarWhereWithAggregatesInput[]
+    NOT?: BulkOrderItemScalarWhereWithAggregatesInput | BulkOrderItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BulkOrderItem"> | string
+    bulkOrderId?: StringWithAggregatesFilter<"BulkOrderItem"> | string
+    productId?: StringWithAggregatesFilter<"BulkOrderItem"> | string
+    productName?: StringWithAggregatesFilter<"BulkOrderItem"> | string
+    productImage?: StringNullableWithAggregatesFilter<"BulkOrderItem"> | string | null
+    localName?: StringNullableWithAggregatesFilter<"BulkOrderItem"> | string | null
+    productType?: StringWithAggregatesFilter<"BulkOrderItem"> | string
+    seafoodType?: StringWithAggregatesFilter<"BulkOrderItem"> | string
+    quantity?: DecimalWithAggregatesFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    unitType?: StringWithAggregatesFilter<"BulkOrderItem"> | string
+    unitPrice?: DecimalWithAggregatesFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalWithAggregatesFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalWithAggregatesFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: DecimalNullableWithAggregatesFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: DecimalNullableWithAggregatesFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BulkOrderItem"> | Date | string
+  }
+
+  export type QuoteWhereInput = {
+    AND?: QuoteWhereInput | QuoteWhereInput[]
+    OR?: QuoteWhereInput[]
+    NOT?: QuoteWhereInput | QuoteWhereInput[]
+    id?: StringFilter<"Quote"> | string
+    quoteNumber?: StringFilter<"Quote"> | string
+    userId?: StringFilter<"Quote"> | string
+    bulkOrderId?: StringNullableFilter<"Quote"> | string | null
+    subtotal?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    shippingCost?: DecimalNullableFilter<"Quote"> | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    total?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    contactName?: StringFilter<"Quote"> | string
+    contactEmail?: StringFilter<"Quote"> | string
+    contactPhone?: StringFilter<"Quote"> | string
+    companyName?: StringNullableFilter<"Quote"> | string | null
+    validUntil?: DateTimeFilter<"Quote"> | Date | string
+    status?: EnumQuoteStatusFilter<"Quote"> | $Enums.QuoteStatus
+    customerNotes?: StringNullableFilter<"Quote"> | string | null
+    internalNotes?: StringNullableFilter<"Quote"> | string | null
+    createdAt?: DateTimeFilter<"Quote"> | Date | string
+    updatedAt?: DateTimeFilter<"Quote"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    bulkOrder?: XOR<BulkOrderNullableScalarRelationFilter, BulkOrderWhereInput> | null
+    items?: QuoteItemListRelationFilter
+  }
+
+  export type QuoteOrderByWithRelationInput = {
+    id?: SortOrder
+    quoteNumber?: SortOrder
+    userId?: SortOrder
+    bulkOrderId?: SortOrderInput | SortOrder
+    subtotal?: SortOrder
+    shippingCost?: SortOrderInput | SortOrder
+    discount?: SortOrder
+    total?: SortOrder
+    totalWeightKg?: SortOrder
+    contactName?: SortOrder
+    contactEmail?: SortOrder
+    contactPhone?: SortOrder
+    companyName?: SortOrderInput | SortOrder
+    validUntil?: SortOrder
+    status?: SortOrder
+    customerNotes?: SortOrderInput | SortOrder
+    internalNotes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    bulkOrder?: BulkOrderOrderByWithRelationInput
+    items?: QuoteItemOrderByRelationAggregateInput
+  }
+
+  export type QuoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    quoteNumber?: string
+    bulkOrderId?: string
+    AND?: QuoteWhereInput | QuoteWhereInput[]
+    OR?: QuoteWhereInput[]
+    NOT?: QuoteWhereInput | QuoteWhereInput[]
+    userId?: StringFilter<"Quote"> | string
+    subtotal?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    shippingCost?: DecimalNullableFilter<"Quote"> | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    total?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    contactName?: StringFilter<"Quote"> | string
+    contactEmail?: StringFilter<"Quote"> | string
+    contactPhone?: StringFilter<"Quote"> | string
+    companyName?: StringNullableFilter<"Quote"> | string | null
+    validUntil?: DateTimeFilter<"Quote"> | Date | string
+    status?: EnumQuoteStatusFilter<"Quote"> | $Enums.QuoteStatus
+    customerNotes?: StringNullableFilter<"Quote"> | string | null
+    internalNotes?: StringNullableFilter<"Quote"> | string | null
+    createdAt?: DateTimeFilter<"Quote"> | Date | string
+    updatedAt?: DateTimeFilter<"Quote"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    bulkOrder?: XOR<BulkOrderNullableScalarRelationFilter, BulkOrderWhereInput> | null
+    items?: QuoteItemListRelationFilter
+  }, "id" | "quoteNumber" | "bulkOrderId">
+
+  export type QuoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    quoteNumber?: SortOrder
+    userId?: SortOrder
+    bulkOrderId?: SortOrderInput | SortOrder
+    subtotal?: SortOrder
+    shippingCost?: SortOrderInput | SortOrder
+    discount?: SortOrder
+    total?: SortOrder
+    totalWeightKg?: SortOrder
+    contactName?: SortOrder
+    contactEmail?: SortOrder
+    contactPhone?: SortOrder
+    companyName?: SortOrderInput | SortOrder
+    validUntil?: SortOrder
+    status?: SortOrder
+    customerNotes?: SortOrderInput | SortOrder
+    internalNotes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: QuoteCountOrderByAggregateInput
+    _avg?: QuoteAvgOrderByAggregateInput
+    _max?: QuoteMaxOrderByAggregateInput
+    _min?: QuoteMinOrderByAggregateInput
+    _sum?: QuoteSumOrderByAggregateInput
+  }
+
+  export type QuoteScalarWhereWithAggregatesInput = {
+    AND?: QuoteScalarWhereWithAggregatesInput | QuoteScalarWhereWithAggregatesInput[]
+    OR?: QuoteScalarWhereWithAggregatesInput[]
+    NOT?: QuoteScalarWhereWithAggregatesInput | QuoteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Quote"> | string
+    quoteNumber?: StringWithAggregatesFilter<"Quote"> | string
+    userId?: StringWithAggregatesFilter<"Quote"> | string
+    bulkOrderId?: StringNullableWithAggregatesFilter<"Quote"> | string | null
+    subtotal?: DecimalWithAggregatesFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    shippingCost?: DecimalNullableWithAggregatesFilter<"Quote"> | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalWithAggregatesFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    total?: DecimalWithAggregatesFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalWithAggregatesFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    contactName?: StringWithAggregatesFilter<"Quote"> | string
+    contactEmail?: StringWithAggregatesFilter<"Quote"> | string
+    contactPhone?: StringWithAggregatesFilter<"Quote"> | string
+    companyName?: StringNullableWithAggregatesFilter<"Quote"> | string | null
+    validUntil?: DateTimeWithAggregatesFilter<"Quote"> | Date | string
+    status?: EnumQuoteStatusWithAggregatesFilter<"Quote"> | $Enums.QuoteStatus
+    customerNotes?: StringNullableWithAggregatesFilter<"Quote"> | string | null
+    internalNotes?: StringNullableWithAggregatesFilter<"Quote"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Quote"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Quote"> | Date | string
+  }
+
+  export type QuoteItemWhereInput = {
+    AND?: QuoteItemWhereInput | QuoteItemWhereInput[]
+    OR?: QuoteItemWhereInput[]
+    NOT?: QuoteItemWhereInput | QuoteItemWhereInput[]
+    id?: StringFilter<"QuoteItem"> | string
+    quoteId?: StringFilter<"QuoteItem"> | string
+    productId?: StringFilter<"QuoteItem"> | string
+    productName?: StringFilter<"QuoteItem"> | string
+    productImage?: StringNullableFilter<"QuoteItem"> | string | null
+    localName?: StringNullableFilter<"QuoteItem"> | string | null
+    productType?: StringFilter<"QuoteItem"> | string
+    seafoodType?: StringFilter<"QuoteItem"> | string
+    quantity?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    unitType?: StringFilter<"QuoteItem"> | string
+    unitPrice?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"QuoteItem"> | Date | string
+    quote?: XOR<QuoteScalarRelationFilter, QuoteWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }
+
+  export type QuoteItemOrderByWithRelationInput = {
+    id?: SortOrder
+    quoteId?: SortOrder
+    productId?: SortOrder
+    productName?: SortOrder
+    productImage?: SortOrderInput | SortOrder
+    localName?: SortOrderInput | SortOrder
+    productType?: SortOrder
+    seafoodType?: SortOrder
+    quantity?: SortOrder
+    unitType?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    createdAt?: SortOrder
+    quote?: QuoteOrderByWithRelationInput
+    product?: ProductOrderByWithRelationInput
+  }
+
+  export type QuoteItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: QuoteItemWhereInput | QuoteItemWhereInput[]
+    OR?: QuoteItemWhereInput[]
+    NOT?: QuoteItemWhereInput | QuoteItemWhereInput[]
+    quoteId?: StringFilter<"QuoteItem"> | string
+    productId?: StringFilter<"QuoteItem"> | string
+    productName?: StringFilter<"QuoteItem"> | string
+    productImage?: StringNullableFilter<"QuoteItem"> | string | null
+    localName?: StringNullableFilter<"QuoteItem"> | string | null
+    productType?: StringFilter<"QuoteItem"> | string
+    seafoodType?: StringFilter<"QuoteItem"> | string
+    quantity?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    unitType?: StringFilter<"QuoteItem"> | string
+    unitPrice?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"QuoteItem"> | Date | string
+    quote?: XOR<QuoteScalarRelationFilter, QuoteWhereInput>
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }, "id">
+
+  export type QuoteItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    quoteId?: SortOrder
+    productId?: SortOrder
+    productName?: SortOrder
+    productImage?: SortOrderInput | SortOrder
+    localName?: SortOrderInput | SortOrder
+    productType?: SortOrder
+    seafoodType?: SortOrder
+    quantity?: SortOrder
+    unitType?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    createdAt?: SortOrder
+    _count?: QuoteItemCountOrderByAggregateInput
+    _avg?: QuoteItemAvgOrderByAggregateInput
+    _max?: QuoteItemMaxOrderByAggregateInput
+    _min?: QuoteItemMinOrderByAggregateInput
+    _sum?: QuoteItemSumOrderByAggregateInput
+  }
+
+  export type QuoteItemScalarWhereWithAggregatesInput = {
+    AND?: QuoteItemScalarWhereWithAggregatesInput | QuoteItemScalarWhereWithAggregatesInput[]
+    OR?: QuoteItemScalarWhereWithAggregatesInput[]
+    NOT?: QuoteItemScalarWhereWithAggregatesInput | QuoteItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"QuoteItem"> | string
+    quoteId?: StringWithAggregatesFilter<"QuoteItem"> | string
+    productId?: StringWithAggregatesFilter<"QuoteItem"> | string
+    productName?: StringWithAggregatesFilter<"QuoteItem"> | string
+    productImage?: StringNullableWithAggregatesFilter<"QuoteItem"> | string | null
+    localName?: StringNullableWithAggregatesFilter<"QuoteItem"> | string | null
+    productType?: StringWithAggregatesFilter<"QuoteItem"> | string
+    seafoodType?: StringWithAggregatesFilter<"QuoteItem"> | string
+    quantity?: DecimalWithAggregatesFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    unitType?: StringWithAggregatesFilter<"QuoteItem"> | string
+    unitPrice?: DecimalWithAggregatesFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalWithAggregatesFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalWithAggregatesFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeWithAggregatesFilter<"QuoteItem"> | Date | string
   }
 
   export type CategoryCreateInput = {
@@ -23515,6 +29944,8 @@ export namespace Prisma {
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     cartItems?: CartItemCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateInput = {
@@ -23551,6 +29982,8 @@ export namespace Prisma {
     variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     cartItems?: CartItemUncheckedCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemUncheckedCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductUpdateInput = {
@@ -23587,6 +30020,8 @@ export namespace Prisma {
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateInput = {
@@ -23623,6 +30058,8 @@ export namespace Prisma {
     variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUncheckedUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUncheckedUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateManyInput = {
@@ -24778,6 +31215,8 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderCreateNestedManyWithoutUserInput
+    quotes?: QuoteCreateNestedManyWithoutUserInput
     merchant?: MerchantCreateNestedOneWithoutUserInput
   }
 
@@ -24796,6 +31235,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderUncheckedCreateNestedManyWithoutUserInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutUserInput
     merchant?: MerchantUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -24814,6 +31255,8 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUpdateManyWithoutUserNestedInput
     merchant?: MerchantUpdateOneWithoutUserNestedInput
   }
 
@@ -24832,6 +31275,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUncheckedUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutUserNestedInput
     merchant?: MerchantUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -24917,6 +31362,578 @@ export namespace Prisma {
     identifier?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BulkOrderCreateInput = {
+    id?: string
+    orderNumber?: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutBulkOrdersInput
+    items?: BulkOrderItemCreateNestedManyWithoutBulkOrderInput
+    quote?: QuoteCreateNestedOneWithoutBulkOrderInput
+  }
+
+  export type BulkOrderUncheckedCreateInput = {
+    id?: string
+    orderNumber?: string
+    userId: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: BulkOrderItemUncheckedCreateNestedManyWithoutBulkOrderInput
+    quote?: QuoteUncheckedCreateNestedOneWithoutBulkOrderInput
+  }
+
+  export type BulkOrderUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBulkOrdersNestedInput
+    items?: BulkOrderItemUpdateManyWithoutBulkOrderNestedInput
+    quote?: QuoteUpdateOneWithoutBulkOrderNestedInput
+  }
+
+  export type BulkOrderUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: BulkOrderItemUncheckedUpdateManyWithoutBulkOrderNestedInput
+    quote?: QuoteUncheckedUpdateOneWithoutBulkOrderNestedInput
+  }
+
+  export type BulkOrderCreateManyInput = {
+    id?: string
+    orderNumber?: string
+    userId: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BulkOrderUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BulkOrderUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BulkOrderItemCreateInput = {
+    id?: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    bulkOrder: BulkOrderCreateNestedOneWithoutItemsInput
+    product: ProductCreateNestedOneWithoutBulkOrderItemsInput
+  }
+
+  export type BulkOrderItemUncheckedCreateInput = {
+    id?: string
+    bulkOrderId: string
+    productId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+  }
+
+  export type BulkOrderItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bulkOrder?: BulkOrderUpdateOneRequiredWithoutItemsNestedInput
+    product?: ProductUpdateOneRequiredWithoutBulkOrderItemsNestedInput
+  }
+
+  export type BulkOrderItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bulkOrderId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BulkOrderItemCreateManyInput = {
+    id?: string
+    bulkOrderId: string
+    productId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+  }
+
+  export type BulkOrderItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BulkOrderItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bulkOrderId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuoteCreateInput = {
+    id?: string
+    quoteNumber?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string | null
+    discount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    totalWeightKg: Decimal | DecimalJsLike | number | string
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    validUntil: Date | string
+    status?: $Enums.QuoteStatus
+    customerNotes?: string | null
+    internalNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutQuotesInput
+    bulkOrder?: BulkOrderCreateNestedOneWithoutQuoteInput
+    items?: QuoteItemCreateNestedManyWithoutQuoteInput
+  }
+
+  export type QuoteUncheckedCreateInput = {
+    id?: string
+    quoteNumber?: string
+    userId: string
+    bulkOrderId?: string | null
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string | null
+    discount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    totalWeightKg: Decimal | DecimalJsLike | number | string
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    validUntil: Date | string
+    status?: $Enums.QuoteStatus
+    customerNotes?: string | null
+    internalNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: QuoteItemUncheckedCreateNestedManyWithoutQuoteInput
+  }
+
+  export type QuoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteNumber?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    customerNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutQuotesNestedInput
+    bulkOrder?: BulkOrderUpdateOneWithoutQuoteNestedInput
+    items?: QuoteItemUpdateManyWithoutQuoteNestedInput
+  }
+
+  export type QuoteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteNumber?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bulkOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    customerNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: QuoteItemUncheckedUpdateManyWithoutQuoteNestedInput
+  }
+
+  export type QuoteCreateManyInput = {
+    id?: string
+    quoteNumber?: string
+    userId: string
+    bulkOrderId?: string | null
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string | null
+    discount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    totalWeightKg: Decimal | DecimalJsLike | number | string
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    validUntil: Date | string
+    status?: $Enums.QuoteStatus
+    customerNotes?: string | null
+    internalNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteNumber?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    customerNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuoteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteNumber?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bulkOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    customerNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuoteItemCreateInput = {
+    id?: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    quote: QuoteCreateNestedOneWithoutItemsInput
+    product: ProductCreateNestedOneWithoutQuoteItemsInput
+  }
+
+  export type QuoteItemUncheckedCreateInput = {
+    id?: string
+    quoteId: string
+    productId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type QuoteItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quote?: QuoteUpdateOneRequiredWithoutItemsNestedInput
+    product?: ProductUpdateOneRequiredWithoutQuoteItemsNestedInput
+  }
+
+  export type QuoteItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuoteItemCreateManyInput = {
+    id?: string
+    quoteId: string
+    productId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type QuoteItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuoteItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteId?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -25192,6 +32209,18 @@ export namespace Prisma {
     none?: CartItemWhereInput
   }
 
+  export type BulkOrderItemListRelationFilter = {
+    every?: BulkOrderItemWhereInput
+    some?: BulkOrderItemWhereInput
+    none?: BulkOrderItemWhereInput
+  }
+
+  export type QuoteItemListRelationFilter = {
+    every?: QuoteItemWhereInput
+    some?: QuoteItemWhereInput
+    none?: QuoteItemWhereInput
+  }
+
   export type ProductImageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -25205,6 +32234,14 @@ export namespace Prisma {
   }
 
   export type CartItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BulkOrderItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QuoteItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -26277,6 +33314,18 @@ export namespace Prisma {
     none?: OrderWhereInput
   }
 
+  export type BulkOrderListRelationFilter = {
+    every?: BulkOrderWhereInput
+    some?: BulkOrderWhereInput
+    none?: BulkOrderWhereInput
+  }
+
+  export type QuoteListRelationFilter = {
+    every?: QuoteWhereInput
+    some?: QuoteWhereInput
+    none?: QuoteWhereInput
+  }
+
   export type AccountOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -26286,6 +33335,14 @@ export namespace Prisma {
   }
 
   export type OrderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BulkOrderOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type QuoteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -26386,6 +33443,367 @@ export namespace Prisma {
     identifier?: SortOrder
     token?: SortOrder
     expires?: SortOrder
+  }
+
+  export type EnumBulkOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BulkOrderStatus | EnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BulkOrderStatus[] | ListEnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BulkOrderStatus[] | ListEnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBulkOrderStatusFilter<$PrismaModel> | $Enums.BulkOrderStatus
+  }
+
+  export type QuoteNullableScalarRelationFilter = {
+    is?: QuoteWhereInput | null
+    isNot?: QuoteWhereInput | null
+  }
+
+  export type BulkOrderCountOrderByAggregateInput = {
+    id?: SortOrder
+    orderNumber?: SortOrder
+    userId?: SortOrder
+    estimatedSubtotal?: SortOrder
+    estimatedTotal?: SortOrder
+    estimatedWeightKg?: SortOrder
+    finalSubtotal?: SortOrder
+    finalShipping?: SortOrder
+    finalTotal?: SortOrder
+    preferredDeliveryDate?: SortOrder
+    deliveryNotes?: SortOrder
+    contactName?: SortOrder
+    contactEmail?: SortOrder
+    contactPhone?: SortOrder
+    companyName?: SortOrder
+    shippingAddress?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BulkOrderAvgOrderByAggregateInput = {
+    estimatedSubtotal?: SortOrder
+    estimatedTotal?: SortOrder
+    estimatedWeightKg?: SortOrder
+    finalSubtotal?: SortOrder
+    finalShipping?: SortOrder
+    finalTotal?: SortOrder
+  }
+
+  export type BulkOrderMaxOrderByAggregateInput = {
+    id?: SortOrder
+    orderNumber?: SortOrder
+    userId?: SortOrder
+    estimatedSubtotal?: SortOrder
+    estimatedTotal?: SortOrder
+    estimatedWeightKg?: SortOrder
+    finalSubtotal?: SortOrder
+    finalShipping?: SortOrder
+    finalTotal?: SortOrder
+    preferredDeliveryDate?: SortOrder
+    deliveryNotes?: SortOrder
+    contactName?: SortOrder
+    contactEmail?: SortOrder
+    contactPhone?: SortOrder
+    companyName?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BulkOrderMinOrderByAggregateInput = {
+    id?: SortOrder
+    orderNumber?: SortOrder
+    userId?: SortOrder
+    estimatedSubtotal?: SortOrder
+    estimatedTotal?: SortOrder
+    estimatedWeightKg?: SortOrder
+    finalSubtotal?: SortOrder
+    finalShipping?: SortOrder
+    finalTotal?: SortOrder
+    preferredDeliveryDate?: SortOrder
+    deliveryNotes?: SortOrder
+    contactName?: SortOrder
+    contactEmail?: SortOrder
+    contactPhone?: SortOrder
+    companyName?: SortOrder
+    status?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BulkOrderSumOrderByAggregateInput = {
+    estimatedSubtotal?: SortOrder
+    estimatedTotal?: SortOrder
+    estimatedWeightKg?: SortOrder
+    finalSubtotal?: SortOrder
+    finalShipping?: SortOrder
+    finalTotal?: SortOrder
+  }
+
+  export type EnumBulkOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BulkOrderStatus | EnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BulkOrderStatus[] | ListEnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BulkOrderStatus[] | ListEnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBulkOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.BulkOrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBulkOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumBulkOrderStatusFilter<$PrismaModel>
+  }
+
+  export type BulkOrderScalarRelationFilter = {
+    is?: BulkOrderWhereInput
+    isNot?: BulkOrderWhereInput
+  }
+
+  export type BulkOrderItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    bulkOrderId?: SortOrder
+    productId?: SortOrder
+    productName?: SortOrder
+    productImage?: SortOrder
+    localName?: SortOrder
+    productType?: SortOrder
+    seafoodType?: SortOrder
+    quantity?: SortOrder
+    unitType?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    finalUnitPrice?: SortOrder
+    finalTotalPrice?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BulkOrderItemAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    finalUnitPrice?: SortOrder
+    finalTotalPrice?: SortOrder
+  }
+
+  export type BulkOrderItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    bulkOrderId?: SortOrder
+    productId?: SortOrder
+    productName?: SortOrder
+    productImage?: SortOrder
+    localName?: SortOrder
+    productType?: SortOrder
+    seafoodType?: SortOrder
+    quantity?: SortOrder
+    unitType?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    finalUnitPrice?: SortOrder
+    finalTotalPrice?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BulkOrderItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    bulkOrderId?: SortOrder
+    productId?: SortOrder
+    productName?: SortOrder
+    productImage?: SortOrder
+    localName?: SortOrder
+    productType?: SortOrder
+    seafoodType?: SortOrder
+    quantity?: SortOrder
+    unitType?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    finalUnitPrice?: SortOrder
+    finalTotalPrice?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BulkOrderItemSumOrderByAggregateInput = {
+    quantity?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    finalUnitPrice?: SortOrder
+    finalTotalPrice?: SortOrder
+  }
+
+  export type EnumQuoteStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuoteStatus | EnumQuoteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuoteStatusFilter<$PrismaModel> | $Enums.QuoteStatus
+  }
+
+  export type BulkOrderNullableScalarRelationFilter = {
+    is?: BulkOrderWhereInput | null
+    isNot?: BulkOrderWhereInput | null
+  }
+
+  export type QuoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    quoteNumber?: SortOrder
+    userId?: SortOrder
+    bulkOrderId?: SortOrder
+    subtotal?: SortOrder
+    shippingCost?: SortOrder
+    discount?: SortOrder
+    total?: SortOrder
+    totalWeightKg?: SortOrder
+    contactName?: SortOrder
+    contactEmail?: SortOrder
+    contactPhone?: SortOrder
+    companyName?: SortOrder
+    validUntil?: SortOrder
+    status?: SortOrder
+    customerNotes?: SortOrder
+    internalNotes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuoteAvgOrderByAggregateInput = {
+    subtotal?: SortOrder
+    shippingCost?: SortOrder
+    discount?: SortOrder
+    total?: SortOrder
+    totalWeightKg?: SortOrder
+  }
+
+  export type QuoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    quoteNumber?: SortOrder
+    userId?: SortOrder
+    bulkOrderId?: SortOrder
+    subtotal?: SortOrder
+    shippingCost?: SortOrder
+    discount?: SortOrder
+    total?: SortOrder
+    totalWeightKg?: SortOrder
+    contactName?: SortOrder
+    contactEmail?: SortOrder
+    contactPhone?: SortOrder
+    companyName?: SortOrder
+    validUntil?: SortOrder
+    status?: SortOrder
+    customerNotes?: SortOrder
+    internalNotes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    quoteNumber?: SortOrder
+    userId?: SortOrder
+    bulkOrderId?: SortOrder
+    subtotal?: SortOrder
+    shippingCost?: SortOrder
+    discount?: SortOrder
+    total?: SortOrder
+    totalWeightKg?: SortOrder
+    contactName?: SortOrder
+    contactEmail?: SortOrder
+    contactPhone?: SortOrder
+    companyName?: SortOrder
+    validUntil?: SortOrder
+    status?: SortOrder
+    customerNotes?: SortOrder
+    internalNotes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuoteSumOrderByAggregateInput = {
+    subtotal?: SortOrder
+    shippingCost?: SortOrder
+    discount?: SortOrder
+    total?: SortOrder
+    totalWeightKg?: SortOrder
+  }
+
+  export type EnumQuoteStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuoteStatus | EnumQuoteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuoteStatusWithAggregatesFilter<$PrismaModel> | $Enums.QuoteStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuoteStatusFilter<$PrismaModel>
+    _max?: NestedEnumQuoteStatusFilter<$PrismaModel>
+  }
+
+  export type QuoteScalarRelationFilter = {
+    is?: QuoteWhereInput
+    isNot?: QuoteWhereInput
+  }
+
+  export type QuoteItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    quoteId?: SortOrder
+    productId?: SortOrder
+    productName?: SortOrder
+    productImage?: SortOrder
+    localName?: SortOrder
+    productType?: SortOrder
+    seafoodType?: SortOrder
+    quantity?: SortOrder
+    unitType?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type QuoteItemAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+  }
+
+  export type QuoteItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    quoteId?: SortOrder
+    productId?: SortOrder
+    productName?: SortOrder
+    productImage?: SortOrder
+    localName?: SortOrder
+    productType?: SortOrder
+    seafoodType?: SortOrder
+    quantity?: SortOrder
+    unitType?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type QuoteItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    quoteId?: SortOrder
+    productId?: SortOrder
+    productName?: SortOrder
+    productImage?: SortOrder
+    localName?: SortOrder
+    productType?: SortOrder
+    seafoodType?: SortOrder
+    quantity?: SortOrder
+    unitType?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type QuoteItemSumOrderByAggregateInput = {
+    quantity?: SortOrder
+    unitPrice?: SortOrder
+    totalPrice?: SortOrder
+    weightKg?: SortOrder
   }
 
   export type CategoryCreateNestedOneWithoutChildrenInput = {
@@ -26544,6 +33962,20 @@ export namespace Prisma {
     connect?: CartItemWhereUniqueInput | CartItemWhereUniqueInput[]
   }
 
+  export type BulkOrderItemCreateNestedManyWithoutProductInput = {
+    create?: XOR<BulkOrderItemCreateWithoutProductInput, BulkOrderItemUncheckedCreateWithoutProductInput> | BulkOrderItemCreateWithoutProductInput[] | BulkOrderItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: BulkOrderItemCreateOrConnectWithoutProductInput | BulkOrderItemCreateOrConnectWithoutProductInput[]
+    createMany?: BulkOrderItemCreateManyProductInputEnvelope
+    connect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+  }
+
+  export type QuoteItemCreateNestedManyWithoutProductInput = {
+    create?: XOR<QuoteItemCreateWithoutProductInput, QuoteItemUncheckedCreateWithoutProductInput> | QuoteItemCreateWithoutProductInput[] | QuoteItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: QuoteItemCreateOrConnectWithoutProductInput | QuoteItemCreateOrConnectWithoutProductInput[]
+    createMany?: QuoteItemCreateManyProductInputEnvelope
+    connect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+  }
+
   export type ProductImageUncheckedCreateNestedManyWithoutProductInput = {
     create?: XOR<ProductImageCreateWithoutProductInput, ProductImageUncheckedCreateWithoutProductInput> | ProductImageCreateWithoutProductInput[] | ProductImageUncheckedCreateWithoutProductInput[]
     connectOrCreate?: ProductImageCreateOrConnectWithoutProductInput | ProductImageCreateOrConnectWithoutProductInput[]
@@ -26570,6 +34002,20 @@ export namespace Prisma {
     connectOrCreate?: CartItemCreateOrConnectWithoutProductInput | CartItemCreateOrConnectWithoutProductInput[]
     createMany?: CartItemCreateManyProductInputEnvelope
     connect?: CartItemWhereUniqueInput | CartItemWhereUniqueInput[]
+  }
+
+  export type BulkOrderItemUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<BulkOrderItemCreateWithoutProductInput, BulkOrderItemUncheckedCreateWithoutProductInput> | BulkOrderItemCreateWithoutProductInput[] | BulkOrderItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: BulkOrderItemCreateOrConnectWithoutProductInput | BulkOrderItemCreateOrConnectWithoutProductInput[]
+    createMany?: BulkOrderItemCreateManyProductInputEnvelope
+    connect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+  }
+
+  export type QuoteItemUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<QuoteItemCreateWithoutProductInput, QuoteItemUncheckedCreateWithoutProductInput> | QuoteItemCreateWithoutProductInput[] | QuoteItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: QuoteItemCreateOrConnectWithoutProductInput | QuoteItemCreateOrConnectWithoutProductInput[]
+    createMany?: QuoteItemCreateManyProductInputEnvelope
+    connect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
   }
 
   export type EnumProductTypeFieldUpdateOperationsInput = {
@@ -26699,6 +34145,34 @@ export namespace Prisma {
     deleteMany?: CartItemScalarWhereInput | CartItemScalarWhereInput[]
   }
 
+  export type BulkOrderItemUpdateManyWithoutProductNestedInput = {
+    create?: XOR<BulkOrderItemCreateWithoutProductInput, BulkOrderItemUncheckedCreateWithoutProductInput> | BulkOrderItemCreateWithoutProductInput[] | BulkOrderItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: BulkOrderItemCreateOrConnectWithoutProductInput | BulkOrderItemCreateOrConnectWithoutProductInput[]
+    upsert?: BulkOrderItemUpsertWithWhereUniqueWithoutProductInput | BulkOrderItemUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: BulkOrderItemCreateManyProductInputEnvelope
+    set?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    disconnect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    delete?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    connect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    update?: BulkOrderItemUpdateWithWhereUniqueWithoutProductInput | BulkOrderItemUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: BulkOrderItemUpdateManyWithWhereWithoutProductInput | BulkOrderItemUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: BulkOrderItemScalarWhereInput | BulkOrderItemScalarWhereInput[]
+  }
+
+  export type QuoteItemUpdateManyWithoutProductNestedInput = {
+    create?: XOR<QuoteItemCreateWithoutProductInput, QuoteItemUncheckedCreateWithoutProductInput> | QuoteItemCreateWithoutProductInput[] | QuoteItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: QuoteItemCreateOrConnectWithoutProductInput | QuoteItemCreateOrConnectWithoutProductInput[]
+    upsert?: QuoteItemUpsertWithWhereUniqueWithoutProductInput | QuoteItemUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: QuoteItemCreateManyProductInputEnvelope
+    set?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    disconnect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    delete?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    connect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    update?: QuoteItemUpdateWithWhereUniqueWithoutProductInput | QuoteItemUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: QuoteItemUpdateManyWithWhereWithoutProductInput | QuoteItemUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: QuoteItemScalarWhereInput | QuoteItemScalarWhereInput[]
+  }
+
   export type ProductImageUncheckedUpdateManyWithoutProductNestedInput = {
     create?: XOR<ProductImageCreateWithoutProductInput, ProductImageUncheckedCreateWithoutProductInput> | ProductImageCreateWithoutProductInput[] | ProductImageUncheckedCreateWithoutProductInput[]
     connectOrCreate?: ProductImageCreateOrConnectWithoutProductInput | ProductImageCreateOrConnectWithoutProductInput[]
@@ -26753,6 +34227,34 @@ export namespace Prisma {
     update?: CartItemUpdateWithWhereUniqueWithoutProductInput | CartItemUpdateWithWhereUniqueWithoutProductInput[]
     updateMany?: CartItemUpdateManyWithWhereWithoutProductInput | CartItemUpdateManyWithWhereWithoutProductInput[]
     deleteMany?: CartItemScalarWhereInput | CartItemScalarWhereInput[]
+  }
+
+  export type BulkOrderItemUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<BulkOrderItemCreateWithoutProductInput, BulkOrderItemUncheckedCreateWithoutProductInput> | BulkOrderItemCreateWithoutProductInput[] | BulkOrderItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: BulkOrderItemCreateOrConnectWithoutProductInput | BulkOrderItemCreateOrConnectWithoutProductInput[]
+    upsert?: BulkOrderItemUpsertWithWhereUniqueWithoutProductInput | BulkOrderItemUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: BulkOrderItemCreateManyProductInputEnvelope
+    set?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    disconnect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    delete?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    connect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    update?: BulkOrderItemUpdateWithWhereUniqueWithoutProductInput | BulkOrderItemUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: BulkOrderItemUpdateManyWithWhereWithoutProductInput | BulkOrderItemUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: BulkOrderItemScalarWhereInput | BulkOrderItemScalarWhereInput[]
+  }
+
+  export type QuoteItemUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<QuoteItemCreateWithoutProductInput, QuoteItemUncheckedCreateWithoutProductInput> | QuoteItemCreateWithoutProductInput[] | QuoteItemUncheckedCreateWithoutProductInput[]
+    connectOrCreate?: QuoteItemCreateOrConnectWithoutProductInput | QuoteItemCreateOrConnectWithoutProductInput[]
+    upsert?: QuoteItemUpsertWithWhereUniqueWithoutProductInput | QuoteItemUpsertWithWhereUniqueWithoutProductInput[]
+    createMany?: QuoteItemCreateManyProductInputEnvelope
+    set?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    disconnect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    delete?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    connect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    update?: QuoteItemUpdateWithWhereUniqueWithoutProductInput | QuoteItemUpdateWithWhereUniqueWithoutProductInput[]
+    updateMany?: QuoteItemUpdateManyWithWhereWithoutProductInput | QuoteItemUpdateManyWithWhereWithoutProductInput[]
+    deleteMany?: QuoteItemScalarWhereInput | QuoteItemScalarWhereInput[]
   }
 
   export type ProductCreateNestedOneWithoutImagesInput = {
@@ -27190,6 +34692,20 @@ export namespace Prisma {
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
   }
 
+  export type BulkOrderCreateNestedManyWithoutUserInput = {
+    create?: XOR<BulkOrderCreateWithoutUserInput, BulkOrderUncheckedCreateWithoutUserInput> | BulkOrderCreateWithoutUserInput[] | BulkOrderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BulkOrderCreateOrConnectWithoutUserInput | BulkOrderCreateOrConnectWithoutUserInput[]
+    createMany?: BulkOrderCreateManyUserInputEnvelope
+    connect?: BulkOrderWhereUniqueInput | BulkOrderWhereUniqueInput[]
+  }
+
+  export type QuoteCreateNestedManyWithoutUserInput = {
+    create?: XOR<QuoteCreateWithoutUserInput, QuoteUncheckedCreateWithoutUserInput> | QuoteCreateWithoutUserInput[] | QuoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutUserInput | QuoteCreateOrConnectWithoutUserInput[]
+    createMany?: QuoteCreateManyUserInputEnvelope
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+  }
+
   export type MerchantCreateNestedOneWithoutUserInput = {
     create?: XOR<MerchantCreateWithoutUserInput, MerchantUncheckedCreateWithoutUserInput>
     connectOrCreate?: MerchantCreateOrConnectWithoutUserInput
@@ -27215,6 +34731,20 @@ export namespace Prisma {
     connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
     createMany?: OrderCreateManyUserInputEnvelope
     connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  }
+
+  export type BulkOrderUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<BulkOrderCreateWithoutUserInput, BulkOrderUncheckedCreateWithoutUserInput> | BulkOrderCreateWithoutUserInput[] | BulkOrderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BulkOrderCreateOrConnectWithoutUserInput | BulkOrderCreateOrConnectWithoutUserInput[]
+    createMany?: BulkOrderCreateManyUserInputEnvelope
+    connect?: BulkOrderWhereUniqueInput | BulkOrderWhereUniqueInput[]
+  }
+
+  export type QuoteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<QuoteCreateWithoutUserInput, QuoteUncheckedCreateWithoutUserInput> | QuoteCreateWithoutUserInput[] | QuoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutUserInput | QuoteCreateOrConnectWithoutUserInput[]
+    createMany?: QuoteCreateManyUserInputEnvelope
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
   }
 
   export type MerchantUncheckedCreateNestedOneWithoutUserInput = {
@@ -27269,6 +34799,34 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type BulkOrderUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BulkOrderCreateWithoutUserInput, BulkOrderUncheckedCreateWithoutUserInput> | BulkOrderCreateWithoutUserInput[] | BulkOrderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BulkOrderCreateOrConnectWithoutUserInput | BulkOrderCreateOrConnectWithoutUserInput[]
+    upsert?: BulkOrderUpsertWithWhereUniqueWithoutUserInput | BulkOrderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BulkOrderCreateManyUserInputEnvelope
+    set?: BulkOrderWhereUniqueInput | BulkOrderWhereUniqueInput[]
+    disconnect?: BulkOrderWhereUniqueInput | BulkOrderWhereUniqueInput[]
+    delete?: BulkOrderWhereUniqueInput | BulkOrderWhereUniqueInput[]
+    connect?: BulkOrderWhereUniqueInput | BulkOrderWhereUniqueInput[]
+    update?: BulkOrderUpdateWithWhereUniqueWithoutUserInput | BulkOrderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BulkOrderUpdateManyWithWhereWithoutUserInput | BulkOrderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BulkOrderScalarWhereInput | BulkOrderScalarWhereInput[]
+  }
+
+  export type QuoteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<QuoteCreateWithoutUserInput, QuoteUncheckedCreateWithoutUserInput> | QuoteCreateWithoutUserInput[] | QuoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutUserInput | QuoteCreateOrConnectWithoutUserInput[]
+    upsert?: QuoteUpsertWithWhereUniqueWithoutUserInput | QuoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: QuoteCreateManyUserInputEnvelope
+    set?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    disconnect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    delete?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    update?: QuoteUpdateWithWhereUniqueWithoutUserInput | QuoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: QuoteUpdateManyWithWhereWithoutUserInput | QuoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
+  }
+
   export type MerchantUpdateOneWithoutUserNestedInput = {
     create?: XOR<MerchantCreateWithoutUserInput, MerchantUncheckedCreateWithoutUserInput>
     connectOrCreate?: MerchantCreateOrConnectWithoutUserInput
@@ -27321,6 +34879,34 @@ export namespace Prisma {
     deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
   }
 
+  export type BulkOrderUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BulkOrderCreateWithoutUserInput, BulkOrderUncheckedCreateWithoutUserInput> | BulkOrderCreateWithoutUserInput[] | BulkOrderUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BulkOrderCreateOrConnectWithoutUserInput | BulkOrderCreateOrConnectWithoutUserInput[]
+    upsert?: BulkOrderUpsertWithWhereUniqueWithoutUserInput | BulkOrderUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BulkOrderCreateManyUserInputEnvelope
+    set?: BulkOrderWhereUniqueInput | BulkOrderWhereUniqueInput[]
+    disconnect?: BulkOrderWhereUniqueInput | BulkOrderWhereUniqueInput[]
+    delete?: BulkOrderWhereUniqueInput | BulkOrderWhereUniqueInput[]
+    connect?: BulkOrderWhereUniqueInput | BulkOrderWhereUniqueInput[]
+    update?: BulkOrderUpdateWithWhereUniqueWithoutUserInput | BulkOrderUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BulkOrderUpdateManyWithWhereWithoutUserInput | BulkOrderUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BulkOrderScalarWhereInput | BulkOrderScalarWhereInput[]
+  }
+
+  export type QuoteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<QuoteCreateWithoutUserInput, QuoteUncheckedCreateWithoutUserInput> | QuoteCreateWithoutUserInput[] | QuoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: QuoteCreateOrConnectWithoutUserInput | QuoteCreateOrConnectWithoutUserInput[]
+    upsert?: QuoteUpsertWithWhereUniqueWithoutUserInput | QuoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: QuoteCreateManyUserInputEnvelope
+    set?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    disconnect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    delete?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    connect?: QuoteWhereUniqueInput | QuoteWhereUniqueInput[]
+    update?: QuoteUpdateWithWhereUniqueWithoutUserInput | QuoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: QuoteUpdateManyWithWhereWithoutUserInput | QuoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
+  }
+
   export type MerchantUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<MerchantCreateWithoutUserInput, MerchantUncheckedCreateWithoutUserInput>
     connectOrCreate?: MerchantCreateOrConnectWithoutUserInput
@@ -27329,6 +34915,230 @@ export namespace Prisma {
     delete?: MerchantWhereInput | boolean
     connect?: MerchantWhereUniqueInput
     update?: XOR<XOR<MerchantUpdateToOneWithWhereWithoutUserInput, MerchantUpdateWithoutUserInput>, MerchantUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserCreateNestedOneWithoutBulkOrdersInput = {
+    create?: XOR<UserCreateWithoutBulkOrdersInput, UserUncheckedCreateWithoutBulkOrdersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBulkOrdersInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BulkOrderItemCreateNestedManyWithoutBulkOrderInput = {
+    create?: XOR<BulkOrderItemCreateWithoutBulkOrderInput, BulkOrderItemUncheckedCreateWithoutBulkOrderInput> | BulkOrderItemCreateWithoutBulkOrderInput[] | BulkOrderItemUncheckedCreateWithoutBulkOrderInput[]
+    connectOrCreate?: BulkOrderItemCreateOrConnectWithoutBulkOrderInput | BulkOrderItemCreateOrConnectWithoutBulkOrderInput[]
+    createMany?: BulkOrderItemCreateManyBulkOrderInputEnvelope
+    connect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+  }
+
+  export type QuoteCreateNestedOneWithoutBulkOrderInput = {
+    create?: XOR<QuoteCreateWithoutBulkOrderInput, QuoteUncheckedCreateWithoutBulkOrderInput>
+    connectOrCreate?: QuoteCreateOrConnectWithoutBulkOrderInput
+    connect?: QuoteWhereUniqueInput
+  }
+
+  export type BulkOrderItemUncheckedCreateNestedManyWithoutBulkOrderInput = {
+    create?: XOR<BulkOrderItemCreateWithoutBulkOrderInput, BulkOrderItemUncheckedCreateWithoutBulkOrderInput> | BulkOrderItemCreateWithoutBulkOrderInput[] | BulkOrderItemUncheckedCreateWithoutBulkOrderInput[]
+    connectOrCreate?: BulkOrderItemCreateOrConnectWithoutBulkOrderInput | BulkOrderItemCreateOrConnectWithoutBulkOrderInput[]
+    createMany?: BulkOrderItemCreateManyBulkOrderInputEnvelope
+    connect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+  }
+
+  export type QuoteUncheckedCreateNestedOneWithoutBulkOrderInput = {
+    create?: XOR<QuoteCreateWithoutBulkOrderInput, QuoteUncheckedCreateWithoutBulkOrderInput>
+    connectOrCreate?: QuoteCreateOrConnectWithoutBulkOrderInput
+    connect?: QuoteWhereUniqueInput
+  }
+
+  export type EnumBulkOrderStatusFieldUpdateOperationsInput = {
+    set?: $Enums.BulkOrderStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutBulkOrdersNestedInput = {
+    create?: XOR<UserCreateWithoutBulkOrdersInput, UserUncheckedCreateWithoutBulkOrdersInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBulkOrdersInput
+    upsert?: UserUpsertWithoutBulkOrdersInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBulkOrdersInput, UserUpdateWithoutBulkOrdersInput>, UserUncheckedUpdateWithoutBulkOrdersInput>
+  }
+
+  export type BulkOrderItemUpdateManyWithoutBulkOrderNestedInput = {
+    create?: XOR<BulkOrderItemCreateWithoutBulkOrderInput, BulkOrderItemUncheckedCreateWithoutBulkOrderInput> | BulkOrderItemCreateWithoutBulkOrderInput[] | BulkOrderItemUncheckedCreateWithoutBulkOrderInput[]
+    connectOrCreate?: BulkOrderItemCreateOrConnectWithoutBulkOrderInput | BulkOrderItemCreateOrConnectWithoutBulkOrderInput[]
+    upsert?: BulkOrderItemUpsertWithWhereUniqueWithoutBulkOrderInput | BulkOrderItemUpsertWithWhereUniqueWithoutBulkOrderInput[]
+    createMany?: BulkOrderItemCreateManyBulkOrderInputEnvelope
+    set?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    disconnect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    delete?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    connect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    update?: BulkOrderItemUpdateWithWhereUniqueWithoutBulkOrderInput | BulkOrderItemUpdateWithWhereUniqueWithoutBulkOrderInput[]
+    updateMany?: BulkOrderItemUpdateManyWithWhereWithoutBulkOrderInput | BulkOrderItemUpdateManyWithWhereWithoutBulkOrderInput[]
+    deleteMany?: BulkOrderItemScalarWhereInput | BulkOrderItemScalarWhereInput[]
+  }
+
+  export type QuoteUpdateOneWithoutBulkOrderNestedInput = {
+    create?: XOR<QuoteCreateWithoutBulkOrderInput, QuoteUncheckedCreateWithoutBulkOrderInput>
+    connectOrCreate?: QuoteCreateOrConnectWithoutBulkOrderInput
+    upsert?: QuoteUpsertWithoutBulkOrderInput
+    disconnect?: QuoteWhereInput | boolean
+    delete?: QuoteWhereInput | boolean
+    connect?: QuoteWhereUniqueInput
+    update?: XOR<XOR<QuoteUpdateToOneWithWhereWithoutBulkOrderInput, QuoteUpdateWithoutBulkOrderInput>, QuoteUncheckedUpdateWithoutBulkOrderInput>
+  }
+
+  export type BulkOrderItemUncheckedUpdateManyWithoutBulkOrderNestedInput = {
+    create?: XOR<BulkOrderItemCreateWithoutBulkOrderInput, BulkOrderItemUncheckedCreateWithoutBulkOrderInput> | BulkOrderItemCreateWithoutBulkOrderInput[] | BulkOrderItemUncheckedCreateWithoutBulkOrderInput[]
+    connectOrCreate?: BulkOrderItemCreateOrConnectWithoutBulkOrderInput | BulkOrderItemCreateOrConnectWithoutBulkOrderInput[]
+    upsert?: BulkOrderItemUpsertWithWhereUniqueWithoutBulkOrderInput | BulkOrderItemUpsertWithWhereUniqueWithoutBulkOrderInput[]
+    createMany?: BulkOrderItemCreateManyBulkOrderInputEnvelope
+    set?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    disconnect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    delete?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    connect?: BulkOrderItemWhereUniqueInput | BulkOrderItemWhereUniqueInput[]
+    update?: BulkOrderItemUpdateWithWhereUniqueWithoutBulkOrderInput | BulkOrderItemUpdateWithWhereUniqueWithoutBulkOrderInput[]
+    updateMany?: BulkOrderItemUpdateManyWithWhereWithoutBulkOrderInput | BulkOrderItemUpdateManyWithWhereWithoutBulkOrderInput[]
+    deleteMany?: BulkOrderItemScalarWhereInput | BulkOrderItemScalarWhereInput[]
+  }
+
+  export type QuoteUncheckedUpdateOneWithoutBulkOrderNestedInput = {
+    create?: XOR<QuoteCreateWithoutBulkOrderInput, QuoteUncheckedCreateWithoutBulkOrderInput>
+    connectOrCreate?: QuoteCreateOrConnectWithoutBulkOrderInput
+    upsert?: QuoteUpsertWithoutBulkOrderInput
+    disconnect?: QuoteWhereInput | boolean
+    delete?: QuoteWhereInput | boolean
+    connect?: QuoteWhereUniqueInput
+    update?: XOR<XOR<QuoteUpdateToOneWithWhereWithoutBulkOrderInput, QuoteUpdateWithoutBulkOrderInput>, QuoteUncheckedUpdateWithoutBulkOrderInput>
+  }
+
+  export type BulkOrderCreateNestedOneWithoutItemsInput = {
+    create?: XOR<BulkOrderCreateWithoutItemsInput, BulkOrderUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: BulkOrderCreateOrConnectWithoutItemsInput
+    connect?: BulkOrderWhereUniqueInput
+  }
+
+  export type ProductCreateNestedOneWithoutBulkOrderItemsInput = {
+    create?: XOR<ProductCreateWithoutBulkOrderItemsInput, ProductUncheckedCreateWithoutBulkOrderItemsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutBulkOrderItemsInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type BulkOrderUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<BulkOrderCreateWithoutItemsInput, BulkOrderUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: BulkOrderCreateOrConnectWithoutItemsInput
+    upsert?: BulkOrderUpsertWithoutItemsInput
+    connect?: BulkOrderWhereUniqueInput
+    update?: XOR<XOR<BulkOrderUpdateToOneWithWhereWithoutItemsInput, BulkOrderUpdateWithoutItemsInput>, BulkOrderUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type ProductUpdateOneRequiredWithoutBulkOrderItemsNestedInput = {
+    create?: XOR<ProductCreateWithoutBulkOrderItemsInput, ProductUncheckedCreateWithoutBulkOrderItemsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutBulkOrderItemsInput
+    upsert?: ProductUpsertWithoutBulkOrderItemsInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutBulkOrderItemsInput, ProductUpdateWithoutBulkOrderItemsInput>, ProductUncheckedUpdateWithoutBulkOrderItemsInput>
+  }
+
+  export type UserCreateNestedOneWithoutQuotesInput = {
+    create?: XOR<UserCreateWithoutQuotesInput, UserUncheckedCreateWithoutQuotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutQuotesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type BulkOrderCreateNestedOneWithoutQuoteInput = {
+    create?: XOR<BulkOrderCreateWithoutQuoteInput, BulkOrderUncheckedCreateWithoutQuoteInput>
+    connectOrCreate?: BulkOrderCreateOrConnectWithoutQuoteInput
+    connect?: BulkOrderWhereUniqueInput
+  }
+
+  export type QuoteItemCreateNestedManyWithoutQuoteInput = {
+    create?: XOR<QuoteItemCreateWithoutQuoteInput, QuoteItemUncheckedCreateWithoutQuoteInput> | QuoteItemCreateWithoutQuoteInput[] | QuoteItemUncheckedCreateWithoutQuoteInput[]
+    connectOrCreate?: QuoteItemCreateOrConnectWithoutQuoteInput | QuoteItemCreateOrConnectWithoutQuoteInput[]
+    createMany?: QuoteItemCreateManyQuoteInputEnvelope
+    connect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+  }
+
+  export type QuoteItemUncheckedCreateNestedManyWithoutQuoteInput = {
+    create?: XOR<QuoteItemCreateWithoutQuoteInput, QuoteItemUncheckedCreateWithoutQuoteInput> | QuoteItemCreateWithoutQuoteInput[] | QuoteItemUncheckedCreateWithoutQuoteInput[]
+    connectOrCreate?: QuoteItemCreateOrConnectWithoutQuoteInput | QuoteItemCreateOrConnectWithoutQuoteInput[]
+    createMany?: QuoteItemCreateManyQuoteInputEnvelope
+    connect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+  }
+
+  export type EnumQuoteStatusFieldUpdateOperationsInput = {
+    set?: $Enums.QuoteStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutQuotesNestedInput = {
+    create?: XOR<UserCreateWithoutQuotesInput, UserUncheckedCreateWithoutQuotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutQuotesInput
+    upsert?: UserUpsertWithoutQuotesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutQuotesInput, UserUpdateWithoutQuotesInput>, UserUncheckedUpdateWithoutQuotesInput>
+  }
+
+  export type BulkOrderUpdateOneWithoutQuoteNestedInput = {
+    create?: XOR<BulkOrderCreateWithoutQuoteInput, BulkOrderUncheckedCreateWithoutQuoteInput>
+    connectOrCreate?: BulkOrderCreateOrConnectWithoutQuoteInput
+    upsert?: BulkOrderUpsertWithoutQuoteInput
+    disconnect?: BulkOrderWhereInput | boolean
+    delete?: BulkOrderWhereInput | boolean
+    connect?: BulkOrderWhereUniqueInput
+    update?: XOR<XOR<BulkOrderUpdateToOneWithWhereWithoutQuoteInput, BulkOrderUpdateWithoutQuoteInput>, BulkOrderUncheckedUpdateWithoutQuoteInput>
+  }
+
+  export type QuoteItemUpdateManyWithoutQuoteNestedInput = {
+    create?: XOR<QuoteItemCreateWithoutQuoteInput, QuoteItemUncheckedCreateWithoutQuoteInput> | QuoteItemCreateWithoutQuoteInput[] | QuoteItemUncheckedCreateWithoutQuoteInput[]
+    connectOrCreate?: QuoteItemCreateOrConnectWithoutQuoteInput | QuoteItemCreateOrConnectWithoutQuoteInput[]
+    upsert?: QuoteItemUpsertWithWhereUniqueWithoutQuoteInput | QuoteItemUpsertWithWhereUniqueWithoutQuoteInput[]
+    createMany?: QuoteItemCreateManyQuoteInputEnvelope
+    set?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    disconnect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    delete?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    connect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    update?: QuoteItemUpdateWithWhereUniqueWithoutQuoteInput | QuoteItemUpdateWithWhereUniqueWithoutQuoteInput[]
+    updateMany?: QuoteItemUpdateManyWithWhereWithoutQuoteInput | QuoteItemUpdateManyWithWhereWithoutQuoteInput[]
+    deleteMany?: QuoteItemScalarWhereInput | QuoteItemScalarWhereInput[]
+  }
+
+  export type QuoteItemUncheckedUpdateManyWithoutQuoteNestedInput = {
+    create?: XOR<QuoteItemCreateWithoutQuoteInput, QuoteItemUncheckedCreateWithoutQuoteInput> | QuoteItemCreateWithoutQuoteInput[] | QuoteItemUncheckedCreateWithoutQuoteInput[]
+    connectOrCreate?: QuoteItemCreateOrConnectWithoutQuoteInput | QuoteItemCreateOrConnectWithoutQuoteInput[]
+    upsert?: QuoteItemUpsertWithWhereUniqueWithoutQuoteInput | QuoteItemUpsertWithWhereUniqueWithoutQuoteInput[]
+    createMany?: QuoteItemCreateManyQuoteInputEnvelope
+    set?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    disconnect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    delete?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    connect?: QuoteItemWhereUniqueInput | QuoteItemWhereUniqueInput[]
+    update?: QuoteItemUpdateWithWhereUniqueWithoutQuoteInput | QuoteItemUpdateWithWhereUniqueWithoutQuoteInput[]
+    updateMany?: QuoteItemUpdateManyWithWhereWithoutQuoteInput | QuoteItemUpdateManyWithWhereWithoutQuoteInput[]
+    deleteMany?: QuoteItemScalarWhereInput | QuoteItemScalarWhereInput[]
+  }
+
+  export type QuoteCreateNestedOneWithoutItemsInput = {
+    create?: XOR<QuoteCreateWithoutItemsInput, QuoteUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: QuoteCreateOrConnectWithoutItemsInput
+    connect?: QuoteWhereUniqueInput
+  }
+
+  export type ProductCreateNestedOneWithoutQuoteItemsInput = {
+    create?: XOR<ProductCreateWithoutQuoteItemsInput, ProductUncheckedCreateWithoutQuoteItemsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutQuoteItemsInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type QuoteUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<QuoteCreateWithoutItemsInput, QuoteUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: QuoteCreateOrConnectWithoutItemsInput
+    upsert?: QuoteUpsertWithoutItemsInput
+    connect?: QuoteWhereUniqueInput
+    update?: XOR<XOR<QuoteUpdateToOneWithWhereWithoutItemsInput, QuoteUpdateWithoutItemsInput>, QuoteUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type ProductUpdateOneRequiredWithoutQuoteItemsNestedInput = {
+    create?: XOR<ProductCreateWithoutQuoteItemsInput, ProductUncheckedCreateWithoutQuoteItemsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutQuoteItemsInput
+    upsert?: ProductUpsertWithoutQuoteItemsInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutQuoteItemsInput, ProductUpdateWithoutQuoteItemsInput>, ProductUncheckedUpdateWithoutQuoteItemsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -27836,6 +35646,40 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedEnumBulkOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BulkOrderStatus | EnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BulkOrderStatus[] | ListEnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BulkOrderStatus[] | ListEnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBulkOrderStatusFilter<$PrismaModel> | $Enums.BulkOrderStatus
+  }
+
+  export type NestedEnumBulkOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BulkOrderStatus | EnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BulkOrderStatus[] | ListEnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BulkOrderStatus[] | ListEnumBulkOrderStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBulkOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.BulkOrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBulkOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumBulkOrderStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumQuoteStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuoteStatus | EnumQuoteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuoteStatusFilter<$PrismaModel> | $Enums.QuoteStatus
+  }
+
+  export type NestedEnumQuoteStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.QuoteStatus | EnumQuoteStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.QuoteStatus[] | ListEnumQuoteStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumQuoteStatusWithAggregatesFilter<$PrismaModel> | $Enums.QuoteStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumQuoteStatusFilter<$PrismaModel>
+    _max?: NestedEnumQuoteStatusFilter<$PrismaModel>
+  }
+
   export type CategoryCreateWithoutChildrenInput = {
     id?: string
     name: string
@@ -27932,6 +35776,8 @@ export namespace Prisma {
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     cartItems?: CartItemCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutCategoryInput = {
@@ -27967,6 +35813,8 @@ export namespace Prisma {
     variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     cartItems?: CartItemUncheckedCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemUncheckedCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutCategoryInput = {
@@ -28287,6 +36135,94 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BulkOrderItemCreateWithoutProductInput = {
+    id?: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    bulkOrder: BulkOrderCreateNestedOneWithoutItemsInput
+  }
+
+  export type BulkOrderItemUncheckedCreateWithoutProductInput = {
+    id?: string
+    bulkOrderId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+  }
+
+  export type BulkOrderItemCreateOrConnectWithoutProductInput = {
+    where: BulkOrderItemWhereUniqueInput
+    create: XOR<BulkOrderItemCreateWithoutProductInput, BulkOrderItemUncheckedCreateWithoutProductInput>
+  }
+
+  export type BulkOrderItemCreateManyProductInputEnvelope = {
+    data: BulkOrderItemCreateManyProductInput | BulkOrderItemCreateManyProductInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuoteItemCreateWithoutProductInput = {
+    id?: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    quote: QuoteCreateNestedOneWithoutItemsInput
+  }
+
+  export type QuoteItemUncheckedCreateWithoutProductInput = {
+    id?: string
+    quoteId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type QuoteItemCreateOrConnectWithoutProductInput = {
+    where: QuoteItemWhereUniqueInput
+    create: XOR<QuoteItemCreateWithoutProductInput, QuoteItemUncheckedCreateWithoutProductInput>
+  }
+
+  export type QuoteItemCreateManyProductInputEnvelope = {
+    data: QuoteItemCreateManyProductInput | QuoteItemCreateManyProductInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProductImageUpsertWithWhereUniqueWithoutProductInput = {
     where: ProductImageWhereUniqueInput
     update: XOR<ProductImageUpdateWithoutProductInput, ProductImageUncheckedUpdateWithoutProductInput>
@@ -28489,6 +36425,80 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"CartItem"> | Date | string
   }
 
+  export type BulkOrderItemUpsertWithWhereUniqueWithoutProductInput = {
+    where: BulkOrderItemWhereUniqueInput
+    update: XOR<BulkOrderItemUpdateWithoutProductInput, BulkOrderItemUncheckedUpdateWithoutProductInput>
+    create: XOR<BulkOrderItemCreateWithoutProductInput, BulkOrderItemUncheckedCreateWithoutProductInput>
+  }
+
+  export type BulkOrderItemUpdateWithWhereUniqueWithoutProductInput = {
+    where: BulkOrderItemWhereUniqueInput
+    data: XOR<BulkOrderItemUpdateWithoutProductInput, BulkOrderItemUncheckedUpdateWithoutProductInput>
+  }
+
+  export type BulkOrderItemUpdateManyWithWhereWithoutProductInput = {
+    where: BulkOrderItemScalarWhereInput
+    data: XOR<BulkOrderItemUpdateManyMutationInput, BulkOrderItemUncheckedUpdateManyWithoutProductInput>
+  }
+
+  export type BulkOrderItemScalarWhereInput = {
+    AND?: BulkOrderItemScalarWhereInput | BulkOrderItemScalarWhereInput[]
+    OR?: BulkOrderItemScalarWhereInput[]
+    NOT?: BulkOrderItemScalarWhereInput | BulkOrderItemScalarWhereInput[]
+    id?: StringFilter<"BulkOrderItem"> | string
+    bulkOrderId?: StringFilter<"BulkOrderItem"> | string
+    productId?: StringFilter<"BulkOrderItem"> | string
+    productName?: StringFilter<"BulkOrderItem"> | string
+    productImage?: StringNullableFilter<"BulkOrderItem"> | string | null
+    localName?: StringNullableFilter<"BulkOrderItem"> | string | null
+    productType?: StringFilter<"BulkOrderItem"> | string
+    seafoodType?: StringFilter<"BulkOrderItem"> | string
+    quantity?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    unitType?: StringFilter<"BulkOrderItem"> | string
+    unitPrice?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: DecimalNullableFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: DecimalNullableFilter<"BulkOrderItem"> | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFilter<"BulkOrderItem"> | Date | string
+  }
+
+  export type QuoteItemUpsertWithWhereUniqueWithoutProductInput = {
+    where: QuoteItemWhereUniqueInput
+    update: XOR<QuoteItemUpdateWithoutProductInput, QuoteItemUncheckedUpdateWithoutProductInput>
+    create: XOR<QuoteItemCreateWithoutProductInput, QuoteItemUncheckedCreateWithoutProductInput>
+  }
+
+  export type QuoteItemUpdateWithWhereUniqueWithoutProductInput = {
+    where: QuoteItemWhereUniqueInput
+    data: XOR<QuoteItemUpdateWithoutProductInput, QuoteItemUncheckedUpdateWithoutProductInput>
+  }
+
+  export type QuoteItemUpdateManyWithWhereWithoutProductInput = {
+    where: QuoteItemScalarWhereInput
+    data: XOR<QuoteItemUpdateManyMutationInput, QuoteItemUncheckedUpdateManyWithoutProductInput>
+  }
+
+  export type QuoteItemScalarWhereInput = {
+    AND?: QuoteItemScalarWhereInput | QuoteItemScalarWhereInput[]
+    OR?: QuoteItemScalarWhereInput[]
+    NOT?: QuoteItemScalarWhereInput | QuoteItemScalarWhereInput[]
+    id?: StringFilter<"QuoteItem"> | string
+    quoteId?: StringFilter<"QuoteItem"> | string
+    productId?: StringFilter<"QuoteItem"> | string
+    productName?: StringFilter<"QuoteItem"> | string
+    productImage?: StringNullableFilter<"QuoteItem"> | string | null
+    localName?: StringNullableFilter<"QuoteItem"> | string | null
+    productType?: StringFilter<"QuoteItem"> | string
+    seafoodType?: StringFilter<"QuoteItem"> | string
+    quantity?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    unitType?: StringFilter<"QuoteItem"> | string
+    unitPrice?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFilter<"QuoteItem"> | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFilter<"QuoteItem"> | Date | string
+  }
+
   export type ProductCreateWithoutImagesInput = {
     id?: string
     name: string
@@ -28522,6 +36532,8 @@ export namespace Prisma {
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     cartItems?: CartItemCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutImagesInput = {
@@ -28557,6 +36569,8 @@ export namespace Prisma {
     variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     cartItems?: CartItemUncheckedCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemUncheckedCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutImagesInput = {
@@ -28608,6 +36622,8 @@ export namespace Prisma {
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutImagesInput = {
@@ -28643,6 +36659,8 @@ export namespace Prisma {
     variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUncheckedUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUncheckedUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductCreateWithoutVariantsInput = {
@@ -28678,6 +36696,8 @@ export namespace Prisma {
     merchant?: MerchantCreateNestedOneWithoutProductsInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     cartItems?: CartItemCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutVariantsInput = {
@@ -28713,6 +36733,8 @@ export namespace Prisma {
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     cartItems?: CartItemUncheckedCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemUncheckedCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutVariantsInput = {
@@ -28764,6 +36786,8 @@ export namespace Prisma {
     merchant?: MerchantUpdateOneWithoutProductsNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutVariantsInput = {
@@ -28799,6 +36823,8 @@ export namespace Prisma {
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUncheckedUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUncheckedUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type UserCreateWithoutOrdersInput = {
@@ -28815,6 +36841,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderCreateNestedManyWithoutUserInput
+    quotes?: QuoteCreateNestedManyWithoutUserInput
     merchant?: MerchantCreateNestedOneWithoutUserInput
   }
 
@@ -28832,6 +36860,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderUncheckedCreateNestedManyWithoutUserInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutUserInput
     merchant?: MerchantUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -28901,6 +36931,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUpdateManyWithoutUserNestedInput
     merchant?: MerchantUpdateOneWithoutUserNestedInput
   }
 
@@ -28918,6 +36950,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUncheckedUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutUserNestedInput
     merchant?: MerchantUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -29021,6 +37055,8 @@ export namespace Prisma {
     merchant?: MerchantCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     cartItems?: CartItemCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutOrderItemsInput = {
@@ -29056,6 +37092,8 @@ export namespace Prisma {
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
     variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
     cartItems?: CartItemUncheckedCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemUncheckedCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutOrderItemsInput = {
@@ -29164,6 +37202,8 @@ export namespace Prisma {
     merchant?: MerchantUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutOrderItemsInput = {
@@ -29199,6 +37239,8 @@ export namespace Prisma {
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
     variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUncheckedUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUncheckedUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type CartItemCreateWithoutCartInput = {
@@ -29297,6 +37339,8 @@ export namespace Prisma {
     merchant?: MerchantCreateNestedOneWithoutProductsInput
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutCartItemsInput = {
@@ -29332,6 +37376,8 @@ export namespace Prisma {
     images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
     variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemUncheckedCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutCartItemsInput = {
@@ -29410,6 +37456,8 @@ export namespace Prisma {
     merchant?: MerchantUpdateOneWithoutProductsNestedInput
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutCartItemsInput = {
@@ -29445,6 +37493,8 @@ export namespace Prisma {
     images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
     variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUncheckedUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ShippingRateCreateWithoutZoneInput = {
@@ -29572,6 +37622,8 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderCreateNestedManyWithoutUserInput
+    quotes?: QuoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMerchantInput = {
@@ -29589,6 +37641,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderUncheckedCreateNestedManyWithoutUserInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMerchantInput = {
@@ -29661,6 +37715,8 @@ export namespace Prisma {
     variants?: ProductVariantCreateNestedManyWithoutProductInput
     orderItems?: OrderItemCreateNestedManyWithoutProductInput
     cartItems?: CartItemCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemCreateNestedManyWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutMerchantInput = {
@@ -29696,6 +37752,8 @@ export namespace Prisma {
     variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
     orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
     cartItems?: CartItemUncheckedCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemUncheckedCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemUncheckedCreateNestedManyWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutMerchantInput = {
@@ -29734,6 +37792,8 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMerchantInput = {
@@ -29751,6 +37811,8 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUncheckedUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MerchantDocumentUpsertWithWhereUniqueWithoutMerchantInput = {
@@ -29898,6 +37960,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderCreateNestedManyWithoutUserInput
+    quotes?: QuoteCreateNestedManyWithoutUserInput
     merchant?: MerchantCreateNestedOneWithoutUserInput
   }
 
@@ -29915,6 +37979,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderUncheckedCreateNestedManyWithoutUserInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutUserInput
     merchant?: MerchantUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -29948,6 +38014,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUpdateManyWithoutUserNestedInput
     merchant?: MerchantUpdateOneWithoutUserNestedInput
   }
 
@@ -29965,6 +38033,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUncheckedUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutUserNestedInput
     merchant?: MerchantUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -29982,6 +38052,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     orders?: OrderCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderCreateNestedManyWithoutUserInput
+    quotes?: QuoteCreateNestedManyWithoutUserInput
     merchant?: MerchantCreateNestedOneWithoutUserInput
   }
 
@@ -29999,6 +38071,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderUncheckedCreateNestedManyWithoutUserInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutUserInput
     merchant?: MerchantUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -30032,6 +38106,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUpdateManyWithoutUserNestedInput
     merchant?: MerchantUpdateOneWithoutUserNestedInput
   }
 
@@ -30049,6 +38125,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUncheckedUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutUserNestedInput
     merchant?: MerchantUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -30167,6 +38245,118 @@ export namespace Prisma {
 
   export type OrderCreateManyUserInputEnvelope = {
     data: OrderCreateManyUserInput | OrderCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BulkOrderCreateWithoutUserInput = {
+    id?: string
+    orderNumber?: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: BulkOrderItemCreateNestedManyWithoutBulkOrderInput
+    quote?: QuoteCreateNestedOneWithoutBulkOrderInput
+  }
+
+  export type BulkOrderUncheckedCreateWithoutUserInput = {
+    id?: string
+    orderNumber?: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: BulkOrderItemUncheckedCreateNestedManyWithoutBulkOrderInput
+    quote?: QuoteUncheckedCreateNestedOneWithoutBulkOrderInput
+  }
+
+  export type BulkOrderCreateOrConnectWithoutUserInput = {
+    where: BulkOrderWhereUniqueInput
+    create: XOR<BulkOrderCreateWithoutUserInput, BulkOrderUncheckedCreateWithoutUserInput>
+  }
+
+  export type BulkOrderCreateManyUserInputEnvelope = {
+    data: BulkOrderCreateManyUserInput | BulkOrderCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuoteCreateWithoutUserInput = {
+    id?: string
+    quoteNumber?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string | null
+    discount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    totalWeightKg: Decimal | DecimalJsLike | number | string
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    validUntil: Date | string
+    status?: $Enums.QuoteStatus
+    customerNotes?: string | null
+    internalNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bulkOrder?: BulkOrderCreateNestedOneWithoutQuoteInput
+    items?: QuoteItemCreateNestedManyWithoutQuoteInput
+  }
+
+  export type QuoteUncheckedCreateWithoutUserInput = {
+    id?: string
+    quoteNumber?: string
+    bulkOrderId?: string | null
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string | null
+    discount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    totalWeightKg: Decimal | DecimalJsLike | number | string
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    validUntil: Date | string
+    status?: $Enums.QuoteStatus
+    customerNotes?: string | null
+    internalNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: QuoteItemUncheckedCreateNestedManyWithoutQuoteInput
+  }
+
+  export type QuoteCreateOrConnectWithoutUserInput = {
+    where: QuoteWhereUniqueInput
+    create: XOR<QuoteCreateWithoutUserInput, QuoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type QuoteCreateManyUserInputEnvelope = {
+    data: QuoteCreateManyUserInput | QuoteCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -30312,6 +38502,89 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Order"> | Date | string
   }
 
+  export type BulkOrderUpsertWithWhereUniqueWithoutUserInput = {
+    where: BulkOrderWhereUniqueInput
+    update: XOR<BulkOrderUpdateWithoutUserInput, BulkOrderUncheckedUpdateWithoutUserInput>
+    create: XOR<BulkOrderCreateWithoutUserInput, BulkOrderUncheckedCreateWithoutUserInput>
+  }
+
+  export type BulkOrderUpdateWithWhereUniqueWithoutUserInput = {
+    where: BulkOrderWhereUniqueInput
+    data: XOR<BulkOrderUpdateWithoutUserInput, BulkOrderUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BulkOrderUpdateManyWithWhereWithoutUserInput = {
+    where: BulkOrderScalarWhereInput
+    data: XOR<BulkOrderUpdateManyMutationInput, BulkOrderUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type BulkOrderScalarWhereInput = {
+    AND?: BulkOrderScalarWhereInput | BulkOrderScalarWhereInput[]
+    OR?: BulkOrderScalarWhereInput[]
+    NOT?: BulkOrderScalarWhereInput | BulkOrderScalarWhereInput[]
+    id?: StringFilter<"BulkOrder"> | string
+    orderNumber?: StringFilter<"BulkOrder"> | string
+    userId?: StringFilter<"BulkOrder"> | string
+    estimatedSubtotal?: DecimalFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: DecimalNullableFilter<"BulkOrder"> | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    deliveryNotes?: StringNullableFilter<"BulkOrder"> | string | null
+    contactName?: StringFilter<"BulkOrder"> | string
+    contactEmail?: StringFilter<"BulkOrder"> | string
+    contactPhone?: StringFilter<"BulkOrder"> | string
+    companyName?: StringNullableFilter<"BulkOrder"> | string | null
+    shippingAddress?: JsonNullableFilter<"BulkOrder">
+    status?: EnumBulkOrderStatusFilter<"BulkOrder"> | $Enums.BulkOrderStatus
+    notes?: StringNullableFilter<"BulkOrder"> | string | null
+    createdAt?: DateTimeFilter<"BulkOrder"> | Date | string
+    updatedAt?: DateTimeFilter<"BulkOrder"> | Date | string
+  }
+
+  export type QuoteUpsertWithWhereUniqueWithoutUserInput = {
+    where: QuoteWhereUniqueInput
+    update: XOR<QuoteUpdateWithoutUserInput, QuoteUncheckedUpdateWithoutUserInput>
+    create: XOR<QuoteCreateWithoutUserInput, QuoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type QuoteUpdateWithWhereUniqueWithoutUserInput = {
+    where: QuoteWhereUniqueInput
+    data: XOR<QuoteUpdateWithoutUserInput, QuoteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type QuoteUpdateManyWithWhereWithoutUserInput = {
+    where: QuoteScalarWhereInput
+    data: XOR<QuoteUpdateManyMutationInput, QuoteUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type QuoteScalarWhereInput = {
+    AND?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
+    OR?: QuoteScalarWhereInput[]
+    NOT?: QuoteScalarWhereInput | QuoteScalarWhereInput[]
+    id?: StringFilter<"Quote"> | string
+    quoteNumber?: StringFilter<"Quote"> | string
+    userId?: StringFilter<"Quote"> | string
+    bulkOrderId?: StringNullableFilter<"Quote"> | string | null
+    subtotal?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    shippingCost?: DecimalNullableFilter<"Quote"> | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    total?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFilter<"Quote"> | Decimal | DecimalJsLike | number | string
+    contactName?: StringFilter<"Quote"> | string
+    contactEmail?: StringFilter<"Quote"> | string
+    contactPhone?: StringFilter<"Quote"> | string
+    companyName?: StringNullableFilter<"Quote"> | string | null
+    validUntil?: DateTimeFilter<"Quote"> | Date | string
+    status?: EnumQuoteStatusFilter<"Quote"> | $Enums.QuoteStatus
+    customerNotes?: StringNullableFilter<"Quote"> | string | null
+    internalNotes?: StringNullableFilter<"Quote"> | string | null
+    createdAt?: DateTimeFilter<"Quote"> | Date | string
+    updatedAt?: DateTimeFilter<"Quote"> | Date | string
+  }
+
   export type MerchantUpsertWithoutUserInput = {
     update: XOR<MerchantUpdateWithoutUserInput, MerchantUncheckedUpdateWithoutUserInput>
     create: XOR<MerchantCreateWithoutUserInput, MerchantUncheckedCreateWithoutUserInput>
@@ -30355,6 +38628,1070 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: MerchantDocumentUncheckedUpdateManyWithoutMerchantNestedInput
     products?: ProductUncheckedUpdateManyWithoutMerchantNestedInput
+  }
+
+  export type UserCreateWithoutBulkOrdersInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phone?: string | null
+    password?: string | null
+    role?: $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    orders?: OrderCreateNestedManyWithoutUserInput
+    quotes?: QuoteCreateNestedManyWithoutUserInput
+    merchant?: MerchantCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutBulkOrdersInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phone?: string | null
+    password?: string | null
+    role?: $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    quotes?: QuoteUncheckedCreateNestedManyWithoutUserInput
+    merchant?: MerchantUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutBulkOrdersInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBulkOrdersInput, UserUncheckedCreateWithoutBulkOrdersInput>
+  }
+
+  export type BulkOrderItemCreateWithoutBulkOrderInput = {
+    id?: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    product: ProductCreateNestedOneWithoutBulkOrderItemsInput
+  }
+
+  export type BulkOrderItemUncheckedCreateWithoutBulkOrderInput = {
+    id?: string
+    productId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+  }
+
+  export type BulkOrderItemCreateOrConnectWithoutBulkOrderInput = {
+    where: BulkOrderItemWhereUniqueInput
+    create: XOR<BulkOrderItemCreateWithoutBulkOrderInput, BulkOrderItemUncheckedCreateWithoutBulkOrderInput>
+  }
+
+  export type BulkOrderItemCreateManyBulkOrderInputEnvelope = {
+    data: BulkOrderItemCreateManyBulkOrderInput | BulkOrderItemCreateManyBulkOrderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuoteCreateWithoutBulkOrderInput = {
+    id?: string
+    quoteNumber?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string | null
+    discount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    totalWeightKg: Decimal | DecimalJsLike | number | string
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    validUntil: Date | string
+    status?: $Enums.QuoteStatus
+    customerNotes?: string | null
+    internalNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutQuotesInput
+    items?: QuoteItemCreateNestedManyWithoutQuoteInput
+  }
+
+  export type QuoteUncheckedCreateWithoutBulkOrderInput = {
+    id?: string
+    quoteNumber?: string
+    userId: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string | null
+    discount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    totalWeightKg: Decimal | DecimalJsLike | number | string
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    validUntil: Date | string
+    status?: $Enums.QuoteStatus
+    customerNotes?: string | null
+    internalNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: QuoteItemUncheckedCreateNestedManyWithoutQuoteInput
+  }
+
+  export type QuoteCreateOrConnectWithoutBulkOrderInput = {
+    where: QuoteWhereUniqueInput
+    create: XOR<QuoteCreateWithoutBulkOrderInput, QuoteUncheckedCreateWithoutBulkOrderInput>
+  }
+
+  export type UserUpsertWithoutBulkOrdersInput = {
+    update: XOR<UserUpdateWithoutBulkOrdersInput, UserUncheckedUpdateWithoutBulkOrdersInput>
+    create: XOR<UserCreateWithoutBulkOrdersInput, UserUncheckedCreateWithoutBulkOrdersInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBulkOrdersInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBulkOrdersInput, UserUncheckedUpdateWithoutBulkOrdersInput>
+  }
+
+  export type UserUpdateWithoutBulkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    orders?: OrderUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBulkOrdersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    quotes?: QuoteUncheckedUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type BulkOrderItemUpsertWithWhereUniqueWithoutBulkOrderInput = {
+    where: BulkOrderItemWhereUniqueInput
+    update: XOR<BulkOrderItemUpdateWithoutBulkOrderInput, BulkOrderItemUncheckedUpdateWithoutBulkOrderInput>
+    create: XOR<BulkOrderItemCreateWithoutBulkOrderInput, BulkOrderItemUncheckedCreateWithoutBulkOrderInput>
+  }
+
+  export type BulkOrderItemUpdateWithWhereUniqueWithoutBulkOrderInput = {
+    where: BulkOrderItemWhereUniqueInput
+    data: XOR<BulkOrderItemUpdateWithoutBulkOrderInput, BulkOrderItemUncheckedUpdateWithoutBulkOrderInput>
+  }
+
+  export type BulkOrderItemUpdateManyWithWhereWithoutBulkOrderInput = {
+    where: BulkOrderItemScalarWhereInput
+    data: XOR<BulkOrderItemUpdateManyMutationInput, BulkOrderItemUncheckedUpdateManyWithoutBulkOrderInput>
+  }
+
+  export type QuoteUpsertWithoutBulkOrderInput = {
+    update: XOR<QuoteUpdateWithoutBulkOrderInput, QuoteUncheckedUpdateWithoutBulkOrderInput>
+    create: XOR<QuoteCreateWithoutBulkOrderInput, QuoteUncheckedCreateWithoutBulkOrderInput>
+    where?: QuoteWhereInput
+  }
+
+  export type QuoteUpdateToOneWithWhereWithoutBulkOrderInput = {
+    where?: QuoteWhereInput
+    data: XOR<QuoteUpdateWithoutBulkOrderInput, QuoteUncheckedUpdateWithoutBulkOrderInput>
+  }
+
+  export type QuoteUpdateWithoutBulkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteNumber?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    customerNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutQuotesNestedInput
+    items?: QuoteItemUpdateManyWithoutQuoteNestedInput
+  }
+
+  export type QuoteUncheckedUpdateWithoutBulkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteNumber?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    customerNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: QuoteItemUncheckedUpdateManyWithoutQuoteNestedInput
+  }
+
+  export type BulkOrderCreateWithoutItemsInput = {
+    id?: string
+    orderNumber?: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutBulkOrdersInput
+    quote?: QuoteCreateNestedOneWithoutBulkOrderInput
+  }
+
+  export type BulkOrderUncheckedCreateWithoutItemsInput = {
+    id?: string
+    orderNumber?: string
+    userId: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quote?: QuoteUncheckedCreateNestedOneWithoutBulkOrderInput
+  }
+
+  export type BulkOrderCreateOrConnectWithoutItemsInput = {
+    where: BulkOrderWhereUniqueInput
+    create: XOR<BulkOrderCreateWithoutItemsInput, BulkOrderUncheckedCreateWithoutItemsInput>
+  }
+
+  export type ProductCreateWithoutBulkOrderItemsInput = {
+    id?: string
+    name: string
+    sku?: string | null
+    slug: string
+    description?: string | null
+    shortDescription?: string | null
+    productType?: $Enums.ProductType
+    seafoodType?: $Enums.SeafoodType
+    speciesName?: string | null
+    localName?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    compareAtPrice?: Decimal | DecimalJsLike | number | string | null
+    costPerItem?: Decimal | DecimalJsLike | number | string | null
+    stockType?: $Enums.StockType
+    stockQuantity: Decimal | DecimalJsLike | number | string
+    stockUnit?: string
+    minOrderQty?: Decimal | DecimalJsLike | number | string
+    maxOrderQty?: Decimal | DecimalJsLike | number | string | null
+    weightKg?: Decimal | DecimalJsLike | number | string
+    requiresColdChain?: boolean
+    bestBefore?: Date | string | null
+    shelfLifeDays?: number | null
+    status?: $Enums.ProductStatus
+    featured?: boolean
+    tags?: ProductCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: ProductImageCreateNestedManyWithoutProductInput
+    category: CategoryCreateNestedOneWithoutProductsInput
+    merchant?: MerchantCreateNestedOneWithoutProductsInput
+    variants?: ProductVariantCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemCreateNestedManyWithoutProductInput
+    cartItems?: CartItemCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutBulkOrderItemsInput = {
+    id?: string
+    name: string
+    sku?: string | null
+    slug: string
+    description?: string | null
+    shortDescription?: string | null
+    productType?: $Enums.ProductType
+    seafoodType?: $Enums.SeafoodType
+    speciesName?: string | null
+    localName?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    compareAtPrice?: Decimal | DecimalJsLike | number | string | null
+    costPerItem?: Decimal | DecimalJsLike | number | string | null
+    stockType?: $Enums.StockType
+    stockQuantity: Decimal | DecimalJsLike | number | string
+    stockUnit?: string
+    minOrderQty?: Decimal | DecimalJsLike | number | string
+    maxOrderQty?: Decimal | DecimalJsLike | number | string | null
+    weightKg?: Decimal | DecimalJsLike | number | string
+    requiresColdChain?: boolean
+    bestBefore?: Date | string | null
+    shelfLifeDays?: number | null
+    categoryId: string
+    merchantId?: string | null
+    status?: $Enums.ProductStatus
+    featured?: boolean
+    tags?: ProductCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
+    variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
+    cartItems?: CartItemUncheckedCreateNestedManyWithoutProductInput
+    quoteItems?: QuoteItemUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutBulkOrderItemsInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutBulkOrderItemsInput, ProductUncheckedCreateWithoutBulkOrderItemsInput>
+  }
+
+  export type BulkOrderUpsertWithoutItemsInput = {
+    update: XOR<BulkOrderUpdateWithoutItemsInput, BulkOrderUncheckedUpdateWithoutItemsInput>
+    create: XOR<BulkOrderCreateWithoutItemsInput, BulkOrderUncheckedCreateWithoutItemsInput>
+    where?: BulkOrderWhereInput
+  }
+
+  export type BulkOrderUpdateToOneWithWhereWithoutItemsInput = {
+    where?: BulkOrderWhereInput
+    data: XOR<BulkOrderUpdateWithoutItemsInput, BulkOrderUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type BulkOrderUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBulkOrdersNestedInput
+    quote?: QuoteUpdateOneWithoutBulkOrderNestedInput
+  }
+
+  export type BulkOrderUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quote?: QuoteUncheckedUpdateOneWithoutBulkOrderNestedInput
+  }
+
+  export type ProductUpsertWithoutBulkOrderItemsInput = {
+    update: XOR<ProductUpdateWithoutBulkOrderItemsInput, ProductUncheckedUpdateWithoutBulkOrderItemsInput>
+    create: XOR<ProductCreateWithoutBulkOrderItemsInput, ProductUncheckedCreateWithoutBulkOrderItemsInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutBulkOrderItemsInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutBulkOrderItemsInput, ProductUncheckedUpdateWithoutBulkOrderItemsInput>
+  }
+
+  export type ProductUpdateWithoutBulkOrderItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: EnumProductTypeFieldUpdateOperationsInput | $Enums.ProductType
+    seafoodType?: EnumSeafoodTypeFieldUpdateOperationsInput | $Enums.SeafoodType
+    speciesName?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    compareAtPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    costPerItem?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    stockType?: EnumStockTypeFieldUpdateOperationsInput | $Enums.StockType
+    stockQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    stockUnit?: StringFieldUpdateOperationsInput | string
+    minOrderQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxOrderQty?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    tags?: ProductUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: ProductImageUpdateManyWithoutProductNestedInput
+    category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    merchant?: MerchantUpdateOneWithoutProductsNestedInput
+    variants?: ProductVariantUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUpdateManyWithoutProductNestedInput
+    cartItems?: CartItemUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutBulkOrderItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: EnumProductTypeFieldUpdateOperationsInput | $Enums.ProductType
+    seafoodType?: EnumSeafoodTypeFieldUpdateOperationsInput | $Enums.SeafoodType
+    speciesName?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    compareAtPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    costPerItem?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    stockType?: EnumStockTypeFieldUpdateOperationsInput | $Enums.StockType
+    stockQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    stockUnit?: StringFieldUpdateOperationsInput | string
+    minOrderQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxOrderQty?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    categoryId?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    tags?: ProductUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
+    variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
+    cartItems?: CartItemUncheckedUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUncheckedUpdateManyWithoutProductNestedInput
+  }
+
+  export type UserCreateWithoutQuotesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phone?: string | null
+    password?: string | null
+    role?: $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    orders?: OrderCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderCreateNestedManyWithoutUserInput
+    merchant?: MerchantCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutQuotesInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    phone?: string | null
+    password?: string | null
+    role?: $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    bulkOrders?: BulkOrderUncheckedCreateNestedManyWithoutUserInput
+    merchant?: MerchantUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutQuotesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutQuotesInput, UserUncheckedCreateWithoutQuotesInput>
+  }
+
+  export type BulkOrderCreateWithoutQuoteInput = {
+    id?: string
+    orderNumber?: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutBulkOrdersInput
+    items?: BulkOrderItemCreateNestedManyWithoutBulkOrderInput
+  }
+
+  export type BulkOrderUncheckedCreateWithoutQuoteInput = {
+    id?: string
+    orderNumber?: string
+    userId: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: BulkOrderItemUncheckedCreateNestedManyWithoutBulkOrderInput
+  }
+
+  export type BulkOrderCreateOrConnectWithoutQuoteInput = {
+    where: BulkOrderWhereUniqueInput
+    create: XOR<BulkOrderCreateWithoutQuoteInput, BulkOrderUncheckedCreateWithoutQuoteInput>
+  }
+
+  export type QuoteItemCreateWithoutQuoteInput = {
+    id?: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    product: ProductCreateNestedOneWithoutQuoteItemsInput
+  }
+
+  export type QuoteItemUncheckedCreateWithoutQuoteInput = {
+    id?: string
+    productId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type QuoteItemCreateOrConnectWithoutQuoteInput = {
+    where: QuoteItemWhereUniqueInput
+    create: XOR<QuoteItemCreateWithoutQuoteInput, QuoteItemUncheckedCreateWithoutQuoteInput>
+  }
+
+  export type QuoteItemCreateManyQuoteInputEnvelope = {
+    data: QuoteItemCreateManyQuoteInput | QuoteItemCreateManyQuoteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutQuotesInput = {
+    update: XOR<UserUpdateWithoutQuotesInput, UserUncheckedUpdateWithoutQuotesInput>
+    create: XOR<UserCreateWithoutQuotesInput, UserUncheckedCreateWithoutQuotesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutQuotesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutQuotesInput, UserUncheckedUpdateWithoutQuotesInput>
+  }
+
+  export type UserUpdateWithoutQuotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    orders?: OrderUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutQuotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    defaultAddress?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    bulkOrders?: BulkOrderUncheckedUpdateManyWithoutUserNestedInput
+    merchant?: MerchantUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type BulkOrderUpsertWithoutQuoteInput = {
+    update: XOR<BulkOrderUpdateWithoutQuoteInput, BulkOrderUncheckedUpdateWithoutQuoteInput>
+    create: XOR<BulkOrderCreateWithoutQuoteInput, BulkOrderUncheckedCreateWithoutQuoteInput>
+    where?: BulkOrderWhereInput
+  }
+
+  export type BulkOrderUpdateToOneWithWhereWithoutQuoteInput = {
+    where?: BulkOrderWhereInput
+    data: XOR<BulkOrderUpdateWithoutQuoteInput, BulkOrderUncheckedUpdateWithoutQuoteInput>
+  }
+
+  export type BulkOrderUpdateWithoutQuoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBulkOrdersNestedInput
+    items?: BulkOrderItemUpdateManyWithoutBulkOrderNestedInput
+  }
+
+  export type BulkOrderUncheckedUpdateWithoutQuoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: BulkOrderItemUncheckedUpdateManyWithoutBulkOrderNestedInput
+  }
+
+  export type QuoteItemUpsertWithWhereUniqueWithoutQuoteInput = {
+    where: QuoteItemWhereUniqueInput
+    update: XOR<QuoteItemUpdateWithoutQuoteInput, QuoteItemUncheckedUpdateWithoutQuoteInput>
+    create: XOR<QuoteItemCreateWithoutQuoteInput, QuoteItemUncheckedCreateWithoutQuoteInput>
+  }
+
+  export type QuoteItemUpdateWithWhereUniqueWithoutQuoteInput = {
+    where: QuoteItemWhereUniqueInput
+    data: XOR<QuoteItemUpdateWithoutQuoteInput, QuoteItemUncheckedUpdateWithoutQuoteInput>
+  }
+
+  export type QuoteItemUpdateManyWithWhereWithoutQuoteInput = {
+    where: QuoteItemScalarWhereInput
+    data: XOR<QuoteItemUpdateManyMutationInput, QuoteItemUncheckedUpdateManyWithoutQuoteInput>
+  }
+
+  export type QuoteCreateWithoutItemsInput = {
+    id?: string
+    quoteNumber?: string
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string | null
+    discount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    totalWeightKg: Decimal | DecimalJsLike | number | string
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    validUntil: Date | string
+    status?: $Enums.QuoteStatus
+    customerNotes?: string | null
+    internalNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutQuotesInput
+    bulkOrder?: BulkOrderCreateNestedOneWithoutQuoteInput
+  }
+
+  export type QuoteUncheckedCreateWithoutItemsInput = {
+    id?: string
+    quoteNumber?: string
+    userId: string
+    bulkOrderId?: string | null
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string | null
+    discount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    totalWeightKg: Decimal | DecimalJsLike | number | string
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    validUntil: Date | string
+    status?: $Enums.QuoteStatus
+    customerNotes?: string | null
+    internalNotes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuoteCreateOrConnectWithoutItemsInput = {
+    where: QuoteWhereUniqueInput
+    create: XOR<QuoteCreateWithoutItemsInput, QuoteUncheckedCreateWithoutItemsInput>
+  }
+
+  export type ProductCreateWithoutQuoteItemsInput = {
+    id?: string
+    name: string
+    sku?: string | null
+    slug: string
+    description?: string | null
+    shortDescription?: string | null
+    productType?: $Enums.ProductType
+    seafoodType?: $Enums.SeafoodType
+    speciesName?: string | null
+    localName?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    compareAtPrice?: Decimal | DecimalJsLike | number | string | null
+    costPerItem?: Decimal | DecimalJsLike | number | string | null
+    stockType?: $Enums.StockType
+    stockQuantity: Decimal | DecimalJsLike | number | string
+    stockUnit?: string
+    minOrderQty?: Decimal | DecimalJsLike | number | string
+    maxOrderQty?: Decimal | DecimalJsLike | number | string | null
+    weightKg?: Decimal | DecimalJsLike | number | string
+    requiresColdChain?: boolean
+    bestBefore?: Date | string | null
+    shelfLifeDays?: number | null
+    status?: $Enums.ProductStatus
+    featured?: boolean
+    tags?: ProductCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: ProductImageCreateNestedManyWithoutProductInput
+    category: CategoryCreateNestedOneWithoutProductsInput
+    merchant?: MerchantCreateNestedOneWithoutProductsInput
+    variants?: ProductVariantCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemCreateNestedManyWithoutProductInput
+    cartItems?: CartItemCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutQuoteItemsInput = {
+    id?: string
+    name: string
+    sku?: string | null
+    slug: string
+    description?: string | null
+    shortDescription?: string | null
+    productType?: $Enums.ProductType
+    seafoodType?: $Enums.SeafoodType
+    speciesName?: string | null
+    localName?: string | null
+    price: Decimal | DecimalJsLike | number | string
+    compareAtPrice?: Decimal | DecimalJsLike | number | string | null
+    costPerItem?: Decimal | DecimalJsLike | number | string | null
+    stockType?: $Enums.StockType
+    stockQuantity: Decimal | DecimalJsLike | number | string
+    stockUnit?: string
+    minOrderQty?: Decimal | DecimalJsLike | number | string
+    maxOrderQty?: Decimal | DecimalJsLike | number | string | null
+    weightKg?: Decimal | DecimalJsLike | number | string
+    requiresColdChain?: boolean
+    bestBefore?: Date | string | null
+    shelfLifeDays?: number | null
+    categoryId: string
+    merchantId?: string | null
+    status?: $Enums.ProductStatus
+    featured?: boolean
+    tags?: ProductCreatetagsInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: ProductImageUncheckedCreateNestedManyWithoutProductInput
+    variants?: ProductVariantUncheckedCreateNestedManyWithoutProductInput
+    orderItems?: OrderItemUncheckedCreateNestedManyWithoutProductInput
+    cartItems?: CartItemUncheckedCreateNestedManyWithoutProductInput
+    bulkOrderItems?: BulkOrderItemUncheckedCreateNestedManyWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutQuoteItemsInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutQuoteItemsInput, ProductUncheckedCreateWithoutQuoteItemsInput>
+  }
+
+  export type QuoteUpsertWithoutItemsInput = {
+    update: XOR<QuoteUpdateWithoutItemsInput, QuoteUncheckedUpdateWithoutItemsInput>
+    create: XOR<QuoteCreateWithoutItemsInput, QuoteUncheckedCreateWithoutItemsInput>
+    where?: QuoteWhereInput
+  }
+
+  export type QuoteUpdateToOneWithWhereWithoutItemsInput = {
+    where?: QuoteWhereInput
+    data: XOR<QuoteUpdateWithoutItemsInput, QuoteUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type QuoteUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteNumber?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    customerNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutQuotesNestedInput
+    bulkOrder?: BulkOrderUpdateOneWithoutQuoteNestedInput
+  }
+
+  export type QuoteUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteNumber?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    bulkOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    customerNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductUpsertWithoutQuoteItemsInput = {
+    update: XOR<ProductUpdateWithoutQuoteItemsInput, ProductUncheckedUpdateWithoutQuoteItemsInput>
+    create: XOR<ProductCreateWithoutQuoteItemsInput, ProductUncheckedCreateWithoutQuoteItemsInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutQuoteItemsInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutQuoteItemsInput, ProductUncheckedUpdateWithoutQuoteItemsInput>
+  }
+
+  export type ProductUpdateWithoutQuoteItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: EnumProductTypeFieldUpdateOperationsInput | $Enums.ProductType
+    seafoodType?: EnumSeafoodTypeFieldUpdateOperationsInput | $Enums.SeafoodType
+    speciesName?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    compareAtPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    costPerItem?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    stockType?: EnumStockTypeFieldUpdateOperationsInput | $Enums.StockType
+    stockQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    stockUnit?: StringFieldUpdateOperationsInput | string
+    minOrderQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxOrderQty?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    tags?: ProductUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: ProductImageUpdateManyWithoutProductNestedInput
+    category?: CategoryUpdateOneRequiredWithoutProductsNestedInput
+    merchant?: MerchantUpdateOneWithoutProductsNestedInput
+    variants?: ProductVariantUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUpdateManyWithoutProductNestedInput
+    cartItems?: CartItemUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUpdateManyWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutQuoteItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sku?: NullableStringFieldUpdateOperationsInput | string | null
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    shortDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: EnumProductTypeFieldUpdateOperationsInput | $Enums.ProductType
+    seafoodType?: EnumSeafoodTypeFieldUpdateOperationsInput | $Enums.SeafoodType
+    speciesName?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    compareAtPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    costPerItem?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    stockType?: EnumStockTypeFieldUpdateOperationsInput | $Enums.StockType
+    stockQuantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    stockUnit?: StringFieldUpdateOperationsInput | string
+    minOrderQty?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    maxOrderQty?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
+    bestBefore?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shelfLifeDays?: NullableIntFieldUpdateOperationsInput | number | null
+    categoryId?: StringFieldUpdateOperationsInput | string
+    merchantId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
+    featured?: BoolFieldUpdateOperationsInput | boolean
+    tags?: ProductUpdatetagsInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: ProductImageUncheckedUpdateManyWithoutProductNestedInput
+    variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
+    orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
+    cartItems?: CartItemUncheckedUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type CategoryCreateManyParentInput = {
@@ -30465,6 +39802,8 @@ export namespace Prisma {
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutCategoryInput = {
@@ -30500,6 +39839,8 @@ export namespace Prisma {
     variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUncheckedUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUncheckedUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateManyWithoutCategoryInput = {
@@ -30573,6 +39914,40 @@ export namespace Prisma {
     quantity: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type BulkOrderItemCreateManyProductInput = {
+    id?: string
+    bulkOrderId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+  }
+
+  export type QuoteItemCreateManyProductInput = {
+    id?: string
+    quoteId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
   }
 
   export type ProductImageUpdateWithoutProductInput = {
@@ -30699,6 +40074,108 @@ export namespace Prisma {
     quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BulkOrderItemUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bulkOrder?: BulkOrderUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type BulkOrderItemUncheckedUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bulkOrderId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BulkOrderItemUncheckedUpdateManyWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bulkOrderId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuoteItemUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quote?: QuoteUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type QuoteItemUncheckedUpdateWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuoteItemUncheckedUpdateManyWithoutProductInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type OrderItemCreateManyOrderInput = {
@@ -30941,6 +40418,8 @@ export namespace Prisma {
     variants?: ProductVariantUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutMerchantInput = {
@@ -30976,6 +40455,8 @@ export namespace Prisma {
     variants?: ProductVariantUncheckedUpdateManyWithoutProductNestedInput
     orderItems?: OrderItemUncheckedUpdateManyWithoutProductNestedInput
     cartItems?: CartItemUncheckedUpdateManyWithoutProductNestedInput
+    bulkOrderItems?: BulkOrderItemUncheckedUpdateManyWithoutProductNestedInput
+    quoteItems?: QuoteItemUncheckedUpdateManyWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateManyWithoutMerchantInput = {
@@ -31048,6 +40529,49 @@ export namespace Prisma {
     paymentIntentId?: string | null
     paymentSourceId?: string | null
     status?: $Enums.OrderStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BulkOrderCreateManyUserInput = {
+    id?: string
+    orderNumber?: string
+    estimatedSubtotal: Decimal | DecimalJsLike | number | string
+    estimatedTotal: Decimal | DecimalJsLike | number | string
+    estimatedWeightKg: Decimal | DecimalJsLike | number | string
+    finalSubtotal?: Decimal | DecimalJsLike | number | string | null
+    finalShipping?: Decimal | DecimalJsLike | number | string | null
+    finalTotal?: Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: Date | string | null
+    deliveryNotes?: string | null
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: $Enums.BulkOrderStatus
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuoteCreateManyUserInput = {
+    id?: string
+    quoteNumber?: string
+    bulkOrderId?: string | null
+    subtotal: Decimal | DecimalJsLike | number | string
+    shippingCost?: Decimal | DecimalJsLike | number | string | null
+    discount?: Decimal | DecimalJsLike | number | string
+    total: Decimal | DecimalJsLike | number | string
+    totalWeightKg: Decimal | DecimalJsLike | number | string
+    contactName: string
+    contactEmail: string
+    contactPhone: string
+    companyName?: string | null
+    validUntil: Date | string
+    status?: $Enums.QuoteStatus
+    customerNotes?: string | null
+    internalNotes?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31181,6 +40705,277 @@ export namespace Prisma {
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BulkOrderUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: BulkOrderItemUpdateManyWithoutBulkOrderNestedInput
+    quote?: QuoteUpdateOneWithoutBulkOrderNestedInput
+  }
+
+  export type BulkOrderUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: BulkOrderItemUncheckedUpdateManyWithoutBulkOrderNestedInput
+    quote?: QuoteUncheckedUpdateOneWithoutBulkOrderNestedInput
+  }
+
+  export type BulkOrderUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderNumber?: StringFieldUpdateOperationsInput | string
+    estimatedSubtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedTotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    estimatedWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalSubtotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalShipping?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotal?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    preferredDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingAddress?: NullableJsonNullValueInput | InputJsonValue
+    status?: EnumBulkOrderStatusFieldUpdateOperationsInput | $Enums.BulkOrderStatus
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuoteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteNumber?: StringFieldUpdateOperationsInput | string
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    customerNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bulkOrder?: BulkOrderUpdateOneWithoutQuoteNestedInput
+    items?: QuoteItemUpdateManyWithoutQuoteNestedInput
+  }
+
+  export type QuoteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteNumber?: StringFieldUpdateOperationsInput | string
+    bulkOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    customerNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: QuoteItemUncheckedUpdateManyWithoutQuoteNestedInput
+  }
+
+  export type QuoteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quoteNumber?: StringFieldUpdateOperationsInput | string
+    bulkOrderId?: NullableStringFieldUpdateOperationsInput | string | null
+    subtotal?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    shippingCost?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    discount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    total?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalWeightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    contactName?: StringFieldUpdateOperationsInput | string
+    contactEmail?: StringFieldUpdateOperationsInput | string
+    contactPhone?: StringFieldUpdateOperationsInput | string
+    companyName?: NullableStringFieldUpdateOperationsInput | string | null
+    validUntil?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumQuoteStatusFieldUpdateOperationsInput | $Enums.QuoteStatus
+    customerNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    internalNotes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BulkOrderItemCreateManyBulkOrderInput = {
+    id?: string
+    productId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+  }
+
+  export type BulkOrderItemUpdateWithoutBulkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutBulkOrderItemsNestedInput
+  }
+
+  export type BulkOrderItemUncheckedUpdateWithoutBulkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BulkOrderItemUncheckedUpdateManyWithoutBulkOrderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    finalUnitPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    finalTotalPrice?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuoteItemCreateManyQuoteInput = {
+    id?: string
+    productId: string
+    productName: string
+    productImage?: string | null
+    localName?: string | null
+    productType: string
+    seafoodType: string
+    quantity: Decimal | DecimalJsLike | number | string
+    unitType: string
+    unitPrice: Decimal | DecimalJsLike | number | string
+    totalPrice: Decimal | DecimalJsLike | number | string
+    weightKg: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+  }
+
+  export type QuoteItemUpdateWithoutQuoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutQuoteItemsNestedInput
+  }
+
+  export type QuoteItemUncheckedUpdateWithoutQuoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuoteItemUncheckedUpdateManyWithoutQuoteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productId?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    productImage?: NullableStringFieldUpdateOperationsInput | string | null
+    localName?: NullableStringFieldUpdateOperationsInput | string | null
+    productType?: StringFieldUpdateOperationsInput | string
+    seafoodType?: StringFieldUpdateOperationsInput | string
+    quantity?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    unitType?: StringFieldUpdateOperationsInput | string
+    unitPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalPrice?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    weightKg?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

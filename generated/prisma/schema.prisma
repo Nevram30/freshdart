@@ -100,13 +100,15 @@ model Product {
   images ProductImage[]
 
   // Relations
-  categoryId String
-  category   Category         @relation(fields: [categoryId], references: [id])
-  merchantId String? // Producer/Merchant who owns this product
-  merchant   Merchant?        @relation(fields: [merchantId], references: [id])
-  variants   ProductVariant[]
-  orderItems OrderItem[]
-  cartItems  CartItem[]
+  categoryId     String
+  category       Category         @relation(fields: [categoryId], references: [id])
+  merchantId     String? // Producer/Merchant who owns this product
+  merchant       Merchant?        @relation(fields: [merchantId], references: [id])
+  variants       ProductVariant[]
+  orderItems     OrderItem[]
+  cartItems      CartItem[]
+  bulkOrderItems BulkOrderItem[]
+  quoteItems     QuoteItem[]
 
   // Metadata
   status   ProductStatus @default(DRAFT) // draft | active | inactive | archived
@@ -409,6 +411,7 @@ enum UserRole {
   CUSTOMER
   MERCHANT
   PRODUCER
+  ADMIN
 }
 
 model Account {
@@ -451,10 +454,12 @@ model User {
   // Default shipping address
   defaultAddress Json?
 
-  accounts Account[]
-  sessions Session[]
-  orders   Order[]
-  merchant Merchant? // For MERCHANT and PRODUCER roles
+  accounts   Account[]
+  sessions   Session[]
+  orders     Order[]
+  bulkOrders BulkOrder[]
+  quotes     Quote[]
+  merchant   Merchant? // For MERCHANT and PRODUCER roles
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -466,4 +471,180 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+// ============================================
+// BULK ORDER & QUOTE MODELS
+// ============================================
+
+enum BulkOrderStatus {
+  PENDING // Just submitted, awaiting review
+  REVIEWING // Being reviewed by team
+  QUOTED // Quote has been provided
+  CONFIRMED // Customer confirmed the order
+  PROCESSING // Order is being prepared
+  SHIPPED // Order has been shipped
+  DELIVERED // Order has been delivered
+  CANCELLED // Order was cancelled
+  REJECTED // Order was rejected
+}
+
+enum QuoteStatus {
+  PENDING // Quote request submitted
+  PROCESSING // Quote being prepared
+  SENT // Quote sent to customer
+  ACCEPTED // Customer accepted the quote
+  REJECTED // Customer rejected the quote
+  EXPIRED // Quote expired
+}
+
+model BulkOrder {
+  id          String @id @default(cuid())
+  orderNumber String @unique @default(cuid())
+
+  // Customer
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Items
+  items BulkOrderItem[]
+
+  // Estimated pricing (before confirmation)
+  estimatedSubtotal Decimal @db.Decimal(10, 2)
+  estimatedTotal    Decimal @db.Decimal(10, 2)
+  estimatedWeightKg Decimal @db.Decimal(10, 3)
+
+  // Final pricing (after quote acceptance)
+  finalSubtotal Decimal? @db.Decimal(10, 2)
+  finalShipping Decimal? @db.Decimal(10, 2)
+  finalTotal    Decimal? @db.Decimal(10, 2)
+
+  // Delivery preferences
+  preferredDeliveryDate DateTime?
+  deliveryNotes         String?
+
+  // Contact information
+  contactName     String
+  contactEmail    String
+  contactPhone    String
+  companyName     String?
+  shippingAddress Json? // { street, city, state, postalCode, country }
+
+  // Status
+  status BulkOrderStatus @default(PENDING)
+  notes  String? // Internal notes
+
+  // Related quote
+  quote Quote?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([orderNumber])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model BulkOrderItem {
+  id          String    @id @default(cuid())
+  bulkOrderId String
+  bulkOrder   BulkOrder @relation(fields: [bulkOrderId], references: [id], onDelete: Cascade)
+  productId   String
+  product     Product   @relation(fields: [productId], references: [id])
+
+  // Snapshot of product at time of order
+  productName  String
+  productImage String?
+  localName    String?
+  productType  String
+  seafoodType  String
+
+  // Quantity & Pricing
+  quantity   Decimal @db.Decimal(10, 3)
+  unitType   String // "kg", "g", "unit", etc.
+  unitPrice  Decimal @db.Decimal(10, 2) // Estimated unit price
+  totalPrice Decimal @db.Decimal(10, 2) // Estimated total price
+  weightKg   Decimal @db.Decimal(10, 3)
+
+  // Final pricing (after negotiation)
+  finalUnitPrice  Decimal? @db.Decimal(10, 2)
+  finalTotalPrice Decimal? @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+
+  @@index([bulkOrderId])
+  @@index([productId])
+}
+
+model Quote {
+  id          String @id @default(cuid())
+  quoteNumber String @unique @default(cuid())
+
+  // Customer
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Related bulk order (optional - quote can be standalone)
+  bulkOrderId String?    @unique
+  bulkOrder   BulkOrder? @relation(fields: [bulkOrderId], references: [id])
+
+  // Quote items (if standalone, otherwise references BulkOrderItems)
+  items QuoteItem[]
+
+  // Pricing
+  subtotal      Decimal  @db.Decimal(10, 2)
+  shippingCost  Decimal? @db.Decimal(10, 2)
+  discount      Decimal  @default(0) @db.Decimal(10, 2)
+  total         Decimal  @db.Decimal(10, 2)
+  totalWeightKg Decimal  @db.Decimal(10, 3)
+
+  // Contact information
+  contactName  String
+  contactEmail String
+  contactPhone String
+  companyName  String?
+
+  // Quote validity
+  validUntil DateTime
+  status     QuoteStatus @default(PENDING)
+
+  // Notes
+  customerNotes String? // Notes from customer
+  internalNotes String? // Internal notes
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([quoteNumber])
+  @@index([status])
+  @@index([validUntil])
+}
+
+model QuoteItem {
+  id        String  @id @default(cuid())
+  quoteId   String
+  quote     Quote   @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  // Product snapshot
+  productName  String
+  productImage String?
+  localName    String?
+  productType  String
+  seafoodType  String
+
+  // Quantity & Pricing
+  quantity   Decimal @db.Decimal(10, 3)
+  unitType   String
+  unitPrice  Decimal @db.Decimal(10, 2)
+  totalPrice Decimal @db.Decimal(10, 2)
+  weightKg   Decimal @db.Decimal(10, 3)
+
+  createdAt DateTime @default(now())
+
+  @@index([quoteId])
+  @@index([productId])
 }

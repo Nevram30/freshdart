@@ -17,11 +17,12 @@ import {
   Utensils,
   Receipt,
   ChevronLeft,
+  UserCheck,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "~/lib/utils";
 
-type UserRole = "CUSTOMER" | "MERCHANT" | "PRODUCER";
+type UserRole = "CUSTOMER" | "MERCHANT" | "PRODUCER" | "ADMIN";
 
 interface NavItem {
   label: string;
@@ -57,6 +58,13 @@ const producerNavItems: NavItem[] = [
   { label: "Settings", href: "/producer/dashboard/settings", icon: Settings },
 ];
 
+const adminNavItems: NavItem[] = [
+  { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+  { label: "Producers", href: "/admin/producers", icon: UserCheck },
+  { label: "Users", href: "/admin/users", icon: Users },
+  { label: "Settings", href: "/admin/settings", icon: Settings },
+];
+
 const roleConfig = {
   CUSTOMER: {
     title: "Customer Portal",
@@ -72,6 +80,11 @@ const roleConfig = {
     title: "Producer Portal",
     navItems: producerNavItems,
     color: "emerald",
+  },
+  ADMIN: {
+    title: "Admin Panel",
+    navItems: adminNavItems,
+    color: "purple",
   },
 };
 

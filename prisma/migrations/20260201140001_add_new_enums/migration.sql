@@ -1,0 +1,16 @@
+-- CreateEnum
+CREATE TYPE "ProductType" AS ENUM ('FRESH', 'FROZEN', 'PROCESSED', 'DRIED', 'LIVE');
+
+-- CreateEnum
+CREATE TYPE "SeafoodType" AS ENUM ('FISH', 'SHELLFISH', 'CRUSTACEAN', 'MOLLUSK', 'SEAWEED');
+
+-- CreateEnum
+CREATE TYPE "BulkOrderStatus" AS ENUM ('PENDING', 'REVIEWING', 'QUOTED', 'CONFIRMED', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'REJECTED');
+
+-- CreateEnum
+CREATE TYPE "QuoteStatus" AS ENUM ('PENDING', 'PROCESSING', 'SENT', 'ACCEPTED', 'REJECTED', 'EXPIRED');
+
+-- AlterEnum (add new values to ProductStatus)
+ALTER TYPE "ProductStatus" ADD VALUE 'DRAFT';
+ALTER TYPE "ProductStatus" ADD VALUE 'INACTIVE';
+ALTER TYPE "ProductStatus" ADD VALUE 'ARCHIVED';

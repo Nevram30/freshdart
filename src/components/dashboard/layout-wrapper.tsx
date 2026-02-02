@@ -4,7 +4,7 @@ import { useState } from "react";
 import { DashboardSidebar } from "./sidebar";
 import { DashboardHeader } from "./header";
 
-type UserRole = "CUSTOMER" | "MERCHANT" | "PRODUCER";
+type UserRole = "CUSTOMER" | "MERCHANT" | "PRODUCER" | "ADMIN";
 
 interface LayoutWrapperProps {
   role: UserRole;

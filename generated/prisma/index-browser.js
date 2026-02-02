@@ -332,6 +332,87 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.BulkOrderScalarFieldEnum = {
+  id: 'id',
+  orderNumber: 'orderNumber',
+  userId: 'userId',
+  estimatedSubtotal: 'estimatedSubtotal',
+  estimatedTotal: 'estimatedTotal',
+  estimatedWeightKg: 'estimatedWeightKg',
+  finalSubtotal: 'finalSubtotal',
+  finalShipping: 'finalShipping',
+  finalTotal: 'finalTotal',
+  preferredDeliveryDate: 'preferredDeliveryDate',
+  deliveryNotes: 'deliveryNotes',
+  contactName: 'contactName',
+  contactEmail: 'contactEmail',
+  contactPhone: 'contactPhone',
+  companyName: 'companyName',
+  shippingAddress: 'shippingAddress',
+  status: 'status',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BulkOrderItemScalarFieldEnum = {
+  id: 'id',
+  bulkOrderId: 'bulkOrderId',
+  productId: 'productId',
+  productName: 'productName',
+  productImage: 'productImage',
+  localName: 'localName',
+  productType: 'productType',
+  seafoodType: 'seafoodType',
+  quantity: 'quantity',
+  unitType: 'unitType',
+  unitPrice: 'unitPrice',
+  totalPrice: 'totalPrice',
+  weightKg: 'weightKg',
+  finalUnitPrice: 'finalUnitPrice',
+  finalTotalPrice: 'finalTotalPrice',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.QuoteScalarFieldEnum = {
+  id: 'id',
+  quoteNumber: 'quoteNumber',
+  userId: 'userId',
+  bulkOrderId: 'bulkOrderId',
+  subtotal: 'subtotal',
+  shippingCost: 'shippingCost',
+  discount: 'discount',
+  total: 'total',
+  totalWeightKg: 'totalWeightKg',
+  contactName: 'contactName',
+  contactEmail: 'contactEmail',
+  contactPhone: 'contactPhone',
+  companyName: 'companyName',
+  validUntil: 'validUntil',
+  status: 'status',
+  customerNotes: 'customerNotes',
+  internalNotes: 'internalNotes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.QuoteItemScalarFieldEnum = {
+  id: 'id',
+  quoteId: 'quoteId',
+  productId: 'productId',
+  productName: 'productName',
+  productImage: 'productImage',
+  localName: 'localName',
+  productType: 'productType',
+  seafoodType: 'seafoodType',
+  quantity: 'quantity',
+  unitType: 'unitType',
+  unitPrice: 'unitPrice',
+  totalPrice: 'totalPrice',
+  weightKg: 'weightKg',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -444,7 +525,29 @@ exports.DocumentStatus = exports.$Enums.DocumentStatus = {
 exports.UserRole = exports.$Enums.UserRole = {
   CUSTOMER: 'CUSTOMER',
   MERCHANT: 'MERCHANT',
-  PRODUCER: 'PRODUCER'
+  PRODUCER: 'PRODUCER',
+  ADMIN: 'ADMIN'
+};
+
+exports.BulkOrderStatus = exports.$Enums.BulkOrderStatus = {
+  PENDING: 'PENDING',
+  REVIEWING: 'REVIEWING',
+  QUOTED: 'QUOTED',
+  CONFIRMED: 'CONFIRMED',
+  PROCESSING: 'PROCESSING',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED',
+  REJECTED: 'REJECTED'
+};
+
+exports.QuoteStatus = exports.$Enums.QuoteStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  SENT: 'SENT',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  EXPIRED: 'EXPIRED'
 };
 
 exports.Prisma.ModelName = {
@@ -463,7 +566,11 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   User: 'User',
-  VerificationToken: 'VerificationToken'
+  VerificationToken: 'VerificationToken',
+  BulkOrder: 'BulkOrder',
+  BulkOrderItem: 'BulkOrderItem',
+  Quote: 'Quote',
+  QuoteItem: 'QuoteItem'
 };
 
 /**

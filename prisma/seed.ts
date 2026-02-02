@@ -10,6 +10,18 @@ async function main() {
   const hashedPassword = await bcrypt.hash("password123", 12);
 
   const users = await Promise.all([
+    // Admin user
+    prisma.user.upsert({
+      where: { email: "admin@freshdart.com" },
+      update: {},
+      create: {
+        name: "Admin User",
+        email: "admin@freshdart.com",
+        password: hashedPassword,
+        role: "ADMIN",
+        phone: "+63 999 888 7777",
+      },
+    }),
     // Customer user
     prisma.user.upsert({
       where: { email: "customer@freshdart.com" },
