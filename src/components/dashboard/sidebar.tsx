@@ -51,13 +51,13 @@ const merchantNavItems: NavItem[] = [
 ];
 
 const producerNavItems: NavItem[] = [
-  { label: "Dashboard", href: "/producer/dashboard", icon: LayoutDashboard, badge: "Under-dev" },
+  { label: "Dashboard", href: "/producer/dashboard", icon: LayoutDashboard },
   { label: "Products", href: "/producer/products", icon: Fish },
   { label: "Orders", href: "/producer/dashboard/orders", icon: ShoppingCart },
   { label: "Shipments", href: "/producer/dashboard/shipments", icon: Truck },
   { label: "Customers", href: "/producer/dashboard/customers", icon: Users },
-  { label: "Reports", href: "#", icon: FileText, badge: "Soon" },
-  { label: "Analytics", href: "#", icon: TrendingUp, badge: "Soon" },
+  { label: "Reports", href: "/producer/dashboard/reports", icon: FileText },
+  { label: "Analytics", href: "/producer/dashboard/analytics", icon: TrendingUp },
   { label: "Settings", href: "/producer/dashboard/settings", icon: Settings },
 ];
 
