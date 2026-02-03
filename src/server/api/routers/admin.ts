@@ -446,6 +446,269 @@ export const adminRouter = createTRPCRouter({
       };
     }),
 
+  // ============================================
+  // MERCHANT MANAGEMENT
+  // ============================================
+
+  // Get all merchants
+  getMerchants: adminProcedure
+    .input(
+      z
+        .object({
+          verificationStatus: VerificationStatusEnum.optional(),
+          search: z.string().optional(),
+          limit: z.number().min(1).max(100).default(20),
+          cursor: z.string().optional(),
+        })
+        .optional()
+    )
+    .query(async ({ ctx, input }) => {
+      const {
+        verificationStatus,
+        search,
+        limit = 20,
+        cursor,
+      } = input ?? {};
+
+      const where = {
+        user: {
+          role: "MERCHANT" as const,
+        },
+        ...(verificationStatus && { verificationStatus }),
+        ...(search && {
+          OR: [
+            { businessName: { contains: search, mode: "insensitive" as const } },
+            { description: { contains: search, mode: "insensitive" as const } },
+            { user: { name: { contains: search, mode: "insensitive" as const } } },
+            { user: { email: { contains: search, mode: "insensitive" as const } } },
+          ],
+        }),
+      };
+
+      const merchants = await ctx.db.merchant.findMany({
+        where,
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        orderBy: [{ createdAt: "desc" }],
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              phone: true,
+              image: true,
+              createdAt: true,
+              _count: {
+                select: {
+                  orders: true,
+                  bulkOrders: true,
+                },
+              },
+            },
+          },
+          documents: {
+            orderBy: { createdAt: "desc" },
+          },
+          _count: {
+            select: {
+              products: true,
+            },
+          },
+        },
+      });
+
+      let nextCursor: typeof cursor = undefined;
+      if (merchants.length > limit) {
+        const nextItem = merchants.pop();
+        nextCursor = nextItem!.id;
+      }
+
+      return {
+        merchants: merchants.map((merchant) => ({
+          id: merchant.id,
+          userId: merchant.userId,
+          businessName: merchant.businessName,
+          businessRegistrationNumber: merchant.businessRegistrationNumber,
+          businessType: merchant.businessType,
+          businessSize: merchant.businessSize,
+          description: merchant.description,
+          ratingAverage: merchant.ratingAverage,
+          totalSales: merchant.totalSales,
+          verificationStatus: merchant.verificationStatus,
+          isFeatured: merchant.isFeatured,
+          user: merchant.user,
+          documents: merchant.documents,
+          productCount: merchant._count.products,
+          orderCount: merchant.user._count.orders,
+          bulkOrderCount: merchant.user._count.bulkOrders,
+          createdAt: merchant.createdAt,
+          updatedAt: merchant.updatedAt,
+        })),
+        nextCursor,
+      };
+    }),
+
+  // Get single merchant details
+  getMerchantDetails: adminProcedure
+    .input(
+      z.object({
+        merchantId: z.string().min(1),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const merchant = await ctx.db.merchant.findFirst({
+        where: {
+          id: input.merchantId,
+          user: {
+            role: "MERCHANT",
+          },
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              phone: true,
+              image: true,
+              createdAt: true,
+              _count: {
+                select: {
+                  orders: true,
+                  bulkOrders: true,
+                },
+              },
+            },
+          },
+          documents: {
+            orderBy: { createdAt: "desc" },
+          },
+          _count: {
+            select: {
+              products: true,
+            },
+          },
+        },
+      });
+
+      if (!merchant) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Merchant not found",
+        });
+      }
+
+      return {
+        id: merchant.id,
+        userId: merchant.userId,
+        businessName: merchant.businessName,
+        businessRegistrationNumber: merchant.businessRegistrationNumber,
+        businessType: merchant.businessType,
+        businessSize: merchant.businessSize,
+        description: merchant.description,
+        ratingAverage: merchant.ratingAverage,
+        totalSales: merchant.totalSales,
+        verificationStatus: merchant.verificationStatus,
+        isFeatured: merchant.isFeatured,
+        user: merchant.user,
+        documents: merchant.documents,
+        productCount: merchant._count.products,
+        orderCount: merchant.user._count.orders,
+        bulkOrderCount: merchant.user._count.bulkOrders,
+        createdAt: merchant.createdAt,
+        updatedAt: merchant.updatedAt,
+      };
+    }),
+
+  // Get merchant stats for dashboard
+  getMerchantStats: adminProcedure.query(async ({ ctx }) => {
+    const [pending, verified, rejected, total] = await Promise.all([
+      ctx.db.merchant.count({
+        where: {
+          user: { role: "MERCHANT" },
+          verificationStatus: "PENDING",
+        },
+      }),
+      ctx.db.merchant.count({
+        where: {
+          user: { role: "MERCHANT" },
+          verificationStatus: "VERIFIED",
+        },
+      }),
+      ctx.db.merchant.count({
+        where: {
+          user: { role: "MERCHANT" },
+          verificationStatus: "REJECTED",
+        },
+      }),
+      ctx.db.merchant.count({
+        where: {
+          user: { role: "MERCHANT" },
+        },
+      }),
+    ]);
+
+    return {
+      pending,
+      verified,
+      rejected,
+      total,
+    };
+  }),
+
+  // Update merchant verification status
+  updateMerchantVerificationStatus: adminProcedure
+    .input(
+      z.object({
+        merchantId: z.string().min(1),
+        verificationStatus: VerificationStatusEnum,
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const merchant = await ctx.db.merchant.findFirst({
+        where: {
+          id: input.merchantId,
+          user: {
+            role: "MERCHANT",
+          },
+        },
+      });
+
+      if (!merchant) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Merchant not found",
+        });
+      }
+
+      const updated = await ctx.db.merchant.update({
+        where: { id: input.merchantId },
+        data: {
+          verificationStatus: input.verificationStatus,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      });
+
+      return {
+        success: true,
+        merchant: {
+          id: updated.id,
+          businessName: updated.businessName,
+          verificationStatus: updated.verificationStatus,
+          user: updated.user,
+        },
+      };
+    }),
+
   // Get user stats for dashboard
   getUserStats: adminProcedure.query(async ({ ctx }) => {
     const [customers, merchants, producers, admins, total] = await Promise.all([

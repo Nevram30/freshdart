@@ -30,6 +30,7 @@ export default async function Home() {
     ...p,
     price: Number(p.price),
     compareAtPrice: p.compareAtPrice ? Number(p.compareAtPrice) : null,
+    costPerItem: p.costPerItem ? Number(p.costPerItem) : null,
     stockQuantity: Number(p.stockQuantity),
     minOrderQty: Number(p.minOrderQty),
     maxOrderQty: p.maxOrderQty ? Number(p.maxOrderQty) : null,

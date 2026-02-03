@@ -78,7 +78,7 @@ export const authConfig = {
   callbacks: {
     jwt: ({ token, user }) => {
       if (user) {
-        token.id = user.id;
+        token.sub = user.id;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
         token.role = (user as any).role;
       }
@@ -88,7 +88,7 @@ export const authConfig = {
       ...session,
       user: {
         ...session.user,
-        id: token.id as string,
+        id: token.sub!,
         role: token.role as string,
       },
     }),

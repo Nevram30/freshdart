@@ -61,6 +61,7 @@ const producerNavItems: NavItem[] = [
 const adminNavItems: NavItem[] = [
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
   { label: "Producers", href: "/admin/producers", icon: UserCheck },
+  { label: "Merchants", href: "/admin/merchants", icon: Store },
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Settings", href: "/admin/settings", icon: Settings },
 ];

@@ -15,12 +15,13 @@ import {
 } from "lucide-react";
 import { useCartStore } from "~/stores/cart-store";
 
-type UserRole = "CUSTOMER" | "MERCHANT" | "PRODUCER";
+type UserRole = "CUSTOMER" | "MERCHANT" | "PRODUCER" | "ADMIN";
 
 const dashboardPaths: Record<UserRole, string> = {
   CUSTOMER: "/customer/dashboard",
   MERCHANT: "/merchant/dashboard",
   PRODUCER: "/producer/dashboard",
+  ADMIN: "/admin/dashboard",
 };
 
 export function Header() {
