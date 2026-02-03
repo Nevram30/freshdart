@@ -43,11 +43,10 @@ export default function SourcingMarketPage() {
 
   // Bulk order store
   const openDrawer = useBulkOrderStore((state) => state.openDrawer);
-  const getTotalItems = useBulkOrderStore((state) => state.getTotalItems);
-  const getItemCount = useBulkOrderStore((state) => state.getItemCount);
+  const items = useBulkOrderStore((state) => state.items);
 
-  const totalBulkItems = getTotalItems();
-  const bulkItemCount = getItemCount();
+  const bulkItemCount = items.length;
+  const totalBulkItems = items.reduce((total, item) => total + item.quantity, 0);
 
   // Fetch producers
   const { data, isLoading, isError } = api.merchant.getProducers.useQuery({
@@ -72,17 +71,14 @@ export default function SourcingMarketPage() {
           </div>
           <button
             onClick={openDrawer}
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-4 py-2.5 transition-all",
-              bulkItemCount > 0
-                ? "bg-teal-600 text-white hover:bg-teal-700"
-                : "border border-gray-300 bg-white text-gray-600 hover:bg-gray-50"
-            )}
+            className="relative rounded-lg border border-gray-300 bg-white p-2.5 text-gray-600 transition-all hover:bg-gray-50"
           >
             <ShoppingCart className="h-5 w-5" />
-            <span className="font-semibold">
-              {bulkItemCount > 0 ? `${totalBulkItems} items in bulk order` : "Bulk Order"}
-            </span>
+            {bulkItemCount > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-xs font-bold text-white">
+                {totalBulkItems}
+              </span>
+            )}
           </button>
         </div>
       </div>
