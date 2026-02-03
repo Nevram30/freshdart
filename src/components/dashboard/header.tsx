@@ -1,18 +1,30 @@
 "use client";
 
 import { signOut } from "next-auth/react";
+import Link from "next/link";
 import { User, LogOut, ChevronDown, Calendar } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { format } from "date-fns";
 
+type UserRole = "CUSTOMER" | "MERCHANT" | "PRODUCER" | "ADMIN";
+
+const profilePaths: Record<UserRole, string> = {
+  CUSTOMER: "/customer/dashboard/profile",
+  MERCHANT: "/merchant/dashboard/profile",
+  PRODUCER: "/producer/dashboard/profile",
+  ADMIN: "/admin/dashboard",
+};
+
 interface DashboardHeaderProps {
   userName?: string | null;
   userEmail?: string | null;
+  role?: UserRole;
 }
 
 export function DashboardHeader({
   userName,
   userEmail,
+  role,
 }: DashboardHeaderProps) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -70,6 +82,16 @@ export function DashboardHeader({
                   {userEmail ?? "user@example.com"}
                 </p>
               </div>
+              {role && (
+                <Link
+                  href={profilePaths[role]}
+                  onClick={() => setIsUserMenuOpen(false)}
+                  className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900"
+                >
+                  <User className="h-4 w-4" />
+                  My Profile
+                </Link>
+              )}
               <button
                 onClick={() => signOut({ callbackUrl: "/login" })}
                 className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-700 transition-colors hover:bg-red-50 hover:text-red-600"

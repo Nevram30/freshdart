@@ -709,6 +709,181 @@ export const adminRouter = createTRPCRouter({
       };
     }),
 
+  // ============================================
+  // PRODUCT MANAGEMENT
+  // ============================================
+
+  // Get all products across all producers
+  getProducts: adminProcedure
+    .input(
+      z
+        .object({
+          status: z
+            .enum(["DRAFT", "ACTIVE", "INACTIVE", "ARCHIVED", "OUT_OF_STOCK", "DISCONTINUED"])
+            .optional(),
+          search: z.string().optional(),
+          categoryId: z.string().optional(),
+          producerId: z.string().optional(),
+          limit: z.number().min(1).max(100).default(20),
+          cursor: z.string().optional(),
+        })
+        .optional()
+    )
+    .query(async ({ ctx, input }) => {
+      const {
+        status,
+        search,
+        categoryId,
+        producerId,
+        limit = 20,
+        cursor,
+      } = input ?? {};
+
+      const where = {
+        ...(status && { status }),
+        ...(categoryId && { categoryId }),
+        ...(producerId && { merchantId: producerId }),
+        ...(search && {
+          OR: [
+            { name: { contains: search, mode: "insensitive" as const } },
+            { description: { contains: search, mode: "insensitive" as const } },
+            { localName: { contains: search, mode: "insensitive" as const } },
+            { speciesName: { contains: search, mode: "insensitive" as const } },
+            { sku: { contains: search, mode: "insensitive" as const } },
+          ],
+        }),
+      };
+
+      const products = await ctx.db.product.findMany({
+        where,
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        orderBy: [{ createdAt: "desc" }],
+        include: {
+          images: {
+            take: 1,
+            orderBy: { sortOrder: "asc" },
+          },
+          category: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+            },
+          },
+          merchant: {
+            select: {
+              id: true,
+              businessName: true,
+              verificationStatus: true,
+              user: {
+                select: {
+                  name: true,
+                  email: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      let nextCursor: typeof cursor = undefined;
+      if (products.length > limit) {
+        const nextItem = products.pop();
+        nextCursor = nextItem!.id;
+      }
+
+      return {
+        products: products.map((product) => ({
+          id: product.id,
+          name: product.name,
+          slug: product.slug,
+          sku: product.sku,
+          price: product.price,
+          stockQuantity: product.stockQuantity,
+          stockUnit: product.stockUnit,
+          stockType: product.stockType,
+          status: product.status,
+          productType: product.productType,
+          seafoodType: product.seafoodType,
+          localName: product.localName,
+          featured: product.featured,
+          image: product.images[0] ?? null,
+          category: product.category,
+          merchant: product.merchant,
+          createdAt: product.createdAt,
+          updatedAt: product.updatedAt,
+        })),
+        nextCursor,
+      };
+    }),
+
+  // Delete a product (admin override)
+  deleteProduct: adminProcedure
+    .input(
+      z.object({
+        productId: z.string().min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const product = await ctx.db.product.findUnique({
+        where: { id: input.productId },
+        select: { id: true, name: true },
+      });
+
+      if (!product) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Product not found",
+        });
+      }
+
+      await ctx.db.product.delete({
+        where: { id: input.productId },
+      });
+
+      return {
+        success: true,
+        product: { id: product.id, name: product.name },
+      };
+    }),
+
+  deleteProducts: adminProcedure
+    .input(
+      z.object({
+        productIds: z.array(z.string().min(1)).min(1),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const result = await ctx.db.product.deleteMany({
+        where: { id: { in: input.productIds } },
+      });
+
+      return {
+        success: true,
+        count: result.count,
+      };
+    }),
+
+  // Get product stats for admin dashboard
+  getProductStats: adminProcedure.query(async ({ ctx }) => {
+    const [active, draft, inactive, outOfStock, total] = await Promise.all([
+      ctx.db.product.count({ where: { status: "ACTIVE" } }),
+      ctx.db.product.count({ where: { status: "DRAFT" } }),
+      ctx.db.product.count({ where: { status: "INACTIVE" } }),
+      ctx.db.product.count({ where: { status: "OUT_OF_STOCK" } }),
+      ctx.db.product.count(),
+    ]);
+
+    return {
+      active,
+      draft,
+      inactive,
+      outOfStock,
+      total,
+    };
+  }),
+
   // Get user stats for dashboard
   getUserStats: adminProcedure.query(async ({ ctx }) => {
     const [customers, merchants, producers, admins, total] = await Promise.all([

@@ -505,9 +505,17 @@ export default function ProducerProductsPage() {
                 <tr key={product.id} className="transition-colors hover:bg-gray-50">
                   <td className="whitespace-nowrap px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100">
-                        <Fish className="h-6 w-6 text-teal-600" />
-                      </div>
+                      {product.images?.[0]?.url ? (
+                        <img
+                          src={product.images[0].url}
+                          alt={product.name}
+                          className="h-12 w-12 rounded-lg object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-teal-100">
+                          <Fish className="h-6 w-6 text-teal-600" />
+                        </div>
+                      )}
                       <div>
                         <div className="font-medium text-gray-900">{product.name}</div>
                         <div className="text-xs text-gray-500">

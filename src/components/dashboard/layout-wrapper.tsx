@@ -38,6 +38,7 @@ export function DashboardLayoutWrapper({
         <DashboardHeader
           userName={userName}
           userEmail={userEmail}
+          role={role}
         />
         <main className="flex-1 overflow-hidden">
           <div className="h-full overflow-auto p-8">{children}</div>

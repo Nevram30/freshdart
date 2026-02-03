@@ -47,6 +47,7 @@ const merchantNavItems: NavItem[] = [
   { label: "Sourcing Market", href: "/merchant/sourcing", icon: Store },
   { label: "Inventory", href: "/merchant/inventory", icon: Package, badge: "Soon" },
   { label: "Invoices", href: "/merchant/dashboard/invoices", icon: Receipt, badge: "Soon" },
+  { label: "Settings", href: "/merchant/dashboard/settings", icon: Settings, badge: "Under-dev" },
 ];
 
 const producerNavItems: NavItem[] = [
@@ -57,13 +58,13 @@ const producerNavItems: NavItem[] = [
   { label: "Customers", href: "/producer/dashboard/customers", icon: Users },
   { label: "Reports", href: "#", icon: FileText, badge: "Soon" },
   { label: "Analytics", href: "#", icon: TrendingUp, badge: "Soon" },
-  { label: "Profile", href: "/producer/dashboard/profile", icon: User },
   { label: "Settings", href: "/producer/dashboard/settings", icon: Settings },
 ];
 
 const adminNavItems: NavItem[] = [
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-  { label: "Producers", href: "/admin/producers", icon: UserCheck },
+  { label: "Products", href: "/admin/products", icon: Package },
+  { label: "User Verification", href: "/admin/producers", icon: UserCheck },
   { label: "Merchants", href: "/admin/merchants", icon: Store },
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Settings", href: "/admin/settings", icon: Settings },
