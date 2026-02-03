@@ -28,6 +28,7 @@ interface NavItem {
   label: string;
   href: string;
   icon: LucideIcon;
+  badge?: string;
 }
 
 const customerNavItems: NavItem[] = [
@@ -47,13 +48,13 @@ const merchantNavItems: NavItem[] = [
 ];
 
 const producerNavItems: NavItem[] = [
-  { label: "Dashboard", href: "/producer/dashboard", icon: LayoutDashboard },
+  { label: "Dashboard", href: "/producer/dashboard", icon: LayoutDashboard, badge: "Under-dev" },
   { label: "Products", href: "/producer/products", icon: Fish },
   { label: "Orders", href: "/producer/dashboard/orders", icon: ShoppingCart },
   { label: "Shipments", href: "/producer/dashboard/shipments", icon: Truck },
   { label: "Customers", href: "/producer/dashboard/customers", icon: Users },
-  { label: "Reports", href: "/producer/dashboard/reports", icon: FileText },
-  { label: "Analytics", href: "/producer/dashboard/analytics", icon: TrendingUp },
+  { label: "Reports", href: "#", icon: FileText, badge: "Soon" },
+  { label: "Analytics", href: "#", icon: TrendingUp, badge: "Soon" },
   { label: "Profile", href: "/producer/dashboard/profile", icon: User },
   { label: "Settings", href: "/producer/dashboard/settings", icon: Settings },
 ];
@@ -164,11 +165,20 @@ export function DashboardSidebar({ role, isOpen = true, onToggle, businessName }
                 >
                   <Icon
                     className={cn(
-                      "h-5 w-5",
+                      "h-5 w-5 shrink-0",
                       isActive ? "text-teal-600" : "text-gray-400"
                     )}
                   />
-                  {isOpen && <span>{item.label}</span>}
+                  {isOpen && (
+                    <>
+                      <span className="flex-1">{item.label}</span>
+                      {item.badge && (
+                        <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-700">
+                          {item.badge}
+                        </span>
+                      )}
+                    </>
+                  )}
                 </Link>
               </li>
             );
