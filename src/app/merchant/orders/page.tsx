@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Download,
   Search,
@@ -23,12 +23,15 @@ import {
   FileText,
   PackageCheck,
   Navigation,
+  Check,
 } from "lucide-react";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
-import { format } from "date-fns";
+import { format, subDays, startOfMonth, endOfMonth, subMonths, startOfDay, endOfDay } from "date-fns";
 import { TrackingModal } from "~/components/shipping/tracking-modal";
+import { cn } from "~/lib/utils";
+import { useDebounce } from "~/hooks/use-debounce";
 
 type OrderStatus =
   | "PENDING"
@@ -272,7 +275,7 @@ function OrderDetailsModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-xl">
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4">
+        <div className="sticky top-0 z-20 flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4">
           <div>
             <h2 className="text-xl font-bold text-gray-900">
               Order #{order.orderNumber.slice(-8).toUpperCase()}
@@ -456,7 +459,7 @@ function OrderDetailsModal({
         </div>
 
         {/* Footer */}
-        <div className="sticky bottom-0 flex items-center justify-between border-t border-gray-200 bg-gray-50 px-6 py-4">
+        <div className="sticky bottom-0 z-20 flex items-center justify-between border-t border-gray-200 bg-gray-50 px-6 py-4">
           {canCancel && order.status !== "QUOTED" ? (
             <Button
               variant="outline"
@@ -484,6 +487,114 @@ export default function MyOrdersPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
 
+  // Debounced search
+  const debouncedSearch = useDebounce(searchQuery, 400);
+
+  // Date range filter state
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [dateFrom, setDateFrom] = useState<Date | null>(null);
+  const [dateTo, setDateTo] = useState<Date | null>(null);
+  const datePickerRef = useRef<HTMLDivElement>(null);
+
+  // More filters state
+  const [showMoreFilters, setShowMoreFilters] = useState(false);
+  const [minAmount, setMinAmount] = useState("");
+  const [maxAmount, setMaxAmount] = useState("");
+  const [selectedCarriers, setSelectedCarriers] = useState<
+    ("JT_EXPRESS" | "LALAMOVE" | "GRAB_EXPRESS" | "LBC" | "GOGO_XPRESS" | "NINJA_VAN" | "SELF_DELIVERY" | "OTHER")[]
+  >([]);
+  const [coldChainFilter, setColdChainFilter] = useState<"all" | "yes" | "no">("all");
+  const moreFiltersRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        datePickerRef.current &&
+        !datePickerRef.current.contains(event.target as Node)
+      ) {
+        setShowDatePicker(false);
+      }
+      if (
+        moreFiltersRef.current &&
+        !moreFiltersRef.current.contains(event.target as Node)
+      ) {
+        setShowMoreFilters(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Active filter indicators
+  const activeMoreFiltersCount = [
+    minAmount || maxAmount ? 1 : 0,
+    selectedCarriers.length > 0 ? 1 : 0,
+    coldChainFilter !== "all" ? 1 : 0,
+  ].reduce((a, b) => a + b, 0);
+
+  const dateRangeText =
+    dateFrom && dateTo
+      ? `${format(dateFrom, "MMM d")} - ${format(dateTo, "MMM d, yyyy")}`
+      : dateFrom
+        ? `From ${format(dateFrom, "MMM d, yyyy")}`
+        : dateTo
+          ? `Until ${format(dateTo, "MMM d, yyyy")}`
+          : null;
+
+  // Date range helpers
+  const applyDatePreset = (preset: string) => {
+    const now = new Date();
+    switch (preset) {
+      case "today":
+        setDateFrom(startOfDay(now));
+        setDateTo(endOfDay(now));
+        break;
+      case "last7":
+        setDateFrom(startOfDay(subDays(now, 7)));
+        setDateTo(endOfDay(now));
+        break;
+      case "last30":
+        setDateFrom(startOfDay(subDays(now, 30)));
+        setDateTo(endOfDay(now));
+        break;
+      case "thisMonth":
+        setDateFrom(startOfMonth(now));
+        setDateTo(endOfDay(now));
+        break;
+      case "lastMonth": {
+        const lastMonth = subMonths(now, 1);
+        setDateFrom(startOfMonth(lastMonth));
+        setDateTo(endOfMonth(lastMonth));
+        break;
+      }
+    }
+    setShowDatePicker(false);
+    setCurrentPage(1);
+  };
+
+  const clearDateRange = () => {
+    setDateFrom(null);
+    setDateTo(null);
+    setCurrentPage(1);
+  };
+
+  const clearMoreFilters = () => {
+    setMinAmount("");
+    setMaxAmount("");
+    setSelectedCarriers([]);
+    setColdChainFilter("all");
+    setCurrentPage(1);
+  };
+
+  const toggleCarrier = (carrier: typeof selectedCarriers[number]) => {
+    setSelectedCarriers((prev) =>
+      prev.includes(carrier)
+        ? prev.filter((c) => c !== carrier)
+        : [...prev, carrier]
+    );
+  };
+
   // Action modal state
   const [actionModal, setActionModal] = useState<{
     orderId: string;
@@ -500,7 +611,14 @@ export default function MyOrdersPage() {
   const { data, isLoading, error } = api.order.getMerchantOrders.useQuery({
     limit: 10,
     status: activeTab === "all" ? undefined : activeTab,
-    search: searchQuery || undefined,
+    search: debouncedSearch || undefined,
+    dateFrom: dateFrom ?? undefined,
+    dateTo: dateTo ?? undefined,
+    minAmount: minAmount ? parseFloat(minAmount) : undefined,
+    maxAmount: maxAmount ? parseFloat(maxAmount) : undefined,
+    carriers: selectedCarriers.length > 0 ? selectedCarriers : undefined,
+    requiresColdChain:
+      coldChainFilter === "all" ? undefined : coldChainFilter === "yes",
   });
 
   const utils = api.useUtils();
@@ -602,24 +720,268 @@ export default function MyOrdersPage() {
 
         {/* Filters */}
         <div className="flex items-center gap-4 border-b border-gray-200 px-6 py-4">
+          {/* Search Input */}
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
               placeholder="Search by Order ID or Product..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setCurrentPage(1);
+              }}
               className="w-full rounded-lg border border-gray-200 py-2 pl-10 pr-4 text-sm text-gray-900 placeholder-gray-400 transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
-          <button className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-            <Calendar className="h-4 w-4" />
-            Select Date Range
-          </button>
-          <button className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-            <SlidersHorizontal className="h-4 w-4" />
-            More Filters
-          </button>
+
+          {/* Date Range Picker */}
+          <div className="relative" ref={datePickerRef}>
+            <button
+              onClick={() => {
+                setShowDatePicker(!showDatePicker);
+                setShowMoreFilters(false);
+              }}
+              className={cn(
+                "flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors",
+                dateRangeText
+                  ? "border-blue-300 bg-blue-50 text-blue-700"
+                  : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+              )}
+            >
+              <Calendar className="h-4 w-4" />
+              <span className="whitespace-nowrap">
+                {dateRangeText ?? "Select Date Range"}
+              </span>
+              {dateRangeText && (
+                <X
+                  className="h-3.5 w-3.5 shrink-0 text-blue-400 hover:text-blue-600"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    clearDateRange();
+                  }}
+                />
+              )}
+            </button>
+
+            {showDatePicker && (
+              <div className="absolute right-0 top-full z-30 mt-2 w-80 rounded-xl border border-gray-200 bg-white p-4 shadow-lg">
+                {/* Quick Presets */}
+                <div className="mb-4">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Quick Select
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { key: "today", label: "Today" },
+                      { key: "last7", label: "Last 7 Days" },
+                      { key: "last30", label: "Last 30 Days" },
+                      { key: "thisMonth", label: "This Month" },
+                      { key: "lastMonth", label: "Last Month" },
+                    ].map((preset) => (
+                      <button
+                        key={preset.key}
+                        onClick={() => applyDatePreset(preset.key)}
+                        className="rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-700 transition-colors hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
+                      >
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Custom Range */}
+                <div className="border-t border-gray-100 pt-4">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Custom Range
+                  </p>
+                  <div className="flex gap-3">
+                    <div className="flex-1">
+                      <label className="mb-1 block text-xs text-gray-500">
+                        From
+                      </label>
+                      <input
+                        type="date"
+                        value={dateFrom ? format(dateFrom, "yyyy-MM-dd") : ""}
+                        onChange={(e) => {
+                          setDateFrom(
+                            e.target.value ? new Date(e.target.value) : null
+                          );
+                        }}
+                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label className="mb-1 block text-xs text-gray-500">
+                        To
+                      </label>
+                      <input
+                        type="date"
+                        value={dateTo ? format(dateTo, "yyyy-MM-dd") : ""}
+                        onChange={(e) => {
+                          setDateTo(
+                            e.target.value ? new Date(e.target.value) : null
+                          );
+                        }}
+                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="mt-4 flex justify-between border-t border-gray-100 pt-4">
+                  <button
+                    onClick={clearDateRange}
+                    className="text-sm text-gray-500 hover:text-gray-700"
+                  >
+                    Clear
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowDatePicker(false);
+                      setCurrentPage(1);
+                    }}
+                    className="rounded-lg bg-blue-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-800"
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* More Filters */}
+          <div className="relative" ref={moreFiltersRef}>
+            <button
+              onClick={() => {
+                setShowMoreFilters(!showMoreFilters);
+                setShowDatePicker(false);
+              }}
+              className={cn(
+                "flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition-colors",
+                activeMoreFiltersCount > 0
+                  ? "border-blue-300 bg-blue-50 text-blue-700"
+                  : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+              )}
+            >
+              <SlidersHorizontal className="h-4 w-4" />
+              More Filters
+              {activeMoreFiltersCount > 0 && (
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">
+                  {activeMoreFiltersCount}
+                </span>
+              )}
+            </button>
+
+            {showMoreFilters && (
+              <div className="absolute right-0 top-full z-30 mt-2 w-96 rounded-xl border border-gray-200 bg-white p-4 shadow-lg">
+                {/* Amount Range */}
+                <div className="mb-4">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Amount Range (PHP)
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1">
+                      <input
+                        type="number"
+                        placeholder="Min"
+                        value={minAmount}
+                        onChange={(e) => setMinAmount(e.target.value)}
+                        min="0"
+                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                      />
+                    </div>
+                    <span className="text-gray-400">—</span>
+                    <div className="flex-1">
+                      <input
+                        type="number"
+                        placeholder="Max"
+                        value={maxAmount}
+                        onChange={(e) => setMaxAmount(e.target.value)}
+                        min="0"
+                        className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Carrier Filter */}
+                <div className="mb-4 border-t border-gray-100 pt-4">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Shipping Carrier
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {(Object.keys(carrierLabels) as (typeof selectedCarriers)[number][]).map((key) => (
+                      <button
+                        key={key}
+                        onClick={() => toggleCarrier(key)}
+                        className={cn(
+                          "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors",
+                          selectedCarriers.includes(key)
+                            ? "border-blue-300 bg-blue-50 text-blue-700"
+                            : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+                        )}
+                      >
+                        {selectedCarriers.includes(key) && (
+                          <Check className="h-3 w-3" />
+                        )}
+                        {carrierLabels[key]}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Cold Chain Filter */}
+                <div className="mb-4 border-t border-gray-100 pt-4">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    Cold Chain Required
+                  </p>
+                  <div className="flex gap-2">
+                    {(
+                      [
+                        { key: "all", label: "All" },
+                        { key: "yes", label: "Yes" },
+                        { key: "no", label: "No" },
+                      ] as const
+                    ).map((option) => (
+                      <button
+                        key={option.key}
+                        onClick={() => setColdChainFilter(option.key)}
+                        className={cn(
+                          "flex-1 rounded-lg border px-3 py-2 text-sm font-medium transition-colors",
+                          coldChainFilter === option.key
+                            ? "border-blue-300 bg-blue-50 text-blue-700"
+                            : "border-gray-200 bg-white text-gray-600 hover:border-gray-300"
+                        )}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Footer */}
+                <div className="flex justify-between border-t border-gray-100 pt-4">
+                  <button
+                    onClick={clearMoreFilters}
+                    className="text-sm text-gray-500 hover:text-gray-700"
+                  >
+                    Clear All
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowMoreFilters(false);
+                      setCurrentPage(1);
+                    }}
+                    className="rounded-lg bg-blue-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-800"
+                  >
+                    Apply Filters
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Loading State */}

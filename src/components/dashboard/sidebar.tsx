@@ -18,6 +18,8 @@ import {
   Receipt,
   ChevronLeft,
   UserCheck,
+  Headphones,
+  MessageSquare,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "~/lib/utils";
@@ -185,6 +187,56 @@ export function DashboardSidebar({ role, isOpen = true, onToggle, businessName }
           })}
         </ul>
       </nav>
+
+      {/* Customer Care & Feedback Card - Producer and Merchant only */}
+      {(role === "PRODUCER" || role === "MERCHANT") && (
+        <div className={cn("border-t border-gray-100 p-3", !isOpen && "flex flex-col items-center")}>
+          {isOpen ? (
+            <div className="rounded-lg bg-gray-50 p-3">
+              <div className="mb-2 flex items-center gap-2">
+                <Headphones className="h-4 w-4 text-teal-600" />
+                <span className="text-xs font-semibold text-gray-800">Need Help?</span>
+              </div>
+              <p className="mb-3 text-[11px] leading-relaxed text-gray-500">
+                Reach out to our support team for assistance or share your feedback.
+              </p>
+              <div className="flex flex-col gap-1.5">
+                <a
+                  href="mailto:support@freshdart.com"
+                  className="flex items-center gap-2 rounded-md bg-teal-600 px-3 py-1.5 text-[11px] font-medium text-white transition-colors hover:bg-teal-700"
+                >
+                  <Headphones className="h-3.5 w-3.5" />
+                  Customer Care
+                </a>
+                <a
+                  href="mailto:feedback@freshdart.com"
+                  className="flex items-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-1.5 text-[11px] font-medium text-gray-700 transition-colors hover:bg-gray-100"
+                >
+                  <MessageSquare className="h-3.5 w-3.5" />
+                  Send Feedback
+                </a>
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <a
+                href="mailto:support@freshdart.com"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-teal-50 hover:text-teal-600"
+                title="Customer Care"
+              >
+                <Headphones className="h-5 w-5" />
+              </a>
+              <a
+                href="mailto:feedback@freshdart.com"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-700"
+                title="Send Feedback"
+              >
+                <MessageSquare className="h-5 w-5" />
+              </a>
+            </div>
+          )}
+        </div>
+      )}
     </aside>
   );
 }

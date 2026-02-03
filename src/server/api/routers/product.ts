@@ -50,6 +50,7 @@ const CreateProductSchema = z.object({
   featured: z.boolean().default(false),
   tags: z.array(z.string()).default([]),
   variants: z.array(VariantSchema).default([]),
+  imageUrl: z.string().url().optional().nullable(),
 });
 
 // Update product input schema
@@ -428,7 +429,7 @@ export const productRouter = createTRPCRouter({
   create: protectedProcedure
     .input(CreateProductSchema)
     .mutation(async ({ ctx, input }) => {
-      const { variants, ...productData } = input;
+      const { variants, imageUrl, ...productData } = input;
 
       // Get the user's merchant profile
       const merchant = await ctx.db.merchant.findUnique({
@@ -477,7 +478,7 @@ export const productRouter = createTRPCRouter({
         }
       }
 
-      // Create product with variants and link to merchant
+      // Create product with variants, image, and link to merchant
       const product = await ctx.db.product.create({
         data: {
           ...productData,
@@ -494,6 +495,17 @@ export const productRouter = createTRPCRouter({
               lowStockThreshold: v.lowStockThreshold,
             })),
           },
+          // Create product image if URL is provided
+          ...(imageUrl && {
+            images: {
+              create: {
+                url: imageUrl,
+                alt: productData.name,
+                isPrimary: true,
+                sortOrder: 0,
+              },
+            },
+          }),
         },
         include: {
           images: {
@@ -511,7 +523,7 @@ export const productRouter = createTRPCRouter({
   update: protectedProcedure
     .input(UpdateProductSchema)
     .mutation(async ({ ctx, input }) => {
-      const { id, variants, ...productData } = input;
+      const { id, variants, imageUrl, ...productData } = input;
 
       // Get the user's merchant profile
       const merchant = await ctx.db.merchant.findUnique({
@@ -532,7 +544,7 @@ export const productRouter = createTRPCRouter({
       // Check if product exists and belongs to this producer
       const existingProduct = await ctx.db.product.findUnique({
         where: { id },
-        include: { variants: true },
+        include: { variants: true, images: true },
       });
 
       if (!existingProduct) {
@@ -622,6 +634,27 @@ export const productRouter = createTRPCRouter({
               },
             });
           }
+        }
+      }
+
+      // Handle image update if imageUrl is provided (including null to remove)
+      if (imageUrl !== undefined) {
+        // Delete existing images
+        await ctx.db.productImage.deleteMany({
+          where: { productId: id },
+        });
+
+        // Create new image if URL is provided
+        if (imageUrl) {
+          await ctx.db.productImage.create({
+            data: {
+              productId: id,
+              url: imageUrl,
+              alt: productData.name ?? existingProduct.name,
+              isPrimary: true,
+              sortOrder: 0,
+            },
+          });
         }
       }
 

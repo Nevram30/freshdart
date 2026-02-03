@@ -27,6 +27,15 @@ export const orderRouter = createTRPCRouter({
           "REJECTED",
         ]).optional(),
         search: z.string().optional(),
+        dateFrom: z.date().optional(),
+        dateTo: z.date().optional(),
+        minAmount: z.number().min(0).optional(),
+        maxAmount: z.number().min(0).optional(),
+        carriers: z.array(z.enum([
+          "JT_EXPRESS", "LALAMOVE", "GRAB_EXPRESS", "LBC",
+          "GOGO_XPRESS", "NINJA_VAN", "SELF_DELIVERY", "OTHER",
+        ])).optional(),
+        requiresColdChain: z.boolean().optional(),
       }).optional()
     )
     .query(async ({ ctx, input }) => {
@@ -34,6 +43,12 @@ export const orderRouter = createTRPCRouter({
       const cursor = input?.cursor;
       const status = input?.status;
       const search = input?.search;
+      const dateFrom = input?.dateFrom;
+      const dateTo = input?.dateTo;
+      const minAmount = input?.minAmount;
+      const maxAmount = input?.maxAmount;
+      const carriers = input?.carriers;
+      const requiresColdChain = input?.requiresColdChain;
 
       // Get the producer's merchant record
       const merchant = await ctx.db.merchant.findUnique({
@@ -87,6 +102,42 @@ export const orderRouter = createTRPCRouter({
           { contactName: { contains: search, mode: "insensitive" } },
           { companyName: { contains: search, mode: "insensitive" } },
         ];
+      }
+
+      // Date range filter
+      if (dateFrom || dateTo) {
+        const createdAtFilter: Record<string, unknown> = {};
+        if (dateFrom) {
+          createdAtFilter.gte = dateFrom;
+        }
+        if (dateTo) {
+          const endOfDay = new Date(dateTo);
+          endOfDay.setHours(23, 59, 59, 999);
+          createdAtFilter.lte = endOfDay;
+        }
+        whereClause.createdAt = createdAtFilter;
+      }
+
+      // Amount range filter
+      if (minAmount !== undefined || maxAmount !== undefined) {
+        const amountFilter: Record<string, unknown> = {};
+        if (minAmount !== undefined) {
+          amountFilter.gte = minAmount;
+        }
+        if (maxAmount !== undefined) {
+          amountFilter.lte = maxAmount;
+        }
+        whereClause.estimatedTotal = amountFilter;
+      }
+
+      // Carrier filter
+      if (carriers && carriers.length > 0) {
+        whereClause.carrier = { in: carriers };
+      }
+
+      // Cold chain filter
+      if (requiresColdChain !== undefined) {
+        whereClause.requiresColdChain = requiresColdChain;
       }
 
       // Get total count
@@ -305,6 +356,15 @@ export const orderRouter = createTRPCRouter({
           "REJECTED",
         ]).optional(),
         search: z.string().optional(),
+        dateFrom: z.date().optional(),
+        dateTo: z.date().optional(),
+        minAmount: z.number().min(0).optional(),
+        maxAmount: z.number().min(0).optional(),
+        carriers: z.array(z.enum([
+          "JT_EXPRESS", "LALAMOVE", "GRAB_EXPRESS", "LBC",
+          "GOGO_XPRESS", "NINJA_VAN", "SELF_DELIVERY", "OTHER",
+        ])).optional(),
+        requiresColdChain: z.boolean().optional(),
       }).optional()
     )
     .query(async ({ ctx, input }) => {
@@ -312,6 +372,12 @@ export const orderRouter = createTRPCRouter({
       const cursor = input?.cursor;
       const status = input?.status;
       const search = input?.search;
+      const dateFrom = input?.dateFrom;
+      const dateTo = input?.dateTo;
+      const minAmount = input?.minAmount;
+      const maxAmount = input?.maxAmount;
+      const carriers = input?.carriers;
+      const requiresColdChain = input?.requiresColdChain;
 
       // Build where clause
       const whereClause: Record<string, unknown> = {
@@ -333,6 +399,42 @@ export const orderRouter = createTRPCRouter({
             },
           },
         ];
+      }
+
+      // Date range filter
+      if (dateFrom || dateTo) {
+        const createdAtFilter: Record<string, unknown> = {};
+        if (dateFrom) {
+          createdAtFilter.gte = dateFrom;
+        }
+        if (dateTo) {
+          const endOfDay = new Date(dateTo);
+          endOfDay.setHours(23, 59, 59, 999);
+          createdAtFilter.lte = endOfDay;
+        }
+        whereClause.createdAt = createdAtFilter;
+      }
+
+      // Amount range filter
+      if (minAmount !== undefined || maxAmount !== undefined) {
+        const amountFilter: Record<string, unknown> = {};
+        if (minAmount !== undefined) {
+          amountFilter.gte = minAmount;
+        }
+        if (maxAmount !== undefined) {
+          amountFilter.lte = maxAmount;
+        }
+        whereClause.estimatedTotal = amountFilter;
+      }
+
+      // Carrier filter
+      if (carriers && carriers.length > 0) {
+        whereClause.carrier = { in: carriers };
+      }
+
+      // Cold chain filter
+      if (requiresColdChain !== undefined) {
+        whereClause.requiresColdChain = requiresColdChain;
       }
 
       // Get total count

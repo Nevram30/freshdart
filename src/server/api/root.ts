@@ -9,6 +9,7 @@ import { shippingRouter } from "~/server/api/routers/shipping";
 import { adminRouter } from "~/server/api/routers/admin";
 import { profileRouter } from "~/server/api/routers/profile";
 import { customerRouter } from "~/server/api/routers/customer";
+import { pexelsRouter } from "~/server/api/routers/pexels";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -28,6 +29,7 @@ export const appRouter = createTRPCRouter({
   admin: adminRouter,
   profile: profileRouter,
   customer: customerRouter,
+  pexels: pexelsRouter,
 });
 
 // export type definition of API

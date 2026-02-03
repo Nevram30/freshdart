@@ -12,11 +12,11 @@ import {
   AlertTriangle,
   CheckCircle,
   X,
-  ImagePlus,
   GripVertical,
   Loader2,
 } from "lucide-react";
 import { api } from "~/trpc/react";
+import { PexelsImagePicker } from "~/components/products/pexels-image-picker";
 
 // Types based on Prisma schema
 type ProductType = "FRESH" | "FROZEN" | "PROCESSED" | "DRIED" | "LIVE";
@@ -60,6 +60,7 @@ interface ProductFormData {
   featured: boolean;
   tags: string;
   variants: ProductVariant[];
+  imageUrl: string | null;
 }
 
 const initialFormData: ProductFormData = {
@@ -88,6 +89,7 @@ const initialFormData: ProductFormData = {
   featured: false,
   tags: "",
   variants: [],
+  imageUrl: null,
 };
 
 const productTypeOptions: { value: ProductType; label: string }[] = [
@@ -217,6 +219,7 @@ export default function ProducerProductsPage() {
             stockQuantity: v.stockQuantity,
             lowStockThreshold: v.lowStockThreshold,
           })),
+          imageUrl: product.images?.[0]?.url ?? null,
         });
       }
     } else {
@@ -270,6 +273,7 @@ export default function ProducerProductsPage() {
         stockQuantity: v.stockQuantity,
         lowStockThreshold: v.lowStockThreshold,
       })),
+      imageUrl: formData.imageUrl,
     };
 
     if (editingProductId) {
@@ -804,23 +808,11 @@ export default function ProducerProductsPage() {
                       />
                     </div>
 
-                    {/* Image Upload Placeholder */}
-                    <div>
-                      <label className="mb-1.5 block text-sm font-medium text-gray-700">
-                        Product Images
-                      </label>
-                      <div className="flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-8 transition-colors hover:border-teal-400">
-                        <div className="text-center">
-                          <ImagePlus className="mx-auto h-10 w-10 text-gray-400" />
-                          <p className="mt-2 text-sm text-gray-500">
-                            Click or drag images to upload
-                          </p>
-                          <p className="text-xs text-gray-400">
-                            PNG, JPG up to 5MB each
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+                    {/* Pexels Image Picker */}
+                    <PexelsImagePicker
+                      selectedImageUrl={formData.imageUrl}
+                      onSelect={(imageUrl) => setFormData({ ...formData, imageUrl })}
+                    />
                   </div>
                 )}
 

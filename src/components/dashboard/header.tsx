@@ -1,8 +1,9 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-import { User, LogOut, ChevronDown } from "lucide-react";
+import { User, LogOut, ChevronDown, Calendar } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { format } from "date-fns";
 
 interface DashboardHeaderProps {
   userName?: string | null;
@@ -32,7 +33,13 @@ export function DashboardHeader({
 
   return (
     <header className="sticky top-0 z-20 border-b border-gray-200 bg-white">
-      <div className="flex h-16 items-center justify-end px-8">
+      <div className="flex h-16 items-center justify-between px-8">
+        {/* Current Date */}
+        <div className="flex items-center gap-2 text-sm text-gray-500">
+          <Calendar className="h-4 w-4" />
+          <span>{format(new Date(), "EEEE, MMMM d, yyyy")}</span>
+        </div>
+
         {/* User Menu */}
         <div className="relative" ref={userMenuRef}>
           <button

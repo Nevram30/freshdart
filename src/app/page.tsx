@@ -362,7 +362,7 @@ export default async function Home() {
                   </li>
                 </ul>
                 <Link
-                  href="/register-business"
+                  href="/register"
                   className="mt-8 inline-flex items-center gap-2 rounded-lg bg-[#0B3D4C] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#0D4A5A]"
                 >
                   Register as Business

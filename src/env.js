@@ -18,6 +18,8 @@ export const env = createEnv({
     // Paymongo API keys
     PAYMONGO_SECRET_KEY: z.string().optional(),
     PAYMONGO_PUBLIC_KEY: z.string().optional(),
+    // Pexels API key
+    PEXELS_API_KEY: z.string().optional(),
   },
 
   /**
@@ -39,6 +41,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     PAYMONGO_SECRET_KEY: process.env.PAYMONGO_SECRET_KEY,
     PAYMONGO_PUBLIC_KEY: process.env.PAYMONGO_PUBLIC_KEY,
+    PEXELS_API_KEY: process.env.PEXELS_API_KEY,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   },
   /**
