@@ -376,57 +376,53 @@ export default function ProducerProductsPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="mb-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border border-gray-200 bg-white p-6">
-          <div className="mb-4 flex items-center justify-between">
-            <span className="text-sm font-medium uppercase tracking-wide text-gray-500">
-              Total Products
-            </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-100">
-              <Package className="h-5 w-5 text-teal-600" />
+      <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-100">
+              <Package className="h-4 w-4 text-teal-600" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-900">{totalProducts}</p>
+              <p className="text-xs text-gray-500">Total Products</p>
             </div>
           </div>
-          <div className="text-4xl font-bold text-gray-900">{totalProducts}</div>
-          <div className="text-sm text-gray-600">In catalog</div>
         </div>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-6">
-          <div className="mb-4 flex items-center justify-between">
-            <span className="text-sm font-medium uppercase tracking-wide text-gray-500">
-              Active
-            </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
-              <CheckCircle className="h-5 w-5 text-green-600" />
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-100">
+              <CheckCircle className="h-4 w-4 text-green-600" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-900">{activeProducts}</p>
+              <p className="text-xs text-gray-500">Active</p>
             </div>
           </div>
-          <div className="text-4xl font-bold text-gray-900">{activeProducts}</div>
-          <div className="text-sm text-gray-600">Listed on marketplace</div>
         </div>
 
-        <div className="rounded-xl border border-orange-200 bg-orange-50 p-6">
-          <div className="mb-4 flex items-center justify-between">
-            <span className="text-sm font-medium uppercase tracking-wide text-orange-700">
-              Low Stock
-            </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-200">
-              <AlertTriangle className="h-5 w-5 text-orange-600" />
+        <div className="rounded-xl border border-orange-200 bg-orange-50 p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-200">
+              <AlertTriangle className="h-4 w-4 text-orange-600" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-orange-600">{lowStockProducts}</p>
+              <p className="text-xs text-orange-700">Low Stock</p>
             </div>
           </div>
-          <div className="text-4xl font-bold text-orange-600">{lowStockProducts}</div>
-          <div className="text-sm text-orange-700">Need restocking</div>
         </div>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-6">
-          <div className="mb-4 flex items-center justify-between">
-            <span className="text-sm font-medium uppercase tracking-wide text-gray-500">
-              Drafts
-            </span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100">
-              <Edit2 className="h-5 w-5 text-gray-600" />
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100">
+              <Edit2 className="h-4 w-4 text-gray-600" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-900">{draftProducts}</p>
+              <p className="text-xs text-gray-500">Drafts</p>
             </div>
           </div>
-          <div className="text-4xl font-bold text-gray-900">{draftProducts}</div>
-          <div className="text-sm text-gray-600">Pending publish</div>
         </div>
       </div>
 

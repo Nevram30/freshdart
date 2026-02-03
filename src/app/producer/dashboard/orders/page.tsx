@@ -1264,10 +1264,10 @@ export default function ProducerOrdersPage() {
 
       {/* Stats Cards */}
       <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100">
-              <Clock className="h-5 w-5 text-amber-600" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-100">
+              <Clock className="h-4 w-4 text-amber-600" />
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">
@@ -1275,27 +1275,27 @@ export default function ProducerOrdersPage() {
                   ["PENDING", "REVIEWING"].includes(o.status)
                 ).length}
               </p>
-              <p className="text-sm text-gray-500">New Orders</p>
+              <p className="text-xs text-gray-500">New Orders</p>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
-              <FileText className="h-5 w-5 text-blue-600" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-100">
+              <FileText className="h-4 w-4 text-blue-600" />
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">
                 {orders.filter((o) => o.status === "QUOTED").length}
               </p>
-              <p className="text-sm text-gray-500">Awaiting Confirmation</p>
+              <p className="text-xs text-gray-500">Awaiting Confirmation</p>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-100">
-              <Package className="h-5 w-5 text-teal-600" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-100">
+              <Package className="h-4 w-4 text-teal-600" />
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">
@@ -1303,14 +1303,14 @@ export default function ProducerOrdersPage() {
                   ["CONFIRMED", "PROCESSING", "READY_FOR_PICKUP"].includes(o.status)
                 ).length}
               </p>
-              <p className="text-sm text-gray-500">Processing</p>
+              <p className="text-xs text-gray-500">Processing</p>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100">
-              <Truck className="h-5 w-5 text-indigo-600" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-100">
+              <Truck className="h-4 w-4 text-indigo-600" />
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">
@@ -1318,20 +1318,20 @@ export default function ProducerOrdersPage() {
                   ["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY"].includes(o.status)
                 ).length}
               </p>
-              <p className="text-sm text-gray-500">In Transit</p>
+              <p className="text-xs text-gray-500">In Transit</p>
             </div>
           </div>
         </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <div className="rounded-xl border border-gray-200 bg-white p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
-              <CheckCircle className="h-5 w-5 text-green-600" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-100">
+              <CheckCircle className="h-4 w-4 text-green-600" />
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">
                 {orders.filter((o) => o.status === "DELIVERED").length}
               </p>
-              <p className="text-sm text-gray-500">Delivered</p>
+              <p className="text-xs text-gray-500">Delivered</p>
             </div>
           </div>
         </div>

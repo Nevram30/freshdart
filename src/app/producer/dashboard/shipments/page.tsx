@@ -231,54 +231,55 @@ export default function ProducerShipmentsPage() {
           </div>
         )}
 
-        {/* Shipments List */}
+        {/* Shipments Table */}
         {!isLoading && !error && filteredShipments.length > 0 && (
-          <div className="divide-y divide-gray-100">
-            {filteredShipments.map((shipment) => {
-              const StatusIcon =
-                statusConfig[shipment.status as keyof typeof statusConfig]?.icon ?? Package;
-              const itemTotal = shipment.items.reduce(
-                (sum, item) =>
-                  sum + Number(item.finalTotalPrice ?? item.totalPrice),
-                0
-              );
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200 bg-gray-50 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                  <th className="px-6 py-3">Order</th>
+                  <th className="px-6 py-3">Customer</th>
+                  <th className="px-6 py-3">Status</th>
+                  <th className="px-6 py-3">Items</th>
+                  <th className="px-6 py-3">Weight</th>
+                  <th className="px-6 py-3">Amount</th>
+                  <th className="px-6 py-3">Tracking</th>
+                  <th className="px-6 py-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {filteredShipments.map((shipment) => {
+                  const itemTotal = shipment.items.reduce(
+                    (sum, item) =>
+                      sum + Number(item.finalTotalPrice ?? item.totalPrice),
+                    0
+                  );
 
-              return (
-                <div
-                  key={shipment.id}
-                  className="p-6 transition-colors hover:bg-gray-50"
-                >
-                  <div className="flex items-start justify-between">
-                    {/* Left Section */}
-                    <div className="flex gap-4">
-                      <div
-                        className={`flex h-12 w-12 items-center justify-center rounded-lg ${
-                          shipment.status === "DELIVERED"
-                            ? "bg-green-100"
-                            : ["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY"].includes(
-                                shipment.status
-                              )
-                            ? "bg-blue-100"
-                            : "bg-amber-100"
-                        }`}
-                      >
-                        <StatusIcon
-                          className={`h-6 w-6 ${
-                            shipment.status === "DELIVERED"
-                              ? "text-green-600"
-                              : ["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY"].includes(
-                                  shipment.status
-                                )
-                              ? "text-blue-600"
-                              : "text-amber-600"
-                          }`}
-                        />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-3">
-                          <h3 className="font-semibold text-gray-900">
-                            #{shipment.orderNumber.slice(-8).toUpperCase()}
-                          </h3>
+                  return (
+                    <tr
+                      key={shipment.id}
+                      className="transition-colors hover:bg-gray-50"
+                    >
+                      {/* Order */}
+                      <td className="whitespace-nowrap px-6 py-4">
+                        <span className="font-semibold text-gray-900">
+                          #{shipment.orderNumber.slice(-8).toUpperCase()}
+                        </span>
+                      </td>
+
+                      {/* Customer */}
+                      <td className="px-6 py-4">
+                        <div className="text-sm">
+                          <p className="font-medium text-gray-900">{shipment.contactName}</p>
+                          {shipment.companyName && (
+                            <p className="text-gray-500">{shipment.companyName}</p>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* Status */}
+                      <td className="whitespace-nowrap px-6 py-4">
+                        <div className="flex flex-col gap-1.5">
                           <Badge
                             variant={
                               statusConfig[shipment.status as keyof typeof statusConfig]
@@ -295,125 +296,109 @@ export default function ProducerShipmentsPage() {
                             </Badge>
                           )}
                         </div>
-                        <div className="mt-1 flex items-center gap-4 text-sm text-gray-600">
-                          <span className="font-medium">{shipment.contactName}</span>
-                          {shipment.companyName && (
-                            <span className="text-gray-400">
-                              {shipment.companyName}
-                            </span>
-                          )}
-                        </div>
-                        <div className="mt-2 flex items-center gap-4 text-sm text-gray-500">
-                          <span>
-                            {shipment.items.length} item
-                            {shipment.items.length > 1 ? "s" : ""}
-                          </span>
-                          <span>
-                            {Number(shipment.estimatedWeightKg).toFixed(1)} kg
-                          </span>
-                          <span className="font-medium text-gray-900">
-                            {formatCurrency(itemTotal)}
-                          </span>
-                        </div>
-                        {/* Tracking Info */}
-                        {shipment.trackingNumber && (
-                          <div className="mt-2 flex items-center gap-2 text-sm">
-                            <span className="text-gray-500">
-                              {carrierLabels[shipment.carrier ?? ""] ?? shipment.carrier}:
-                            </span>
-                            <span className="font-mono font-medium text-gray-900">
-                              {shipment.trackingNumber}
-                            </span>
-                            {shipment.trackingUrl && (
-                              <a
-                                href={shipment.trackingUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-1 text-teal-600 hover:text-teal-700"
+                      </td>
+
+                      {/* Items */}
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <div className="flex -space-x-2">
+                            {shipment.items.slice(0, 3).map((item) => (
+                              <div
+                                key={item.id}
+                                className="h-8 w-8 overflow-hidden rounded-full border-2 border-white bg-gray-200"
                               >
-                                Track <ExternalLink className="h-3 w-3" />
-                              </a>
-                            )}
+                                {item.product.images[0]?.url ? (
+                                  <img
+                                    src={item.product.images[0].url}
+                                    alt={item.productName}
+                                    className="h-full w-full object-cover"
+                                  />
+                                ) : (
+                                  <div className="flex h-full w-full items-center justify-center">
+                                    <Package className="h-3 w-3 text-gray-400" />
+                                  </div>
+                                )}
+                              </div>
+                            ))}
                           </div>
+                          <span className="text-sm text-gray-600">
+                            {shipment.items.length} item{shipment.items.length > 1 ? "s" : ""}
+                          </span>
+                        </div>
+                      </td>
+
+                      {/* Weight */}
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-600">
+                        {Number(shipment.estimatedWeightKg).toFixed(1)} kg
+                      </td>
+
+                      {/* Amount */}
+                      <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900">
+                        {formatCurrency(itemTotal)}
+                      </td>
+
+                      {/* Tracking */}
+                      <td className="px-6 py-4">
+                        {shipment.trackingNumber ? (
+                          <div className="text-sm">
+                            <p className="text-gray-500">
+                              {carrierLabels[shipment.carrier ?? ""] ?? shipment.carrier}
+                            </p>
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-mono text-xs font-medium text-gray-900">
+                                {shipment.trackingNumber}
+                              </span>
+                              {shipment.trackingUrl && (
+                                <a
+                                  href={shipment.trackingUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-teal-600 hover:text-teal-700"
+                                >
+                                  <ExternalLink className="h-3 w-3" />
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="text-sm text-gray-400">No tracking</span>
                         )}
-                        {/* Contact Info */}
-                        <div className="mt-2 flex items-center gap-4 text-sm text-gray-500">
-                          <span className="flex items-center gap-1">
-                            <Phone className="h-3 w-3" />
-                            {shipment.contactPhone}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Mail className="h-3 w-3" />
-                            {shipment.contactEmail}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                      </td>
 
-                    {/* Right Section - Actions */}
-                    <div className="flex items-center gap-2">
-                      {["CONFIRMED", "PROCESSING"].includes(shipment.status) && (
-                        <Button
-                          size="sm"
-                          onClick={() => {
-                            setSelectedOrderId(shipment.id);
-                            setShowTrackingModal(true);
-                          }}
-                          className="bg-teal-600 hover:bg-teal-700"
-                        >
-                          <Truck className="mr-2 h-4 w-4" />
-                          Add Tracking
-                        </Button>
-                      )}
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          setSelectedOrderId(shipment.id);
-                          setShowDetailsModal(true);
-                        }}
-                      >
-                        <Eye className="mr-1 h-4 w-4" />
-                        View Details
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/* Items Preview */}
-                  <div className="mt-4 flex gap-2">
-                    {shipment.items.slice(0, 4).map((item) => (
-                      <div
-                        key={item.id}
-                        className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2"
-                      >
-                        <div className="h-8 w-8 rounded bg-gray-200">
-                          {item.product.images[0]?.url && (
-                            <img
-                              src={item.product.images[0].url}
-                              alt={item.productName}
-                              className="h-8 w-8 rounded object-cover"
-                            />
+                      {/* Actions */}
+                      <td className="whitespace-nowrap px-6 py-4 text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          {["CONFIRMED", "PROCESSING"].includes(shipment.status) && (
+                            <Button
+                              size="sm"
+                              onClick={() => {
+                                setSelectedOrderId(shipment.id);
+                                setShowTrackingModal(true);
+                              }}
+                              className="bg-teal-600 hover:bg-teal-700"
+                            >
+                              <Truck className="mr-1.5 h-3.5 w-3.5" />
+                              Add Tracking
+                            </Button>
                           )}
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              setSelectedOrderId(shipment.id);
+                              setShowDetailsModal(true);
+                            }}
+                          >
+                            <Eye className="mr-1 h-3.5 w-3.5" />
+                            Details
+                          </Button>
                         </div>
-                        <div className="text-sm">
-                          <p className="font-medium text-gray-900">
-                            {item.productName}
-                          </p>
-                          <p className="text-gray-500">
-                            {Number(item.quantity)} {item.unitType}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                    {shipment.items.length > 4 && (
-                      <div className="flex items-center rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-500">
-                        +{shipment.items.length - 4} more
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
