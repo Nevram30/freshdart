@@ -19,18 +19,19 @@ const ShippingCarrierEnum = z.enum([
 
 // Status enum matching Prisma
 const BulkOrderStatusEnum = z.enum([
-  "PENDING",
-  "REVIEWING",
-  "QUOTED",
+  "ORDER_PLACED",
+  "PENDING_CONFIRMATION",
   "CONFIRMED",
-  "PROCESSING",
-  "READY_FOR_PICKUP",
-  "SHIPPED",
+  "AWAITING_PAYMENT",
+  "PAID",
+  "PREPARING",
+  "READY_FOR_SHIPMENT",
   "IN_TRANSIT",
-  "OUT_FOR_DELIVERY",
   "DELIVERED",
+  "COMPLETED",
+  "DISPUTED",
+  "RESOLVED",
   "CANCELLED",
-  "REJECTED",
 ]);
 
 // Cold chain surcharge rate (per kg)
@@ -99,8 +100,8 @@ export const shippingRouter = createTRPCRouter({
           trackingNumber: input.trackingNumber,
           trackingUrl,
           estimatedDeliveryDate: input.estimatedDeliveryDate,
-          status: "SHIPPED",
-          shippedAt: new Date(),
+          status: "IN_TRANSIT",
+          inTransitAt: new Date(),
         },
       });
 
@@ -109,7 +110,7 @@ export const shippingRouter = createTRPCRouter({
         data: {
           bulkOrderId: input.orderId,
           fromStatus: order.status,
-          toStatus: "SHIPPED",
+          toStatus: "IN_TRANSIT",
           changedById: ctx.session.user.id,
           changedByName: ctx.session.user.name ?? "Unknown",
           changedByRole: "PRODUCER",
@@ -184,29 +185,26 @@ export const shippingRouter = createTRPCRouter({
       // Set appropriate timestamp based on status
       const now = new Date();
       switch (input.status) {
-        case "REVIEWING":
-          updateData.reviewedAt = now;
-          break;
-        case "QUOTED":
-          updateData.quotedAt = now;
+        case "PENDING_CONFIRMATION":
+          updateData.pendingConfirmationAt = now;
           break;
         case "CONFIRMED":
           updateData.confirmedAt = now;
           break;
-        case "PROCESSING":
-          updateData.processingAt = now;
+        case "AWAITING_PAYMENT":
+          updateData.awaitingPaymentAt = now;
           break;
-        case "READY_FOR_PICKUP":
-          updateData.readyForPickupAt = now;
+        case "PAID":
+          updateData.paidAt = now;
           break;
-        case "SHIPPED":
-          updateData.shippedAt = now;
+        case "PREPARING":
+          updateData.preparingAt = now;
+          break;
+        case "READY_FOR_SHIPMENT":
+          updateData.readyForShipmentAt = now;
           break;
         case "IN_TRANSIT":
           updateData.inTransitAt = now;
-          break;
-        case "OUT_FOR_DELIVERY":
-          updateData.outForDeliveryAt = now;
           break;
         case "DELIVERED":
           updateData.deliveredAt = now;
@@ -214,6 +212,15 @@ export const shippingRouter = createTRPCRouter({
           if (input.deliveryProofUrl) updateData.deliveryProofUrl = input.deliveryProofUrl;
           if (input.deliverySignature) updateData.deliverySignature = input.deliverySignature;
           if (input.receivedBy) updateData.receivedBy = input.receivedBy;
+          break;
+        case "COMPLETED":
+          updateData.completedAt = now;
+          break;
+        case "DISPUTED":
+          updateData.disputedAt = now;
+          break;
+        case "RESOLVED":
+          updateData.resolvedAt = now;
           break;
         case "CANCELLED":
           updateData.cancelledAt = now;
@@ -308,23 +315,22 @@ export const shippingRouter = createTRPCRouter({
       let statusCondition: string[] = [];
       switch (statusFilter) {
         case "READY_TO_SHIP":
-          statusCondition = ["CONFIRMED", "PROCESSING", "READY_FOR_PICKUP"];
+          statusCondition = ["PAID", "PREPARING", "READY_FOR_SHIPMENT"];
           break;
         case "IN_TRANSIT":
-          statusCondition = ["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY"];
+          statusCondition = ["IN_TRANSIT"];
           break;
         case "DELIVERED":
-          statusCondition = ["DELIVERED"];
+          statusCondition = ["DELIVERED", "COMPLETED"];
           break;
         default:
           statusCondition = [
-            "CONFIRMED",
-            "PROCESSING",
-            "READY_FOR_PICKUP",
-            "SHIPPED",
+            "PAID",
+            "PREPARING",
+            "READY_FOR_SHIPMENT",
             "IN_TRANSIT",
-            "OUT_FOR_DELIVERY",
             "DELIVERED",
+            "COMPLETED",
           ];
       }
 
@@ -392,7 +398,7 @@ export const shippingRouter = createTRPCRouter({
           trackingUrl: true,
           estimatedDeliveryDate: true,
           actualDeliveryDate: true,
-          shippedAt: true,
+          inTransitAt: true,
           deliveredAt: true,
           deliveryProofUrl: true,
           receivedBy: true,
@@ -535,7 +541,7 @@ export const shippingRouter = createTRPCRouter({
         where: {
           id: input.orderId,
           userId: ctx.session.user.id,
-          status: { in: ["OUT_FOR_DELIVERY", "SHIPPED", "IN_TRANSIT"] },
+          status: { in: ["IN_TRANSIT"] },
         },
       });
 

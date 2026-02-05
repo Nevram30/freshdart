@@ -4,6 +4,7 @@ import {
   createTRPCRouter,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { createPaymongoCheckout } from "~/lib/paymongo";
 
 const bulkOrderItemSchema = z.object({
   productId: z.string(),
@@ -102,7 +103,7 @@ export const bulkOrderRouter = createTRPCRouter({
         });
       }
 
-      // Create bulk order
+      // Create bulk order with AWAITING_PAYMENT status for immediate payment
       const bulkOrder = await ctx.db.bulkOrder.create({
         data: {
           userId: ctx.session.user.id,
@@ -116,7 +117,7 @@ export const bulkOrderRouter = createTRPCRouter({
           contactPhone: contactInfo.contactPhone,
           companyName: contactInfo.companyName,
           shippingAddress: shippingAddress ?? undefined,
-          status: "PENDING",
+          status: "AWAITING_PAYMENT",
           items: {
             create: orderItems,
           },
@@ -126,12 +127,61 @@ export const bulkOrderRouter = createTRPCRouter({
         },
       });
 
-      return {
-        success: true,
-        bulkOrderId: bulkOrder.id,
-        orderNumber: bulkOrder.orderNumber,
-        message: "Your bulk order request has been submitted successfully. Our team will review and contact you shortly.",
-      };
+      // Create payment session immediately
+      const paymongoSecretKey = process.env.PAYMONGO_SECRET_KEY;
+      if (!paymongoSecretKey) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Payment configuration error",
+        });
+      }
+
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
+      try {
+        const checkoutSession = await createPaymongoCheckout({
+          amount: Math.round(estimatedSubtotal * 100), // Convert to centavos
+          description: `Bulk Order #${bulkOrder.orderNumber}`,
+          orderId: bulkOrder.id,
+          customerEmail: contactInfo.contactEmail,
+          customerName: contactInfo.contactName,
+          successUrl: `${baseUrl}/merchant/orders/payment/success?bulk_order_id=${bulkOrder.id}`,
+          cancelUrl: `${baseUrl}/merchant/orders/payment/cancel?bulk_order_id=${bulkOrder.id}`,
+          lineItems: bulkOrder.items.map((item) => ({
+            name: item.productName,
+            quantity: Number(item.quantity),
+            amount: Math.round(Number(item.unitPrice) * 100),
+          })),
+        });
+
+        // Update bulk order with payment info
+        await ctx.db.bulkOrder.update({
+          where: { id: bulkOrder.id },
+          data: {
+            paymentIntentId: checkoutSession.id,
+            paymentUrl: checkoutSession.checkout_url,
+            paymentMethod: "paymongo",
+            paymentStatus: "pending",
+          },
+        });
+
+        return {
+          success: true,
+          bulkOrderId: bulkOrder.id,
+          orderNumber: bulkOrder.orderNumber,
+          checkoutUrl: checkoutSession.checkout_url,
+          message: "Order created. Redirecting to payment...",
+        };
+      } catch {
+        // If payment session creation fails, still return the order but without checkout URL
+        return {
+          success: true,
+          bulkOrderId: bulkOrder.id,
+          orderNumber: bulkOrder.orderNumber,
+          checkoutUrl: null,
+          message: "Order created but payment session failed. Please try paying again from your orders page.",
+        };
+      }
     }),
 
   // Request a quote (similar to bulk order but creates a Quote record)
@@ -250,15 +300,19 @@ export const bulkOrderRouter = createTRPCRouter({
         limit: z.number().min(1).max(50).default(10),
         cursor: z.string().optional(),
         status: z.enum([
-          "PENDING",
-          "REVIEWING",
-          "QUOTED",
+          "ORDER_PLACED",
+          "PENDING_CONFIRMATION",
           "CONFIRMED",
-          "PROCESSING",
-          "SHIPPED",
+          "AWAITING_PAYMENT",
+          "PAID",
+          "PREPARING",
+          "READY_FOR_SHIPMENT",
+          "IN_TRANSIT",
           "DELIVERED",
+          "COMPLETED",
+          "DISPUTED",
+          "RESOLVED",
           "CANCELLED",
-          "REJECTED",
         ]).optional(),
       }).optional()
     )
@@ -442,7 +496,91 @@ export const bulkOrderRouter = createTRPCRouter({
       return quote;
     }),
 
-  // Cancel bulk order (only if pending or reviewing)
+  // Create payment session for bulk order (Paymongo)
+  createPaymentSession: protectedProcedure
+    .input(z.object({ bulkOrderId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const bulkOrder = await ctx.db.bulkOrder.findFirst({
+        where: {
+          id: input.bulkOrderId,
+          userId: ctx.session.user.id,
+        },
+        include: {
+          items: true,
+        },
+      });
+
+      if (!bulkOrder) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Bulk order not found",
+        });
+      }
+
+      if (bulkOrder.status !== "AWAITING_PAYMENT") {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Order is not awaiting payment",
+        });
+      }
+
+      const total = bulkOrder.finalTotal ?? bulkOrder.estimatedTotal;
+      if (!total || Number(total) <= 0) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Order has no valid total amount for payment",
+        });
+      }
+
+      const paymongoSecretKey = process.env.PAYMONGO_SECRET_KEY;
+      if (!paymongoSecretKey) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Payment configuration error",
+        });
+      }
+
+      const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
+      try {
+        const checkoutSession = await createPaymongoCheckout({
+          amount: Math.round(Number(total) * 100),
+          description: `Bulk Order #${bulkOrder.orderNumber}`,
+          orderId: bulkOrder.id,
+          customerEmail: bulkOrder.contactEmail,
+          customerName: bulkOrder.contactName,
+          successUrl: `${baseUrl}/merchant/orders/payment/success?bulk_order_id=${bulkOrder.id}`,
+          cancelUrl: `${baseUrl}/merchant/orders/payment/cancel?bulk_order_id=${bulkOrder.id}`,
+          lineItems: bulkOrder.items.map((item) => ({
+            name: item.productName,
+            quantity: Number(item.quantity),
+            amount: Math.round(Number(item.unitPrice) * 100),
+          })),
+        });
+
+        await ctx.db.bulkOrder.update({
+          where: { id: bulkOrder.id },
+          data: {
+            paymentIntentId: checkoutSession.id,
+            paymentUrl: checkoutSession.checkout_url,
+            paymentMethod: "paymongo",
+            paymentStatus: "pending",
+          },
+        });
+
+        return {
+          success: true,
+          checkoutUrl: checkoutSession.checkout_url,
+        };
+      } catch {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to create payment session",
+        });
+      }
+    }),
+
+  // Cancel bulk order (only if not yet paid/preparing)
   cancelBulkOrder: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
@@ -460,7 +598,7 @@ export const bulkOrderRouter = createTRPCRouter({
         });
       }
 
-      if (!["PENDING", "REVIEWING", "QUOTED"].includes(bulkOrder.status)) {
+      if (!["ORDER_PLACED", "PENDING_CONFIRMATION", "CONFIRMED", "AWAITING_PAYMENT"].includes(bulkOrder.status)) {
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Cannot cancel this order. It is already being processed.",
@@ -469,7 +607,7 @@ export const bulkOrderRouter = createTRPCRouter({
 
       await ctx.db.bulkOrder.update({
         where: { id: input.id },
-        data: { status: "CANCELLED" },
+        data: { status: "CANCELLED", cancelledAt: new Date() },
       });
 
       return {

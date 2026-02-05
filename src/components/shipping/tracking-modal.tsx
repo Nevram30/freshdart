@@ -27,14 +27,16 @@ interface TrackingModalProps {
 }
 
 const statusSteps = [
-  { key: "PENDING", label: "Order Placed", icon: Clock },
-  { key: "REVIEWING", label: "Under Review", icon: Package },
+  { key: "ORDER_PLACED", label: "Order Placed", icon: Clock },
+  { key: "PENDING_CONFIRMATION", label: "Pending Confirmation", icon: Package },
   { key: "CONFIRMED", label: "Confirmed", icon: CheckCircle },
-  { key: "PROCESSING", label: "Processing", icon: Package },
-  { key: "SHIPPED", label: "Shipped", icon: Truck },
+  { key: "AWAITING_PAYMENT", label: "Awaiting Payment", icon: Clock },
+  { key: "PAID", label: "Paid", icon: CheckCircle },
+  { key: "PREPARING", label: "Preparing", icon: Package },
+  { key: "READY_FOR_SHIPMENT", label: "Ready to Ship", icon: Package },
   { key: "IN_TRANSIT", label: "In Transit", icon: Truck },
-  { key: "OUT_FOR_DELIVERY", label: "Out for Delivery", icon: MapPin },
-  { key: "DELIVERED", label: "Delivered", icon: CheckCircle },
+  { key: "DELIVERED", label: "Delivered", icon: MapPin },
+  { key: "COMPLETED", label: "Completed", icon: CheckCircle },
 ];
 
 const carrierLabels: Record<string, string> = {
@@ -100,10 +102,8 @@ export function TrackingModal({ orderId, onClose }: TrackingModalProps) {
 
   // Determine current step index
   const currentStepIndex = statusSteps.findIndex((s) => s.key === tracking.status);
-  const isDelivered = tracking.status === "DELIVERED";
-  const canConfirmDelivery = ["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY"].includes(
-    tracking.status
-  );
+  const isDelivered = ["DELIVERED", "COMPLETED"].includes(tracking.status);
+  const canConfirmDelivery = tracking.status === "IN_TRANSIT";
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
@@ -185,14 +185,14 @@ export function TrackingModal({ orderId, onClose }: TrackingModalProps) {
 
           {/* Dates */}
           <div className="mb-6 grid grid-cols-2 gap-4">
-            {tracking.shippedAt && (
+            {tracking.inTransitAt && (
               <div className="rounded-lg border border-gray-200 p-4">
                 <div className="flex items-center gap-2 text-sm text-gray-500">
                   <Calendar className="h-4 w-4" />
                   Shipped Date
                 </div>
                 <p className="mt-1 font-medium text-gray-900">
-                  {format(new Date(tracking.shippedAt), "MMM dd, yyyy")}
+                  {format(new Date(tracking.inTransitAt), "MMM dd, yyyy")}
                 </p>
               </div>
             )}

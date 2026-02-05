@@ -33,33 +33,35 @@ import {
 } from "lucide-react";
 
 const STATUS_LABELS: Record<string, string> = {
-  PENDING: "Pending",
-  REVIEWING: "Reviewing",
-  QUOTED: "Quoted",
+  ORDER_PLACED: "Order Placed",
+  PENDING_CONFIRMATION: "Pending Confirmation",
   CONFIRMED: "Confirmed",
-  PROCESSING: "Processing",
-  READY_FOR_PICKUP: "Ready for Pickup",
-  SHIPPED: "Shipped",
+  AWAITING_PAYMENT: "Awaiting Payment",
+  PAID: "Paid",
+  PREPARING: "Preparing",
+  READY_FOR_SHIPMENT: "Ready to Ship",
   IN_TRANSIT: "In Transit",
-  OUT_FOR_DELIVERY: "Out for Delivery",
   DELIVERED: "Delivered",
+  COMPLETED: "Completed",
+  DISPUTED: "Disputed",
+  RESOLVED: "Resolved",
   CANCELLED: "Cancelled",
-  REJECTED: "Rejected",
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  PENDING: "bg-gray-100 text-gray-700",
-  REVIEWING: "bg-blue-100 text-blue-700",
-  QUOTED: "bg-indigo-100 text-indigo-700",
+  ORDER_PLACED: "bg-gray-100 text-gray-700",
+  PENDING_CONFIRMATION: "bg-blue-100 text-blue-700",
   CONFIRMED: "bg-teal-100 text-teal-700",
-  PROCESSING: "bg-amber-100 text-amber-700",
-  READY_FOR_PICKUP: "bg-orange-100 text-orange-700",
-  SHIPPED: "bg-cyan-100 text-cyan-700",
+  AWAITING_PAYMENT: "bg-amber-100 text-amber-700",
+  PAID: "bg-green-100 text-green-700",
+  PREPARING: "bg-orange-100 text-orange-700",
+  READY_FOR_SHIPMENT: "bg-cyan-100 text-cyan-700",
   IN_TRANSIT: "bg-blue-100 text-blue-700",
-  OUT_FOR_DELIVERY: "bg-purple-100 text-purple-700",
   DELIVERED: "bg-emerald-100 text-emerald-700",
+  COMPLETED: "bg-emerald-100 text-emerald-700",
+  DISPUTED: "bg-orange-100 text-orange-700",
+  RESOLVED: "bg-gray-100 text-gray-700",
   CANCELLED: "bg-red-100 text-red-700",
-  REJECTED: "bg-red-100 text-red-700",
 };
 
 const PRODUCT_TYPE_LABELS: Record<string, string> = {

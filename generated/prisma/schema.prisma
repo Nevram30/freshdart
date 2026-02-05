@@ -478,18 +478,19 @@ model VerificationToken {
 // ============================================
 
 enum BulkOrderStatus {
-  PENDING // Just submitted, awaiting review
-  REVIEWING // Being reviewed by team
-  QUOTED // Quote has been provided
-  CONFIRMED // Customer confirmed the order
-  PROCESSING // Order is being prepared
-  READY_FOR_PICKUP // Ready to be picked up by courier
-  SHIPPED // Order has been shipped
+  ORDER_PLACED // Just submitted by merchant
+  PENDING_CONFIRMATION // Being reviewed by producer
+  CONFIRMED // Producer confirmed the order
+  AWAITING_PAYMENT // Waiting for merchant payment
+  PAID // Payment confirmed
+  PREPARING // Order is being prepared
+  READY_FOR_SHIPMENT // Ready to be shipped
   IN_TRANSIT // Order is in transit
-  OUT_FOR_DELIVERY // Order is out for delivery
   DELIVERED // Order has been delivered
+  COMPLETED // Merchant confirmed satisfaction
+  DISPUTED // Merchant raised a dispute
+  RESOLVED // Dispute resolved
   CANCELLED // Order was cancelled
-  REJECTED // Order was rejected
 }
 
 enum ShippingCarrier {
@@ -546,7 +547,7 @@ model BulkOrder {
   shippingAddress Json? // { street, city, state, postalCode, country }
 
   // Status
-  status BulkOrderStatus @default(PENDING)
+  status BulkOrderStatus @default(ORDER_PLACED)
   notes  String? // Internal notes
 
   // Shipping & Tracking
@@ -560,17 +561,29 @@ model BulkOrder {
   estimatedDeliveryDate DateTime?
   actualDeliveryDate    DateTime?
 
+  // Payment (Paymongo)
+  paymentStatus   String? // "pending" | "paid" | "failed"
+  paymentMethod   String? // "paymongo"
+  paymentIntentId String? // Paymongo checkout session ID
+  paymentUrl      String? // Paymongo checkout URL (for retry)
+
   // Status timestamps (for tracking)
-  reviewedAt       DateTime?
-  quotedAt         DateTime?
-  confirmedAt      DateTime?
-  processingAt     DateTime?
-  readyForPickupAt DateTime?
-  shippedAt        DateTime?
-  inTransitAt      DateTime?
-  outForDeliveryAt DateTime?
-  deliveredAt      DateTime?
-  cancelledAt      DateTime?
+  pendingConfirmationAt DateTime?
+  confirmedAt           DateTime?
+  awaitingPaymentAt     DateTime?
+  paidAt                DateTime?
+  preparingAt           DateTime?
+  readyForShipmentAt    DateTime?
+  inTransitAt           DateTime?
+  deliveredAt           DateTime?
+  completedAt           DateTime?
+  disputedAt            DateTime?
+  resolvedAt            DateTime?
+  cancelledAt           DateTime?
+
+  // Dispute
+  disputeReason     String?
+  disputeResolution String?
 
   // Proof of delivery
   deliveryProofUrl  String? // Photo of delivered goods

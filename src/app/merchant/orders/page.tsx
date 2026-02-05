@@ -22,7 +22,6 @@ import {
   Clock,
   FileText,
   PackageCheck,
-  Navigation,
   Check,
 } from "lucide-react";
 import { Badge } from "~/components/ui/badge";
@@ -34,35 +33,37 @@ import { cn } from "~/lib/utils";
 import { useDebounce } from "~/hooks/use-debounce";
 
 type OrderStatus =
-  | "PENDING"
-  | "REVIEWING"
-  | "QUOTED"
+  | "ORDER_PLACED"
+  | "PENDING_CONFIRMATION"
   | "CONFIRMED"
-  | "PROCESSING"
-  | "READY_FOR_PICKUP"
-  | "SHIPPED"
+  | "AWAITING_PAYMENT"
+  | "PAID"
+  | "PREPARING"
+  | "READY_FOR_SHIPMENT"
   | "IN_TRANSIT"
-  | "OUT_FOR_DELIVERY"
   | "DELIVERED"
-  | "CANCELLED"
-  | "REJECTED";
+  | "COMPLETED"
+  | "DISPUTED"
+  | "RESOLVED"
+  | "CANCELLED";
 
 const statusConfig: Record<
   OrderStatus,
   { variant: "info" | "warning" | "success" | "danger" | "default"; label: string }
 > = {
-  PENDING: { variant: "warning", label: "PENDING" },
-  REVIEWING: { variant: "info", label: "REVIEWING" },
-  QUOTED: { variant: "info", label: "QUOTED" },
+  ORDER_PLACED: { variant: "warning", label: "ORDER PLACED" },
+  PENDING_CONFIRMATION: { variant: "info", label: "PENDING CONFIRMATION" },
   CONFIRMED: { variant: "success", label: "CONFIRMED" },
-  PROCESSING: { variant: "info", label: "PROCESSING" },
-  READY_FOR_PICKUP: { variant: "info", label: "READY" },
-  SHIPPED: { variant: "info", label: "SHIPPED" },
+  AWAITING_PAYMENT: { variant: "warning", label: "AWAITING PAYMENT" },
+  PAID: { variant: "success", label: "PAID" },
+  PREPARING: { variant: "info", label: "PREPARING" },
+  READY_FOR_SHIPMENT: { variant: "info", label: "READY TO SHIP" },
   IN_TRANSIT: { variant: "info", label: "IN TRANSIT" },
-  OUT_FOR_DELIVERY: { variant: "info", label: "OUT FOR DELIVERY" },
   DELIVERED: { variant: "success", label: "DELIVERED" },
+  COMPLETED: { variant: "success", label: "COMPLETED" },
+  DISPUTED: { variant: "danger", label: "DISPUTED" },
+  RESOLVED: { variant: "default", label: "RESOLVED" },
   CANCELLED: { variant: "danger", label: "CANCELLED" },
-  REJECTED: { variant: "danger", label: "REJECTED" },
 };
 
 const carrierLabels: Record<string, string> = {
@@ -76,7 +77,7 @@ const carrierLabels: Record<string, string> = {
   OTHER: "Other",
 };
 
-// Order Action Modal for confirming/cancelling orders
+// Order Action Modal for confirming/cancelling/paying/completing/disputing orders
 function OrderActionModal({
   orderId,
   orderNumber,
@@ -86,7 +87,7 @@ function OrderActionModal({
 }: {
   orderId: string;
   orderNumber: string;
-  action: "confirm" | "cancel";
+  action: "confirm" | "cancel" | "pay" | "complete" | "dispute";
   onClose: () => void;
   onSuccess: () => void;
 }) {
@@ -94,13 +95,86 @@ function OrderActionModal({
 
   const updateStatusMutation = api.order.updateMerchantOrderStatus.useMutation();
 
+  const actionStatusMap: Record<typeof action, "CONFIRMED" | "PAID" | "COMPLETED" | "DISPUTED" | "CANCELLED"> = {
+    confirm: "CONFIRMED",
+    pay: "PAID",
+    complete: "COMPLETED",
+    dispute: "DISPUTED",
+    cancel: "CANCELLED",
+  };
+
+  const actionConfig: Record<typeof action, {
+    title: string;
+    message: string;
+    buttonLabel: string;
+    placeholder: string;
+    colorClass: string;
+    bgClass: string;
+    textClass: string;
+    icon: typeof CheckCircle;
+  }> = {
+    confirm: {
+      title: "Confirm Order",
+      message: "Are you sure you want to confirm this order? The producer will start processing your order.",
+      buttonLabel: "Confirm Order",
+      placeholder: "Any additional notes for the producer...",
+      colorClass: "bg-green-600 hover:bg-green-700",
+      bgClass: "bg-green-50",
+      textClass: "text-green-800",
+      icon: CheckCircle,
+    },
+    pay: {
+      title: "Pay for Order",
+      message: "Are you sure you want to mark this order as paid? This confirms payment has been made.",
+      buttonLabel: "Confirm Payment",
+      placeholder: "Payment reference or notes...",
+      colorClass: "bg-blue-600 hover:bg-blue-700",
+      bgClass: "bg-blue-50",
+      textClass: "text-blue-800",
+      icon: CheckCircle,
+    },
+    complete: {
+      title: "Complete Order",
+      message: "Are you sure you want to mark this order as completed? This confirms you have received everything satisfactorily.",
+      buttonLabel: "Complete Order",
+      placeholder: "Any notes about the delivery...",
+      colorClass: "bg-green-600 hover:bg-green-700",
+      bgClass: "bg-green-50",
+      textClass: "text-green-800",
+      icon: CheckCircle,
+    },
+    dispute: {
+      title: "Dispute Order",
+      message: "Are you sure you want to dispute this order? Please provide details about the issue.",
+      buttonLabel: "Submit Dispute",
+      placeholder: "Describe the issue with the order...",
+      colorClass: "bg-orange-600 hover:bg-orange-700",
+      bgClass: "bg-orange-50",
+      textClass: "text-orange-800",
+      icon: Ban,
+    },
+    cancel: {
+      title: "Cancel Order",
+      message: "Are you sure you want to cancel this order? This action cannot be undone.",
+      buttonLabel: "Cancel Order",
+      placeholder: "Reason for cancellation...",
+      colorClass: "bg-red-600 hover:bg-red-700",
+      bgClass: "bg-red-50",
+      textClass: "text-red-800",
+      icon: Ban,
+    },
+  };
+
+  const config = actionConfig[action];
+  const ActionIcon = config.icon;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       await updateStatusMutation.mutateAsync({
         id: orderId,
-        status: action === "confirm" ? "CONFIRMED" : "CANCELLED",
+        status: actionStatusMap[action],
         notes: notes || undefined,
       });
       onSuccess();
@@ -110,8 +184,6 @@ function OrderActionModal({
     }
   };
 
-  const isConfirm = action === "confirm";
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="w-full max-w-md rounded-xl bg-white shadow-xl">
@@ -119,7 +191,7 @@ function OrderActionModal({
         <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
           <div>
             <h2 className="text-lg font-bold text-gray-900">
-              {isConfirm ? "Confirm Order" : "Cancel Order"}
+              {config.title}
             </h2>
             <p className="text-sm text-gray-500">
               Order #{orderNumber.slice(-8).toUpperCase()}
@@ -135,31 +207,26 @@ function OrderActionModal({
 
         <form onSubmit={handleSubmit} className="p-6">
           {/* Action Info */}
-          <div className={`mb-6 rounded-lg p-4 text-center ${isConfirm ? "bg-green-50" : "bg-red-50"}`}>
+          <div className={`mb-6 rounded-lg p-4 text-center ${config.bgClass}`}>
             <div className="mb-2 flex justify-center">
-              {isConfirm ? (
-                <CheckCircle className="h-12 w-12 text-green-500" />
-              ) : (
-                <Ban className="h-12 w-12 text-red-500" />
-              )}
+              <ActionIcon className={`h-12 w-12 ${action === "cancel" || action === "dispute" ? "text-red-500" : "text-green-500"}`} />
             </div>
-            <p className={`text-sm ${isConfirm ? "text-green-800" : "text-red-800"}`}>
-              {isConfirm
-                ? "Are you sure you want to confirm this order? The producer will start processing your order."
-                : "Are you sure you want to cancel this order? This action cannot be undone."}
+            <p className={`text-sm ${config.textClass}`}>
+              {config.message}
             </p>
           </div>
 
           {/* Notes */}
           <div className="mb-4">
             <label className="mb-1 block text-sm font-medium text-gray-700">
-              Notes (Optional)
+              Notes {action === "dispute" ? "(Required)" : "(Optional)"}
             </label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder={isConfirm ? "Any additional notes for the producer..." : "Reason for cancellation..."}
+              placeholder={config.placeholder}
               rows={3}
+              required={action === "dispute"}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
@@ -177,7 +244,7 @@ function OrderActionModal({
             <Button
               type="submit"
               disabled={updateStatusMutation.isPending}
-              className={`flex-1 ${isConfirm ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"}`}
+              className={`flex-1 ${config.colorClass}`}
             >
               {updateStatusMutation.isPending ? (
                 <>
@@ -186,12 +253,8 @@ function OrderActionModal({
                 </>
               ) : (
                 <>
-                  {isConfirm ? (
-                    <CheckCircle className="mr-2 h-4 w-4" />
-                  ) : (
-                    <Ban className="mr-2 h-4 w-4" />
-                  )}
-                  {isConfirm ? "Confirm Order" : "Cancel Order"}
+                  <ActionIcon className="mr-2 h-4 w-4" />
+                  {config.buttonLabel}
                 </>
               )}
             </Button>
@@ -208,11 +271,17 @@ function OrderDetailsModal({
   onClose,
   onConfirm,
   onCancel,
+  onPay,
+  onComplete,
+  onDispute,
 }: {
   orderId: string;
   onClose: () => void;
   onConfirm: () => void;
   onCancel: () => void;
+  onPay?: () => void;
+  onComplete?: () => void;
+  onDispute?: () => void;
 }) {
   const { data: order, isLoading, error } = api.shipping.getTrackingInfo.useQuery({
     orderId,
@@ -252,21 +321,24 @@ function OrderDetailsModal({
     );
   }
 
-  const canConfirm = order.status === "QUOTED";
-  const canCancel = !["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED", "REJECTED"].includes(order.status);
+  const canConfirm = order.status === "PENDING_CONFIRMATION";
+  const canPay = order.status === "AWAITING_PAYMENT";
+  const canComplete = order.status === "DELIVERED";
+  const canDispute = order.status === "DELIVERED";
+  const canCancel = !["IN_TRANSIT", "DELIVERED", "COMPLETED", "CANCELLED", "DISPUTED", "RESOLVED"].includes(order.status);
 
   // Status timeline steps
   const statusSteps = [
-    { key: "PENDING", label: "Order Placed", icon: Clock },
-    { key: "REVIEWING", label: "Under Review", icon: Eye },
-    { key: "QUOTED", label: "Quote Received", icon: FileText },
+    { key: "ORDER_PLACED", label: "Order Placed", icon: Clock },
+    { key: "PENDING_CONFIRMATION", label: "Pending Confirmation", icon: Eye },
     { key: "CONFIRMED", label: "Confirmed", icon: CheckCircle },
-    { key: "PROCESSING", label: "Processing", icon: Package },
-    { key: "READY_FOR_PICKUP", label: "Ready for Pickup", icon: PackageCheck },
-    { key: "SHIPPED", label: "Shipped", icon: Truck },
-    { key: "IN_TRANSIT", label: "In Transit", icon: Navigation },
-    { key: "OUT_FOR_DELIVERY", label: "Out for Delivery", icon: MapPin },
-    { key: "DELIVERED", label: "Delivered", icon: CheckCircle },
+    { key: "AWAITING_PAYMENT", label: "Awaiting Payment", icon: FileText },
+    { key: "PAID", label: "Paid", icon: CheckCircle },
+    { key: "PREPARING", label: "Preparing", icon: Package },
+    { key: "READY_FOR_SHIPMENT", label: "Ready for Shipment", icon: PackageCheck },
+    { key: "IN_TRANSIT", label: "In Transit", icon: Truck },
+    { key: "DELIVERED", label: "Delivered", icon: MapPin },
+    { key: "COMPLETED", label: "Completed", icon: CheckCircle },
   ];
 
   const currentStepIndex = statusSteps.findIndex((s) => s.key === order.status);
@@ -299,14 +371,14 @@ function OrderDetailsModal({
         </div>
 
         <div className="p-6">
-          {/* Action Buttons for QUOTED status */}
+          {/* Action Buttons for PENDING_CONFIRMATION status */}
           {canConfirm && (
             <div className="mb-6 rounded-lg border-2 border-green-200 bg-green-50 p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-green-800">Quote Ready for Confirmation</p>
+                  <p className="font-semibold text-green-800">Order Ready for Confirmation</p>
                   <p className="text-sm text-green-700">
-                    Review the quote and confirm to proceed with your order.
+                    Review the order details and confirm to proceed.
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -324,6 +396,67 @@ function OrderDetailsModal({
                   >
                     <CheckCircle className="mr-2 h-4 w-4" />
                     Confirm Order
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Action Button for AWAITING_PAYMENT status */}
+          {canPay && (
+            <div className="mb-6 rounded-lg border-2 border-blue-200 bg-blue-50 p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-blue-800">Payment Required</p>
+                  <p className="text-sm text-blue-700">
+                    This order is awaiting payment. Please complete payment to proceed.
+                  </p>
+                </div>
+                <Button
+                  onClick={() => {
+                    onClose();
+                    onPay?.();
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  <CheckCircle className="mr-2 h-4 w-4" />
+                  Pay Now
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Action Buttons for DELIVERED status */}
+          {canComplete && (
+            <div className="mb-6 rounded-lg border-2 border-green-200 bg-green-50 p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-semibold text-green-800">Order Delivered</p>
+                  <p className="text-sm text-green-700">
+                    Confirm receipt and complete the order, or dispute if there are issues.
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      onClose();
+                      onDispute?.();
+                    }}
+                    className="border-orange-300 text-orange-600 hover:bg-orange-50"
+                  >
+                    <Ban className="mr-2 h-4 w-4" />
+                    Dispute
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      onClose();
+                      onComplete?.();
+                    }}
+                    className="bg-green-600 hover:bg-green-700"
+                  >
+                    <CheckCircle className="mr-2 h-4 w-4" />
+                    Complete Order
                   </Button>
                 </div>
               </div>
@@ -406,11 +539,11 @@ function OrderDetailsModal({
                     {order.trackingNumber}
                   </p>
                 </div>
-                {order.shippedAt && (
+                {order.inTransitAt && (
                   <div>
                     <p className="text-sm text-gray-500">Shipped Date</p>
                     <p className="font-medium text-gray-900">
-                      {format(new Date(order.shippedAt), "MMM dd, yyyy")}
+                      {format(new Date(order.inTransitAt), "MMM dd, yyyy")}
                     </p>
                   </div>
                 )}
@@ -460,7 +593,7 @@ function OrderDetailsModal({
 
         {/* Footer */}
         <div className="sticky bottom-0 z-20 flex items-center justify-between border-t border-gray-200 bg-gray-50 px-6 py-4">
-          {canCancel && order.status !== "QUOTED" ? (
+          {canCancel && order.status !== "PENDING_CONFIRMATION" ? (
             <Button
               variant="outline"
               onClick={onCancel}
@@ -599,7 +732,7 @@ export default function MyOrdersPage() {
   const [actionModal, setActionModal] = useState<{
     orderId: string;
     orderNumber: string;
-    action: "confirm" | "cancel";
+    action: "confirm" | "cancel" | "pay" | "complete" | "dispute";
   } | null>(null);
 
   // Details modal state (separate from tracking)
@@ -623,6 +756,18 @@ export default function MyOrdersPage() {
 
   const utils = api.useUtils();
 
+  // Payment session mutation for "Pay Now" button
+  const createPaymentSession = api.bulkOrder.createPaymentSession.useMutation({
+    onSuccess: (data) => {
+      // Redirect to Paymongo checkout
+      window.location.href = data.checkoutUrl;
+    },
+  });
+
+  const handlePayNow = (orderId: string) => {
+    createPaymentSession.mutate({ bulkOrderId: orderId });
+  };
+
   const handleActionSuccess = async () => {
     await utils.order.getMerchantOrders.invalidate();
   };
@@ -631,25 +776,29 @@ export default function MyOrdersPage() {
   const totalCount = data?.totalCount ?? 0;
   const counts = data?.counts ?? {
     all: 0,
-    PENDING: 0,
-    REVIEWING: 0,
-    QUOTED: 0,
+    ORDER_PLACED: 0,
+    PENDING_CONFIRMATION: 0,
     CONFIRMED: 0,
-    PROCESSING: 0,
-    SHIPPED: 0,
+    AWAITING_PAYMENT: 0,
+    PAID: 0,
+    PREPARING: 0,
+    READY_FOR_SHIPMENT: 0,
+    IN_TRANSIT: 0,
     DELIVERED: 0,
+    COMPLETED: 0,
+    DISPUTED: 0,
+    RESOLVED: 0,
     CANCELLED: 0,
-    REJECTED: 0,
   };
 
   const totalPages = Math.ceil(totalCount / 10);
 
   const tabs = [
     { key: "all" as const, label: "All Orders", count: counts.all },
-    { key: "PENDING" as OrderStatus, label: "Pending", count: counts.PENDING + counts.REVIEWING + counts.QUOTED },
-    { key: "SHIPPED" as OrderStatus, label: "Shipped", count: counts.SHIPPED },
-    { key: "DELIVERED" as OrderStatus, label: "Delivered", count: counts.DELIVERED },
-    { key: "CANCELLED" as OrderStatus, label: "Cancelled", count: counts.CANCELLED + counts.REJECTED },
+    { key: "ORDER_PLACED" as OrderStatus, label: "Pending", count: (counts.ORDER_PLACED ?? 0) + (counts.PENDING_CONFIRMATION ?? 0) },
+    { key: "IN_TRANSIT" as OrderStatus, label: "In Transit", count: counts.IN_TRANSIT ?? 0 },
+    { key: "DELIVERED" as OrderStatus, label: "Delivered", count: (counts.DELIVERED ?? 0) + (counts.COMPLETED ?? 0) },
+    { key: "CANCELLED" as OrderStatus, label: "Cancelled", count: counts.CANCELLED ?? 0 },
   ];
 
   const formatCurrency = (amount: number | string) => {
@@ -675,7 +824,7 @@ export default function MyOrdersPage() {
 
   // Check if order is trackable (has shipping info)
   const isTrackable = (status: string) => {
-    return ["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY", "DELIVERED"].includes(status);
+    return ["IN_TRANSIT", "DELIVERED", "COMPLETED"].includes(status);
   };
 
   return (
@@ -1112,8 +1261,8 @@ export default function MyOrdersPage() {
                       </td>
                       <td className="whitespace-nowrap px-6 py-4">
                         <div className="flex items-center gap-2">
-                          {/* Confirm button for QUOTED orders */}
-                          {order.status === "QUOTED" && (
+                          {/* Confirm button for PENDING_CONFIRMATION orders */}
+                          {order.status === "PENDING_CONFIRMATION" && (
                             <button
                               onClick={() =>
                                 setActionModal({
@@ -1127,6 +1276,56 @@ export default function MyOrdersPage() {
                             >
                               <CheckCircle className="h-3 w-3" />
                               Confirm
+                            </button>
+                          )}
+                          {/* Pay Now button for AWAITING_PAYMENT orders */}
+                          {order.status === "AWAITING_PAYMENT" && (
+                            <button
+                              onClick={() => handlePayNow(order.id)}
+                              disabled={createPaymentSession.isPending}
+                              className="flex items-center gap-1 rounded bg-blue-50 px-2 py-1 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-100 disabled:opacity-50"
+                              title="Pay Now"
+                            >
+                              {createPaymentSession.isPending ? (
+                                <Loader2 className="h-3 w-3 animate-spin" />
+                              ) : (
+                                <CheckCircle className="h-3 w-3" />
+                              )}
+                              Pay Now
+                            </button>
+                          )}
+                          {/* Complete Order button for DELIVERED orders */}
+                          {order.status === "DELIVERED" && (
+                            <button
+                              onClick={() =>
+                                setActionModal({
+                                  orderId: order.id,
+                                  orderNumber: order.orderNumber,
+                                  action: "complete",
+                                })
+                              }
+                              className="flex items-center gap-1 rounded bg-green-50 px-2 py-1 text-xs font-medium text-green-600 transition-colors hover:bg-green-100"
+                              title="Complete Order"
+                            >
+                              <CheckCircle className="h-3 w-3" />
+                              Complete
+                            </button>
+                          )}
+                          {/* Dispute Order button for DELIVERED orders */}
+                          {order.status === "DELIVERED" && (
+                            <button
+                              onClick={() =>
+                                setActionModal({
+                                  orderId: order.id,
+                                  orderNumber: order.orderNumber,
+                                  action: "dispute",
+                                })
+                              }
+                              className="flex items-center gap-1 rounded bg-orange-50 px-2 py-1 text-xs font-medium text-orange-600 transition-colors hover:bg-orange-100"
+                              title="Dispute Order"
+                            >
+                              <Ban className="h-3 w-3" />
+                              Dispute
                             </button>
                           )}
                           <button
@@ -1285,6 +1484,26 @@ export default function MyOrdersPage() {
               orderId: detailsModal.orderId,
               orderNumber: detailsModal.orderNumber,
               action: "cancel",
+            });
+          }}
+          onPay={() => {
+            setDetailsModal(null);
+            handlePayNow(detailsModal.orderId);
+          }}
+          onComplete={() => {
+            setDetailsModal(null);
+            setActionModal({
+              orderId: detailsModal.orderId,
+              orderNumber: detailsModal.orderNumber,
+              action: "complete",
+            });
+          }}
+          onDispute={() => {
+            setDetailsModal(null);
+            setActionModal({
+              orderId: detailsModal.orderId,
+              orderNumber: detailsModal.orderNumber,
+              action: "dispute",
             });
           }}
         />

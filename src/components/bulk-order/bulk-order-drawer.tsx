@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { X, ShoppingCart, Trash2, FileText, Send, Loader2, CheckCircle } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { BulkOrderItem } from "./bulk-order-item";
@@ -19,6 +20,7 @@ interface ContactInfo {
 }
 
 export function BulkOrderDrawer() {
+  const router = useRouter();
   const isOpen = useBulkOrderStore((state) => state.isOpen);
   const closeDrawer = useBulkOrderStore((state) => state.closeDrawer);
   const items = useBulkOrderStore((state) => state.items);
@@ -39,14 +41,27 @@ export function BulkOrderDrawer() {
   // tRPC mutations
   const submitBulkOrder = api.bulkOrder.submitBulkOrder.useMutation({
     onSuccess: (data) => {
-      setSuccessMessage(data.message);
-      setTimeout(() => {
+      // If checkout URL is available, redirect to payment
+      if (data.checkoutUrl) {
+        setSuccessMessage("Order created! Redirecting to payment...");
         clearOrder();
         closeDrawer();
         setFormMode("list");
-        setSuccessMessage(null);
         resetForm();
-      }, 3000);
+        // Redirect to Paymongo checkout
+        window.location.href = data.checkoutUrl;
+      } else {
+        // Fallback if payment session creation failed
+        setSuccessMessage(data.message);
+        setTimeout(() => {
+          clearOrder();
+          closeDrawer();
+          setFormMode("list");
+          setSuccessMessage(null);
+          resetForm();
+          router.push("/merchant/orders");
+        }, 3000);
+      }
     },
   });
 

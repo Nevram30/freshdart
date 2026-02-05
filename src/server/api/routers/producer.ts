@@ -57,7 +57,7 @@ export const producerRouter = createTRPCRouter({
     const pendingOrders = await ctx.db.bulkOrder.count({
       where: {
         id: { in: orderIds },
-        status: { in: ["PENDING", "REVIEWING", "QUOTED"] },
+        status: { in: ["ORDER_PLACED", "PENDING_CONFIRMATION"] },
       },
     });
 
@@ -65,7 +65,7 @@ export const producerRouter = createTRPCRouter({
     const inTransit = await ctx.db.bulkOrder.count({
       where: {
         id: { in: orderIds },
-        status: { in: ["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY"] },
+        status: { in: ["IN_TRANSIT"] },
       },
     });
 
@@ -77,7 +77,7 @@ export const producerRouter = createTRPCRouter({
     const deliveredOrders = await ctx.db.bulkOrder.findMany({
       where: {
         id: { in: orderIds },
-        status: "DELIVERED",
+        status: { in: ["DELIVERED", "COMPLETED"] },
         deliveredAt: {
           gte: startOfMonth,
           lte: endOfMonth,
@@ -134,7 +134,7 @@ export const producerRouter = createTRPCRouter({
     // Get delivered bulk order IDs containing this producer's products
     const deliveredOrderIds = await ctx.db.bulkOrder.findMany({
       where: {
-        status: "DELIVERED",
+        status: { in: ["DELIVERED", "COMPLETED"] },
         items: {
           some: { productId: { in: productIds } },
         },
@@ -261,7 +261,7 @@ export const producerRouter = createTRPCRouter({
       const pendingCount = await ctx.db.bulkOrder.count({
         where: {
           id: { in: orderIds },
-          status: "PENDING",
+          status: "ORDER_PLACED",
         },
       });
 
@@ -326,7 +326,7 @@ export const producerRouter = createTRPCRouter({
       readyToShipCount = await ctx.db.bulkOrder.count({
         where: {
           id: { in: orderIds },
-          status: { in: ["CONFIRMED", "PROCESSING", "READY_FOR_PICKUP"] },
+          status: { in: ["PAID", "PREPARING", "READY_FOR_SHIPMENT"] },
         },
       });
 
@@ -393,7 +393,7 @@ export const producerRouter = createTRPCRouter({
       const deliveredOrders = await ctx.db.bulkOrder.findMany({
         where: {
           id: { in: orderIds },
-          status: "DELIVERED",
+          status: { in: ["DELIVERED", "COMPLETED"] },
           deliveredAt: { gte: startDate },
         },
         include: {
@@ -526,7 +526,7 @@ export const producerRouter = createTRPCRouter({
     // Get all delivered order items for these products
     const deliveredOrderIds = await ctx.db.bulkOrder.findMany({
       where: {
-        status: "DELIVERED",
+        status: { in: ["DELIVERED", "COMPLETED"] },
         items: { some: { productId: { in: productIds } } },
       },
       select: { id: true },
@@ -808,7 +808,7 @@ export const producerRouter = createTRPCRouter({
       const deliveredOrders = await ctx.db.bulkOrder.findMany({
         where: {
           id: { in: orderIds },
-          status: "DELIVERED",
+          status: { in: ["DELIVERED", "COMPLETED"] },
           deliveredAt: { gte: startDate },
         },
         include: {
@@ -997,17 +997,22 @@ export const producerRouter = createTRPCRouter({
 
     // Group into segments for pie chart
     const pending = orders.filter((o) =>
-      ["PENDING", "REVIEWING", "QUOTED"].includes(o.status),
+      ["ORDER_PLACED", "PENDING_CONFIRMATION"].includes(o.status),
     ).length;
     const inProgress = orders.filter((o) =>
-      ["CONFIRMED", "PROCESSING", "READY_FOR_PICKUP"].includes(o.status),
+      ["CONFIRMED", "AWAITING_PAYMENT", "PAID", "PREPARING", "READY_FOR_SHIPMENT"].includes(o.status),
     ).length;
     const shipping = orders.filter((o) =>
-      ["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY"].includes(o.status),
+      ["IN_TRANSIT"].includes(o.status),
     ).length;
-    const delivered = orders.filter((o) => o.status === "DELIVERED").length;
+    const delivered = orders.filter((o) =>
+      ["DELIVERED", "COMPLETED"].includes(o.status),
+    ).length;
     const cancelled = orders.filter((o) =>
-      ["CANCELLED", "REJECTED"].includes(o.status),
+      ["CANCELLED"].includes(o.status),
+    ).length;
+    const disputed = orders.filter((o) =>
+      ["DISPUTED", "RESOLVED"].includes(o.status),
     ).length;
 
     const segments = [
@@ -1016,6 +1021,7 @@ export const producerRouter = createTRPCRouter({
       { name: "Shipping", value: shipping, color: "#8b5cf6" },
       { name: "Delivered", value: delivered, color: "#10b981" },
       { name: "Cancelled", value: cancelled, color: "#ef4444" },
+      { name: "Disputed", value: disputed, color: "#f97316" },
     ].filter((s) => s.value > 0);
 
     // Average fulfillment time (confirmed → delivered)
@@ -1068,7 +1074,7 @@ export const producerRouter = createTRPCRouter({
     // Get delivered orders for this and last month
     const deliveredOrderIds = await ctx.db.bulkOrder.findMany({
       where: {
-        status: "DELIVERED",
+        status: { in: ["DELIVERED", "COMPLETED"] },
         items: { some: { productId: { in: productIds } } },
         deliveredAt: { gte: lastMonthStart },
       },

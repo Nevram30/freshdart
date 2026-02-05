@@ -20,6 +20,7 @@ import {
   Navigation,
   MapPin,
   Ban,
+  CreditCard,
   X,
   User,
   Building2,
@@ -38,81 +39,83 @@ import { cn } from "~/lib/utils";
 import { useDebounce } from "~/hooks/use-debounce";
 
 type OrderStatus =
-  | "PENDING"
-  | "REVIEWING"
-  | "QUOTED"
+  | "ORDER_PLACED"
+  | "PENDING_CONFIRMATION"
   | "CONFIRMED"
-  | "PROCESSING"
-  | "READY_FOR_PICKUP"
-  | "SHIPPED"
+  | "AWAITING_PAYMENT"
+  | "PAID"
+  | "PREPARING"
+  | "READY_FOR_SHIPMENT"
   | "IN_TRANSIT"
-  | "OUT_FOR_DELIVERY"
   | "DELIVERED"
-  | "CANCELLED"
-  | "REJECTED";
+  | "COMPLETED"
+  | "DISPUTED"
+  | "RESOLVED"
+  | "CANCELLED";
 
 const statusConfig: Record<
   OrderStatus,
   { variant: "info" | "warning" | "success" | "danger" | "default"; label: string; description: string }
 > = {
-  PENDING: { variant: "warning", label: "Pending", description: "Awaiting review" },
-  REVIEWING: { variant: "info", label: "Reviewing", description: "Under review" },
-  QUOTED: { variant: "info", label: "Quoted", description: "Quote sent to merchant" },
-  CONFIRMED: { variant: "success", label: "Confirmed", description: "Merchant accepted" },
-  PROCESSING: { variant: "info", label: "Processing", description: "Preparing order" },
-  READY_FOR_PICKUP: { variant: "info", label: "Ready", description: "Ready for pickup" },
-  SHIPPED: { variant: "info", label: "Shipped", description: "With courier" },
+  ORDER_PLACED: { variant: "warning", label: "Order Placed", description: "New order received" },
+  PENDING_CONFIRMATION: { variant: "info", label: "Pending Confirmation", description: "Awaiting your review" },
+  CONFIRMED: { variant: "success", label: "Confirmed", description: "Order confirmed" },
+  AWAITING_PAYMENT: { variant: "warning", label: "Awaiting Payment", description: "Waiting for payment" },
+  PAID: { variant: "success", label: "Paid", description: "Payment received" },
+  PREPARING: { variant: "info", label: "Preparing", description: "Preparing order" },
+  READY_FOR_SHIPMENT: { variant: "info", label: "Ready to Ship", description: "Ready for shipment" },
   IN_TRANSIT: { variant: "info", label: "In Transit", description: "On the way" },
-  OUT_FOR_DELIVERY: { variant: "info", label: "Out for Delivery", description: "Last mile" },
-  DELIVERED: { variant: "success", label: "Delivered", description: "Completed" },
+  DELIVERED: { variant: "success", label: "Delivered", description: "Delivered to merchant" },
+  COMPLETED: { variant: "success", label: "Completed", description: "Order completed" },
+  DISPUTED: { variant: "danger", label: "Disputed", description: "Dispute raised" },
+  RESOLVED: { variant: "default", label: "Resolved", description: "Dispute resolved" },
   CANCELLED: { variant: "danger", label: "Cancelled", description: "Order cancelled" },
-  REJECTED: { variant: "danger", label: "Rejected", description: "Order rejected" },
 };
 
 // Define valid status transitions for producer
 const validTransitions: Record<string, { nextStatus: OrderStatus; label: string; icon: React.ElementType; color: string }[]> = {
-  PENDING: [
-    { nextStatus: "REVIEWING", label: "Start Review", icon: Clock, color: "blue" },
-    { nextStatus: "REJECTED", label: "Reject Order", icon: Ban, color: "red" },
+  ORDER_PLACED: [
+    { nextStatus: "PENDING_CONFIRMATION", label: "Start Review", icon: Clock, color: "blue" },
+    { nextStatus: "CANCELLED", label: "Cancel Order", icon: Ban, color: "red" },
   ],
-  REVIEWING: [
-    { nextStatus: "QUOTED", label: "Send Quote", icon: FileText, color: "blue" },
-    { nextStatus: "REJECTED", label: "Reject Order", icon: Ban, color: "red" },
-  ],
-  QUOTED: [
-    // Merchant confirms - no action for producer here
+  PENDING_CONFIRMATION: [
+    { nextStatus: "CONFIRMED", label: "Confirm Order", icon: CheckCircle, color: "green" },
+    { nextStatus: "CANCELLED", label: "Cancel Order", icon: Ban, color: "red" },
   ],
   CONFIRMED: [
-    { nextStatus: "PROCESSING", label: "Start Processing", icon: Package, color: "amber" },
+    { nextStatus: "AWAITING_PAYMENT", label: "Request Payment", icon: CreditCard, color: "amber" },
   ],
-  PROCESSING: [
-    { nextStatus: "READY_FOR_PICKUP", label: "Mark Ready for Pickup", icon: PackageCheck, color: "teal" },
+  AWAITING_PAYMENT: [],
+  PAID: [
+    { nextStatus: "PREPARING", label: "Start Preparing", icon: Package, color: "amber" },
   ],
-  READY_FOR_PICKUP: [
-    { nextStatus: "SHIPPED", label: "Mark as Shipped", icon: Truck, color: "blue" },
+  PREPARING: [
+    { nextStatus: "READY_FOR_SHIPMENT", label: "Mark Ready to Ship", icon: PackageCheck, color: "teal" },
   ],
-  SHIPPED: [
-    { nextStatus: "IN_TRANSIT", label: "Mark In Transit", icon: Navigation, color: "indigo" },
+  READY_FOR_SHIPMENT: [
+    { nextStatus: "IN_TRANSIT", label: "Mark as Shipped", icon: Truck, color: "blue" },
   ],
   IN_TRANSIT: [
-    { nextStatus: "OUT_FOR_DELIVERY", label: "Out for Delivery", icon: MapPin, color: "purple" },
-  ],
-  OUT_FOR_DELIVERY: [
-    { nextStatus: "DELIVERED", label: "Mark Delivered", icon: CheckCircle, color: "green" },
+    { nextStatus: "DELIVERED", label: "Confirm Delivery", icon: MapPin, color: "green" },
   ],
   DELIVERED: [],
+  COMPLETED: [],
+  DISPUTED: [
+    { nextStatus: "RESOLVED", label: "Resolve Dispute", icon: CheckCircle, color: "green" },
+  ],
+  RESOLVED: [],
   CANCELLED: [],
-  REJECTED: [],
 };
 
 const tabs = [
   { key: "all" as const, label: "All Orders" },
-  { key: "PENDING" as const, label: "New" },
-  { key: "REVIEWING" as const, label: "Reviewing" },
+  { key: "ORDER_PLACED" as const, label: "New" },
+  { key: "PENDING_CONFIRMATION" as const, label: "Pending" },
   { key: "CONFIRMED" as const, label: "Confirmed" },
-  { key: "PROCESSING" as const, label: "Processing" },
-  { key: "SHIPPED" as const, label: "Shipped" },
+  { key: "PREPARING" as const, label: "Preparing" },
+  { key: "IN_TRANSIT" as const, label: "In Transit" },
   { key: "DELIVERED" as const, label: "Delivered" },
+  { key: "COMPLETED" as const, label: "Completed" },
 ];
 
 // Shipping Carriers list
@@ -358,21 +361,25 @@ function StatusUpdateModal({
 
   const getStatusIcon = () => {
     switch (newStatus) {
-      case "REVIEWING":
+      case "PENDING_CONFIRMATION":
         return <Clock className="h-8 w-8 text-blue-500" />;
-      case "QUOTED":
-        return <FileText className="h-8 w-8 text-blue-500" />;
-      case "PROCESSING":
+      case "CONFIRMED":
+        return <CheckCircle className="h-8 w-8 text-green-500" />;
+      case "AWAITING_PAYMENT":
+        return <CreditCard className="h-8 w-8 text-amber-500" />;
+      case "PREPARING":
         return <Package className="h-8 w-8 text-amber-500" />;
-      case "READY_FOR_PICKUP":
+      case "READY_FOR_SHIPMENT":
         return <PackageCheck className="h-8 w-8 text-teal-500" />;
       case "IN_TRANSIT":
-        return <Navigation className="h-8 w-8 text-indigo-500" />;
-      case "OUT_FOR_DELIVERY":
-        return <MapPin className="h-8 w-8 text-purple-500" />;
+        return <Truck className="h-8 w-8 text-blue-500" />;
       case "DELIVERED":
         return <CheckCircle className="h-8 w-8 text-green-500" />;
-      case "REJECTED":
+      case "COMPLETED":
+        return <CheckCircle className="h-8 w-8 text-green-500" />;
+      case "RESOLVED":
+        return <CheckCircle className="h-8 w-8 text-green-500" />;
+      case "CANCELLED":
         return <Ban className="h-8 w-8 text-red-500" />;
       default:
         return <Package className="h-8 w-8 text-gray-500" />;
@@ -381,20 +388,21 @@ function StatusUpdateModal({
 
   const getStatusColor = () => {
     switch (newStatus) {
-      case "REVIEWING":
-      case "QUOTED":
+      case "PENDING_CONFIRMATION":
         return "blue";
-      case "PROCESSING":
+      case "CONFIRMED":
+      case "DELIVERED":
+      case "COMPLETED":
+      case "RESOLVED":
+        return "green";
+      case "AWAITING_PAYMENT":
+      case "PREPARING":
         return "amber";
-      case "READY_FOR_PICKUP":
+      case "READY_FOR_SHIPMENT":
         return "teal";
       case "IN_TRANSIT":
-        return "indigo";
-      case "OUT_FOR_DELIVERY":
-        return "purple";
-      case "DELIVERED":
-        return "green";
-      case "REJECTED":
+        return "blue";
+      case "CANCELLED":
         return "red";
       default:
         return "gray";
@@ -482,7 +490,7 @@ function StatusUpdateModal({
               type="submit"
               disabled={updateStatusMutation.isPending}
               className={`flex-1 ${
-                newStatus === "REJECTED"
+                newStatus === "CANCELLED"
                   ? "bg-red-600 hover:bg-red-700"
                   : "bg-teal-600 hover:bg-teal-700"
               }`}
@@ -799,11 +807,11 @@ function OrderDetailsModal({
                     <p className="font-mono font-medium text-gray-900">{order.trackingNumber}</p>
                   </div>
                 )}
-                {order.shippedAt && (
+                {order.inTransitAt && (
                   <div>
                     <p className="text-sm text-gray-600">Shipped Date</p>
                     <p className="font-medium text-gray-900">
-                      {format(new Date(order.shippedAt), "MMM dd, yyyy")}
+                      {format(new Date(order.inTransitAt), "MMM dd, yyyy")}
                     </p>
                   </div>
                 )}
@@ -901,28 +909,15 @@ function OrderDetailsModal({
                   </div>
                 </div>
               )}
-              {order.reviewedAt && (
+              {order.pendingConfirmationAt && (
                 <div className="flex items-center gap-3 text-sm">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100">
                     <Eye className="h-4 w-4 text-blue-500" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">Reviewed</p>
+                    <p className="font-medium text-gray-900">Pending Confirmation</p>
                     <p className="text-gray-500">
-                      {format(new Date(order.reviewedAt), "MMM dd, yyyy 'at' h:mm a")}
-                    </p>
-                  </div>
-                </div>
-              )}
-              {order.quotedAt && (
-                <div className="flex items-center gap-3 text-sm">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100">
-                    <FileText className="h-4 w-4 text-blue-500" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Quote Sent</p>
-                    <p className="text-gray-500">
-                      {format(new Date(order.quotedAt), "MMM dd, yyyy 'at' h:mm a")}
+                      {format(new Date(order.pendingConfirmationAt), "MMM dd, yyyy 'at' h:mm a")}
                     </p>
                   </div>
                 </div>
@@ -940,67 +935,67 @@ function OrderDetailsModal({
                   </div>
                 </div>
               )}
-              {order.processingAt && (
+              {order.awaitingPaymentAt && (
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-100">
+                    <CreditCard className="h-4 w-4 text-amber-500" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Awaiting Payment</p>
+                    <p className="text-gray-500">
+                      {format(new Date(order.awaitingPaymentAt), "MMM dd, yyyy 'at' h:mm a")}
+                    </p>
+                  </div>
+                </div>
+              )}
+              {order.paidAt && (
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100">
+                    <CreditCard className="h-4 w-4 text-green-500" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Paid</p>
+                    <p className="text-gray-500">
+                      {format(new Date(order.paidAt), "MMM dd, yyyy 'at' h:mm a")}
+                    </p>
+                  </div>
+                </div>
+              )}
+              {order.preparingAt && (
                 <div className="flex items-center gap-3 text-sm">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-100">
                     <Package className="h-4 w-4 text-amber-500" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">Processing Started</p>
+                    <p className="font-medium text-gray-900">Preparing</p>
                     <p className="text-gray-500">
-                      {format(new Date(order.processingAt), "MMM dd, yyyy 'at' h:mm a")}
+                      {format(new Date(order.preparingAt), "MMM dd, yyyy 'at' h:mm a")}
                     </p>
                   </div>
                 </div>
               )}
-              {order.readyForPickupAt && (
+              {order.readyForShipmentAt && (
                 <div className="flex items-center gap-3 text-sm">
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-100">
                     <PackageCheck className="h-4 w-4 text-teal-500" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">Ready for Pickup</p>
+                    <p className="font-medium text-gray-900">Ready for Shipment</p>
                     <p className="text-gray-500">
-                      {format(new Date(order.readyForPickupAt), "MMM dd, yyyy 'at' h:mm a")}
-                    </p>
-                  </div>
-                </div>
-              )}
-              {order.shippedAt && (
-                <div className="flex items-center gap-3 text-sm">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100">
-                    <Truck className="h-4 w-4 text-blue-500" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Shipped</p>
-                    <p className="text-gray-500">
-                      {format(new Date(order.shippedAt), "MMM dd, yyyy 'at' h:mm a")}
+                      {format(new Date(order.readyForShipmentAt), "MMM dd, yyyy 'at' h:mm a")}
                     </p>
                   </div>
                 </div>
               )}
               {order.inTransitAt && (
                 <div className="flex items-center gap-3 text-sm">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100">
-                    <Navigation className="h-4 w-4 text-indigo-500" />
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100">
+                    <Truck className="h-4 w-4 text-blue-500" />
                   </div>
                   <div>
                     <p className="font-medium text-gray-900">In Transit</p>
                     <p className="text-gray-500">
                       {format(new Date(order.inTransitAt), "MMM dd, yyyy 'at' h:mm a")}
-                    </p>
-                  </div>
-                </div>
-              )}
-              {order.outForDeliveryAt && (
-                <div className="flex items-center gap-3 text-sm">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-100">
-                    <MapPin className="h-4 w-4 text-purple-500" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Out for Delivery</p>
-                    <p className="text-gray-500">
-                      {format(new Date(order.outForDeliveryAt), "MMM dd, yyyy 'at' h:mm a")}
                     </p>
                   </div>
                 </div>
@@ -1014,6 +1009,45 @@ function OrderDetailsModal({
                     <p className="font-medium text-gray-900">Delivered</p>
                     <p className="text-gray-500">
                       {format(new Date(order.deliveredAt), "MMM dd, yyyy 'at' h:mm a")}
+                    </p>
+                  </div>
+                </div>
+              )}
+              {order.completedAt && (
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-green-100">
+                    <CheckCircle className="h-4 w-4 text-green-500" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Completed</p>
+                    <p className="text-gray-500">
+                      {format(new Date(order.completedAt), "MMM dd, yyyy 'at' h:mm a")}
+                    </p>
+                  </div>
+                </div>
+              )}
+              {order.disputedAt && (
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-100">
+                    <XCircle className="h-4 w-4 text-red-500" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Disputed</p>
+                    <p className="text-gray-500">
+                      {format(new Date(order.disputedAt), "MMM dd, yyyy 'at' h:mm a")}
+                    </p>
+                  </div>
+                </div>
+              )}
+              {order.resolvedAt && (
+                <div className="flex items-center gap-3 text-sm">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100">
+                    <CheckCircle className="h-4 w-4 text-gray-500" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Resolved</p>
+                    <p className="text-gray-500">
+                      {format(new Date(order.resolvedAt), "MMM dd, yyyy 'at' h:mm a")}
                     </p>
                   </div>
                 </div>
@@ -1196,8 +1230,8 @@ export default function ProducerOrdersPage() {
     newStatus: OrderStatus,
     statusLabel: string
   ) => {
-    // For SHIPPED status, show the shipping modal with carrier/tracking info
-    if (newStatus === "SHIPPED") {
+    // For IN_TRANSIT status (shipping), show the shipping modal with carrier/tracking info
+    if (newStatus === "IN_TRANSIT") {
       setShippingModal({ orderId, orderNumber });
     } else {
       // For other statuses, show the confirmation modal
@@ -1272,7 +1306,7 @@ export default function ProducerOrdersPage() {
             <div>
               <p className="text-2xl font-bold text-gray-900">
                 {orders.filter((o) =>
-                  ["PENDING", "REVIEWING"].includes(o.status)
+                  ["ORDER_PLACED", "PENDING_CONFIRMATION"].includes(o.status)
                 ).length}
               </p>
               <p className="text-xs text-gray-500">New Orders</p>
@@ -1286,9 +1320,9 @@ export default function ProducerOrdersPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">
-                {orders.filter((o) => o.status === "QUOTED").length}
+                {orders.filter((o) => o.status === "AWAITING_PAYMENT").length}
               </p>
-              <p className="text-xs text-gray-500">Awaiting Confirmation</p>
+              <p className="text-xs text-gray-500">Awaiting Payment</p>
             </div>
           </div>
         </div>
@@ -1300,7 +1334,7 @@ export default function ProducerOrdersPage() {
             <div>
               <p className="text-2xl font-bold text-gray-900">
                 {orders.filter((o) =>
-                  ["CONFIRMED", "PROCESSING", "READY_FOR_PICKUP"].includes(o.status)
+                  ["CONFIRMED", "PAID", "PREPARING", "READY_FOR_SHIPMENT"].includes(o.status)
                 ).length}
               </p>
               <p className="text-xs text-gray-500">Processing</p>
@@ -1315,7 +1349,7 @@ export default function ProducerOrdersPage() {
             <div>
               <p className="text-2xl font-bold text-gray-900">
                 {orders.filter((o) =>
-                  ["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY"].includes(o.status)
+                  ["IN_TRANSIT"].includes(o.status)
                 ).length}
               </p>
               <p className="text-xs text-gray-500">In Transit</p>
@@ -1341,25 +1375,25 @@ export default function ProducerOrdersPage() {
       <div className="mb-6 rounded-lg border border-gray-200 bg-gray-50 p-4">
         <p className="mb-2 text-sm font-medium text-gray-700">Order Status Flow:</p>
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className="rounded bg-amber-100 px-2 py-1 text-amber-700">Pending</span>
+          <span className="rounded bg-amber-100 px-2 py-1 text-amber-700">Order Placed</span>
           <span className="text-gray-400">→</span>
-          <span className="rounded bg-blue-100 px-2 py-1 text-blue-700">Reviewing</span>
-          <span className="text-gray-400">→</span>
-          <span className="rounded bg-blue-100 px-2 py-1 text-blue-700">Quoted</span>
+          <span className="rounded bg-blue-100 px-2 py-1 text-blue-700">Pending Confirmation</span>
           <span className="text-gray-400">→</span>
           <span className="rounded bg-green-100 px-2 py-1 text-green-700">Confirmed</span>
           <span className="text-gray-400">→</span>
-          <span className="rounded bg-amber-100 px-2 py-1 text-amber-700">Processing</span>
+          <span className="rounded bg-amber-100 px-2 py-1 text-amber-700">Awaiting Payment</span>
           <span className="text-gray-400">→</span>
-          <span className="rounded bg-teal-100 px-2 py-1 text-teal-700">Ready</span>
+          <span className="rounded bg-green-100 px-2 py-1 text-green-700">Paid</span>
           <span className="text-gray-400">→</span>
-          <span className="rounded bg-blue-100 px-2 py-1 text-blue-700">Shipped</span>
+          <span className="rounded bg-blue-100 px-2 py-1 text-blue-700">Preparing</span>
           <span className="text-gray-400">→</span>
-          <span className="rounded bg-indigo-100 px-2 py-1 text-indigo-700">In Transit</span>
+          <span className="rounded bg-teal-100 px-2 py-1 text-teal-700">Ready to Ship</span>
           <span className="text-gray-400">→</span>
-          <span className="rounded bg-purple-100 px-2 py-1 text-purple-700">Out for Delivery</span>
+          <span className="rounded bg-blue-100 px-2 py-1 text-blue-700">In Transit</span>
           <span className="text-gray-400">→</span>
           <span className="rounded bg-green-100 px-2 py-1 text-green-700">Delivered</span>
+          <span className="text-gray-400">→</span>
+          <span className="rounded bg-green-100 px-2 py-1 text-green-700">Completed</span>
         </div>
       </div>
 
@@ -1811,9 +1845,9 @@ export default function ProducerOrdersPage() {
                               </button>
                             );
                           })}
-                          {order.status === "QUOTED" && (
+                          {order.status === "AWAITING_PAYMENT" && (
                             <span className="ml-2 text-xs text-gray-400">
-                              Waiting for merchant
+                              Waiting for payment
                             </span>
                           )}
                         </div>

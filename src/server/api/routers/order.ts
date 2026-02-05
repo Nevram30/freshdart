@@ -13,18 +13,19 @@ export const orderRouter = createTRPCRouter({
         limit: z.number().min(1).max(50).default(10),
         cursor: z.string().optional(),
         status: z.enum([
-          "PENDING",
-          "REVIEWING",
-          "QUOTED",
+          "ORDER_PLACED",
+          "PENDING_CONFIRMATION",
           "CONFIRMED",
-          "PROCESSING",
-          "READY_FOR_PICKUP",
-          "SHIPPED",
+          "AWAITING_PAYMENT",
+          "PAID",
+          "PREPARING",
+          "READY_FOR_SHIPMENT",
           "IN_TRANSIT",
-          "OUT_FOR_DELIVERY",
           "DELIVERED",
+          "COMPLETED",
+          "DISPUTED",
+          "RESOLVED",
           "CANCELLED",
-          "REJECTED",
         ]).optional(),
         search: z.string().optional(),
         dateFrom: z.date().optional(),
@@ -268,16 +269,17 @@ export const orderRouter = createTRPCRouter({
       z.object({
         id: z.string(),
         status: z.enum([
-          "REVIEWING",
-          "QUOTED",
+          "PENDING_CONFIRMATION",
           "CONFIRMED",
-          "PROCESSING",
-          "READY_FOR_PICKUP",
-          "SHIPPED",
+          "AWAITING_PAYMENT",
+          "PAID",
+          "PREPARING",
+          "READY_FOR_SHIPMENT",
           "IN_TRANSIT",
-          "OUT_FOR_DELIVERY",
           "DELIVERED",
-          "REJECTED",
+          "COMPLETED",
+          "RESOLVED",
+          "CANCELLED",
         ]),
         notes: z.string().optional(),
       })
@@ -342,18 +344,19 @@ export const orderRouter = createTRPCRouter({
         limit: z.number().min(1).max(50).default(10),
         cursor: z.string().optional(),
         status: z.enum([
-          "PENDING",
-          "REVIEWING",
-          "QUOTED",
+          "ORDER_PLACED",
+          "PENDING_CONFIRMATION",
           "CONFIRMED",
-          "PROCESSING",
-          "READY_FOR_PICKUP",
-          "SHIPPED",
+          "AWAITING_PAYMENT",
+          "PAID",
+          "PREPARING",
+          "READY_FOR_SHIPMENT",
           "IN_TRANSIT",
-          "OUT_FOR_DELIVERY",
           "DELIVERED",
+          "COMPLETED",
+          "DISPUTED",
+          "RESOLVED",
           "CANCELLED",
-          "REJECTED",
         ]).optional(),
         search: z.string().optional(),
         dateFrom: z.date().optional(),
@@ -451,15 +454,19 @@ export const orderRouter = createTRPCRouter({
 
       const counts = {
         all: totalCount,
-        PENDING: 0,
-        REVIEWING: 0,
-        QUOTED: 0,
+        ORDER_PLACED: 0,
+        PENDING_CONFIRMATION: 0,
         CONFIRMED: 0,
-        PROCESSING: 0,
-        SHIPPED: 0,
+        AWAITING_PAYMENT: 0,
+        PAID: 0,
+        PREPARING: 0,
+        READY_FOR_SHIPMENT: 0,
+        IN_TRANSIT: 0,
         DELIVERED: 0,
+        COMPLETED: 0,
+        DISPUTED: 0,
+        RESOLVED: 0,
         CANCELLED: 0,
-        REJECTED: 0,
       };
 
       statusCounts.forEach((sc) => {
@@ -575,13 +582,13 @@ export const orderRouter = createTRPCRouter({
     };
 
     statusCounts.forEach((sc) => {
-      if (["PENDING", "REVIEWING", "QUOTED"].includes(sc.status)) {
+      if (["ORDER_PLACED", "PENDING_CONFIRMATION"].includes(sc.status)) {
         stats.pending += sc._count.status;
-      } else if (["CONFIRMED", "PROCESSING"].includes(sc.status)) {
+      } else if (["CONFIRMED", "AWAITING_PAYMENT", "PAID", "PREPARING", "READY_FOR_SHIPMENT"].includes(sc.status)) {
         stats.processing += sc._count.status;
-      } else if (sc.status === "SHIPPED") {
+      } else if (sc.status === "IN_TRANSIT") {
         stats.shipped += sc._count.status;
-      } else if (sc.status === "DELIVERED") {
+      } else if (["DELIVERED", "COMPLETED"].includes(sc.status)) {
         stats.delivered += sc._count.status;
       }
     });
@@ -590,7 +597,7 @@ export const orderRouter = createTRPCRouter({
     const deliveredOrders = await ctx.db.bulkOrder.findMany({
       where: {
         id: { in: orderIds },
-        status: "DELIVERED",
+        status: { in: ["DELIVERED", "COMPLETED"] },
       },
       include: {
         items: {
@@ -615,7 +622,7 @@ export const orderRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-        status: z.enum(["CONFIRMED", "CANCELLED"]),
+        status: z.enum(["CONFIRMED", "PAID", "COMPLETED", "DISPUTED", "CANCELLED"]),
         notes: z.string().optional(),
       })
     )
@@ -637,18 +644,43 @@ export const orderRouter = createTRPCRouter({
 
       // Validate status transitions
       if (input.status === "CONFIRMED") {
-        // Can only confirm orders that are QUOTED
-        if (order.status !== "QUOTED") {
+        if (order.status !== "PENDING_CONFIRMATION") {
           throw new TRPCError({
             code: "BAD_REQUEST",
-            message: "Can only confirm orders that have a quote",
+            message: "Can only confirm orders that are pending confirmation",
+          });
+        }
+      }
+
+      if (input.status === "PAID") {
+        if (order.status !== "AWAITING_PAYMENT") {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Can only pay orders that are awaiting payment",
+          });
+        }
+      }
+
+      if (input.status === "COMPLETED") {
+        if (order.status !== "DELIVERED") {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Can only complete orders that have been delivered",
+          });
+        }
+      }
+
+      if (input.status === "DISPUTED") {
+        if (order.status !== "DELIVERED") {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "Can only dispute orders that have been delivered",
           });
         }
       }
 
       if (input.status === "CANCELLED") {
-        // Can cancel orders that are not yet shipped or delivered
-        if (["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED", "REJECTED"].includes(order.status)) {
+        if (["PAID", "PREPARING", "READY_FOR_SHIPMENT", "IN_TRANSIT", "DELIVERED", "COMPLETED", "DISPUTED", "RESOLVED", "CANCELLED"].includes(order.status)) {
           throw new TRPCError({
             code: "BAD_REQUEST",
             message: "Cannot cancel order at this stage",
@@ -663,10 +695,24 @@ export const orderRouter = createTRPCRouter({
         notes: input.notes ?? order.notes,
       };
 
-      if (input.status === "CONFIRMED") {
-        updateData.confirmedAt = now;
-      } else if (input.status === "CANCELLED") {
-        updateData.cancelledAt = now;
+      switch (input.status) {
+        case "CONFIRMED":
+          updateData.confirmedAt = now;
+          break;
+        case "PAID":
+          updateData.paidAt = now;
+          updateData.paymentStatus = "paid";
+          break;
+        case "COMPLETED":
+          updateData.completedAt = now;
+          break;
+        case "DISPUTED":
+          updateData.disputedAt = now;
+          if (input.notes) updateData.disputeReason = input.notes;
+          break;
+        case "CANCELLED":
+          updateData.cancelledAt = now;
+          break;
       }
 
       // Update the order
@@ -684,7 +730,16 @@ export const orderRouter = createTRPCRouter({
           changedById: ctx.session.user.id,
           changedByName: ctx.session.user.name ?? "Unknown",
           changedByRole: "MERCHANT",
-          notes: input.notes ?? (input.status === "CONFIRMED" ? "Quote accepted by merchant" : "Order cancelled by merchant"),
+          notes: input.notes ?? (() => {
+            switch (input.status) {
+              case "CONFIRMED": return "Order confirmed by merchant";
+              case "PAID": return "Payment confirmed by merchant";
+              case "COMPLETED": return "Order completed by merchant";
+              case "DISPUTED": return "Dispute raised by merchant";
+              case "CANCELLED": return "Order cancelled by merchant";
+              default: return "Status updated by merchant";
+            }
+          })(),
         },
       });
 

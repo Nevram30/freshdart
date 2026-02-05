@@ -247,18 +247,19 @@ export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
 export const BulkOrderStatus: {
-  PENDING: 'PENDING',
-  REVIEWING: 'REVIEWING',
-  QUOTED: 'QUOTED',
+  ORDER_PLACED: 'ORDER_PLACED',
+  PENDING_CONFIRMATION: 'PENDING_CONFIRMATION',
   CONFIRMED: 'CONFIRMED',
-  PROCESSING: 'PROCESSING',
-  READY_FOR_PICKUP: 'READY_FOR_PICKUP',
-  SHIPPED: 'SHIPPED',
+  AWAITING_PAYMENT: 'AWAITING_PAYMENT',
+  PAID: 'PAID',
+  PREPARING: 'PREPARING',
+  READY_FOR_SHIPMENT: 'READY_FOR_SHIPMENT',
   IN_TRANSIT: 'IN_TRANSIT',
-  OUT_FOR_DELIVERY: 'OUT_FOR_DELIVERY',
   DELIVERED: 'DELIVERED',
-  CANCELLED: 'CANCELLED',
-  REJECTED: 'REJECTED'
+  COMPLETED: 'COMPLETED',
+  DISPUTED: 'DISPUTED',
+  RESOLVED: 'RESOLVED',
+  CANCELLED: 'CANCELLED'
 };
 
 export type BulkOrderStatus = (typeof BulkOrderStatus)[keyof typeof BulkOrderStatus]
@@ -22240,16 +22241,24 @@ export namespace Prisma {
     requiresColdChain: boolean | null
     estimatedDeliveryDate: Date | null
     actualDeliveryDate: Date | null
-    reviewedAt: Date | null
-    quotedAt: Date | null
+    paymentStatus: string | null
+    paymentMethod: string | null
+    paymentIntentId: string | null
+    paymentUrl: string | null
+    pendingConfirmationAt: Date | null
     confirmedAt: Date | null
-    processingAt: Date | null
-    readyForPickupAt: Date | null
-    shippedAt: Date | null
+    awaitingPaymentAt: Date | null
+    paidAt: Date | null
+    preparingAt: Date | null
+    readyForShipmentAt: Date | null
     inTransitAt: Date | null
-    outForDeliveryAt: Date | null
     deliveredAt: Date | null
+    completedAt: Date | null
+    disputedAt: Date | null
+    resolvedAt: Date | null
     cancelledAt: Date | null
+    disputeReason: string | null
+    disputeResolution: string | null
     deliveryProofUrl: string | null
     deliverySignature: string | null
     receivedBy: string | null
@@ -22283,16 +22292,24 @@ export namespace Prisma {
     requiresColdChain: boolean | null
     estimatedDeliveryDate: Date | null
     actualDeliveryDate: Date | null
-    reviewedAt: Date | null
-    quotedAt: Date | null
+    paymentStatus: string | null
+    paymentMethod: string | null
+    paymentIntentId: string | null
+    paymentUrl: string | null
+    pendingConfirmationAt: Date | null
     confirmedAt: Date | null
-    processingAt: Date | null
-    readyForPickupAt: Date | null
-    shippedAt: Date | null
+    awaitingPaymentAt: Date | null
+    paidAt: Date | null
+    preparingAt: Date | null
+    readyForShipmentAt: Date | null
     inTransitAt: Date | null
-    outForDeliveryAt: Date | null
     deliveredAt: Date | null
+    completedAt: Date | null
+    disputedAt: Date | null
+    resolvedAt: Date | null
     cancelledAt: Date | null
+    disputeReason: string | null
+    disputeResolution: string | null
     deliveryProofUrl: string | null
     deliverySignature: string | null
     receivedBy: string | null
@@ -22327,16 +22344,24 @@ export namespace Prisma {
     requiresColdChain: number
     estimatedDeliveryDate: number
     actualDeliveryDate: number
-    reviewedAt: number
-    quotedAt: number
+    paymentStatus: number
+    paymentMethod: number
+    paymentIntentId: number
+    paymentUrl: number
+    pendingConfirmationAt: number
     confirmedAt: number
-    processingAt: number
-    readyForPickupAt: number
-    shippedAt: number
+    awaitingPaymentAt: number
+    paidAt: number
+    preparingAt: number
+    readyForShipmentAt: number
     inTransitAt: number
-    outForDeliveryAt: number
     deliveredAt: number
+    completedAt: number
+    disputedAt: number
+    resolvedAt: number
     cancelledAt: number
+    disputeReason: number
+    disputeResolution: number
     deliveryProofUrl: number
     deliverySignature: number
     receivedBy: number
@@ -22392,16 +22417,24 @@ export namespace Prisma {
     requiresColdChain?: true
     estimatedDeliveryDate?: true
     actualDeliveryDate?: true
-    reviewedAt?: true
-    quotedAt?: true
+    paymentStatus?: true
+    paymentMethod?: true
+    paymentIntentId?: true
+    paymentUrl?: true
+    pendingConfirmationAt?: true
     confirmedAt?: true
-    processingAt?: true
-    readyForPickupAt?: true
-    shippedAt?: true
+    awaitingPaymentAt?: true
+    paidAt?: true
+    preparingAt?: true
+    readyForShipmentAt?: true
     inTransitAt?: true
-    outForDeliveryAt?: true
     deliveredAt?: true
+    completedAt?: true
+    disputedAt?: true
+    resolvedAt?: true
     cancelledAt?: true
+    disputeReason?: true
+    disputeResolution?: true
     deliveryProofUrl?: true
     deliverySignature?: true
     receivedBy?: true
@@ -22435,16 +22468,24 @@ export namespace Prisma {
     requiresColdChain?: true
     estimatedDeliveryDate?: true
     actualDeliveryDate?: true
-    reviewedAt?: true
-    quotedAt?: true
+    paymentStatus?: true
+    paymentMethod?: true
+    paymentIntentId?: true
+    paymentUrl?: true
+    pendingConfirmationAt?: true
     confirmedAt?: true
-    processingAt?: true
-    readyForPickupAt?: true
-    shippedAt?: true
+    awaitingPaymentAt?: true
+    paidAt?: true
+    preparingAt?: true
+    readyForShipmentAt?: true
     inTransitAt?: true
-    outForDeliveryAt?: true
     deliveredAt?: true
+    completedAt?: true
+    disputedAt?: true
+    resolvedAt?: true
     cancelledAt?: true
+    disputeReason?: true
+    disputeResolution?: true
     deliveryProofUrl?: true
     deliverySignature?: true
     receivedBy?: true
@@ -22479,16 +22520,24 @@ export namespace Prisma {
     requiresColdChain?: true
     estimatedDeliveryDate?: true
     actualDeliveryDate?: true
-    reviewedAt?: true
-    quotedAt?: true
+    paymentStatus?: true
+    paymentMethod?: true
+    paymentIntentId?: true
+    paymentUrl?: true
+    pendingConfirmationAt?: true
     confirmedAt?: true
-    processingAt?: true
-    readyForPickupAt?: true
-    shippedAt?: true
+    awaitingPaymentAt?: true
+    paidAt?: true
+    preparingAt?: true
+    readyForShipmentAt?: true
     inTransitAt?: true
-    outForDeliveryAt?: true
     deliveredAt?: true
+    completedAt?: true
+    disputedAt?: true
+    resolvedAt?: true
     cancelledAt?: true
+    disputeReason?: true
+    disputeResolution?: true
     deliveryProofUrl?: true
     deliverySignature?: true
     receivedBy?: true
@@ -22610,16 +22659,24 @@ export namespace Prisma {
     requiresColdChain: boolean
     estimatedDeliveryDate: Date | null
     actualDeliveryDate: Date | null
-    reviewedAt: Date | null
-    quotedAt: Date | null
+    paymentStatus: string | null
+    paymentMethod: string | null
+    paymentIntentId: string | null
+    paymentUrl: string | null
+    pendingConfirmationAt: Date | null
     confirmedAt: Date | null
-    processingAt: Date | null
-    readyForPickupAt: Date | null
-    shippedAt: Date | null
+    awaitingPaymentAt: Date | null
+    paidAt: Date | null
+    preparingAt: Date | null
+    readyForShipmentAt: Date | null
     inTransitAt: Date | null
-    outForDeliveryAt: Date | null
     deliveredAt: Date | null
+    completedAt: Date | null
+    disputedAt: Date | null
+    resolvedAt: Date | null
     cancelledAt: Date | null
+    disputeReason: string | null
+    disputeResolution: string | null
     deliveryProofUrl: string | null
     deliverySignature: string | null
     receivedBy: string | null
@@ -22673,16 +22730,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: boolean
     actualDeliveryDate?: boolean
-    reviewedAt?: boolean
-    quotedAt?: boolean
+    paymentStatus?: boolean
+    paymentMethod?: boolean
+    paymentIntentId?: boolean
+    paymentUrl?: boolean
+    pendingConfirmationAt?: boolean
     confirmedAt?: boolean
-    processingAt?: boolean
-    readyForPickupAt?: boolean
-    shippedAt?: boolean
+    awaitingPaymentAt?: boolean
+    paidAt?: boolean
+    preparingAt?: boolean
+    readyForShipmentAt?: boolean
     inTransitAt?: boolean
-    outForDeliveryAt?: boolean
     deliveredAt?: boolean
+    completedAt?: boolean
+    disputedAt?: boolean
+    resolvedAt?: boolean
     cancelledAt?: boolean
+    disputeReason?: boolean
+    disputeResolution?: boolean
     deliveryProofUrl?: boolean
     deliverySignature?: boolean
     receivedBy?: boolean
@@ -22722,16 +22787,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: boolean
     actualDeliveryDate?: boolean
-    reviewedAt?: boolean
-    quotedAt?: boolean
+    paymentStatus?: boolean
+    paymentMethod?: boolean
+    paymentIntentId?: boolean
+    paymentUrl?: boolean
+    pendingConfirmationAt?: boolean
     confirmedAt?: boolean
-    processingAt?: boolean
-    readyForPickupAt?: boolean
-    shippedAt?: boolean
+    awaitingPaymentAt?: boolean
+    paidAt?: boolean
+    preparingAt?: boolean
+    readyForShipmentAt?: boolean
     inTransitAt?: boolean
-    outForDeliveryAt?: boolean
     deliveredAt?: boolean
+    completedAt?: boolean
+    disputedAt?: boolean
+    resolvedAt?: boolean
     cancelledAt?: boolean
+    disputeReason?: boolean
+    disputeResolution?: boolean
     deliveryProofUrl?: boolean
     deliverySignature?: boolean
     receivedBy?: boolean
@@ -22767,16 +22840,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: boolean
     actualDeliveryDate?: boolean
-    reviewedAt?: boolean
-    quotedAt?: boolean
+    paymentStatus?: boolean
+    paymentMethod?: boolean
+    paymentIntentId?: boolean
+    paymentUrl?: boolean
+    pendingConfirmationAt?: boolean
     confirmedAt?: boolean
-    processingAt?: boolean
-    readyForPickupAt?: boolean
-    shippedAt?: boolean
+    awaitingPaymentAt?: boolean
+    paidAt?: boolean
+    preparingAt?: boolean
+    readyForShipmentAt?: boolean
     inTransitAt?: boolean
-    outForDeliveryAt?: boolean
     deliveredAt?: boolean
+    completedAt?: boolean
+    disputedAt?: boolean
+    resolvedAt?: boolean
     cancelledAt?: boolean
+    disputeReason?: boolean
+    disputeResolution?: boolean
     deliveryProofUrl?: boolean
     deliverySignature?: boolean
     receivedBy?: boolean
@@ -22812,16 +22893,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: boolean
     actualDeliveryDate?: boolean
-    reviewedAt?: boolean
-    quotedAt?: boolean
+    paymentStatus?: boolean
+    paymentMethod?: boolean
+    paymentIntentId?: boolean
+    paymentUrl?: boolean
+    pendingConfirmationAt?: boolean
     confirmedAt?: boolean
-    processingAt?: boolean
-    readyForPickupAt?: boolean
-    shippedAt?: boolean
+    awaitingPaymentAt?: boolean
+    paidAt?: boolean
+    preparingAt?: boolean
+    readyForShipmentAt?: boolean
     inTransitAt?: boolean
-    outForDeliveryAt?: boolean
     deliveredAt?: boolean
+    completedAt?: boolean
+    disputedAt?: boolean
+    resolvedAt?: boolean
     cancelledAt?: boolean
+    disputeReason?: boolean
+    disputeResolution?: boolean
     deliveryProofUrl?: boolean
     deliverySignature?: boolean
     receivedBy?: boolean
@@ -22829,7 +22918,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type BulkOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderNumber" | "userId" | "estimatedSubtotal" | "estimatedTotal" | "estimatedWeightKg" | "finalSubtotal" | "finalShipping" | "finalTotal" | "coldChainSurcharge" | "preferredDeliveryDate" | "deliveryNotes" | "contactName" | "contactEmail" | "contactPhone" | "companyName" | "shippingAddress" | "status" | "notes" | "carrier" | "carrierOther" | "trackingNumber" | "trackingUrl" | "requiresColdChain" | "estimatedDeliveryDate" | "actualDeliveryDate" | "reviewedAt" | "quotedAt" | "confirmedAt" | "processingAt" | "readyForPickupAt" | "shippedAt" | "inTransitAt" | "outForDeliveryAt" | "deliveredAt" | "cancelledAt" | "deliveryProofUrl" | "deliverySignature" | "receivedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["bulkOrder"]>
+  export type BulkOrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderNumber" | "userId" | "estimatedSubtotal" | "estimatedTotal" | "estimatedWeightKg" | "finalSubtotal" | "finalShipping" | "finalTotal" | "coldChainSurcharge" | "preferredDeliveryDate" | "deliveryNotes" | "contactName" | "contactEmail" | "contactPhone" | "companyName" | "shippingAddress" | "status" | "notes" | "carrier" | "carrierOther" | "trackingNumber" | "trackingUrl" | "requiresColdChain" | "estimatedDeliveryDate" | "actualDeliveryDate" | "paymentStatus" | "paymentMethod" | "paymentIntentId" | "paymentUrl" | "pendingConfirmationAt" | "confirmedAt" | "awaitingPaymentAt" | "paidAt" | "preparingAt" | "readyForShipmentAt" | "inTransitAt" | "deliveredAt" | "completedAt" | "disputedAt" | "resolvedAt" | "cancelledAt" | "disputeReason" | "disputeResolution" | "deliveryProofUrl" | "deliverySignature" | "receivedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["bulkOrder"]>
   export type BulkOrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     items?: boolean | BulkOrder$itemsArgs<ExtArgs>
@@ -22879,16 +22968,24 @@ export namespace Prisma {
       requiresColdChain: boolean
       estimatedDeliveryDate: Date | null
       actualDeliveryDate: Date | null
-      reviewedAt: Date | null
-      quotedAt: Date | null
+      paymentStatus: string | null
+      paymentMethod: string | null
+      paymentIntentId: string | null
+      paymentUrl: string | null
+      pendingConfirmationAt: Date | null
       confirmedAt: Date | null
-      processingAt: Date | null
-      readyForPickupAt: Date | null
-      shippedAt: Date | null
+      awaitingPaymentAt: Date | null
+      paidAt: Date | null
+      preparingAt: Date | null
+      readyForShipmentAt: Date | null
       inTransitAt: Date | null
-      outForDeliveryAt: Date | null
       deliveredAt: Date | null
+      completedAt: Date | null
+      disputedAt: Date | null
+      resolvedAt: Date | null
       cancelledAt: Date | null
+      disputeReason: string | null
+      disputeResolution: string | null
       deliveryProofUrl: string | null
       deliverySignature: string | null
       receivedBy: string | null
@@ -23347,16 +23444,24 @@ export namespace Prisma {
     readonly requiresColdChain: FieldRef<"BulkOrder", 'Boolean'>
     readonly estimatedDeliveryDate: FieldRef<"BulkOrder", 'DateTime'>
     readonly actualDeliveryDate: FieldRef<"BulkOrder", 'DateTime'>
-    readonly reviewedAt: FieldRef<"BulkOrder", 'DateTime'>
-    readonly quotedAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly paymentStatus: FieldRef<"BulkOrder", 'String'>
+    readonly paymentMethod: FieldRef<"BulkOrder", 'String'>
+    readonly paymentIntentId: FieldRef<"BulkOrder", 'String'>
+    readonly paymentUrl: FieldRef<"BulkOrder", 'String'>
+    readonly pendingConfirmationAt: FieldRef<"BulkOrder", 'DateTime'>
     readonly confirmedAt: FieldRef<"BulkOrder", 'DateTime'>
-    readonly processingAt: FieldRef<"BulkOrder", 'DateTime'>
-    readonly readyForPickupAt: FieldRef<"BulkOrder", 'DateTime'>
-    readonly shippedAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly awaitingPaymentAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly paidAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly preparingAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly readyForShipmentAt: FieldRef<"BulkOrder", 'DateTime'>
     readonly inTransitAt: FieldRef<"BulkOrder", 'DateTime'>
-    readonly outForDeliveryAt: FieldRef<"BulkOrder", 'DateTime'>
     readonly deliveredAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly completedAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly disputedAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly resolvedAt: FieldRef<"BulkOrder", 'DateTime'>
     readonly cancelledAt: FieldRef<"BulkOrder", 'DateTime'>
+    readonly disputeReason: FieldRef<"BulkOrder", 'String'>
+    readonly disputeResolution: FieldRef<"BulkOrder", 'String'>
     readonly deliveryProofUrl: FieldRef<"BulkOrder", 'String'>
     readonly deliverySignature: FieldRef<"BulkOrder", 'String'>
     readonly receivedBy: FieldRef<"BulkOrder", 'String'>
@@ -29101,16 +29206,24 @@ export namespace Prisma {
     requiresColdChain: 'requiresColdChain',
     estimatedDeliveryDate: 'estimatedDeliveryDate',
     actualDeliveryDate: 'actualDeliveryDate',
-    reviewedAt: 'reviewedAt',
-    quotedAt: 'quotedAt',
+    paymentStatus: 'paymentStatus',
+    paymentMethod: 'paymentMethod',
+    paymentIntentId: 'paymentIntentId',
+    paymentUrl: 'paymentUrl',
+    pendingConfirmationAt: 'pendingConfirmationAt',
     confirmedAt: 'confirmedAt',
-    processingAt: 'processingAt',
-    readyForPickupAt: 'readyForPickupAt',
-    shippedAt: 'shippedAt',
+    awaitingPaymentAt: 'awaitingPaymentAt',
+    paidAt: 'paidAt',
+    preparingAt: 'preparingAt',
+    readyForShipmentAt: 'readyForShipmentAt',
     inTransitAt: 'inTransitAt',
-    outForDeliveryAt: 'outForDeliveryAt',
     deliveredAt: 'deliveredAt',
+    completedAt: 'completedAt',
+    disputedAt: 'disputedAt',
+    resolvedAt: 'resolvedAt',
     cancelledAt: 'cancelledAt',
+    disputeReason: 'disputeReason',
+    disputeResolution: 'disputeResolution',
     deliveryProofUrl: 'deliveryProofUrl',
     deliverySignature: 'deliverySignature',
     receivedBy: 'receivedBy',
@@ -30961,16 +31074,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFilter<"BulkOrder"> | boolean
     estimatedDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     actualDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    reviewedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    quotedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    paymentStatus?: StringNullableFilter<"BulkOrder"> | string | null
+    paymentMethod?: StringNullableFilter<"BulkOrder"> | string | null
+    paymentIntentId?: StringNullableFilter<"BulkOrder"> | string | null
+    paymentUrl?: StringNullableFilter<"BulkOrder"> | string | null
+    pendingConfirmationAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     confirmedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    processingAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    readyForPickupAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    shippedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    awaitingPaymentAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    preparingAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    readyForShipmentAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     inTransitAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    outForDeliveryAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    disputedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    resolvedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     cancelledAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    disputeReason?: StringNullableFilter<"BulkOrder"> | string | null
+    disputeResolution?: StringNullableFilter<"BulkOrder"> | string | null
     deliveryProofUrl?: StringNullableFilter<"BulkOrder"> | string | null
     deliverySignature?: StringNullableFilter<"BulkOrder"> | string | null
     receivedBy?: StringNullableFilter<"BulkOrder"> | string | null
@@ -31009,16 +31130,24 @@ export namespace Prisma {
     requiresColdChain?: SortOrder
     estimatedDeliveryDate?: SortOrderInput | SortOrder
     actualDeliveryDate?: SortOrderInput | SortOrder
-    reviewedAt?: SortOrderInput | SortOrder
-    quotedAt?: SortOrderInput | SortOrder
+    paymentStatus?: SortOrderInput | SortOrder
+    paymentMethod?: SortOrderInput | SortOrder
+    paymentIntentId?: SortOrderInput | SortOrder
+    paymentUrl?: SortOrderInput | SortOrder
+    pendingConfirmationAt?: SortOrderInput | SortOrder
     confirmedAt?: SortOrderInput | SortOrder
-    processingAt?: SortOrderInput | SortOrder
-    readyForPickupAt?: SortOrderInput | SortOrder
-    shippedAt?: SortOrderInput | SortOrder
+    awaitingPaymentAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    preparingAt?: SortOrderInput | SortOrder
+    readyForShipmentAt?: SortOrderInput | SortOrder
     inTransitAt?: SortOrderInput | SortOrder
-    outForDeliveryAt?: SortOrderInput | SortOrder
     deliveredAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    disputedAt?: SortOrderInput | SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
     cancelledAt?: SortOrderInput | SortOrder
+    disputeReason?: SortOrderInput | SortOrder
+    disputeResolution?: SortOrderInput | SortOrder
     deliveryProofUrl?: SortOrderInput | SortOrder
     deliverySignature?: SortOrderInput | SortOrder
     receivedBy?: SortOrderInput | SortOrder
@@ -31060,16 +31189,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFilter<"BulkOrder"> | boolean
     estimatedDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     actualDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    reviewedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    quotedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    paymentStatus?: StringNullableFilter<"BulkOrder"> | string | null
+    paymentMethod?: StringNullableFilter<"BulkOrder"> | string | null
+    paymentIntentId?: StringNullableFilter<"BulkOrder"> | string | null
+    paymentUrl?: StringNullableFilter<"BulkOrder"> | string | null
+    pendingConfirmationAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     confirmedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    processingAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    readyForPickupAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    shippedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    awaitingPaymentAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    preparingAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    readyForShipmentAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     inTransitAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    outForDeliveryAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    disputedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    resolvedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     cancelledAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    disputeReason?: StringNullableFilter<"BulkOrder"> | string | null
+    disputeResolution?: StringNullableFilter<"BulkOrder"> | string | null
     deliveryProofUrl?: StringNullableFilter<"BulkOrder"> | string | null
     deliverySignature?: StringNullableFilter<"BulkOrder"> | string | null
     receivedBy?: StringNullableFilter<"BulkOrder"> | string | null
@@ -31108,16 +31245,24 @@ export namespace Prisma {
     requiresColdChain?: SortOrder
     estimatedDeliveryDate?: SortOrderInput | SortOrder
     actualDeliveryDate?: SortOrderInput | SortOrder
-    reviewedAt?: SortOrderInput | SortOrder
-    quotedAt?: SortOrderInput | SortOrder
+    paymentStatus?: SortOrderInput | SortOrder
+    paymentMethod?: SortOrderInput | SortOrder
+    paymentIntentId?: SortOrderInput | SortOrder
+    paymentUrl?: SortOrderInput | SortOrder
+    pendingConfirmationAt?: SortOrderInput | SortOrder
     confirmedAt?: SortOrderInput | SortOrder
-    processingAt?: SortOrderInput | SortOrder
-    readyForPickupAt?: SortOrderInput | SortOrder
-    shippedAt?: SortOrderInput | SortOrder
+    awaitingPaymentAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    preparingAt?: SortOrderInput | SortOrder
+    readyForShipmentAt?: SortOrderInput | SortOrder
     inTransitAt?: SortOrderInput | SortOrder
-    outForDeliveryAt?: SortOrderInput | SortOrder
     deliveredAt?: SortOrderInput | SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    disputedAt?: SortOrderInput | SortOrder
+    resolvedAt?: SortOrderInput | SortOrder
     cancelledAt?: SortOrderInput | SortOrder
+    disputeReason?: SortOrderInput | SortOrder
+    disputeResolution?: SortOrderInput | SortOrder
     deliveryProofUrl?: SortOrderInput | SortOrder
     deliverySignature?: SortOrderInput | SortOrder
     receivedBy?: SortOrderInput | SortOrder
@@ -31160,16 +31305,24 @@ export namespace Prisma {
     requiresColdChain?: BoolWithAggregatesFilter<"BulkOrder"> | boolean
     estimatedDeliveryDate?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
     actualDeliveryDate?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
-    reviewedAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
-    quotedAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    paymentStatus?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    paymentMethod?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    paymentIntentId?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    paymentUrl?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    pendingConfirmationAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
     confirmedAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
-    processingAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
-    readyForPickupAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
-    shippedAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    awaitingPaymentAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    paidAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    preparingAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    readyForShipmentAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
     inTransitAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
-    outForDeliveryAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
     deliveredAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    completedAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    disputedAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    resolvedAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
     cancelledAt?: DateTimeNullableWithAggregatesFilter<"BulkOrder"> | Date | string | null
+    disputeReason?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
+    disputeResolution?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
     deliveryProofUrl?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
     deliverySignature?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
     receivedBy?: StringNullableWithAggregatesFilter<"BulkOrder"> | string | null
@@ -33174,16 +33327,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -33222,16 +33383,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -33268,16 +33437,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33316,16 +33493,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33363,16 +33548,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -33406,16 +33599,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -33450,16 +33651,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35526,16 +35735,24 @@ export namespace Prisma {
     requiresColdChain?: SortOrder
     estimatedDeliveryDate?: SortOrder
     actualDeliveryDate?: SortOrder
-    reviewedAt?: SortOrder
-    quotedAt?: SortOrder
+    paymentStatus?: SortOrder
+    paymentMethod?: SortOrder
+    paymentIntentId?: SortOrder
+    paymentUrl?: SortOrder
+    pendingConfirmationAt?: SortOrder
     confirmedAt?: SortOrder
-    processingAt?: SortOrder
-    readyForPickupAt?: SortOrder
-    shippedAt?: SortOrder
+    awaitingPaymentAt?: SortOrder
+    paidAt?: SortOrder
+    preparingAt?: SortOrder
+    readyForShipmentAt?: SortOrder
     inTransitAt?: SortOrder
-    outForDeliveryAt?: SortOrder
     deliveredAt?: SortOrder
+    completedAt?: SortOrder
+    disputedAt?: SortOrder
+    resolvedAt?: SortOrder
     cancelledAt?: SortOrder
+    disputeReason?: SortOrder
+    disputeResolution?: SortOrder
     deliveryProofUrl?: SortOrder
     deliverySignature?: SortOrder
     receivedBy?: SortOrder
@@ -35579,16 +35796,24 @@ export namespace Prisma {
     requiresColdChain?: SortOrder
     estimatedDeliveryDate?: SortOrder
     actualDeliveryDate?: SortOrder
-    reviewedAt?: SortOrder
-    quotedAt?: SortOrder
+    paymentStatus?: SortOrder
+    paymentMethod?: SortOrder
+    paymentIntentId?: SortOrder
+    paymentUrl?: SortOrder
+    pendingConfirmationAt?: SortOrder
     confirmedAt?: SortOrder
-    processingAt?: SortOrder
-    readyForPickupAt?: SortOrder
-    shippedAt?: SortOrder
+    awaitingPaymentAt?: SortOrder
+    paidAt?: SortOrder
+    preparingAt?: SortOrder
+    readyForShipmentAt?: SortOrder
     inTransitAt?: SortOrder
-    outForDeliveryAt?: SortOrder
     deliveredAt?: SortOrder
+    completedAt?: SortOrder
+    disputedAt?: SortOrder
+    resolvedAt?: SortOrder
     cancelledAt?: SortOrder
+    disputeReason?: SortOrder
+    disputeResolution?: SortOrder
     deliveryProofUrl?: SortOrder
     deliverySignature?: SortOrder
     receivedBy?: SortOrder
@@ -35622,16 +35847,24 @@ export namespace Prisma {
     requiresColdChain?: SortOrder
     estimatedDeliveryDate?: SortOrder
     actualDeliveryDate?: SortOrder
-    reviewedAt?: SortOrder
-    quotedAt?: SortOrder
+    paymentStatus?: SortOrder
+    paymentMethod?: SortOrder
+    paymentIntentId?: SortOrder
+    paymentUrl?: SortOrder
+    pendingConfirmationAt?: SortOrder
     confirmedAt?: SortOrder
-    processingAt?: SortOrder
-    readyForPickupAt?: SortOrder
-    shippedAt?: SortOrder
+    awaitingPaymentAt?: SortOrder
+    paidAt?: SortOrder
+    preparingAt?: SortOrder
+    readyForShipmentAt?: SortOrder
     inTransitAt?: SortOrder
-    outForDeliveryAt?: SortOrder
     deliveredAt?: SortOrder
+    completedAt?: SortOrder
+    disputedAt?: SortOrder
+    resolvedAt?: SortOrder
     cancelledAt?: SortOrder
+    disputeReason?: SortOrder
+    disputeResolution?: SortOrder
     deliveryProofUrl?: SortOrder
     deliverySignature?: SortOrder
     receivedBy?: SortOrder
@@ -40505,16 +40738,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -40551,16 +40792,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -40823,16 +41072,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFilter<"BulkOrder"> | boolean
     estimatedDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     actualDeliveryDate?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    reviewedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    quotedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    paymentStatus?: StringNullableFilter<"BulkOrder"> | string | null
+    paymentMethod?: StringNullableFilter<"BulkOrder"> | string | null
+    paymentIntentId?: StringNullableFilter<"BulkOrder"> | string | null
+    paymentUrl?: StringNullableFilter<"BulkOrder"> | string | null
+    pendingConfirmationAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     confirmedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    processingAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    readyForPickupAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    shippedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    awaitingPaymentAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    preparingAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    readyForShipmentAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     inTransitAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
-    outForDeliveryAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     deliveredAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    completedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    disputedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    resolvedAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
     cancelledAt?: DateTimeNullableFilter<"BulkOrder"> | Date | string | null
+    disputeReason?: StringNullableFilter<"BulkOrder"> | string | null
+    disputeResolution?: StringNullableFilter<"BulkOrder"> | string | null
     deliveryProofUrl?: StringNullableFilter<"BulkOrder"> | string | null
     deliverySignature?: StringNullableFilter<"BulkOrder"> | string | null
     receivedBy?: StringNullableFilter<"BulkOrder"> | string | null
@@ -41276,16 +41533,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -41323,16 +41588,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -41463,16 +41736,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41510,16 +41791,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41683,16 +41972,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -41730,16 +42027,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -41882,16 +42187,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41929,16 +42242,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42258,16 +42579,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -42305,16 +42634,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -42366,16 +42703,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42413,16 +42758,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43297,16 +43650,24 @@ export namespace Prisma {
     requiresColdChain?: boolean
     estimatedDeliveryDate?: Date | string | null
     actualDeliveryDate?: Date | string | null
-    reviewedAt?: Date | string | null
-    quotedAt?: Date | string | null
+    paymentStatus?: string | null
+    paymentMethod?: string | null
+    paymentIntentId?: string | null
+    paymentUrl?: string | null
+    pendingConfirmationAt?: Date | string | null
     confirmedAt?: Date | string | null
-    processingAt?: Date | string | null
-    readyForPickupAt?: Date | string | null
-    shippedAt?: Date | string | null
+    awaitingPaymentAt?: Date | string | null
+    paidAt?: Date | string | null
+    preparingAt?: Date | string | null
+    readyForShipmentAt?: Date | string | null
     inTransitAt?: Date | string | null
-    outForDeliveryAt?: Date | string | null
     deliveredAt?: Date | string | null
+    completedAt?: Date | string | null
+    disputedAt?: Date | string | null
+    resolvedAt?: Date | string | null
     cancelledAt?: Date | string | null
+    disputeReason?: string | null
+    disputeResolution?: string | null
     deliveryProofUrl?: string | null
     deliverySignature?: string | null
     receivedBy?: string | null
@@ -43492,16 +43853,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43538,16 +43907,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -43584,16 +43961,24 @@ export namespace Prisma {
     requiresColdChain?: BoolFieldUpdateOperationsInput | boolean
     estimatedDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     actualDeliveryDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    quotedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paymentStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentMethod?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentIntentId?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    pendingConfirmationAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     confirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    processingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    readyForPickupAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    awaitingPaymentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    preparingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    readyForShipmentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     inTransitAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    outForDeliveryAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveredAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolution?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryProofUrl?: NullableStringFieldUpdateOperationsInput | string | null
     deliverySignature?: NullableStringFieldUpdateOperationsInput | string | null
     receivedBy?: NullableStringFieldUpdateOperationsInput | string | null

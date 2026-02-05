@@ -21,6 +21,7 @@ import {
   ArrowRight,
   Play,
   MapPinned,
+  CreditCard,
 } from "lucide-react";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
@@ -31,12 +32,13 @@ type ShipmentFilter = "ALL" | "READY_TO_SHIP" | "IN_TRANSIT" | "DELIVERED";
 
 const statusConfig = {
   CONFIRMED: { variant: "warning" as const, label: "Confirmed", icon: Clock },
-  PROCESSING: { variant: "warning" as const, label: "Processing", icon: Package },
-  READY_FOR_PICKUP: { variant: "info" as const, label: "Ready for Pickup", icon: Package },
-  SHIPPED: { variant: "info" as const, label: "Shipped", icon: Truck },
+  AWAITING_PAYMENT: { variant: "warning" as const, label: "Awaiting Payment", icon: CreditCard },
+  PAID: { variant: "success" as const, label: "Paid", icon: CheckCircle },
+  PREPARING: { variant: "warning" as const, label: "Preparing", icon: Package },
+  READY_FOR_SHIPMENT: { variant: "info" as const, label: "Ready to Ship", icon: Package },
   IN_TRANSIT: { variant: "info" as const, label: "In Transit", icon: Truck },
-  OUT_FOR_DELIVERY: { variant: "info" as const, label: "Out for Delivery", icon: MapPin },
   DELIVERED: { variant: "success" as const, label: "Delivered", icon: CheckCircle },
+  COMPLETED: { variant: "success" as const, label: "Completed", icon: CheckCircle },
 };
 
 const carrierLabels: Record<string, string> = {
@@ -111,7 +113,7 @@ export default function ProducerShipmentsPage() {
             <div>
               <p className="text-2xl font-bold text-gray-900">
                 {shipments.filter((s) =>
-                  ["CONFIRMED", "PROCESSING", "READY_FOR_PICKUP"].includes(s.status)
+                  ["PAID", "PREPARING", "READY_FOR_SHIPMENT"].includes(s.status)
                 ).length}
               </p>
               <p className="text-sm text-gray-500">Ready to Ship</p>
@@ -126,7 +128,7 @@ export default function ProducerShipmentsPage() {
             <div>
               <p className="text-2xl font-bold text-gray-900">
                 {shipments.filter((s) =>
-                  ["SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY"].includes(s.status)
+                  ["IN_TRANSIT"].includes(s.status)
                 ).length}
               </p>
               <p className="text-sm text-gray-500">In Transit</p>
@@ -140,7 +142,7 @@ export default function ProducerShipmentsPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">
-                {shipments.filter((s) => s.status === "DELIVERED").length}
+                {shipments.filter((s) => ["DELIVERED", "COMPLETED"].includes(s.status)).length}
               </p>
               <p className="text-sm text-gray-500">Delivered</p>
             </div>
@@ -368,7 +370,7 @@ export default function ProducerShipmentsPage() {
                       {/* Actions */}
                       <td className="whitespace-nowrap px-6 py-4 text-right">
                         <div className="flex items-center justify-end gap-2">
-                          {["CONFIRMED", "PROCESSING"].includes(shipment.status) && (
+                          {["PAID", "PREPARING"].includes(shipment.status) && (
                             <Button
                               size="sm"
                               onClick={() => {
@@ -471,19 +473,17 @@ function ShipmentDetailsModal({
 
   // Status transition configuration
   const statusTransitions: Record<string, { next: string; label: string; icon: React.ElementType; color: string }> = {
-    CONFIRMED: { next: "PROCESSING", label: "Start Processing", icon: Play, color: "bg-amber-600 hover:bg-amber-700" },
-    PROCESSING: { next: "READY_FOR_PICKUP", label: "Mark Ready for Pickup", icon: Package, color: "bg-blue-600 hover:bg-blue-700" },
-    READY_FOR_PICKUP: { next: "SHIPPED", label: "Add Shipping Details", icon: Truck, color: "bg-teal-600 hover:bg-teal-700" },
-    SHIPPED: { next: "IN_TRANSIT", label: "Mark In Transit", icon: Truck, color: "bg-indigo-600 hover:bg-indigo-700" },
-    IN_TRANSIT: { next: "OUT_FOR_DELIVERY", label: "Mark Out for Delivery", icon: MapPinned, color: "bg-purple-600 hover:bg-purple-700" },
-    OUT_FOR_DELIVERY: { next: "DELIVERED", label: "Mark Delivered", icon: CheckCircle, color: "bg-green-600 hover:bg-green-700" },
+    PAID: { next: "PREPARING", label: "Start Preparing", icon: Play, color: "bg-amber-600 hover:bg-amber-700" },
+    PREPARING: { next: "READY_FOR_SHIPMENT", label: "Mark Ready to Ship", icon: Package, color: "bg-blue-600 hover:bg-blue-700" },
+    READY_FOR_SHIPMENT: { next: "IN_TRANSIT", label: "Add Shipping Details", icon: Truck, color: "bg-teal-600 hover:bg-teal-700" },
+    IN_TRANSIT: { next: "DELIVERED", label: "Mark Delivered", icon: CheckCircle, color: "bg-green-600 hover:bg-green-700" },
   };
 
   const handleStatusUpdate = async (newStatus: string) => {
     try {
       await updateStatusMutation.mutateAsync({
         orderId,
-        status: newStatus as "PROCESSING" | "READY_FOR_PICKUP" | "SHIPPED" | "IN_TRANSIT" | "OUT_FOR_DELIVERY" | "DELIVERED",
+        status: newStatus as "PREPARING" | "READY_FOR_SHIPMENT" | "IN_TRANSIT" | "DELIVERED" | "COMPLETED",
         notes: notes || undefined,
         receivedBy: newStatus === "DELIVERED" ? receivedBy || undefined : undefined,
       });
@@ -529,12 +529,13 @@ function ShipmentDetailsModal({
   // Status timeline steps
   const timelineSteps = [
     { status: "CONFIRMED", label: "Confirmed", timestamp: order.confirmedAt },
-    { status: "PROCESSING", label: "Processing", timestamp: order.processingAt },
-    { status: "READY_FOR_PICKUP", label: "Ready", timestamp: order.readyForPickupAt },
-    { status: "SHIPPED", label: "Shipped", timestamp: order.shippedAt },
+    { status: "AWAITING_PAYMENT", label: "Awaiting Payment", timestamp: order.awaitingPaymentAt },
+    { status: "PAID", label: "Paid", timestamp: order.paidAt },
+    { status: "PREPARING", label: "Preparing", timestamp: order.preparingAt },
+    { status: "READY_FOR_SHIPMENT", label: "Ready to Ship", timestamp: order.readyForShipmentAt },
     { status: "IN_TRANSIT", label: "In Transit", timestamp: order.inTransitAt },
-    { status: "OUT_FOR_DELIVERY", label: "Out for Delivery", timestamp: order.outForDeliveryAt },
     { status: "DELIVERED", label: "Delivered", timestamp: order.deliveredAt },
+    { status: "COMPLETED", label: "Completed", timestamp: order.completedAt },
   ];
 
   const currentStatusIndex = timelineSteps.findIndex((s) => s.status === order.status);
@@ -642,7 +643,7 @@ function ShipmentDetailsModal({
                   <div>
                     <p className="font-medium text-gray-900">Next Step</p>
                     <p className="text-sm text-gray-600">
-                      {currentTransition.next === "SHIPPED"
+                      {currentTransition.next === "IN_TRANSIT"
                         ? "Add tracking details to ship the order"
                         : `Update status to "${statusConfig[currentTransition.next as keyof typeof statusConfig]?.label}"`}
                     </p>
@@ -650,7 +651,7 @@ function ShipmentDetailsModal({
                 </div>
                 <Button
                   onClick={() => {
-                    if (currentTransition.next === "SHIPPED") {
+                    if (currentTransition.next === "IN_TRANSIT") {
                       onAddTracking();
                     } else {
                       setShowStatusConfirm(currentTransition.next);
