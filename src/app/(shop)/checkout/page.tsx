@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ChevronLeft, Lock, CreditCard, Truck } from "lucide-react";
 import { Button } from "~/components/ui/button";
@@ -9,12 +10,15 @@ import { Input } from "~/components/ui/input";
 import { CartSummary } from "~/components/cart/cart-summary";
 import { DeliveryDatePicker } from "~/components/checkout/delivery-date-picker";
 import { useCartStore } from "~/stores/cart-store";
+import { useSession } from "next-auth/react";
 import { api } from "~/trpc/react";
 import { formatPrice } from "~/lib/utils";
 
 type ShippingType = "standard" | "express";
 
 export default function CheckoutPage() {
+  const { data: session } = useSession();
+  const router = useRouter();
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
   const getShippingCost = useCartStore((state) => state.getShippingCost);
@@ -57,6 +61,12 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Redirect to register if not logged in
+    if (!session) {
+      router.push("/register");
+      return;
+    }
 
     if (!selectedDate || !selectedTimeSlot) {
       alert("Please select a delivery date and time slot");
